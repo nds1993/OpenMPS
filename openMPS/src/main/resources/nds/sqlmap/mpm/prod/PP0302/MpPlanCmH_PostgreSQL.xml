@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpPlanCmH">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpPlanCmHSerarchVO" type="nds.mpm.prod.PP0302.vo.MpPlanCmHVO"/>
+	
+	<resultMap id="mpPlanCmH" class="nds.mpm.prod.PP0302.vo.MpPlanCmHVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="plantCode" column="plant_code" columnIndex="2"/>
+		<result property="workDate" column="work_date" columnIndex="3"/>
+		<result property="doosu1" column="doosu1" columnIndex="4"/>
+		<result property="doosu2" column="doosu2" columnIndex="5"/>
+		<result property="doosu3" column="doosu3" columnIndex="6"/>
+		<result property="doosu4" column="doosu4" columnIndex="7"/>
+		<result property="doosu5" column="doosu5" columnIndex="8"/>
+		<result property="status" column="status" columnIndex="9"/>
+		<result property="memo" column="memo" columnIndex="10"/>
+	</resultMap>
+	
+	<insert id="MpPlanCmHDAO.insertMpPlanCmH">
+		<![CDATA[
+			INSERT INTO openmps.mp_plan_cm_h 
+				( corp_code
+				  , plant_code
+				  , work_date
+				  , doosu1
+				  , doosu2
+				  , doosu3
+				  , doosu4
+				  , doosu5
+				  , memo
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #workDate#
+				  , #doosu1#::numeric
+				  , #doosu2#::numeric
+				  , #doosu3#::numeric
+				  , #doosu4#::numeric
+				  , #doosu5#
+				  , #memo#
+				  , 'N'
+				  , #crUser#
+				  , now() )
+			ON CONFLICT (corp_code, plant_code, work_date)
+    		DO UPDATE SET
+				doosu1=#doosu1#::numeric
+				, doosu2=#doosu2#::numeric
+				, doosu3=#doosu3#::numeric
+				, doosu4=#doosu4#::numeric
+				, doosu5=#doosu5#
+				, dele_yn = 'N'
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+		]]>
+	</insert>
+	
+	<update id="MpPlanCmHDAO.updateMpPlanCmH">
+		<![CDATA[
+			UPDATE openmps.mp_plan_cm_h
+			SET doosu1=#doosu1#
+				, doosu2=#doosu2#
+				, doosu3=#doosu3#
+				, doosu4=#doosu4#
+				, doosu5=#doosu5#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND work_date=#workDate#
+				]]>
+	</update>
+	<update id="MpPlanCmHDAO.updateMpPlanCmHStatus">
+		<![CDATA[
+			UPDATE openmps.mp_plan_cm_h
+			SET status=#status#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND work_date=#workDate#
+				]]>
+	</update>
+	<delete id="MpPlanCmHDAO.deleteMpPlanCmH">
+			delete from openmps.mp_plan_cm_h
+						WHERE corp_code=#corpCode#
+								<isNotEmpty property="plantCode">
+								AND plant_code=#plantCode#
+								</isNotEmpty>
+								AND work_date=#workDate#
+	</delete>
+	
+	<select id="MpPlanCmHDAO.selectMpPlanCmH_S" resultMap="mpPlanCmH">
+		<![CDATA[
+			SELECT
+				corp_code
+				, plant_code
+				, work_date
+				, doosu1
+				, doosu2
+				, doosu3
+				, doosu4
+				, doosu5
+				, status
+				, memo
+			FROM openmps.mp_plan_cm_h
+			WHERE corp_code=#corpCode#
+					AND plant_code = #plantCode#
+					AND work_date=#workDate#
+					and dele_yn = 'N'
+				]]>
+	</select>
+	<!-- 해당일 생산계획 존재여부체크  -->
+	<select id="MpPlanCmHDAO.selectMpPlanCmHCanNewCmPlan" parameterClass="mpPlanCmHSerarchVO" resultClass="string">
+		select
+		<![CDATA[
+		 (case when count(*) < 1 then 'Y' else 'N' end)
+		 ]]>
+		from openmps.mp_plan_cm_h t 
+		where t.corp_code=#corpCode# 
+		and t.work_date = #workDate# 
+		<isNotEmpty property="plantCode">
+		and t.plant_code = #plantCode#
+		</isNotEmpty>
+		and t.dele_yn = 'N'
+		limit 1
+		
+	</select>
+	<!-- 
+	
+	신규버튼클릭시 생산계획 기초데이터 조회.
+	
+	 -->
+	<sql id="selectWhere_NewMpPlanCmfragment">
+		
+        SELECT t.corp_code,
+                t.plant_code,
+                t.pro_code,
+                t.san_qty,
+                t.san_weig,
+                t.san_dosu,
+                t.memo,
+                0 AS jaego_qty,
+                0 AS jaego_weig,
+                0 AS order_qty,
+                0 AS order_weig,
+                0 AS ord_week_qty,
+                0 AS ord_week_weig,
+                0 AS wout_qty,
+                0 AS wout_weig
+        
+          FROM openmps.mp_plan_cm_d t
+         WHERE t.corp_code = #corpCode#
+           <isNotEmpty property="plantCode">
+           AND t.plant_code = #plantCode#
+           </isNotEmpty>
+           AND t.work_date = (SELECT MAX(work_date) AS last_date
+                                FROM openmps.mp_plan_cm_h t
+                               WHERE t.corp_code = #corpCode#
+                              <![CDATA[   AND t.work_date < #workDate#)	]]>
+           AND t.dele_yn = 'N'
+           AND not (t.san_qty = 0 or t.san_qty is null)
+        UNION ALL
+        SELECT a.corp_code,
+               c.plant_code,
+               b.pro_code,
+               0 AS san_qty,
+               0 AS san_weig,
+               0 AS san_dosu,
+               '' AS memo,
+               0 AS jaego_qty,
+               0 AS jaego_weig,
+               SUM(b.ordr_box),
+               SUM(b.ordr_weight),
+               0 AS ord_week_qty,
+               0 AS ord_week_weig,
+               0 AS wout_qty,
+               0 AS wout_weig
+          FROM openmps.mp_order_h a, openmps.mp_order_d b, openmps.tm_plat_warhxm c
+         WHERE a.corp_code = #corpCode#
+         <isNotEmpty property="plantCode">
+           AND c.plant_code = #plantCode#
+           </isNotEmpty>
+           AND a.delv_date = to_char(to_date(#workDate#, 'yyyymmdd') + 1, 'yyyymmdd')
+           AND a.corp_code = b.corp_code
+           AND a.delv_date = b.delv_date
+           AND a.ordr_no = b.ordr_no
+           AND a.ordr_type IN ('10', '20', '30', '40')
+           <![CDATA[
+           AND a.status <> 'D'
+           AND b.status <> 'D'
+           ]]>
+           AND a.corp_code = c.corp_code
+           AND a.delv_dc = c.wh_code
+           <![CDATA[ AND c.plant_code <> '14' ]]>
+         GROUP BY a.corp_code, c.plant_code, b.pro_code
+        UNION ALL
+        SELECT a.corp_code,
+               c.plant_code,
+               b.pro_code,
+               0 AS san_qty,
+               0 AS san_weig,
+               0 AS san_dosu,
+               '' AS memo,
+               0 AS jaego_qty,
+               0 AS jaego_weig,
+               0 AS order_qty,
+               0 AS order_weig,
+               SUM(b.ordr_box) AS ord_week_qty,
+               SUM(b.ordr_weight) AS ord_week_weig,
+               0 AS wout_qty,
+               0 AS wout_weig
+          FROM openmps.mp_order_h a, openmps.mp_order_d b, openmps.tm_plat_warhxm c
+         WHERE a.corp_code = #corpCode#
+         <isNotEmpty property="plantCode">
+           AND c.plant_code = #plantCode#
+           </isNotEmpty>
+           AND a.delv_date BETWEEN
+               to_char(to_date(#workDate#, 'yyyymmdd') + 2, 'yyyymmdd') AND
+               to_char(to_date(#workDate#, 'yyyymmdd') + 2 + 6, 'yyyymmdd')
+              
+           AND a.corp_code = b.corp_code
+           AND a.delv_date = b.delv_date
+           AND a.ordr_no = b.ordr_no
+              
+           AND a.ordr_type IN ('10', '20', '30', '40')
+           <![CDATA[
+           AND a.status <> 'D'
+           AND b.status <> 'D'
+           ]]>
+           AND a.corp_code = c.corp_code
+           AND a.delv_dc = c.wh_code
+           <![CDATA[ AND c.plant_code <> '14' ]]>
+         GROUP BY a.corp_code, c.plant_code, b.pro_code
+        UNION ALL
+        SELECT h.client,
+               c.plant_code,
+               sku,
+               0 AS san_qty,
+               0 AS san_weig,
+               0 AS san_dosu,
+               '' AS memo,
+               0 AS jaego_qty,
+               0 AS jaego_weig,
+               0 AS order_qty,
+               0 AS order_weig,
+               0 AS ord_week_qty,
+               0 AS ord_week_weig,
+               SUM(oderqty) AS wout_qty,
+               SUM(wt) AS wout_weig
+          FROM openmps.od_oderhd h, openmps.od_oderdt d, openmps.tm_plat_warhxm c
+         WHERE 1 = 1
+           AND h.oderno = d.oderno
+           AND h.dc = d.dc
+           AND h.biz = d.biz
+           AND h.biz = '1000'
+           AND h.client = #corpCode#
+           <isNotEmpty property="plantCode">
+           AND c.plant_code = #plantCode#
+           </isNotEmpty>
+           AND h.dealde BETWEEN
+               to_char(to_date(#workDate#, 'yyyymmdd') - 6, 'yyyymmdd') AND
+               #workDate#
+           AND h.stat = '50' 
+           AND d.stat = '50'
+           AND h.client = c.corp_code
+           AND h.dc = c.wh_code
+           <![CDATA[ AND c.plant_code <> '14' ]]>
+         GROUP BY h.client, c.plant_code, sku
+        UNION ALL
+        SELECT t.client,
+               b.plant_code,
+               sku,
+               0 AS san_qty,
+               0 AS san_weig,
+               0 AS san_dosu,
+               '' AS memo,
+               SUM(stokqty) AS jaego_qty,
+               SUM(wt) AS jaego_weig,
+               0 AS order_qty,
+               0 AS order_weig,
+               0 AS ord_week_qty,
+               0 AS ord_week_weig,
+               0 AS wout_qty,
+               0 AS wout_weig
+          FROM openmps.st_stok_mfrde_v t, openmps.tm_plat_warhxm b
+         WHERE t.biz = '1000'
+           AND t.client = #corpCode#
+           AND t.client = b.corp_code
+           AND t.dc = b.wh_code
+           <![CDATA[ AND b.plant_code <> '14' ]]>
+           <isNotEmpty property="plantCode">
+           AND b.plant_code = #plantCode#
+           </isNotEmpty>
+         GROUP BY t.client, plant_code, sku
+         
+	</sql>
+	<select id="MpPlanCmHDAO.selectNewMpPlanCmHList" parameterClass="mpPlanCmHSerarchVO" resultClass="egovMap">
+		select
+			d.rate_qty,
+			aa.corp_code,
+		       aa.plant_code,
+		       aa.pro_code,
+		       aa.pro_name,
+		       aa.pro_lcode,
+		       aa.pro_lname,
+		       aa.f_rate_sort,
+		       coalesce(aa.ipsu_doo,0) ipsu_doo,
+		       coalesce(aa.unit_kg,0) unit_kg,
+		       aa.work_type1,
+		       aa.work_type2,
+		       aa.work_type3,
+		       aa.print_sheet,
+		       aa.frozen_yn,
+		       
+		       coalesce(aa.jaego_qty,0) jaego_qty,
+		       coalesce( aa.jaego_weig,0) jaego_weig,
+		       coalesce(aa.order_qty,0) order_qty,
+		       coalesce(aa.order_weig,0) order_weig,
+		       coalesce(aa.ord_week_qty,0) ord_week_qty,
+		       coalesce(aa.ord_week_weig,0) ord_week_weig,
+		       coalesce(aa.wout_qty,0) wout_qty,
+		       coalesce(aa.wout_weig,0) wout_weig,
+		       coalesce(aa.ajaego_weig,0) ajaego_weig,
+		       coalesce(aa.bjaego_weig,0) bjaego_weig,
+		       coalesce(aa.san_qty,0) san_qty,
+		       coalesce(aa.san_weig,0) san_weig,
+		       coalesce(aa.san_dosu,0) san_dosu,
+		       coalesce( aa.work_cnt,0) work_cnt,              
+		       '' memo
+		from
+		(
+			SELECT a.corp_code,
+		       a.plant_code,
+		       a.pro_code,
+		       MAX(b.pro_name) AS pro_name,
+		       MAX(b.large_code) AS pro_lcode,
+		       MAX(c.code_name) AS pro_lname,
+		       CASE
+		          WHEN MAX(work_type1) = '11' THEN
+		           0
+		          ELSE
+		           5
+		        END AS f_rate_sort,
+		       MAX(ipsu_cnt) AS ipsu_doo,
+		       MAX(pro_weig) AS unit_kg,
+		       MAX(work_type1) AS work_type1,
+		       MAX(work_type2) AS work_type2,
+		       MAX(work_type3) AS work_type3,
+		       MAX(print_sheet) AS print_sheet,
+		       MAX(frozen_type) AS frozen_yn,
+		       
+		       SUM(jaego_qty) AS jaego_qty,
+		       SUM(jaego_weig) AS jaego_weig,
+		       SUM(order_qty) AS order_qty,
+		       SUM(order_weig) AS order_weig,
+		       SUM(ord_week_qty) AS ord_week_qty,
+		       SUM(ord_week_weig) AS ord_week_weig,
+		       SUM(wout_qty) AS wout_qty,
+		       SUM(wout_weig) AS wout_weig,
+		       SUM(jaego_weig) - SUM(order_weig) AS ajaego_weig,
+		       SUM(jaego_weig) - SUM(order_weig) + SUM(san_weig) AS bjaego_weig,
+		       SUM(san_qty) AS san_qty,
+		       SUM(san_weig) AS san_weig,
+		       SUM(san_dosu) AS san_dosu,
+		       1 AS work_cnt,              
+		       MAX(a.memo) AS memo
+		  FROM (
+		  		<include refid="selectWhere_NewMpPlanCmfragment"/>
+		         ) a,
+		       openmps.mp_item_master_m b,
+		       openmps.tm_codexd c
+		 WHERE a.pro_code = b.pro_code
+		   AND b.large_code = c.code_id
+		   AND c.corp_code = a.corp_code
+		   AND c.group_code = 'MP006'
+		   AND b.prdt_type = '1'
+		   AND b.pro_kind = '1'
+		 GROUP BY a.corp_code, a.plant_code, a.pro_code
+		 
+	 ) aa
+	left outer join openmps.mp_plan_setup_m d on (
+		       	   aa.corp_code = d.corp_code
+				   AND aa.plant_code = d.plant_code
+				   AND aa.pro_lcode = d.pro_lcode
+				   AND aa.plant_code = #plantCode#
+			   ) 
+	where aa.corp_code = #corpCode#
+	order by plant_code, pro_lcode, f_rate_sort	
+	</select>
+	<!-- 신규 버튼클릭시 헤더 생성. -->
+	<insert id="MpPlanCmHDAO.insertNewMpPlanCmHeader">
+			INSERT INTO openmps.mp_plan_cm_h 
+				( corp_code
+				  , plant_code
+				  , work_date
+				  , doosu1
+				  , doosu2
+				  , doosu3
+				  , doosu4
+				  , doosu5
+				  , status
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			select #corpCode#, plant_code, work_date, 0, 0, 0, 0, 0, '1', 'N', #crUser#, now()
+			from openmps.mp_plan_cm_d 
+			where corp_code=#corpCode#
+			and work_date=#workDate#
+			group by corp_code, work_date, plant_code
+	</insert>
+	
+	<select id="MpPlanCmHDAO.selectNewMpPlanCmHProCode" parameterClass="mpPlanCmHSerarchVO" resultClass="egovMap">
+		SELECT b.corp_code,
+	       a.plant_code,
+	       b.pro_code,
+	       MAX(b.pro_name) AS pro_name,
+	       MAX(b.large_code) AS pro_lcode,
+	       CASE
+		          WHEN MAX(work_type1) = '11' THEN
+		           0
+		          ELSE
+		           5
+		        END AS f_rate_sort,
+	       MAX(ipsu_cnt) AS ipsu_doo,
+	       MAX(pro_weig) AS unit_kg,
+	       MAX(work_type1) AS work_type1,
+	       MAX(work_type2) AS work_type2,
+	       MAX(work_type3) AS work_type3,
+	       MAX(print_sheet) AS print_sheet,
+	       MAX(frozen_type) AS frozen_yn,
+	       
+	       SUM(jaego_qty) AS jaego_qty,
+	       SUM(jaego_weig) AS jaego_weig,
+	       SUM(order_qty) AS order_qty,
+	       SUM(order_weig) AS order_weig,
+	       SUM(ord_week_qty) AS ord_week_qty,
+	       SUM(ord_week_weig) AS ord_week_weig,
+	       SUM(wout_qty) AS wout_qty,
+	       SUM(wout_weig) AS wout_weig,
+	       SUM(jaego_weig) - SUM(order_weig) AS ajaego_weig,
+	       SUM(jaego_weig) - SUM(order_weig) + SUM(san_weig) AS bjaego_weig,
+	       SUM(san_qty) AS san_qty,
+	       SUM(san_weig) AS san_weig,
+	       SUM(san_dosu) AS san_dosu,
+	       1 AS work_cnt,              
+	       MAX(a.memo) AS memo
+	  FROM 
+		  openmps.mp_item_master_m b
+  		  left outer join
+ 		  (
+	  		<include refid="selectWhere_NewMpPlanCmfragment"/>
+	      ) a on ( a.pro_code = b.pro_code)
+ 		WHERE b.prdt_type = '1'
+   		AND b.pro_kind = '1'
+		and b.corp_code = #corpCode#
+		and b.pro_code = #proCode#
+		 GROUP BY b.corp_code, a.plant_code, b.pro_code
+	</select>
+	<sql id="selectWhere_fragment">
+		from openmps.mp_plan_cm_h a
+		left outer join openmps.mp_plan_cm_d b on ( 
+			a.corp_code = b.corp_code 
+			and a.plant_code = b.plant_code 
+			and a.work_date = b.work_date )
+	  	left outer join openmps.mp_plan_setup_m st on (
+		       	   b.corp_code = st.corp_code
+				   AND b.plant_code = st.plant_code
+				   AND b.pro_lcode = st.pro_lcode
+			   ) 
+	  	where a.corp_code = #corpCode#
+	  	and a.work_date = #workDate#
+	  	and a.dele_yn = 'N' and b.dele_yn = 'N'
+		<dynamic> 
+			 <isNotEmpty prepend="and" property="plantCode">
+			 a.plant_code = #plantCode#
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="MpPlanCmHDAO.selectMpPlanCmHList_D" parameterClass="mpPlanCmHSerarchVO" resultClass="egovMap">
+		SELECT
+			<!--  
+				b.pro_lname
+				, (st.rate_qty::varchar || '%') as rate_qty
+				, b.pro_name
+				, (b.san_dosu::numeric(11,0))::varchar
+				, (b.san_qty::numeric(11,0))::varchar
+				, b.memo
+				, (b.ipsu_doo::numeric(11,0))::varchar
+				, b.jaego_weig::varchar
+				, b.ord_week_weig::varchar
+				, b.order_weig::varchar
+				, b.wout_weig::varchar
+				, b.ajaego_weig::varchar
+				, b.bjaego_weig::varchar
+				, b.san_weig::varchar
+				
+				, a.plant_code
+				, a.work_date
+				, a.doosu1
+				, a.doosu2
+				, a.doosu3
+				, a.doosu4
+				, a.doosu5
+				, a.status
+				, b.pro_lcode
+				, b.pro_code
+				, b.unit_kg
+				, b.work_type1
+				, b.work_type2
+				, b.work_type3
+				, b.print_sheet
+				, b.frozen_yn
+				, b.jaego_qty
+				, b.jaego_weig
+				, b.order_qty
+				, b.ord_week_qty
+				, b.wout_qty
+				, b.work_cnt
+			-->	
+       MAX(b.pro_lname) AS pro_lname,
+       CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 1 THEN
+           'TOT'
+          ELSE
+           ''
+		  END AS row_gubun,
+       CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 1 THEN
+           '합계'
+          ELSE
+           CASE MAX(b.f_rate_sort)
+              WHEN '0' THEN
+               (MAX(st.rate_qty) ::VARCHAR || '%')
+              ELSE
+               (MAX(100 - st.rate_qty) ::VARCHAR || '%')
+            END 
+		  END AS rate_qty,
+       CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 1 THEN
+           CASE MAX(b.f_rate_sort)
+              WHEN '0' THEN
+              	CASE
+					   WHEN MAX(st.rate_qty) IS NULL THEN
+                   MAX(a.doosu5) ::VARCHAR
+                  ELSE
+                   ((MAX(a.doosu5) * MAX(st.rate_qty) / 100)::numeric(15,2)) ::VARCHAR
+					 END                 
+              ELSE
+               CASE
+                  WHEN MAX(st.rate_qty) IS NULL THEN
+                   MAX(a.doosu5) ::VARCHAR
+                  ELSE
+                   ((MAX(a.doosu5) * MAX(100 - st.rate_qty) / 100)::numeric(15,2)) ::VARCHAR
+                END 
+		      END 
+		    ELSE 
+			  MAX(b.pro_name) 
+		  END AS pro_name,
+       
+       SUM(b.san_dosu) ::NUMERIC(11, 0) ::VARCHAR AS san_dosu,
+       SUM(b.san_qty) ::NUMERIC(11, 0) ::VARCHAR AS san_qty,
+       CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(b.memo)
+        END AS memo,
+        
+       CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           (MAX(b.ipsu_doo) ::NUMERIC(11, 0)) ::VARCHAR
+        END AS ipsu_doo,
+       SUM(b.jaego_weig) ::VARCHAR AS jaego_weig,
+       SUM(b.ord_week_weig) ::VARCHAR AS ord_week_weig,
+       SUM(b.order_weig) ::VARCHAR AS order_weig,
+       SUM(b.wout_weig) ::VARCHAR AS wout_weig,
+       SUM(b.ajaego_weig) ::VARCHAR AS ajaego_weig,
+       SUM(b.bjaego_weig) ::VARCHAR AS bjaego_weig,
+       SUM(b.san_weig) ::VARCHAR AS san_weig,
+       
+       CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(a.plant_code) 
+		  END AS plant_code,
+       CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(a.work_date) 
+		  END AS work_date,
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(a.doosu1) 
+		  END AS doosu1,  
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(a.doosu2) 
+		  END AS doosu2,  
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(a.doosu3) 
+		  END AS doosu3,  		  
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(a.doosu4) 
+		  END AS doosu4,  
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(a.doosu5) 
+		  END AS doosu5,  
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(a.status) 
+		  END AS status,		  
+		 
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(b.pro_lcode) 
+		  END AS pro_lcode,		  
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(b.pro_code) 
+		  END AS pro_code,		   
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(b.unit_kg) 
+		  END AS unit_kg,	
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(b.work_type1) 
+		  END AS work_type1,
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(b.work_type2) 
+		  END AS work_type2,
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(b.work_type3) 
+		  END AS work_type3,		  
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(b.print_sheet) 
+		  END AS print_sheet,
+		 CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(b.frozen_yn) 
+		  END AS frozen_yn,		  	
+		  
+       SUM(b.jaego_qty) AS jaego_qty,
+       SUM(b.order_qty) AS order_qty,
+       SUM(b.ord_week_qty) AS ord_week_qty,
+       SUM(b.wout_qty) AS wout_qty,
+       CASE
+          WHEN GROUPING(b.pro_lcode || b.f_rate_sort, b.pro_code) = 0 THEN
+           MAX(b.work_cnt)
+        END AS work_cnt	
+				
+		<include refid="selectWhere_fragment"/>
+		GROUP BY ROLLUP(b.pro_lcode || b.f_rate_sort, b.pro_code), b.pro_lcode, b.f_rate_sort
+		HAVING GROUPING(b.pro_lcode || b.f_rate_sort) = 0
+		order by b.pro_lcode, b.f_rate_sort, b.pro_code
+		
+	</select>	
+	<select id="MpPlanCmHDAO.selectMpPlanCmHListTotCnt_S" parameterClass="mpPlanCmHSerarchVO" resultClass="int">
+		select
+			count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<!-- 공장별 합계 집계수 -->
+	<select id="MpPlanCmHDAO.selectMpPlanCmHList_Sum" parameterClass="mpPlanCmHSerarchVO" resultClass="egovMap">
+	select sum(p11) as p11,
+	       sum(p12) as p12, 
+	       sum(p13) as p13,
+	       sum(p21) as p21,
+	       sum(p22) as p22,
+	       sum(p31) as p31,
+	       sum(p99) as p99,
+	       sum(doo_sum) as doo_sum
+	  from (
+		  	 SELECT CASE WHEN a.plant_code = '11' THEN a.doosu5 END p11,
+			        CASE WHEN a.plant_code = '12' THEN a.doosu5 END p12,
+			        CASE WHEN a.plant_code = '13' THEN a.doosu5 END p13,
+			        CASE WHEN a.plant_code = '21' THEN a.doosu5 END p21,
+			        CASE WHEN a.plant_code = '22' THEN a.doosu5 END p22,
+			        CASE WHEN a.plant_code = '31' THEN a.doosu5 END p31,
+			        CASE WHEN a.plant_code = '99' THEN a.doosu5 END p99,
+			        doosu5 as doo_sum
+			   FROM openmps.mp_plan_cm_h a
+			  WHERE    
+			        a.corp_code = #corpCode#
+			    AND a.work_date = #workDate#
+			    AND a.dele_yn = 'N') a
+	</select>
+	<!-- 공장별 합계 리스트 -->
+	<select id="MpPlanCmHDAO.selectMpPlanCmHList_SumList" parameterClass="mpPlanCmHSerarchVO" resultClass="egovMap">
+	<![CDATA[
+	select
+		openmps."FN_GET_TMCODEXDNM"(#corpCode#,'SD024',a.sale_group1_code) sale_group2_name
+		, a.code_name as large_code_name
+		, a.frozen
+		, a.pro_name
+		, a.p11::varchar
+		, a.p12::varchar
+		, a.p13::varchar
+		, a.p21::varchar
+		, a.p22::varchar
+		, a.p31::varchar
+		, (a.p11+a.p12+a.p13+a.p21+a.p22+a.p31)::varchar as psum
+		, a.san_weig::varchar
+		, (coalesce(b.jaego_weig,0)::numeric(15,0))::varchar as jaego_weig
+		, b.ordr_weight::varchar
+		, (a.san_weig - coalesce(b.ordr_weight,0) + coalesce(b.jaego_weig,0))::varchar as jaego_avail
+		
+		, a.sale_group1_code
+	  from (       
+			select a.sale_group1_code,
+					a.code_name,
+					a.frozen,
+					a.pro_name,
+				   sum(p11) as p11,
+			       sum(p12) as p12, 
+			       sum(p13) as p13,
+			       sum(p21) as p21,
+			       sum(p22) as p22,
+			       sum(p31) as p31,
+			       sum(p99) as p99,
+			       sum(san_weig) as san_weig,      
+				   a.large_code,
+			       a.pro_code,
+			       a.frozen_type,
+			       sum(san_qty) as sum_qty
+			from (
+					SELECT e.code_id as sale_group1_code,
+						   b.large_code,
+					       c.code_name,
+					       a.pro_code,
+					       b.pro_name,
+					       b.frozen_type,
+					       d.code_name as frozen,
+					       CASE WHEN a.plant_code = '11' THEN a.san_qty else 0 END p11,
+					       CASE WHEN a.plant_code = '12' THEN a.san_qty else 0 END p12,
+					       CASE WHEN a.plant_code = '13' THEN a.san_qty else 0 END p13,
+					       CASE WHEN a.plant_code = '21' THEN a.san_qty else 0 END p21,
+					       CASE WHEN a.plant_code = '22' THEN a.san_qty else 0 END p22,
+					       CASE WHEN a.plant_code = '31' THEN a.san_qty else 0 END p31,
+					       CASE WHEN a.plant_code = '99' THEN a.san_qty else 0 END p99,
+					       a.san_qty,
+					       a.san_weig
+					  FROM openmps.mp_plan_cm_d     a,
+					       openmps.mp_item_master_m b,
+					       openmps.tm_codexd        c,
+					       openmps.tm_codexd        d,
+					       openmps.tm_codexd        e
+					 WHERE a.corp_code = #corpCode#
+					   AND a.work_date = #workDate#
+					   AND a.dele_yn = 'N'
+					   AND a.pro_code = b.pro_code
+					   AND b.large_code = c.code_id
+					   AND c.corp_code = a.corp_code
+					   AND c.group_code = 'MP006'
+					   AND b.frozen_type = d.code_id
+					   AND d.corp_code = a.corp_code
+					   AND d.group_code = 'MP008'
+					   AND b.corp_code = e.corp_code
+					   AND e.group_code = 'SD024'
+					   AND b.sale_group1 = e.code_id
+					   AND NOT (a.san_qty = 0 OR a.san_qty IS NULL)
+					 ) a
+			 group by
+			 	   a.sale_group1_code,	
+			       a.large_code,
+			       a.code_name,
+			       a.pro_code,
+			       a.pro_name,
+			       a.frozen_type,
+			       a.frozen) a left join 
+	      (
+			select pro_code, SUM(ordr_weight) AS ordr_weight, sum(jaego_weig) AS jaego_weig
+			from (
+					SELECT b.pro_code, SUM(b.ordr_weight) AS ordr_weight, 0 AS jaego_weig
+					  FROM openmps.mp_order_h a, openmps.mp_order_d b, openmps.tm_plat_warhxm c
+					 WHERE a.corp_code = #corpCode#
+					   AND a.delv_date = to_char(to_date(#workDate#, 'yyyymmdd'), 'yyyymmdd')
+					      
+					   AND a.corp_code = b.corp_code
+					   AND a.delv_date = b.delv_date
+					   AND a.ordr_no = b.ordr_no
+					      
+					   AND a.ordr_type IN ('10', '20', '30', '40')
+					   AND a.status <> 'D'
+					   AND b.status <> 'D'
+					   AND a.corp_code = c.corp_code
+					   AND a.delv_dc = c.wh_code
+					 GROUP BY b.pro_code
+					UNION ALL
+					SELECT sku, 0 AS ordr_weight, SUM(wt) AS jaego_weig
+					  FROM openmps.st_stok_mfrde_v t, openmps.tm_plat_warhxm b
+					 WHERE t.biz = '1000'
+					   AND t.client = #corpCode#
+					   AND t.client = b.corp_code
+					   AND t.dc = b.wh_code
+					 GROUP BY sku
+					) a
+			 group by pro_code) b
+	 on a.pro_code = b.pro_code
+	 order by sale_group1_code, large_code, frozen_type
+	 ]]>
+	</select>
+	
+	<!-- PP0303 가공두수합 -->
+	<select id="MpPlanCmHDAO.selectMpPlanCmHDoosuSum" parameterClass="mpPlanCmHSerarchVO" resultClass="egovMap">
+	select  coalesce(sum(doosu1),0) as doosu1
+			,coalesce(sum(doosu2),0) as doosu2
+			,coalesce(sum(doosu3),0) as doosu3
+			,coalesce(sum(doosu4),0) as doosu4
+			,coalesce(sum(doosu5),0) as doosu5
+	   FROM openmps.mp_plan_cm_h a
+	  WHERE    
+	        a.corp_code = #corpCode#
+	    AND a.work_date = #workDate#
+	    AND a.plant_code = #plantCode#
+	    AND a.dele_yn = 'N'
+	</select>
+	<!-- 공장별 확정시간  -->
+	<select id="MpPlanCmHDAO.selectCompTimeMpPlanCmH" parameterClass="mpPlanCmHSerarchVO" resultClass="egovMap">
+	select
+		max( tt.planDateTime_11 ) as plan_date_time_11
+		,max( tt.planDateTime_12 ) as plan_date_time_12
+		,max( tt.planDateTime_13 ) as plan_date_time_13
+		,max( tt.planDateTime_21 ) as plan_date_time_21
+		,max( tt.planDateTime_22 ) as plan_date_time_22
+		,max( tt.planDateTime_31 ) as plan_date_time_31
+		,max( tt.planDateTime_99 ) as plan_date_time_99
+	from
+	(
+	select  (case when plant_code = '11' and status='3' then to_char(md_date,'YYYY-MM-DD HH:mi:ss') else '' end) as planDateTime_11
+			,(case when plant_code = '12' and status='3' then to_char(md_date,'YYYY-MM-DD HH:mi:ss') else '' end) as planDateTime_12
+			,(case when plant_code = '13' and status='3' then to_char(md_date,'YYYY-MM-DD HH:mi:ss') else '' end) as planDateTime_13
+			,(case when plant_code = '21' and status='3' then to_char(md_date,'YYYY-MM-DD HH:mi:ss') else '' end) as planDateTime_21
+			,(case when plant_code = '22' and status='3' then to_char(md_date,'YYYY-MM-DD HH:mi:ss') else '' end) as planDateTime_22
+			,(case when plant_code = '31' and status='3' then to_char(md_date,'YYYY-MM-DD HH:mi:ss') else '' end) as planDateTime_31
+			,(case when plant_code = '99' and status='3' then to_char(md_date,'YYYY-MM-DD HH:mi:ss') else '' end) as planDateTime_99
+	   FROM openmps.mp_plan_cm_h a
+	  WHERE    
+	        a.corp_code = #corpCode#
+	    AND a.work_date = #workDate#
+	    AND a.dele_yn = 'N'
+	   ) tt
+	</select>
+</sqlMap>

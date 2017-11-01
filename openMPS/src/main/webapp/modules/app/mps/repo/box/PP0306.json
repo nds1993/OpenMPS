@@ -1,0 +1,186 @@
+{
+	"name": "생산계획서 조회 및 발행(PM)",
+	"module": "PP0306Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["queryBox", "resultBox"],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": ["plantCode","workDate","planTime","btnRefresh" ],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"items": {
+						"workDate": {
+							"module": "date",
+							"selector": ".workDate",
+							"label": "계획일자",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"plantCode": {
+							"selector": ".plantCode",
+							"label": "공장",
+							"required": false,
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/mpm/<%= corpCode %>/pp0101/tmplatxm?prdtType=2",
+								"parser": "return UCMS.parseComboPlant(arguments[0]);"
+							}
+						},
+						"planTime":{
+							"selector": ".planTime",
+							"label": "계획확정시간",
+							"required": false,
+							"module": "combobox"
+						},
+						"btnRefresh" :{
+							"label": "새로고침"
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>공장</label><div class=\"select_design plantCode\"><span class=\"select_label\">안성PM공장</span><select class=\"form-control\" tabindex=\"5\"><option value=\"14\">안성PM공장</option></select></div></div><div class=\"form-group\"><label>계획일자</label><input type=\"text\" class=\"form-control form_type_date workDate\"></div><div class=\"form-group\"><label>계획확정시간</label><div class=\"select_design planTime\"><span class=\"select_label\">선택</span><select class=\"form-control\"><option value=\"0\">선택</option></select></div><div class=\"btnRefresh_region\"></div></div>"
+				},
+				"btnRefresh" : {
+					"module": "manifest!Button-1.0.0",
+					"options": {
+						 "className" : "btn_box",
+						  "label": "새로고침",
+						  "icons": [
+							{
+							  "pos": "prefix",
+							  "view": false,
+							  "type": "fa",
+							  "value": "fa-chevron-left hide"
+							}
+						  ],
+						  "button_loyout": {
+							"style": "btn-primary",
+							"sr_only": false,
+							"block": false
+						  },
+						  "cmd": ""
+					}
+				}
+			}
+		},
+		"resultBox": {
+			"remark":{
+				"data": [{
+					"plantCode": "12345",
+					"plantName": "안성2 PM공장",
+					"planNo": "20170816001",
+					"custName": "하남돼지집",
+					"largeCode": "삼겹살",
+					"proCode": 10001,
+					"proName": "갈비(1등급)-F",
+					"workQty": 2000,
+					"memo": "삼겹살",
+					"id": "jqg1"
+				}]
+			},
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "grid_box",
+				"gridId": "PP0306_grid_1",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+						"name": "plantCode",
+						"label": "공장",
+						"width": 70,
+						"align": "left",
+						"editable": false,
+						"hidden":true
+					},{
+						"name": "plantName",
+						"label": "공장",
+						"width": 65,
+						"align": "left",
+						"editable": false
+					}, {
+						"name": "planNo",
+						"label": "계획번호",
+						"width": 70,
+						"align": "center",
+						"editable": false
+					}, {
+						"name": "planTime",
+						"label": "계획확정시각",
+						"width": 115,
+						"align": "center",
+						"editable": false
+					}, {
+						"name": "custName",
+						"label": "거래처",
+						"width": 145,
+						"align": "left",
+						"editable": false
+					}, {
+						"name": "largeCode",
+						"label": "품목코드",
+						"width": 60,
+						"align": "left",
+						"editable": false,
+						"hidden":true
+					}, {
+						"name": "proLargeName",
+						"label": "품목",
+						"width": 70,
+						"align": "left",
+						"editable": false
+					}, {
+						"name": "proCode",
+						"label": "제품코드",
+						"width": 60,
+						"align": "center",
+						"editable": false
+					}, {
+						"name": "proName",
+						"label": "제품명",
+						"width": 100,
+						"align": "left",
+						"editable": false
+					}, {
+						"name": "workQty",
+						"label": "작업지시량",
+						"width": 70,
+						"align": "center",
+						"sorttype":"integer","formatter":"integer",
+						"editable": false
+					}, {
+						"name": "memo",
+						"label": "계획특기사항",
+						"width": 145,
+						"align": "left",
+						"editable": false,
+						"classes":"grid_ws_normal"
+					}],
+					"rowNum":"100000000",
+					"width": "auto",
+					"height": "597",
+					"cellEdit": true,
+					"shrinkToFit": true,
+					"gridview": true,
+					"datatype": "local",
+					"cellsubmit": "clientArray",
+					"pager": "#PP0306_grid_1_pager",
+					"viewrecords": true,
+					"recordpos":"left",
+					"pgbuttons":false,
+					"pginput":false
+				}
+			}
+		}
+	}
+}

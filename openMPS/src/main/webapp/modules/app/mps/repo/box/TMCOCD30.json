@@ -1,0 +1,130 @@
+{
+	"name": "메시지관리",
+	"module": "TMCOCD30Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box form-inline",
+				"order": [
+					"searchKeyword"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"name": "API Runner Form",
+					"mode": "form",
+					"items": {
+						"searchKeyword": {
+							"module": "text",
+							"selector": ".searchKeyword",
+							"label": "메시지코드/명",
+							"required": false
+						}
+					},
+					"data": {},
+					"template": null
+				}
+			}
+		},
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "mesgInfo_box grid_box grid_btn_hide",
+				"gridId": "TMCOCD30_grid_1",
+				"gridParams": {
+					"data": [
+
+					],
+					"colModel": [{
+							"name": "mesgCode",
+							"label": "<div class=\"editable_mark\"></div><span class=\"required\">메시지코드</span>",
+							"width": 80,
+							"align": "center",
+							"editoption": {
+								"required": true
+							},
+							"edittype": "text",
+							"editable": true,
+							"classes": "editable"
+						}, {
+							"name": "msgeText",
+							"label": "<div class=\"editable_mark\"></div><span class=\"required\">메시지내용",
+							"width": 350,
+							"align": "left",
+							"editoption": {
+								"required": true
+							},
+							"edittype": "text",
+							"editable": true,
+							"classes": "editable"
+						}, {
+							"name": "codeKind",
+							"label": "<div class=\"editable_mark\"></div><span class=\"required\">메세지종류</span>",
+							"width": 100,
+							"align": "center",
+							"editable": true,
+							"edittype": "select",
+							"formatter": "select",
+							"editoptions": {
+								"value": "1:Yes/No; 2:OK"
+							},
+							"classes": "editable"
+						}, {
+							"name": "msgeGubn",
+							"label": "<div class=\"editable_mark\"></div><span class=\"required\">메시지구분</span>",
+							"width": 60,
+							"align": "center",
+							"editable": true,
+							"edittype": "select",
+							"formatter": "select",
+							"editoptions": {
+								"value": "1:Client; 2:Server"
+							},
+							"hidden": true,
+							"classes": "editable"
+
+						},
+
+						{
+							"name": "useYn",
+							"label": "<div class=\"editable_mark\"></div><span class=\"required\">사용여부</span>",
+							"template": "booleanCheckboxFa",
+							"align": "center",
+							"width": 40,
+							"editable": true,
+							"edittype": "checkbox",
+							"editoptions": {
+								"value": "1:Y; 2:N"
+							},
+							"formatter": "checkbox",
+							"classes": "editable"
+						}
+					],
+					"width": "auto",
+					"height": "597",
+					"cellEdit": true,
+					"cellsubmit": "clientArray",
+					"gridview": true,
+					"datatype": "local",
+					"rowNum": "10000000",
+					"pager": "#TMCOCD30_grid_1_pager",
+					"viewrecords": true,
+					"recordpos": "left",
+					"pgbuttons": false,
+					"pginput": false
+				}
+			}
+		}
+	}
+}

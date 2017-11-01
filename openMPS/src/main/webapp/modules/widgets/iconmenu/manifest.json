@@ -1,0 +1,21 @@
+{
+  "name": "iconmenu",
+  "version": "0.8.1",
+  "startup": {
+  	"widget": "iconmenu-0.8.1.js",
+  	"manager": "iconmenu.manager-0.8.1.js"
+  },
+  "resource": {
+  	"template": "icon-0.8.1.html"
+  },
+  "dependencies":
+  [
+	"BaroPanelBase",
+	"/icon_list-0.8.1.js",
+	"text!./icon_list-0.8.1.html",
+	"Logger"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  }
+}

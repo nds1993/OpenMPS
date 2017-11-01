@@ -1,0 +1,124 @@
+<script id="map_box_html" type="text/template">
+<div class="title_box">
+	<h1><i class="fa fa-bookmark"></i> <%= title%>
+	<button type="button"  class="btn btn-danger btn_close btn_go_close"> <i class="fa fa-times"></i> 닫기 </button>	
+	</h1>
+	<div class="desc">
+	<%=caption%>
+</div>
+</div>
+<hr class="line">
+<div class="image_box">
+<img src="" onerror="this.style.display='none'">
+</div>
+
+<div class="map_view_region">
+	<div class="map_view">
+	</div>
+</div>
+<div class="addr_box">
+<%=addr%>
+</div>
+<hr class="line">
+<div class="text_box">
+<%=body%>
+</div>
+</script>
+
+<script id="map_tour_box_html" type="text/template">
+<div class="view_tourapp">
+    <div class="title_box">
+        <h1><i class="fa fa-map"></i> 지도보기
+		<button type="button" class="btn btn-danger fr btn_tourmap_close"> <i class="fa fa-times"></i> 닫기 </button>	
+		</h1>
+		<div class="desc font_size08 mt20">
+			<span><i class="fa fa-fw tourapp_icon_mukgo"></i> : 먹go</span>
+            <span class="ml5"><i class="fa fa-fw tourapp_icon_nolgo"></i> : 놀go</span>
+            <span class="ml5"><i class="fa fa-fw tourapp_icon_jago"></i> : 자go</span>
+            <span class="ml5"><i class="fa fa-fw tourapp_icon_sago"></i> : 사go</span>
+		</div>
+    </div>
+</div>
+
+<div class="map_view_region">
+    <div class="map_view">
+    </div>
+</div>
+
+</script>
+
+<script id="map_tour_single_box_html" type="text/template">
+<div class="map_view_region">
+	<button class="btn btn-link btn_map_close btn_go_map_close">
+		<span class="fa-stack fa-lg">
+  			<i class="fa fa-circle fa-stack-2x"></i>
+  			<i class="fa fa-times fa-stack-1x fa-inverse"></i>
+		</span>
+	</button>
+
+    <div class="map_point_icon" style="left:53px;top:395px">
+        <div class="ad_icon">
+            <i class="fa fa-bullhorn fa-inverse"></i>
+        </div>
+        <div class="tourapp_icon">
+            <!--
+			.tourapp_icon_nolgo
+			.tourapp_icon_mukgo
+			.tourapp_icon_jago
+			.tourapp_icon_sago
+			-->
+            <i class="fa fa-fw tourapp_icon_nolgo"></i>
+        </div>
+
+        <img src="app_icon" class="map_app_icon" onerror="this.src='http://resource.moven.net/themes/base/img/icon_none.png'">
+
+        <div class="map_point_app" style="left: -45px; top: -130px;">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <!-- applist_list 내용 노출-->
+                    <div class="media row_group">
+                        <img class="btn_go_close btn_close" src="http://i1.daumcdn.net/localimg/localimages/07/mapjsapi/2x/bt_close.gif" />
+                        <div class="media-left media-top">
+                            <div class="app_icon app_icon_m">
+                                <a class="btn_item btn_go_item" id=" app_no ">
+                                    <img src=" app_icon " onerror="this.src='http://resource.moven.net/themes/base/img/icon_none.png'">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading mt5"><a class="btn_item btn_go_item" id="app_no  자"> app_title </a></h4>
+                            <div class="desc">
+                                <div class="app_category"><span class="color_1st">app_category 자리</span> | <i class="fa fa-fw tourapp_icon_sago"></i>
+                                </div>
+                                <div class="app_address">app_address 자리 경기도 양주시 삼숭동 양주자이아파트 608</div>
+                                <!-- 담기 전 노출 -->
+                                <button class="btn btn-xs btn-default btn_go_tourmark_on"><i class="fa fa-fw fa-circle-o"></i> 담기</button>
+                                <!-- 담기 후 노출 
+			    				<button class="btn btn-xs btn-primary btn_go_tourmark_off"><i class="fa fa-fw fa-check-circle"></i> 빼기</button>
+								-->
+                                <!--<button class="btn btn-xs btn-info btn_go_single_map"><i class="fa fa-fw fa-map-o"></i> 지도</button>-->
+                                <span> 담기 : 33</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="map_point_ad">
+			<button class="btn btn-link btn_close btn_go_close">
+				<span class="fa-stack fa-lg">
+  					<i class="fa fa-circle fa-stack-2x"></i>
+  					<i class="fa fa-times fa-stack-1x fa-inverse"></i>
+				</span>
+			</button>
+			<i class="fa fa-bullhorn"></i>
+            광고내용이 쭈욱 나오게 됩니다. 이광고를 보여주시면 안주가 공짜!
+        </div>
+    </div>
+
+	<div class="map_view">
+	</div>
+</div>
+
+</script>

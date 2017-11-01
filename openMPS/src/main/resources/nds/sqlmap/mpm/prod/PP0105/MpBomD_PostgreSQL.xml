@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpBomD">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="MpBomDSerarchVO" type="nds.mpm.prod.PP0105.vo.MpBomDVO"/>
+	
+	<resultMap id="MpBomD" class="nds.mpm.prod.PP0105.vo.MpBomDVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="plantCode" column="plant_code" columnIndex="2"/>
+		<result property="bomCode" column="bom_code" columnIndex="3"/>
+		<result property="bomVer" column="bom_ver" columnIndex="4"/>
+		<result property="lineNo" column="line_no" columnIndex="5"/>
+		<result property="proType" column="pro_type" columnIndex="6"/>
+		<result property="buProCode" column="bu_pro_code" columnIndex="7"/>
+		<result property="qty" column="qty" columnIndex="8"/>
+		<result property="proUnit" column="pro_unit" columnIndex="9"/>
+		<result property="memo" column="memo" columnIndex="10"/>
+		<result property="deleYn" column="dele_yn" columnIndex="11"/>
+		<result property="mdUser" column="md_user" columnIndex="12"/>
+		<result property="mdDate" column="md_date" columnIndex="13"/>
+		<result property="crUser" column="cr_user" columnIndex="14"/>
+		<result property="crDate" column="cr_date" columnIndex="15"/>
+	</resultMap>
+	
+	<insert id="MpBomDDAO.insertMpBomD">
+		<selectKey keyProperty="bomCode" resultClass="string">
+		    select #bomCode# as bom_code
+		</selectKey>
+		<![CDATA[
+			INSERT INTO openmps.mp_bom_d 
+				( corp_code
+				  , plant_code
+				  , bom_code
+				  , bom_ver
+				  , line_no
+				  , pro_type
+				  , pro_code
+				  , qty
+				  , pro_unit
+				  , memo
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #bomCode#
+				  , #bomVer#
+				  , #lineNo#
+				  , #proType#
+				  , #buProCode#
+				  , #qty#::numeric
+				  , #proUnit#
+				  , #memo#
+				  , 'N'
+				  , #crUser#
+				  , now() )
+			ON CONFLICT (corp_code, plant_code, bom_code, bom_ver, line_no)
+    		DO UPDATE SET
+					line_no=#lineNo#
+					, pro_type=#proType#
+					, pro_code=#buProCode#
+					, qty=#qty#::numeric
+					, pro_unit=#proUnit#
+					, memo=#memo#
+		]]>
+	</insert>
+	
+	<update id="MpBomDDAO.updateMpBomD">
+		<![CDATA[
+			UPDATE openmps.mp_bom_d
+			SET pro_type=#proType#
+				, pro_code=#buProCode#
+				, qty=#qty#::numeric
+				, pro_unit=#proUnit#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND bom_code=#bomCode#
+								AND bom_ver=#bomVer#
+								AND line_no=#lineNo#
+				]]>
+	</update>
+	
+	<delete id="MpBomDDAO.deleteMpBomD">
+		<![CDATA[
+			update openmps.mp_bom_d 
+					set dele_yn = 'Y'
+						, md_user=#mdUser#
+						, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND bom_code=#bomCode#
+								AND bom_ver=#bomVer#
+								AND line_no=#lineNo#
+				]]>
+	</delete>
+	
+	<delete id="MpBomDDAO.deleteOldVerMpBomD">
+		<![CDATA[
+			update openmps.mp_bom_d 
+					set dele_yn = 'Y'
+						, md_user=#mdUser#
+						, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND bom_code=#bomCode#
+								AND bom_ver=#bomVer#
+				]]>
+	</delete>
+	
+	<select id="MpBomDDAO.selectMpBomD_S" resultMap="MpBomD">
+		<![CDATA[
+			SELECT
+				corp_code
+				, plant_code
+				, bom_code
+				, bom_ver
+				, line_no
+				, pro_type
+				, pro_code as bu_pro_code
+				, qty::integer
+				, pro_unit
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM openmps.mp_bom_d
+						WHERE corp_code=#corpCode#::varchar
+								AND plant_code=#plantCode#::varchar
+								AND bom_code=#bomCode#::varchar
+								AND bom_ver=#bomVer#::numeric
+								AND pro_code=#proCode#
+								AND line_no=#lineNo#::numeric
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	
+	  	FROM openmps.mp_bom_d a
+		inner join	 openmps.mp_bom_h h on (
+			a.corp_code = h.corp_code 
+			and a.plant_code = h.plant_code
+			and a.bom_code = h.bom_code
+			and a.bom_ver = h.bom_ver
+		)
+		left outer join openmps.mp_item_master_m m on (a.corp_code = m.corp_code and a.pro_code = m.pro_code)
+		where a.corp_code = #corpCode#
+		and a.plant_code = #plantCode#
+		and a.bom_code = #bomCode#
+		and a.bom_ver = #bomVer#
+		<dynamic> 
+		</dynamic>
+		and a.dele_yn = 'N'
+	</sql>
+	<select id="MpBomDDAO.selectMpBomDList_D" parameterClass="MpBomDSerarchVO" resultClass="egovMap">
+		SELECT
+				a.corp_code
+				, a.plant_code
+				, a.bom_code
+				, a.bom_ver
+				, a.line_no
+				, a.pro_type
+				, a.pro_code as bu_pro_code
+				, openmps."FN_GET_PROCODENM"(a.corp_code,a.pro_code) as bu_pro_name
+				, (a.qty::numeric(11,0))::varchar
+				,(m.pro_weig::numeric(15,4))::varchar pro_weig
+				, a.pro_unit
+				, a.memo as bumemo
+		<include refid="selectWhere_fragment"/>
+	</select>	
+	<select id="MpBomDDAO.selectMpBomDListTotCnt_S" parameterClass="MpBomDSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

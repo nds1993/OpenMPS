@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PO0205MpPigdxm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="PO0205mpPigdxmSerarchVO" type="nds.mpm.buy.PO0102.vo.MpPigdxmDefaultVO"/>
+	<update id="PO0205mpPigdxmDAO.updateMpPigdxm_S">
+			UPDATE openmps.mp_pigdxm
+			SET pig_pan6=#pigPan6#
+				, md_user=#mdUser#
+				, md_date=now()
+			WHERE corp_code=#corpCode#
+			AND doch_date=doch_date between #buyDateM# || '01' and #buyDateM# || '31'
+			AND cust_code=#custCode#
+	</update>
+	<select id="PO0205mpPigdxmDAO.selectMpPigdxmList_D" parameterClass="PO0205mpPigdxmSerarchVO" resultClass="egovMap">
+		select
+			openmps."FN_GET_CUSTCODENM"(aa.corp_code,aa.cust_code) as cust_name
+			, aa.owner
+			, '' haccp
+			, '' use_rate
+			, aa.sex1_dosu
+			, (aa.sex1_pig_pric8 / 
+				(case when sex1_dosu = 0 then 1 else doch_cnt end)  
+			)::numeric(11,1) as sex1_price
+			, aa.sex1_pig_pric8
+			, aa.sex3_dosu
+			, (aa.sex3_pig_pric8 / 
+				(case when sex3_dosu = 0 then 1 else doch_cnt end)   
+				)::numeric(11,1) as sex3_price
+			, aa.sex3_pig_pric8
+			, (aa.sex1_dosu + aa.sex3_dosu) as apply_dosu
+			, (aa.sex1_pig_pric8 + aa.sex3_pig_pric8) as apply_amt
+			, doch_cnt
+			, ((aa.sex1_dosu + aa.sex3_dosu) / 
+				(case when doch_cnt = 0 then 1 else doch_cnt end) 
+			 )::numeric(11,1) as tot_rate
+		from
+		(
+			<![CDATA[
+			select 
+				max(c.owner) as owner
+				, sum(case when a.sex_no = 1 then 1 
+						else 0 end) as sex1_dosu
+				, sum(case when a.sex_no = 1 and b.inc1_from <= pig_weig2 and b.inc1_to >= pig_weig2 then pig_pric8
+						else 0 end) as sex1_pig_pric8
+				, sum(case when a.sex_no = 3 then 1 
+						else 0 end) as sex3_dosu
+				, sum(case when a.sex_no = 3 and b.inc3_from <= pig_weig3 and b.inc3_to >= pig_weig3 then pig_pric8
+						else 0 end) as sex3_pig_pric8
+				, count(doch_id) as doch_cnt
+				, a.corp_code
+				, a.cust_code
+			]]>
+		  	FROM 
+				openmps.mp_pigdxm a
+				left outer join openmps.mp_pigexm b on (
+						a.corp_code = b.corp_code 
+						and a.fac_kind = b.fac_kind
+	  					and a.fac_code = b.fac_code
+	  					and b.dele_yn = 'N'
+	  					)
+				left outer join openmps.mp_cust_info c on (
+						a.corp_code = c.corp_code 
+						and a.cust_code = c.cust_code
+	  					)
+	  			where a.corp_code = #corpCode#
+				and a.doch_date like #buyDateM# || '%'
+				and a.dele_yn = 'N'
+				and a.fac_kind = '1'
+				<![CDATA[ and a.pig_pric11 <> 0  ]]>
+				<isNotEmpty property="custCode">
+					and a.cust_code = #custCode#
+				</isNotEmpty>
+				<isNotEmpty property="facKind">
+					and a.fac_kind = #facKind#
+				</isNotEmpty>
+				<isNotEmpty property="buyType">
+					and a.buy_type = #buyType#
+				</isNotEmpty>
+			group by a.corp_code, a.cust_code
+		) aa	
+	</select>	
+
+</sqlMap>

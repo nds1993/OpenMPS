@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OdOderhd">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="odOderhdSerarchVO" type="nds.mpm.prod.PP0701.vo.OdOderhdVO"/>
+	<sql id="selectWhere_fragment">
+	
+	  	from
+		(
+			select 
+			h.client
+			,h.dc
+			,h.oderde
+			,s.sku
+			,sum(s.oderqty)::numeric(11,0) as oderqty
+			from openmps.od_oderhd h
+			inner join openmps.od_oderasgn s on ( h.oderno = s.oderno and h.dc = s.dc and h.biz = s.biz and h.client = s.client )
+			<![CDATA[
+			where oderde between #strtDate# and #lastDate#
+			]]>
+			and h.oderty = 'O12'
+			<isNotEmpty property="proCode">
+	         and s.sku = #proCode#
+	         </isNotEmpty>
+			group by h.client, h.dc, h.oderde, s.sku
+		) aa
+		left outer join openmps.mp_item_master_m m on (aa.client = m.corp_code and aa.sku = m.pro_code and m.dele_yn = 'N')
+		left outer join openmps.tm_plat_warhxm wh on (aa.client = wh.corp_code and aa.dc = wh.wh_code and wh.dele_yn = 'N' )
+		left outer join openmps.tm_platxm p on (aa.client = p.corp_code and wh.plant_code = p.plant_code and p.dele_yn = 'N' )
+		where 
+			aa.client = #corpCode#
+	
+		<dynamic> 
+	         <isNotEmpty property="plantCode">
+	         and wh.plant_code = #plantCode#
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="PP0701odOderhdDAO.selectOdOderhdList_D" parameterClass="odOderhdSerarchVO" resultClass="egovMap">
+		select
+		p.plant_name
+		,to_char(aa.oderde::date,'YYYY-MM-DD') as oder_de
+		,aa.sku
+		,m.pro_name
+		,aa.oderqty::varchar
+		,m.pro_ukind
+		,aa.client
+		,aa.dc
+
+		<include refid="selectWhere_fragment"/>
+	</select>	
+	<select id="PP0701odOderhdDAO.selectOdOderhdListTotCnt_S" parameterClass="odOderhdSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

@@ -1,0 +1,296 @@
+{
+	"name": "공통코드관리",
+	"module": "RDNFRenderer",
+	"options": {
+		"order": [
+			"queryBox",
+			"resultBox"
+		],
+		"className": "contents_box",
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box form-inline",
+				"order": [
+					"searchKeyword"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"name": "API Runner Form",
+					"mode": "form",
+					"items": {
+						"searchKeyword": {
+							"module": "text",
+							"selector": ".searchKeyword",
+							"label": "공통코드/명",
+							"required": false
+						}
+					},
+					"data": {},
+					"template": null
+				}
+			}
+		},
+		"resultBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "result_box",
+				"order": [
+					"leftGrid",
+					"rightGrid"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"row\"><div class=\"col-xs-4  leftGrid_region\"></div><div class=\"col-xs-8 rightGrid_region\"></div></div>",
+					"items": {
+						"leftGrid": {
+							"label": "baseInfo",
+							"required": true
+						},
+						"rightGrid": {
+							"label": "baseItem",
+							"required": true
+						}
+					},
+					"data": {}
+				},
+				"leftGrid": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"className": "contnet_header_box h35",
+								"label": "공통코드"
+							}
+						},
+						"content": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "baseInfo_box grid_box grid_btn_hide",
+								"gridId": "TMCOCD10_grid_1",
+								"gridParams": {
+									"data": [],
+									"colModel": [{
+											"name": "groupCode",
+											"label": "<div class=\"editable_mark\"></div>공통코드",
+											"width": 100,
+											"align": "center",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "groupCdnm",
+											"label": "<div class=\"editable_mark\"></div>공통코드명",
+											"width": 140,
+											"align": "center",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "useYn",
+											"label": "<div class=\"editable_mark\"></div>사용여부",
+											"align": "center",
+											"width": 70,
+											"editable": true,
+											"classes":"editable",
+											"edittype": "checkbox",
+											"formatter": "checkbox"
+										}
+									],
+									"rowNum":"10000000",
+									"width": "auto",
+									"height": "570",
+									"cellEdit": false,
+									"cellsubmit": "clientArray",
+									"gridview": true,
+									"datatype": "local",
+									"pager": "#TMCOCD10_grid_1_pager",
+									"viewrecords": true,
+									"recordpos":"left",
+									"pgbuttons":false,
+									"pginput":false
+								}
+							}
+						}
+					}
+				},
+				"rightGrid": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"label": "세부코드"
+							},
+							"feature": [{
+									"create": "행 추가"
+								},
+								{
+									"delete": "행 삭제"
+								}
+							]
+						},
+						"content": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "baseItem_box grid_box grid_btn_hide",
+								"gridId": "TMCOCD10_grid_2",
+								"gridParams": {
+									"data": [],
+									"colModel": [{
+											"name": "codeId",
+											"label": "<div class=\"editable_mark\"></div><span class=\"required\">세부코드</span>",
+											"width": 70,
+											"align": "center",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "codeName",
+											"label": "<div class=\"editable_mark\"></div><span class=\"required\">세부코드명</span>",
+											"width": 150,
+											"align": "center",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "sortOrder",
+											"label": "<div class=\"editable_mark\"></div>정렬순서",
+											"width": 80,
+											"align": "left",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "dfvYn",
+											"label": "<div class=\"editable_mark\"></div>기본값여부",
+
+											"align": "center",
+											"width": 90,
+											"editable": true,
+											"classes":"editable",
+											"edittype": "checkbox",
+											"formatter": "checkbox"
+										},
+										{
+											"name": "useYn",
+											"label": "<div class=\"editable_mark\"></div>사용여부",
+
+											"align": "center",
+											"width": 80,
+											"editable": true,
+											"classes":"editable",
+											"edittype": "checkbox",
+											"formatter": "checkbox"
+										},
+										{
+											"name": "etc01",
+											"label": "<div class=\"editable_mark\"></div>보조항목01",
+											"width": 100,
+											"align": "left",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "etc02",
+											"label": "<div class=\"editable_mark\"></div>보조항목02",
+											"width": 100,
+											"align": "left",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "etc03",
+											"label": "<div class=\"editable_mark\"></div>보조항목03",
+											"width": 100,
+											"align": "left",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "etc04",
+											"label": "<div class=\"editable_mark\"></div>보조항목04",
+											"width": 100,
+											"align": "left",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "etc05",
+											"label": "<div class=\"editable_mark\"></div>보조항목05",
+											"width": 100,
+											"align": "left",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "etc06",
+											"label": "<div class=\"editable_mark\"></div>보조항목06",
+											"width": 100,
+											"align": "left",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "etc07",
+											"label": "<div class=\"editable_mark\"></div>보조항목07",
+											"width": 100,
+											"align": "left",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "etc08",
+											"label": "<div class=\"editable_mark\"></div>보조항목08",
+											"width": 100,
+											"align": "left",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "etc09",
+											"label": "<div class=\"editable_mark\"></div>보조항목09",
+											"width": 100,
+											"align": "left",
+											"editable": true,
+											"classes":"editable"
+										},
+										{
+											"name": "etc10",
+											"label": "<div class=\"editable_mark\"></div>보조항목10",
+											"width": 100,
+											"align": "left",
+											"editable": true,
+											"classes":"editable"
+										}
+									],
+									"rowNum":"10000000",
+									"width": "auto",
+									"height": "570",
+									"cellEdit": true,
+									"cellsubmit": "clientArray",
+									"gridview": true,
+									"datatype": "local",
+									"pager": "#TMCOCD10_grid_2_pager",
+									"viewrecords": true,
+									"recordpos":"left",
+									"pgbuttons":false,
+									"pginput":false
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

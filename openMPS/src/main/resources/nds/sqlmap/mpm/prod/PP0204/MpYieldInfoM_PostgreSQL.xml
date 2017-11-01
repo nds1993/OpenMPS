@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PP0204MpYieldInfoM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="PP0204MpYieldInfoMSerarchVO" type="nds.mpm.prod.PP0204.vo.MpYieldInfoMVO"/>
+		
+	<select id="PP0204mpYieldInfoMDAO.selectTotalMpYieldInfoM_S" parameterClass="PP0204MpYieldInfoMSerarchVO" resultClass="egovMap">
+	<![CDATA[
+	SELECT no,
+	       CASE
+	          WHEN no = 1 THEN
+	           bef_dusu
+	          ELSE
+	           bef_weig
+	        END AS bef,
+	       CASE
+	          WHEN no = 1 THEN
+	           cur_dusu
+	          ELSE
+	           cur_weig
+	        END AS cur,
+	       CASE
+	          WHEN no = 1 THEN
+	           (cur_dusu - bef_dusu)
+	          ELSE
+	           (cur_weig - bef_weig)
+	        END AS dif
+	  FROM (SELECT SUM(a.suyul_dusu) AS bef_dusu,   
+	               SUM(a.suyul_wei2) AS bef_weig 
+	          FROM openmps.mp_yield_info_m a
+	         WHERE a.corp_code = #corpCode# 
+				  AND LEFT(a.work_date, 6) = to_char((to_date(#strtDate#, 'YYYYMMDD') - INTERVAL '1 month'), 'yyyymm') 
+				  AND a.grup_plant = #grupPlant#  
+	       ) as a,
+	       (SELECT SUM(a.suyul_dusu) AS cur_dusu,
+			         SUM(a.suyul_wei2) as cur_weig
+	          FROM openmps.mp_yield_info_m a
+	         WHERE a.corp_code = #corpCode# 
+				  AND LEFT(a.work_date, 6) = LEFT(#strtDate#, 6) 
+				  AND a.grup_plant = #grupPlant#  
+	        ) as b,
+	       (SELECT 1 AS no
+	        UNION ALL
+	        SELECT 2) as c	
+	]]>	
+	</select>	
+	
+	<select id="PP0204mpYieldInfoMDAO.selectMpYieldInfoMList_D" parameterClass="PP0204MpYieldInfoMSerarchVO" resultClass="egovMap">
+	<![CDATA[
+	SELECT CASE
+	          WHEN a.meat_type IS NULL THEN
+	           99
+	          ELSE
+	           CASE
+		          WHEN a.large_code IS NULL THEN
+		           88
+		          ELSE
+		           1
+	            END
+			  END AS ordering,
+	       a.meat_type,
+	       case
+			    when a.meat_type is null then
+	           '합계'
+	          else
+	            d.code_name
+	        end as meat,
+	       a.large_code,
+	       case 
+			    when a.large_code is null then
+			     '소계'
+			    else
+			     e.code_name
+			  end AS large_name,
+	       a.bef_weig,
+	       to_char(a.bef_weig/f.bef_g_weig * 100, '990D99') as bef_rate,
+	       a.cur_weig, 
+	       to_char(a.cur_weig/g.cur_g_weig * 100, '990D99') as cur_rate,
+	       to_char(a.cur_weig/g.cur_g_weig * 100 - a.bef_weig/f.bef_g_weig * 100, '990D99') as dif_rate              
+	  FROM (SELECT a.meat_type      AS meat_type,
+	               a.large_code     AS large_code,               
+	               SUM(a.bef_weig)  AS bef_weig,
+	               SUM(a.cur_weig)  AS cur_weig
+	          FROM (
+						SELECT b.meat_type  AS meat_type,
+						       b.large_code AS large_code,
+						       a.box_weig   AS bef_weig,
+						       0            AS cur_weig
+						  FROM openmps.mp_bar_pro_m a, openmps.mp_item_master_m b
+						 WHERE 1 = 1
+						   AND a.corp_code = b.corp_code
+						   AND a.pro_code = b.pro_code
+						      
+						   AND a.dele_yn = 'N'
+						   AND a.prdt_type = '1'  
+						   AND a.corp_code = #corpCode# 
+							AND LEFT(a.pro_date, 6) = to_char((to_date(#strtDate#, 'YYYYMMDD') - INTERVAL '1 month'), 'yyyymm')
+						   AND a.plant_code IN (SELECT plant_code
+						                          FROM openmps.tm_platxm a
+						                         WHERE a.grup_plant = #grupPlant#
+						                           AND a.prdt_type = '1'  
+						                           AND a.corp_code = #corpCode#)
+						UNION ALL
+						SELECT b.meat_type AS meat_type, b.large_code AS large_code, 0, a.box_weig
+						  FROM openmps.mp_bar_pro_m a, openmps.mp_item_master_m b
+						 WHERE 1 = 1
+						   AND a.corp_code = b.corp_code
+						   AND a.pro_code = b.pro_code
+						      
+						   AND a.dele_yn = 'N'
+						   AND a.prdt_type = '1'  
+						   AND a.corp_code = #corpCode# 
+							AND LEFT(a.pro_date, 6) = LEFT(#strtDate#, 6)
+							AND a.plant_code IN (SELECT plant_code
+						                          FROM openmps.tm_platxm a
+						                         WHERE a.grup_plant = #grupPlant#
+						                           AND a.prdt_type = '1'  
+						                           AND a.corp_code = #corpCode#) ) a
+	         GROUP BY a.meat_type, a.large_code) AS a 
+	  LEFT JOIN openmps.tm_codexd d ON a.meat_type = d.code_id
+	                              AND d.corp_code = #corpCode#
+	                              AND d.group_code = 'MP010'
+	  LEFT JOIN openmps.tm_codexd e ON a.large_code = e.code_id
+	                              AND e.corp_code = #corpCode#
+	                              AND e.group_code = 'MP006',
+	 (SELECT SUM(a.suyul_wei2) AS bef_g_weig
+	    FROM openmps.mp_yield_info_m a
+	   WHERE a.corp_code = #corpCode# 
+	     AND LEFT(a.work_date, 6) = to_char((to_date(#strtDate#, 'YYYYMMDD') - INTERVAL '1 month'), 'yyyymm') 
+		  AND a.grup_plant = #grupPlant#  
+	 ) AS f,
+	 (SELECT SUM(a.suyul_wei2) as cur_g_weig
+	    FROM openmps.mp_yield_info_m a
+	   WHERE a.corp_code = #corpCode# 
+	     AND LEFT(a.work_date, 6) = LEFT(#strtDate#, 6) 
+		  AND a.grup_plant = #grupPlant#  
+	 )	as g
+	 ORDER BY 1, 2, 4, 6	
+	]]>	
+	</select>	
+
+	
+	<select id="PP0204mpYieldInfoMDAO.selectMpYieldInfoMList_D_Back" parameterClass="PP0204MpYieldInfoMSerarchVO" resultClass="egovMap">
+	<![CDATA[
+	SELECT CASE
+	          WHEN a.meat_type IS NULL THEN
+	           99
+	          ELSE
+	           CASE
+		          WHEN a.large_code IS NULL THEN
+		           88
+		          ELSE
+		           1
+	            END
+			  END AS ordering,
+	       a.meat_type,
+	       case
+			    when a.meat_type is null then
+	           '합계'
+	          else
+	            d.code_name
+	        end as meat,
+	       a.large_code,
+	       case 
+			    when a.large_code is null then
+			     '소계'
+			    else
+			     e.code_name
+			  end AS large_name,
+	       a.bef_weig,
+	       to_char(a.bef_weig/f.bef_g_weig * 100, '990D99') as bef_rate,
+	       a.cur_weig, 
+	       to_char(a.cur_weig/g.cur_g_weig * 100, '990D99') as cur_rate,
+	       to_char(a.cur_weig/g.cur_g_weig * 100 - a.bef_weig/f.bef_g_weig * 100, '990D99') as dif_rate              
+	  FROM (SELECT a.meat_type      AS meat_type,
+	               a.large_code     AS large_code,               
+	               SUM(a.bef_weig)  AS bef_weig,
+	               SUM(a.cur_weig)  AS cur_weig
+	          FROM (
+						SELECT b.meat_type  AS meat_type,
+						       b.large_code AS large_code,
+						       a.box_weig   AS bef_weig,
+						       0            AS cur_weig
+						  FROM openmps.mp_bar_pro_m a, openmps.mp_item_master_m b
+						 WHERE 1 = 1
+						   AND a.corp_code = b.corp_code
+						   AND a.pro_code = b.pro_code
+						      
+						   AND a.dele_yn = 'N'
+						   AND a.prdt_type = '1'  
+						   AND a.corp_code = #corpCode# 
+							AND LEFT(a.pro_date, 6) = to_char((to_date(#strtDate#, 'YYYYMMDD') - INTERVAL '1 month'), 'yyyymm')
+						   AND a.plant_code IN (SELECT plant_code
+						                          FROM openmps.tm_platxm a
+						                         WHERE a.grup_plant = #grupPlant#
+						                           AND a.prdt_type = '1'  
+						                           AND a.corp_code = #corpCode#)
+						UNION ALL
+						SELECT b.meat_type AS meat_type, b.large_code AS large_code, 0, a.box_weig
+						  FROM openmps.mp_bar_pro_m a, openmps.mp_item_master_m b
+						 WHERE 1 = 1
+						   AND a.corp_code = b.corp_code
+						   AND a.pro_code = b.pro_code
+						      
+						   AND a.dele_yn = 'N'
+						   AND a.prdt_type = '1'  
+						   AND a.corp_code = #corpCode# 
+							AND LEFT(a.pro_date, 6) = LEFT(#strtDate#, 6)
+							AND a.plant_code IN (SELECT plant_code
+						                          FROM openmps.tm_platxm a
+						                         WHERE a.grup_plant = #grupPlant#
+						                           AND a.prdt_type = '1'  
+						                           AND a.corp_code = #corpCode#) ) a
+	         GROUP BY ROLLUP(a.meat_type, a.large_code)) AS a 
+	  LEFT JOIN openmps.tm_codexd d ON a.meat_type = d.code_id
+	                              AND d.corp_code = #corpCode#
+	                              AND d.group_code = 'MP010'
+	  LEFT JOIN openmps.tm_codexd e ON a.large_code = e.code_id
+	                              AND e.corp_code = #corpCode#
+	                              AND e.group_code = 'MP006',
+	 (SELECT SUM(a.suyul_wei2) AS bef_g_weig
+	    FROM openmps.mp_yield_info_m a
+	   WHERE a.corp_code = #corpCode# 
+	     AND LEFT(a.work_date, 6) = to_char((to_date(#strtDate#, 'YYYYMMDD') - INTERVAL '1 month'), 'yyyymm') 
+		  AND a.grup_plant = #grupPlant#  
+	 ) AS f,
+	 (SELECT SUM(a.suyul_wei2) as cur_g_weig
+	    FROM openmps.mp_yield_info_m a
+	   WHERE a.corp_code = #corpCode# 
+	     AND LEFT(a.work_date, 6) = LEFT(#strtDate#, 6) 
+		  AND a.grup_plant = #grupPlant#  
+	 )	as g
+	
+	UNION ALL
+	SELECT 100,
+	       NULL,
+	       '감량',
+	       NULL,       
+			 NULL,
+	       bef_g_weig - bef_weig,
+	       to_char((bef_g_weig - bef_weig) / bef_g_weig * 100, '990D99'),
+	       cur_g_weig - cur_weig,
+	       to_char((cur_g_weig - cur_weig) / cur_g_weig * 100, '990D99'),
+	       to_char((cur_g_weig - cur_weig) / cur_g_weig * 100 - (bef_g_weig - bef_weig) / bef_g_weig * 100, '990D99') 
+	  FROM (SELECT SUM(a.suyul_wei2) AS bef_g_weig
+			    FROM openmps.mp_yield_info_m a
+			   WHERE a.corp_code = #corpCode# 
+			     AND LEFT(a.work_date, 6) = to_char((to_date(#strtDate#, 'YYYYMMDD') - INTERVAL '1 month'), 'yyyymm') 
+				  AND a.grup_plant = #grupPlant# 
+			 ) AS a,
+			 (SELECT SUM(a.suyul_wei2) as cur_g_weig
+			    FROM openmps.mp_yield_info_m a
+			   WHERE a.corp_code = #corpCode# 
+			     AND LEFT(a.work_date, 6) = LEFT(#strtDate#, 6) 
+				  AND a.grup_plant = #grupPlant#  
+			 )	as b,	
+			 (SELECT SUM(bef_weig)  AS bef_weig,
+	               SUM(cur_weig)  AS cur_weig
+	          FROM (
+						SELECT a.box_weig AS bef_weig, 0 as cur_weig
+						  FROM openmps.mp_bar_pro_m a, openmps.mp_item_master_m b
+						 WHERE 1 = 1
+						   AND a.corp_code = b.corp_code
+						   AND a.pro_code = b.pro_code
+						      
+						   AND a.dele_yn = 'N'
+						   AND a.prdt_type = '1'  
+						   AND a.corp_code = #corpCode# 
+							AND LEFT(a.pro_date, 6) = to_char((to_date(#strtDate#, 'YYYYMMDD') - INTERVAL '1 month'), 'yyyymm')
+						   AND a.plant_code IN (SELECT plant_code
+						                          FROM openmps.tm_platxm a
+						                         WHERE a.grup_plant = #grupPlant#
+						                           AND a.prdt_type = '1'  
+						                           AND a.corp_code = #corpCode#)
+						UNION ALL
+						SELECT 0, a.box_weig
+						  FROM openmps.mp_bar_pro_m a, openmps.mp_item_master_m b
+						 WHERE 1 = 1
+						   AND a.corp_code = b.corp_code
+						   AND a.pro_code = b.pro_code
+						      
+						   AND a.dele_yn = 'N'
+						   AND a.prdt_type = '1'  
+						   AND a.corp_code = #corpCode# 
+							AND LEFT(a.pro_date, 6) = LEFT(#strtDate#, 6)
+							AND a.plant_code IN (SELECT plant_code
+						                          FROM openmps.tm_platxm a
+						                         WHERE a.grup_plant = #grupPlant#
+						                           AND a.prdt_type = '1'  
+						                           AND a.corp_code = #corpCode#) ) as a) c
+	 ORDER BY 1, 2, 4, 6	
+	]]>	
+	</select>	
+	
+</sqlMap>

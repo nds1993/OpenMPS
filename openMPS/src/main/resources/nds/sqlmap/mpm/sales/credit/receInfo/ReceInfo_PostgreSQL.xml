@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ReceInfo">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="receInfoSerarchVO" type="nds.mpm.sales.credit.vo.ReceInfoDefaultVO"/>
+	
+	<resultMap id="receInfo" class="nds.mpm.sales.credit.vo.ReceInfoVO">
+		<result property="receCode" column="rece_code" columnIndex="1"/>
+		<result property="inoutCode" column="inout_code" columnIndex="2"/>
+		<result property="receDate" column="rece_date" columnIndex="3"/>
+		<result property="custCode" column="cust_code" columnIndex="4"/>
+		<result property="receKumak" column="rece_kumak" columnIndex="5"/>
+		<result property="receKind" column="rece_kind" columnIndex="6"/>
+		<result property="teamCode" column="team_code" columnIndex="7"/>
+		<result property="userCode" column="user_code" columnIndex="8"/>
+		<result property="bankName" column="bank_name" columnIndex="9"/>
+		<result property="bankNo" column="bank_no" columnIndex="10"/>
+		<result property="bankUser" column="bank_user" columnIndex="11"/>
+		<result property="memo" column="memo" columnIndex="12"/>
+		<result property="deleYn" column="dele_yn" columnIndex="13"/>
+		<result property="mdUser" column="md_user" columnIndex="14"/>
+		<result property="mdDate" column="md_date" columnIndex="15"/>
+		<result property="crUser" column="cr_user" columnIndex="16"/>
+		<result property="crDate" column="cr_date" columnIndex="17"/>
+	</resultMap>
+	<sql id="selectWhere_fragment">
+	  	FROM RECE_INFO A, CUST_INFO B 
+		 WHERE A.CUST_CODE  = B.CUST_CODE 
+		   AND A.DELE_YN = 'N' 
+		   AND A.RECE_DATE BETWEEN #beginDate# AND #endDate#
+		   <dynamic> 
+	         <isNotEmpty prepend="and" property="searchKeyword">
+	         	<isEqual property="searchCondition" compareValue="custCode">
+		               A.cust_code = #searchKeyword#
+		         </isEqual>
+		         <isEqual property="searchCondition" compareValue="custName">
+		               B.cust_name LIKE '%' || #searchKeyword# || '%'
+		         </isEqual>
+	         </isNotEmpty>
+		  </dynamic>
+	</sql>
+	<insert id="receInfoDAO.insertReceInfo_S">
+		<![CDATA[
+			INSERT INTO rece_info 
+				( rece_code
+				  , inout_code
+				  , rece_date
+				  , cust_code
+				  , rece_kumak
+				  , rece_kind
+				  , team_code
+				  , user_code
+				  , bank_name
+				  , bank_no
+				  , bank_user
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #receCode#
+				  , #inoutCode#
+				  , #receDate#
+				  , #custCode#
+				  , #receKumak#
+				  , #receKind#
+				  , #teamCode#
+				  , #userCode#
+				  , #bankName#
+				  , #bankNo#
+				  , #bankUser#
+				  , #memo#
+				  , #deleYn#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , #crDate# )
+		]]>
+	</insert>
+	
+	<update id="receInfoDAO.updateReceInfo_S">
+		<![CDATA[
+			UPDATE rece_info
+			SET rece_code=#receCode#
+				, inout_code=#inoutCode#
+				, rece_date=#receDate#
+				, cust_code=#custCode#
+				, rece_kumak=#receKumak#
+				, rece_kind=#receKind#
+				, team_code=#teamCode#
+				, user_code=#userCode#
+				, bank_name=#bankName#
+				, bank_no=#bankNo#
+				, bank_user=#bankUser#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+						WHERE rece_code=#receCode#
+				]]>
+	</update>
+	
+	<delete id="receInfoDAO.deleteReceInfo_S">
+		<![CDATA[
+			DELETE FROM rece_info 
+						WHERE rece_code=#receCode#
+				]]>
+	</delete>
+	
+	<select id="receInfoDAO.selectReceInfo_S" resultMap="receInfo">
+		<![CDATA[
+			SELECT
+				rece_code
+				, inout_code
+				, rece_date
+				, cust_code
+				, rece_kumak
+				, rece_kind
+				, team_code
+				, user_code
+				, bank_name
+				, bank_no
+				, bank_user
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM rece_info
+						WHERE rece_code=#receCode#
+				]]>
+	</select>
+	
+	<select id="receInfoDAO.selectReceInfoList_D" parameterClass="receInfoSerarchVO" resultClass="egovMap">
+		SELECT A.*, B.CUST_NAME, B.HEAD_CODE, B.TEAM_CODE, B.DEPT_CODE, 
+		       B.BANK_NAME, B.BANK_NO, B.BANK_USER, 
+		       (SELECT top 1 HEAD_NAME FROM HEAD_INFO WHERE HEAD_CODE = B.HEAD_CODE) HEAD_NAME, 
+		       (SELECT top 1 TEAM_NAME FROM TEAM_INFO WHERE TEAM_CODE = B.TEAM_CODE) TEAM_NAME,
+		       (SELECT top 1 DEPT_NAME FROM DEPT_INFO WHERE DEPT_CODE = B.DEPT_CODE) DEPT_NAME,
+		       (SELECT top 1 USER_NAME FROM USER_INFO WHERE USER_CODE = B.AFTER_USER) USER_NAME, B.RECE_CODE CRECE_CODE 
+		  
+		<include refid="selectWhere_fragment"/>
+		 ORDER BY A.RECE_DATE DESC
+	</select>	
+	<select id="receInfoDAO.selectReceInfoListTotCnt_S" parameterClass="receInfoSerarchVO" resultClass="int">
+		SELECT count(A.*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

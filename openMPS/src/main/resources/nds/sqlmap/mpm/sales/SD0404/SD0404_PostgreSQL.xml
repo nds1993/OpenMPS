@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD0404">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpOrderHSerarchVO" type="nds.mpm.sales.SD0405.vo.MpOrderHVO"/>
+	
+	<sql id="selectWhere_fragment">
+	  	from openmps.mp_order_h a
+	  	left outer join openmps.mp_order_d b on ( 
+									  	a.corp_code =b.corp_code 
+									  	and a.delv_date = b.delv_date 
+									  	and a.ordr_no = b.ordr_no )
+		left outer join openmps.mp_cust_info c on a.ordr_cust = c.cust_code	
+		inner join openmps.mp_item_master_m m on (b.corp_code = m.corp_code and b.pro_code = m.pro_code )						  	
+		left outer join openmps.sd_dc wmsdc on (a.delv_dc = wmsdc.dc)
+		where a.corp_code = #corpCode#
+		and wmsdc.useyn = 'Y'
+		<dynamic>
+			<isNotEmpty prepend="and" property="ordrCust">
+			 a.ordr_cust = #ordrCust#
+	         </isNotEmpty> 
+			 <isNotEmpty prepend="and" property="delvDate">
+			 a.delv_date = #delvDate#
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="SD0404DAO.selectSD0404List" parameterClass="mpOrderHSerarchVO" resultClass="egovMap">
+		select 
+			a.corp_code
+				, a.delv_date
+				, a.ordr_no
+				, a.delv_dc
+				, wmsdc.dcnm
+				, a.ordr_cust as ordr_cust
+				, c.cust_name
+				, b.pro_code
+				, m.pro_name
+				, coalesce(b.ordr_box, 0) as ordr_box <!-- 주문수량 -->
+				, coalesce(b.ordr_weight, 0) as  ordr_weight <!-- 주문중량 -->
+				, coalesce(b.unit_price, 0) as unit_price<!-- 단가 -->
+				
+		<include refid="selectWhere_fragment"/>
+		order by a.ordr_no, a.ordr_cust, b.pro_code
+	</select>	
+	<select id="SD0404DAO.selectSD0404ListTotCnt" parameterClass="mpOrderHSerarchVO" resultClass="int">
+		select 
+			count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	
+</sqlMap>

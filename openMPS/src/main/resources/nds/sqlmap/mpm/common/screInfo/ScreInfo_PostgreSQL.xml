@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ScreInfo">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="screInfoSerarchVO" type="nds.mpm.common.user.vo.ScreInfoDefaultVO"/>
+	
+	<resultMap id="screInfo" class="nds.mpm.common.user.vo.ScreInfoVO">
+		<result property="screNo" column="scre_no" columnIndex="1"/>
+		<result property="screGubun" column="scre_gubun" columnIndex="2"/>
+		<result property="screId" column="scre_id" columnIndex="3"/>
+		<result property="screName" column="scre_name" columnIndex="4"/>
+		<result property="memo" column="memo" columnIndex="5"/>
+		<result property="deleYn" column="dele_yn" columnIndex="6"/>
+		<result property="mdUser" column="md_user" columnIndex="7"/>
+		<result property="mdDate" column="md_date" columnIndex="8"/>
+		<result property="crUser" column="cr_user" columnIndex="9"/>
+		<result property="crDate" column="cr_date" columnIndex="10"/>
+	</resultMap>
+	
+	<insert id="screInfoDAO.insertScreInfo_S">
+		<![CDATA[
+			INSERT INTO scre_info 
+				( scre_no
+				  , scre_gubun
+				  , scre_id
+				  , scre_name
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #screNo#
+				  , #screGubun#
+				  , #screId#
+				  , #screName#
+				  , #memo#
+				  , #deleYn#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , #crDate# )
+		]]>
+	</insert>
+	
+	<update id="screInfoDAO.updateScreInfo_S">
+		<![CDATA[
+			UPDATE scre_info
+			SET scre_no=#screNo#
+				, scre_gubun=#screGubun#
+				, scre_id=#screId#
+				, scre_name=#screName#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+						WHERE scre_no=#screNo#
+				]]>
+	</update>
+	
+	<delete id="screInfoDAO.deleteScreInfo_S">
+		<![CDATA[
+			DELETE FROM scre_info 
+						WHERE scre_no=#screNo#
+				]]>
+	</delete>
+	
+	<select id="screInfoDAO.selectScreInfo_S" resultMap="screInfo">
+		<![CDATA[
+			SELECT
+				scre_no
+				, scre_gubun
+				, scre_id
+				, scre_name
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM scre_info
+						WHERE scre_no=#screNo#
+				]]>
+	</select>
+	
+	<select id="screInfoDAO.selectScreInfoList_D" parameterClass="screInfoSerarchVO" resultClass="egovMap">
+
+	</select>	
+	<select id="screInfoDAO.selectScreInfoListTotCnt_S" parameterClass="screInfoSerarchVO" resultClass="int">
+
+	</select>
+
+</sqlMap>

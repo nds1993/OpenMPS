@@ -1,0 +1,24 @@
+{
+  "name": "imageeditor",
+  "version": "0.8.1",
+  "startup": {
+  	"widget": "imageeditor-0.8.1.js"
+  },
+  "resource": {
+  	"template": "imageeditor-0.8.1.html"
+  },
+  "dependencies":
+  [
+	  "BaroPanelBase",
+	  "BaroProps",
+	  "Logger",
+	  "osapi",
+	  "excanvas",
+	  "jcrop",
+	  "imagecanvas-0.8.1"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  },
+  "tag":["imageditor",""]
+}

@@ -1,0 +1,225 @@
+{
+    "module": "WorkAreaRenderer",
+    "options": {
+        "className": "contents_box",
+        "order": [
+            "queryBox",
+            "resultBox",
+            "formBox"
+        ],
+        "activation": {
+            "defaultWidget": "",
+            "method": "one-page"
+        },
+        "formBox": {
+            "module": "FormBox",
+            "options": {
+                "className": "form_box",
+                "order": [
+                    "corpCode",
+                    "empCode",
+                    "addressCode",
+                    "ui_input_01",
+                    "ui_input_02",
+                    "ui_input_03",
+                    "ui_input_04",
+                    "ui_input_05",
+                    "ui_input_06"
+                ],
+                "activation": {
+                    "defaultWidget": "",
+                    "method": "one-page"
+                },
+                "custom_form": {
+                    "template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group \"><label class=\"required\">회사</label><div class=\"corpCode_region\"></div></div></div><div class=\"col-xs-4\">&nbsp;</div></div><div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group \"><label>공장코드</label><input type=\"text\" class=\"form-control ui_input_01\" value=\"\" placeholder=\"공장코드를 입력해주세요.\"></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>공장명</label><input type=\"text\" class=\"form-control ui_input_03\" value=\"\" placeholder=\"공장명을 입력해주세요.\"></div></div><div class=\"col-xs-4\">&nbsp;</div></div><div class=\"row\"><div class=\"col-xs-8\"><div class=\"form-group\"><label>주소</label><div class=\"col-xs-6\" style=\"padding-left: 0px; padding-right: 2px;\"><div class=\"addressCode_region\"></div></div><div class=\"col-xs-6\" style=\"padding-left: 0px;\"><input type=\"text\" class=\"form-control ui_input_04\" value=\"\" placeholder=\"상세 주소를 입력해주세요.\"></div></div></div></div><div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group \"><label>구분</label><select class=\"form-control ui_input_02\"><option value=\"\">선택</option><option value=\"1\">직영</option><option value=\"2\">위탁운영</option></select></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>담당자</label><div class=\"empCode_region\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>사용여부</label><input type=\"checkbox\" name=\"ui_input_05\" value=\"1\"></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label>비고</label><input type=\"text\" class=\"form-control ui_input_06\" value=\"\" placeholder=\"비고를 입력해주세요.\"></div></div></div>",
+                    "mode": "form",
+                    "items": {
+                        "corpCode": {
+                            "label": "회사",
+                            "required": true
+                        },
+                        "empCode": {
+                            "label": "담당자",
+                            "required": true
+                        },
+                        "addressCode": {
+                            "label": "주소",
+                            "required": true
+                        },
+                        "ui_input_01": {
+                            "module": "text",
+                            "label": "공장코드",
+                            "selector": ".ui_input_01",
+                            "required": false
+                        },
+                        "ui_input_02": {
+                            "module": "combobox",
+                            "label": "구분",
+                            "selector": ".ui_input_02",
+                            "required": false
+                        },
+                        "ui_input_03": {
+                            "module": "text",
+                            "label": "공장명",
+                            "selector": ".ui_input_03",
+                            "required": false
+                        },
+                        "ui_input_04": {
+                            "module": "text",
+                            "label": "상세주소",
+                            "selector": ".ui_input_04",
+                            "required": false
+                        },
+                        "ui_input_05": {
+                            "module": "checkbox",
+                            "label": "사용여부",
+                            "selector": "[name=ui_input_05]",
+                            "required": false
+                        },
+                        "ui_input_06": {
+                            "module": "text",
+                            "label": "비고",
+                            "selector": ".ui_input_06",
+                            "required": false
+                        }
+                    },
+                    "data": {}
+                },
+                "corpCode": {
+                    "module": "manifest!CodeSearch-1.0.0",
+                    "options": {
+                        "label": "회사",
+                        "required": true
+                    }
+                },
+                "empCode": {
+                    "module": "manifest!CodeSearch-1.0.0",
+                    "options": {
+                        "label": "담당자",
+                        "required": true
+                    }
+                },
+                "addressCode": {
+                    "module": "manifest!CodeSearch-1.0.0",
+                    "options": {
+                        "label": "주소",
+                        "required": true
+                    }
+                }
+            }
+        },
+        "queryBox": {
+            "module": "FormBox",
+            "options": {
+                "module": "FormBox",
+                "className": "query_box",
+                "order": [
+                    "searchKeyword"
+                ],
+                "custom_form": {
+                    "mode": "form",
+                    "template": "<div class=\"form-group form-inline\"><label>공장코드/명</label><input type=\"text\" class=\"form-control searchKeyword\" value=\"\" placeholder=\"공장코드/명 입력\"></div>",
+                    "items": {
+                        "searchKeyword": {
+                            "module": "text",
+                            "label": "공장코드/명",
+                            "selector": ".searchKeyword",
+                            "required": false
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "resultBox": {
+            "module": "manifest!jqGrid-1.0.0",
+            "options": {
+                "className": "resultBox_box grid_box",
+                "gridId": "TMCOOS20_grid_1",
+                "gridParams": {
+                    "data": [],
+                    "colModel": [{
+                        "name": "corpCode",
+                        "label": "회사코드",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "corpName",
+                        "label": "회사명",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "plantCode",
+                        "label": "공장코드",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "plantName",
+                        "label": "공장명",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "userCode",
+                        "label": "담당자",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "plantKind",
+                        "label": "구분",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "addrCode1",
+                        "label": "주소",
+                        "align": "center",
+                        "width": 200
+                    }, {
+                        "name": "useYn",
+                        "label": "사용여부",
+                        "template": "booleanCheckboxFa",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "memo",
+                        "label": "비고",
+                        "align": "center",
+                        "width": 200
+                    }],
+                    "rowNum": 30,
+                    "records": 30,
+                    "rownumWidth": 20,
+                    "rowList": [30, 50, 100, 200, "100000:All"],
+                    "viewrecords": true,
+                    "rownumbers": false,
+                    "toppager": false,
+                    "pager": true,
+                    "shrinkToFit": false,
+                    "multiselect": false,
+                    "editurl": "clientArray",
+                    "loadonce": true,
+                    "width": "auto",
+                    "height": 258,
+                    "iconSet": "fontAwesome",
+                    "autoencode": true,
+                    "altRows": true,
+                    "altclass": "myAltRowClass",
+                    "pagerRightWidth": 140,
+
+                    "caption": "",
+                    "navOptions": {
+                        "del": false
+                    },
+                    "searching": {
+                        "closeAfterSearch": true,
+                        "closeAfterReset": true,
+                        "closeOnEscape": true,
+                        "searchOnEnter": true,
+                        "multipleSearch": true,
+                        "multipleGroup": true,
+                        "showQuery": true
+                    }
+                }
+            }
+        }
+    }
+}

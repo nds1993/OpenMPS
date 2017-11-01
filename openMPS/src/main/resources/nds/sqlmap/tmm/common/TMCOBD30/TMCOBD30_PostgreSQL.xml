@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TMCOBD30">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="TMCOBD30VO" type="nds.tmm.common.TMCOBD30.vo.TMCOBD30VO"/>
+	
+	<resultMap id="TMCOBD30" class="nds.tmm.common.TMCOBD30.vo.TMCOBD30VO">
+		<result property="faqId" column="faq_id" columnIndex="1"/>
+		<result property="faqTitle" column="faq_title" columnIndex="2"/>
+		<result property="question" column="question" columnIndex="3"/>
+		<result property="answer" column="answer" columnIndex="4"/>
+		<result property="corpCode" column="corp_code" columnIndex="5"/>
+		<result property="fileId" column="file_id" columnIndex="6"/>
+		<result property="readCnt" column="read_cnt" columnIndex="7"/>
+		<result property="sortOrder" column="sort_order" columnIndex="8"/>
+		<result property="deleYn" column="dele_yn" columnIndex="9"/>
+		<result property="mdUser" column="md_user" columnIndex="10"/>
+		<result property="mdDate" column="md_date" columnIndex="11"/>
+		<result property="crUser" column="cr_user" columnIndex="12"/>
+		<result property="crDate" column="cr_date" columnIndex="13"/>
+		<result property="crUserName" column="cr_user_name" columnIndex="14"/>
+		<result property="crDate2" column="cr_date2" columnIndex="15"/>
+		<result property="readId" column="read_id" columnIndex="16"/>
+		<result property="contId" column="cont_id" columnIndex="17"/>
+		<result property="bbsCode" column="bbs_code" columnIndex="18"/>
+		<result property="readUser" column="read_user" columnIndex="19"/>
+		<result property="readUsnm" column="read_usnm" columnIndex="20"/>
+		<result property="readDate" column="read_date" columnIndex="21"/>
+		<result property="isFile" column="is_file" columnIndex="22"/>
+	</resultMap>
+	
+	<resultMap id="TMCOBDREDH" class="nds.tmm.common.TMCOBD30.vo.TMCOBD30VO">
+		<result property="readId" column="read_id" columnIndex="1"/>
+		<result property="contId" column="cont_id" columnIndex="2"/>
+		<result property="bbsCode" column="bbs_code" columnIndex="3"/>
+		<result property="readUser" column="read_user" columnIndex="4"/>
+		<result property="readUsnm" column="read_usnm" columnIndex="5"/>
+		<result property="readDate" column="read_date" columnIndex="6"/>
+	</resultMap>
+	
+	<insert id="TMCOBD30DAO.insertTMCOBD30">
+INSERT INTO tm_faqxxm (
+	faq_id, 
+	faq_title, 
+	question, 
+	answer, 
+	corp_code, 
+	file_id, 
+	read_cnt,
+	<isNotEmpty property="sortOrder">
+		sort_order,
+	</isNotEmpty>
+	dele_yn, 
+	cr_user, 
+	cr_date
+) 
+select 
+	(select COALESCE(max(faq_id), 0) + 1 from tm_faqxxm),
+	#faqTitle#,
+	#question#,
+	#answer#,
+	#corpCode#,
+	#fileId#,
+	0,
+	<isNotEmpty property="sortOrder">
+		to_number(#sortOrder#, '9999999999999'),
+	</isNotEmpty>
+	'N',
+	#crUser#,
+	NOW()
+	</insert>
+
+	<update id="TMCOBD30DAO.updateTMCOBD30">
+UPDATE tm_faqxxm
+	SET
+		faq_title=#faqTitle#,
+		question=#question#,
+		answer=#answer#,
+		corp_code=#corpCode#,
+		file_id=#fileId#,
+	<isNotEmpty property="sortOrder">
+		sort_order = to_number(#sortOrder#, '9999999999999'),
+	</isNotEmpty>
+		md_user=#mdUser#,
+		md_date=NOW()
+	WHERE faq_id=to_number(#faqId#, '9999999999999')
+	</update>
+	
+	<update id="TMCOBD30DAO.deleteTMCOBD30">
+		<![CDATA[
+			UPDATE tm_faqxxm
+			SET dele_yn = 'Y',
+				md_user=#mdUser#,			
+				md_date=NOW()
+			WHERE faq_id=to_number(#faqId#, '9999999999999')
+				]]>
+	</update>
+
+	<update id="TMCOBD30DAO.updateReadCntTMCOBD30">
+		<![CDATA[
+			UPDATE tm_faqxxm
+			SET read_cnt = COALESCE(read_cnt, 0) + 1
+			WHERE faq_id=to_number(#faqId#, '9999999999999')
+				]]>
+	</update>
+	
+	<insert id="TMCOBD30DAO.insertBdredhTMCOBD30">
+INSERT INTO tm_bdredh (
+	read_id, cont_id, bbs_code, read_user, read_usnm, read_date
+)
+select 
+		(select COALESCE(max(read_id), 0) + 1 from tm_bdredh),
+		to_number(#contId#, '9999999999999'),
+		#bbsCode#,
+		user_code,
+		user_name,
+		NOW()
+from tm_userxm
+where user_code = #readUser#
+	</insert>
+	
+	<select id="TMCOBD30DAO.selectBdredhTMCOBD30_S" resultMap="TMCOBDREDH">
+		<![CDATA[
+			SELECT *
+			FROM tm_bdredh
+			WHERE cont_id=to_number(#contId#, '9999999999999')
+			and bbs_code = #bbsCode#
+			and read_user = #readUser#
+				]]>
+	</select>
+
+	<select id="TMCOBD30DAO.selectTMCOBD30_S" resultMap="TMCOBD30">
+		<![CDATA[
+			SELECT *
+			FROM tm_faqxxm
+			WHERE faq_id=to_number(#faqId#, '9999999999999')
+				]]>
+	</select>
+	
+	<sql id="selectWhere_fragment">
+		FROM tm_faqxxm A
+		LEFT OUTER JOIN tm_userxm B on B.user_code = A.cr_user
+		WHERE 1=1
+		
+		<dynamic>
+			<isEqual property="searchMode" compareValue="USER">
+				and A.dele_yn = 'N'
+			</isEqual>
+			<isNotEmpty property="corpCode">
+				and A.corp_code = #corpCode#
+			</isNotEmpty>
+			<isNotEmpty property="strtDate">
+				<![CDATA[
+				and to_char(A.cr_date,'YYYY-MM-DD') >= #strtDate#
+				]]>
+			</isNotEmpty>
+			<isNotEmpty property="lastDate">
+				<![CDATA[
+				and to_char(A.cr_date,'YYYY-MM-DD') <= #lastDate#
+				]]>
+			</isNotEmpty>
+			<isNotEmpty property="searchKeyword">
+				<isEqual property="searchCondition" compareValue="10">
+					and a.faq_title like '%' || #searchKeyword# || '%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="20">
+					and (a.question like '%' || #searchKeyword# || '%' or a.answer like '%' || #searchKeyword# || '%')
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="30">
+					and B.user_name like '%' || #searchKeyword# || '%'
+				</isEqual>
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<select id="TMCOBD30DAO.selectTMCOBD30List_D" parameterClass="TMCOBD30VO" resultClass="egovMap">
+		SELECT
+					A.*,
+					B.user_name cr_user_name,
+					to_char(a.cr_date, 'YYYY-MM-DD') cr_date2,
+					CASE WHEN A.file_id is null THEN 'N' else 'Y' END is_file
+		<include refid="selectWhere_fragment"/>
+		ORDER BY COALESCE(A.sort_order, 0) desc, faq_id desc
+	</select>	
+	<select id="TMCOBD30DAO.selectTMCOBD30ListTotCnt_S" parameterClass="TMCOBD30VO" resultClass="int">
+		SELECT count(A.faq_id)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

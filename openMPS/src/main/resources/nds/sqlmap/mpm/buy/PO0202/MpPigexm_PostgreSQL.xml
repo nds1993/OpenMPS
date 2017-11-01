@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpPigexm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpPigexmSerarchVO" type="nds.mpm.buy.PO0202.vo.MpPigexmVO"/>
+	
+	<resultMap id="mpPigexm" class="nds.mpm.buy.PO0202.vo.MpPigexmVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="facKind" column="fac_kind" columnIndex="2"/>
+		<result property="facCode" column="fac_code" columnIndex="3"/>
+		<result property="startDate" column="start_date" columnIndex="4"/>
+		<result property="endDate" column="end_date" columnIndex="5"/>
+		<result property="fromDate" column="from_date" columnIndex="6"/>
+		<result property="toDate" column="to_date" columnIndex="7"/>
+		<result property="compCode" column="comp_code" columnIndex="8"/>
+		<result property="facName" column="fac_name" columnIndex="9"/>
+		<result property="guJiyuk" column="gu_jiyuk" columnIndex="10"/>
+		<result property="pigJiyuk" column="pig_jiyuk" columnIndex="11"/>
+		<result property="pigYul" column="pig_yul" columnIndex="12"/>
+		<result property="guJang" column="gu_jang" columnIndex="13"/>
+		<result property="guKg" column="gu_kg" columnIndex="14"/>
+		<result property="pigP02" column="pig_p02" columnIndex="15"/>
+		<result property="pigP03" column="pig_p03" columnIndex="16"/>
+		<result property="pigP04" column="pig_p04" columnIndex="17"/>
+		<result property="pigP05" column="pig_p05" columnIndex="18"/>
+		<result property="pigP06" column="pig_p06" columnIndex="19"/>
+		<result property="pigP07" column="pig_p07" columnIndex="20"/>
+		<result property="pigP08" column="pig_p08" columnIndex="21"/>
+		<result property="pigP09" column="pig_p09" columnIndex="22"/>
+		<result property="pigP10" column="pig_p10" columnIndex="23"/>
+		<result property="pigP11" column="pig_p11" columnIndex="24"/>
+		<result property="pigP12" column="pig_p12" columnIndex="25"/>
+		<result property="pigP13" column="pig_p13" columnIndex="26"/>
+		<result property="pigP14" column="pig_p14" columnIndex="27"/>
+		<result property="pigP15" column="pig_p15" columnIndex="28"/>
+		<result property="pigP16" column="pig_p16" columnIndex="29"/>
+		<result property="pigP17" column="pig_p17" columnIndex="30"/>
+		<result property="pigP18" column="pig_p18" columnIndex="31"/>
+		<result property="pigP19" column="pig_p19" columnIndex="32"/>
+		<result property="pigP20" column="pig_p20" columnIndex="33"/>
+		<result property="pigP21" column="pig_p21" columnIndex="34"/>
+		<result property="pigP22" column="pig_p22" columnIndex="35"/>
+		<result property="pigP23" column="pig_p23" columnIndex="36"/>
+		<result property="pigP24" column="pig_p24" columnIndex="37"/>
+		<result property="pigP25" column="pig_p25" columnIndex="38"/>
+		<result property="pigP26" column="pig_p26" columnIndex="39"/>
+		<result property="pigP27" column="pig_p27" columnIndex="40"/>
+		<result property="pigP28" column="pig_p28" columnIndex="41"/>
+		<result property="pigP29" column="pig_p29" columnIndex="42"/>
+		<result property="pigP30" column="pig_p30" columnIndex="43"/>
+		<result property="pigP31" column="pig_p31" columnIndex="44"/>
+		<result property="pigP32" column="pig_p32" columnIndex="45"/>
+		<result property="pigP33" column="pig_p33" columnIndex="46"/>
+		<result property="pigP34" column="pig_p34" columnIndex="47"/>
+		<result property="pigP35" column="pig_p35" columnIndex="48"/>
+		<result property="pigP36" column="pig_p36" columnIndex="49"/>
+		<result property="pigP37" column="pig_p37" columnIndex="50"/>
+		<result property="pigP38" column="pig_p38" columnIndex="51"/>
+		<result property="pigP39" column="pig_p39" columnIndex="52"/>
+		<result property="pigP40" column="pig_p40" columnIndex="53"/>
+		<result property="pigP41" column="pig_p41" columnIndex="54"/>
+		<result property="pigP42" column="pig_p42" columnIndex="55"/>
+		<result property="pigP43" column="pig_p43" columnIndex="56"/>
+		<result property="pigP44" column="pig_p44" columnIndex="57"/>
+		<result property="pigP45" column="pig_p45" columnIndex="58"/>
+		<result property="pigP46" column="pig_p46" columnIndex="59"/>
+		<result property="pigP47" column="pig_p47" columnIndex="60"/>
+		<result property="pigP48" column="pig_p48" columnIndex="61"/>
+		<result property="pigP49" column="pig_p49" columnIndex="62"/>
+		<result property="pigP50" column="pig_p50" columnIndex="63"/>
+		<result property="pigP51" column="pig_p51" columnIndex="64"/>
+		<result property="pigP52" column="pig_p52" columnIndex="65"/>
+		<result property="pigP53" column="pig_p53" columnIndex="66"/>
+		<result property="pigP54" column="pig_p54" columnIndex="67"/>
+		<result property="pigP55" column="pig_p55" columnIndex="68"/>
+		<result property="pigP56" column="pig_p56" columnIndex="69"/>
+		<result property="pigP57" column="pig_p57" columnIndex="70"/>
+		<result property="pigP58" column="pig_p58" columnIndex="71"/>
+		<result property="pigP59" column="pig_p59" columnIndex="72"/>
+		<result property="pigSexa1" column="pig_sexa1" columnIndex="73"/>
+		<result property="pigSexb1" column="pig_sexb1" columnIndex="74"/>
+		<result property="pigSexc1" column="pig_sexc1" columnIndex="75"/>
+		<result property="pigSexd1" column="pig_sexd1" columnIndex="76"/>
+		<result property="pigSexe1" column="pig_sexe1" columnIndex="77"/>
+		<result property="pigSexa2" column="pig_sexa2" columnIndex="78"/>
+		<result property="pigSexb2" column="pig_sexb2" columnIndex="79"/>
+		<result property="pigSexc2" column="pig_sexc2" columnIndex="80"/>
+		<result property="pigSexd2" column="pig_sexd2" columnIndex="81"/>
+		<result property="pigSexe2" column="pig_sexe2" columnIndex="82"/>
+		<result property="pigSexa3" column="pig_sexa3" columnIndex="83"/>
+		<result property="pigSexb3" column="pig_sexb3" columnIndex="84"/>
+		<result property="pigSexc3" column="pig_sexc3" columnIndex="85"/>
+		<result property="pigSexd3" column="pig_sexd3" columnIndex="86"/>
+		<result property="pigSexe3" column="pig_sexe3" columnIndex="87"/>
+		<result property="pigBrand1" column="pig_brand1" columnIndex="88"/>
+		<result property="pigBrand2" column="pig_brand2" columnIndex="89"/>
+		<result property="pigBrand3" column="pig_brand3" columnIndex="90"/>
+		<result property="pigTrans1" column="pig_trans1" columnIndex="91"/>
+		<result property="pigTrans2" column="pig_trans2" columnIndex="92"/>
+		<result property="pigGong1" column="pig_gong1" columnIndex="93"/>
+		<result property="pigGong2" column="pig_gong2" columnIndex="94"/>
+		<result property="addGradea" column="add_gradea" columnIndex="95"/>
+		<result property="addGradeb" column="add_gradeb" columnIndex="96"/>
+		<result property="addGradec" column="add_gradec" columnIndex="97"/>
+		<result property="addGradee" column="add_gradee" columnIndex="98"/>
+		<result property="addGen1" column="add_gen1" columnIndex="99"/>
+		<result property="add1From" column="add1_from" columnIndex="100"/>
+		<result property="add1To" column="add1_to" columnIndex="101"/>
+		<result property="addGen2" column="add_gen2" columnIndex="102"/>
+		<result property="add2From" column="add2_from" columnIndex="103"/>
+		<result property="add2To" column="add2_to" columnIndex="104"/>
+		<result property="addGen3" column="add_gen3" columnIndex="105"/>
+		<result property="add3From" column="add3_from" columnIndex="106"/>
+		<result property="add3To" column="add3_to" columnIndex="107"/>
+		<result property="incGen1" column="inc_gen1" columnIndex="108"/>
+		<result property="inc1From" column="inc1_from" columnIndex="109"/>
+		<result property="inc1To" column="inc1_to" columnIndex="110"/>
+		<result property="incGen2" column="inc_gen2" columnIndex="111"/>
+		<result property="inc2From" column="inc2_from" columnIndex="112"/>
+		<result property="inc2To" column="inc2_to" columnIndex="113"/>
+		<result property="incGen3" column="inc_gen3" columnIndex="114"/>
+		<result property="inc3From" column="inc3_from" columnIndex="115"/>
+		<result property="inc3To" column="inc3_to" columnIndex="116"/>
+		<result property="memo" column="memo" columnIndex="117"/>
+		<result property="deleYn" column="dele_yn" columnIndex="118"/>
+		<result property="mdUser" column="md_user" columnIndex="119"/>
+		<result property="mdDate" column="md_date" columnIndex="120"/>
+		<result property="crUser" column="cr_user" columnIndex="121"/>
+		<result property="crDate" column="cr_date" columnIndex="122"/>
+	</resultMap>
+	<!-- insert, update
+		fac_kind, fac_code 와 일치하는 조건이 없으면 신규 추가.
+		fac_kind, fac_code 와 일치하는 조건이 있으면 업데이트 쿼리가 처리됨.
+		신규시 중복체크는 서비스로직에서 함.
+		업데이트시에도 사용함.
+	  -->
+	<insert id="mpPigexmDAO.insertMpPigexm">
+		<selectKey resultClass="java.lang.String" keyProperty="facCode">
+          select  #facCode#
+      	</selectKey>
+			INSERT INTO openmps.mp_pigexm 
+				( corp_code
+				  , fac_kind
+				  , fac_code
+				  , start_date
+				  , end_date
+				  , from_date
+				  , to_date
+				  , comp_code
+				  , fac_name
+				  , gu_jiyuk
+				  , pig_jiyuk
+				  , pig_yul
+				  , gu_jang
+				  , gu_kg
+				  , pig_p02
+				  , pig_p03
+				  , pig_p04
+				  , pig_p05
+				  , pig_p06
+				  , pig_p07
+				  , pig_p08
+				  , pig_p09
+				  , pig_p10
+				  , pig_p11
+				  , pig_p12
+				  , pig_p60
+				  , pig_p61
+				  , pig_p62
+				  , pig_p59
+				  , pig_sexa1
+				  , pig_sexb1
+				  , pig_sexc1
+				  , pig_sexd1
+				  , pig_sexe1
+				  , pig_sexa2
+				  , pig_sexb2
+				  , pig_sexc2
+				  , pig_sexd2
+				  , pig_sexe2
+				  , pig_sexa3
+				  , pig_sexb3
+				  , pig_sexc3
+				  , pig_sexd3
+				  , pig_sexe3
+				  , pig_brand1
+				  , pig_brand2
+				  , pig_brand3
+				  , pig_trans1
+				  , pig_trans2
+				  , pig_gong1
+				  , pig_gong2
+				  , add_gradea
+				  , add_gradeb
+				  , add_gradec
+				  , add_gradee
+				  , add_gen1
+				  , add1_from
+				  , add1_to
+				  , add_gen2
+				  , add2_from
+				  , add2_to
+				  , add_gen3
+				  , add3_from
+				  , add3_to
+				  , inc_gen1
+				  , inc1_from
+				  , inc1_to
+				  , inc_gen2
+				  , inc2_from
+				  , inc2_to
+				  , inc_gen3
+				  , inc3_from
+				  , inc3_to
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #facKind#
+				  , #facCode#
+				  , #startDate#
+				  , #endDate#
+				  , #fromDate#
+				  , #toDate#
+				  , #compCode#
+				  , #facName#
+				  , #guJiyuk#
+				  , #pigJiyuk#::numeric(11,0)
+				  , #pigYul#::numeric(11,0)
+				  , #guJang#::numeric(11,0)
+				  , #guKg#::numeric(11,0)
+				  , #pigP02#::numeric(11,0)
+				  , #pigP03#::numeric(11,0)
+				  , #pigP04#::numeric(11,0)
+				  , #pigP05#::numeric(11,0)
+				  , #pigP06#::numeric(11,0)
+				  , #pigP07#::numeric(11,0)
+				  , #pigP08#::numeric(11,0)
+				  , #pigP09#::numeric(11,0)
+				  , #pigP10#::numeric(11,0)
+				  , #pigP11#::numeric(11,0)
+				  , #pigP12#::numeric(11,0)
+				  , #pigP60#::numeric(11,0)
+				  , #pigP61#::numeric(11,0)
+				  , #pigP62#::numeric(11,0)
+				  , #pigP59#::numeric(11,0)
+				  , #pigSexa1#::numeric(11,0)
+				  , #pigSexb1#::numeric(11,0)
+				  , #pigSexc1#::numeric(11,0)
+				  , #pigSexd1#::numeric(11,0)
+				  , #pigSexe1#::numeric(11,0)
+				  , #pigSexa2#::numeric(11,0)
+				  , #pigSexb2#::numeric(11,0)
+				  , #pigSexc2#::numeric(11,0)
+				  , #pigSexd2#::numeric(11,0)
+				  , #pigSexe2#::numeric(11,0)
+				  , #pigSexa3#::numeric(11,0)
+				  , #pigSexb3#::numeric(11,0)
+				  , #pigSexc3#::numeric(11,0)
+				  , #pigSexd3#::numeric(11,0)
+				  , #pigSexe3#::numeric(11,0)
+				  , #pigBrand1#::numeric(11,0)
+				  , #pigBrand2#::numeric(11,0)
+				  , #pigBrand3#::numeric(11,0)
+				  , #pigTrans1#::numeric(11,0)
+				  , #pigTrans2#::numeric(11,0)
+				  , #pigGong1#::numeric(11,0)
+				  , #pigGong2#::numeric(11,0)
+				  , #addGradea#::numeric(11,0)
+				  , #addGradeb#::numeric(11,0)
+				  , #addGradec#::numeric(11,0)
+				  , #addGradee#::numeric(11,0)
+				  , #addGen1#::numeric(11,0)
+				  , #add1From#::numeric(11,0)
+				  , #add1To#::numeric(11,0)
+				  , #addGen2#::numeric(11,0)
+				  , #add2From#::numeric(11,0)
+				  , #add2To#::numeric(11,0)
+				  , #addGen3#::numeric(11,0)
+				  , #add3From#::numeric(11,0)
+				  , #add3To#::numeric(11,0)
+				  , #incGen1#::numeric(11,0)
+				  , #inc1From#::numeric(11,0)
+				  , #inc1To#::numeric(11,0)
+				  , #incGen2#::numeric(11,0)
+				  , #inc2From#::numeric(11,0)
+				  , #inc2To#::numeric(11,0)
+				  , #incGen3#::numeric(11,0)
+				  , #inc3From#::numeric(11,0)
+				  , #inc3To#::numeric(11,0)
+				  , #memo#
+				  , 'N'
+				  , #mdUser#
+				  , now()
+				  , #crUser#
+				  , now() )
+		ON CONFLICT (corp_code, fac_kind, fac_code, start_date)
+    		DO UPDATE SET
+    			end_date=#endDate#
+				, from_date=#fromDate#
+				, to_date=#toDate#
+				, comp_code=#compCode#
+				, fac_name=#facName#
+				, gu_jiyuk=#guJiyuk#
+				, pig_jiyuk=#pigJiyuk#::numeric(11,0)
+				, pig_yul=#pigYul#::numeric(11,0)
+				, gu_jang=#guJang#::numeric(11,0)
+				, gu_kg=#guKg#::numeric(11,0)
+				, pig_p02=#pigP02#::numeric(11,0)
+				, pig_p03=#pigP03#::numeric(11,0)
+				, pig_p04=#pigP04#::numeric(11,0)
+				, pig_p05=#pigP05#::numeric(11,0)
+				, pig_p06=#pigP06#::numeric(11,0)
+				, pig_p07=#pigP07#::numeric(11,0)
+				, pig_p08=#pigP08#::numeric(11,0)
+				, pig_p09=#pigP09#::numeric(11,0)
+				, pig_p10=#pigP10#::numeric(11,0)
+				, pig_p11=#pigP11#::numeric(11,0)
+				, pig_p12=#pigP12#::numeric(11,0)
+				, pig_p60=#pigP60#::numeric(11,0)
+				, pig_p61=#pigP61#::numeric(11,0)
+				, pig_p62=#pigP62#::numeric(11,0)
+				, pig_p59=#pigP59#::numeric(11,0)
+				, pig_sexa1=#pigSexa1#::numeric(11,0)
+				, pig_sexb1=#pigSexb1#::numeric(11,0)
+				, pig_sexc1=#pigSexc1#::numeric(11,0)
+				, pig_sexd1=#pigSexd1#::numeric(11,0)
+				, pig_sexe1=#pigSexe1#::numeric(11,0)
+				, pig_sexa2=#pigSexa2#::numeric(11,0)
+				, pig_sexb2=#pigSexb2#::numeric(11,0)
+				, pig_sexc2=#pigSexc2#::numeric(11,0)
+				, pig_sexd2=#pigSexd2#::numeric(11,0)
+				, pig_sexe2=#pigSexe2#::numeric(11,0)
+				, pig_sexa3=#pigSexa3#::numeric(11,0)
+				, pig_sexb3=#pigSexb3#::numeric(11,0)
+				, pig_sexc3=#pigSexc3#::numeric(11,0)
+				, pig_sexd3=#pigSexd3#::numeric(11,0)
+				, pig_sexe3=#pigSexe3#::numeric(11,0)
+				, pig_brand1=#pigBrand1#::numeric(11,0)
+				, pig_brand2=#pigBrand2#::numeric(11,0)
+				, pig_brand3=#pigBrand3#::numeric(11,0)
+				, pig_trans1=#pigTrans1#::numeric(11,0)
+				, pig_trans2=#pigTrans2#::numeric(11,0)
+				, pig_gong1=#pigGong1#::numeric(11,0)
+				, pig_gong2=#pigGong2#::numeric(11,0)
+				, add_gradea=#addGradea#::numeric(11,0)
+				, add_gradeb=#addGradeb#::numeric(11,0)
+				, add_gradec=#addGradec#::numeric(11,0)
+				, add_gradee=#addGradee#::numeric(11,0)
+				, add_gen1=#addGen1#::numeric(11,0)
+				, add1_from=#add1From#::numeric(11,0)
+				, add1_to=#add1To#::numeric(11,0)
+				, add_gen2=#addGen2#::numeric(11,0)
+				, add2_from=#add2From#::numeric(11,0)
+				, add2_to=#add2To#::numeric(11,0)
+				, add_gen3=#addGen3#::numeric(11,0)
+				, add3_from=#add3From#::numeric(11,0)
+				, add3_to=#add3To#::numeric(11,0)
+				, inc_gen1=#incGen1#::numeric(11,0)
+				, inc1_from=#inc1From#::numeric(11,0)
+				, inc1_to=#inc1To#::numeric(11,0)
+				, inc_gen2=#incGen2#::numeric(11,0)
+				, inc2_from=#inc2From#::numeric(11,0)
+				, inc2_to=#inc2To#::numeric(11,0)
+				, inc_gen3=#incGen3#::numeric(11,0)
+				, inc3_from=#inc3From#::numeric(11,0)
+				, inc3_to=#inc3To#::numeric(11,0)
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+	</insert>
+	
+	<update id="mpPigexmDAO.updateMpPigexm">
+		<![CDATA[
+			UPDATE openmps.mp_pigexm
+			SET 
+				end_date=#endDate#
+				, from_date=#fromDate#
+				, to_date=#toDate#
+				, comp_code=#compCode#
+				, fac_name=#facName#
+				, gu_jiyuk=#guJiyuk#
+				, pig_jiyuk=#pigJiyuk#::numeric(11,0)
+				, pig_yul=#pigYul#::numeric(11,0)
+				, gu_jang=#guJang#::numeric(11,0)
+				, gu_kg=#guKg#::numeric(11,0)
+				, pig_p02=#pigP02#::numeric(11,0)
+				, pig_p03=#pigP03#::numeric(11,0)
+				, pig_p04=#pigP04#::numeric(11,0)
+				, pig_p05=#pigP05#::numeric(11,0)
+				, pig_p06=#pigP06#::numeric(11,0)
+				, pig_p07=#pigP07#::numeric(11,0)
+				, pig_p08=#pigP08#::numeric(11,0)
+				, pig_p09=#pigP09#::numeric(11,0)
+				, pig_p10=#pigP10#::numeric(11,0)
+				, pig_p11=#pigP11#::numeric(11,0)
+				, pig_p12=#pigP12#::numeric(11,0)
+				, pig_p60=#pigP60#::numeric(11,0)
+				, pig_p61=#pigP61#::numeric(11,0)
+				, pig_p62=#pigP62#::numeric(11,0)
+				, pig_p59=#pigP59#::numeric(11,0)
+				, pig_sexa1=#pigSexa1#::numeric(11,0)
+				, pig_sexb1=#pigSexb1#::numeric(11,0)
+				, pig_sexc1=#pigSexc1#::numeric(11,0)
+				, pig_sexd1=#pigSexd1#::numeric(11,0)
+				, pig_sexe1=#pigSexe1#::numeric(11,0)
+				, pig_sexa2=#pigSexa2#::numeric(11,0)
+				, pig_sexb2=#pigSexb2#::numeric(11,0)
+				, pig_sexc2=#pigSexc2#::numeric(11,0)
+				, pig_sexd2=#pigSexd2#::numeric(11,0)
+				, pig_sexe2=#pigSexe2#::numeric(11,0)
+				, pig_sexa3=#pigSexa3#::numeric(11,0)
+				, pig_sexb3=#pigSexb3#::numeric(11,0)
+				, pig_sexc3=#pigSexc3#::numeric(11,0)
+				, pig_sexd3=#pigSexd3#::numeric(11,0)
+				, pig_sexe3=#pigSexe3#::numeric(11,0)
+				, pig_brand1=#pigBrand1#::numeric(11,0)
+				, pig_brand2=#pigBrand2#::numeric(11,0)
+				, pig_brand3=#pigBrand3#::numeric(11,0)
+				, pig_trans1=#pigTrans1#::numeric(11,0)
+				, pig_trans2=#pigTrans2#::numeric(11,0)
+				, pig_gong1=#pigGong1#::numeric(11,0)
+				, pig_gong2=#pigGong2#::numeric(11,0)
+				, add_gradea=#addGradea#::numeric(11,0)
+				, add_gradeb=#addGradeb#::numeric(11,0)
+				, add_gradec=#addGradec#::numeric(11,0)
+				, add_gradee=#addGradee#::numeric(11,0)
+				, add_gen1=#addGen1#::numeric(11,0)
+				, add1_from=#add1From#::numeric(11,0)
+				, add1_to=#add1To#::numeric(11,0)
+				, add_gen2=#addGen2#::numeric(11,0)
+				, add2_from=#add2From#::numeric(11,0)
+				, add2_to=#add2To#::numeric(11,0)
+				, add_gen3=#addGen3#::numeric(11,0)
+				, add3_from=#add3From#::numeric(11,0)
+				, add3_to=#add3To#::numeric(11,0)
+				, inc_gen1=#incGen1#::numeric(11,0)
+				, inc1_from=#inc1From#::numeric(11,0)
+				, inc1_to=#inc1To#::numeric(11,0)
+				, inc_gen2=#incGen2#::numeric(11,0)
+				, inc2_from=#inc2From#::numeric(11,0)
+				, inc2_to=#inc2To#::numeric(11,0)
+				, inc_gen3=#incGen3#::numeric(11,0)
+				, inc3_from=#inc3From#::numeric(11,0)
+				, inc3_to=#inc3To#::numeric(11,0)
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND fac_kind=#facKind#
+								AND fac_code=#facCode#
+								AND start_date = #startDate#
+				]]>
+	</update>
+	
+	<delete id="mpPigexmDAO.deleteMpPigexm">
+		<![CDATA[
+			update openmps.mp_pigexm 
+					set dele_yn='Y'
+						,md_user=#mdUser#
+						,md_date=now()
+						WHERE corp_code=#corpCode#
+								AND fac_kind=#facKind#
+								AND fac_code=#facCode#
+								AND start_date = #startDate#
+				]]>
+	</delete>
+	
+	<select id="mpPigexmDAO.selectMpPigexm_S" resultClass="egovMap">
+		<![CDATA[
+			SELECT
+				corp_code
+				, fac_kind
+				, fac_code
+				, start_date
+				, end_date
+				, from_date
+				, to_date
+				, comp_code
+				, fac_name
+				, gu_jiyuk
+				, pig_jiyuk
+				, pig_yul
+				, gu_jang
+				, gu_kg
+				, pig_p02
+				, pig_p03
+				, pig_p04
+				, pig_p05
+				, pig_p06
+				, pig_p07
+				, pig_p08
+				, pig_p09
+				, pig_p10
+				, pig_p11
+				, pig_p12
+				, pig_p60
+				, pig_p61
+				, pig_p62
+				, pig_p59
+				, pig_sexa1
+				, pig_sexb1
+				, pig_sexc1
+				, pig_sexd1
+				, pig_sexe1
+				, pig_sexa2
+				, pig_sexb2
+				, pig_sexc2
+				, pig_sexd2
+				, pig_sexe2
+				, pig_sexa3
+				, pig_sexb3
+				, pig_sexc3
+				, pig_sexd3
+				, pig_sexe3
+				, pig_brand1
+				, pig_brand2
+				, pig_brand3
+				, pig_trans1
+				, pig_trans2
+				, pig_gong1
+				, pig_gong2
+				, add_gradea
+				, add_gradeb
+				, add_gradec
+				, add_gradee
+				, add_gen1
+				, add1_from
+				, add1_to
+				, add_gen2
+				, add2_from
+				, add2_to
+				, add_gen3
+				, add3_from
+				, add3_to
+				, inc_gen1
+				, inc1_from
+				, inc1_to
+				, inc_gen2
+				, inc2_from
+				, inc2_to
+				, inc_gen3
+				, inc3_from
+				, inc3_to
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM openmps.mp_pigexm
+						WHERE corp_code=#corpCode#
+								AND fac_kind=#facKind#
+								AND fac_code=#facCode#
+								AND start_date = #startDate#
+								AND end_date = #endDate#
+				]]>
+	</select>
+	<sql id="selectDefaultColumn_fragment">
+	  	corp_code
+		, fac_kind
+		, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PO001',a.fac_kind) fac_kindname
+		, fac_code
+		, start_date
+		, end_date
+		, from_date
+		, to_date
+		, comp_code
+		, fac_name
+		, pig_jiyuk
+		, pig_yul
+		, gu_jang
+		, gu_kg
+		, pig_p02
+		, pig_p03
+		, pig_p04
+		, pig_p05
+		, pig_p06
+		, pig_p07
+		, pig_p08
+		, pig_p09
+		, pig_p10
+		, pig_p11
+		, pig_p12
+		, pig_p60
+		, pig_p61
+		, pig_p62
+		, pig_p59
+		, pig_sexa1
+		, pig_sexb1
+		, pig_sexc1
+		, pig_sexd1
+		, pig_sexe1
+		, pig_sexa2
+		, pig_sexb2
+		, pig_sexc2
+		, pig_sexd2
+		, pig_sexe2
+		, pig_sexa3
+		, pig_sexb3
+		, pig_sexc3
+		, pig_sexd3
+		, pig_sexe3
+		, pig_brand3
+		, pig_gong1
+		, pig_gong2
+		, add_gen1
+		, add1_from
+		, add1_to
+		, add_gen2
+		, add2_from
+		, add2_to
+		, add_gen3
+		, add3_from
+		, add3_to
+		, inc_gen1
+		, inc1_from
+		, inc1_to
+		, inc_gen2
+		, inc2_from
+		, inc2_to
+		, inc_gen3
+		, inc3_from
+		, inc3_to
+		, add_gradea
+		, add_gradeb
+	</sql>
+	<sql id="selectWhere_fragment">
+	  	FROM openmps.mp_pigexm a
+		where a.corp_code = #corpCode#
+		<isNotEmpty property="facKind">
+			and a.fac_kind = #facKind#
+		</isNotEmpty>
+		<isNotEmpty property="facCode">
+			and a.fac_code = #facCode#
+		</isNotEmpty>
+		<isNotEmpty property="endDate">
+		<![CDATA[
+			and a.start_date <= #endDate#
+		]]>
+		</isNotEmpty>
+		<isNotEmpty property="startDate">
+		<![CDATA[
+			and a.end_date >= #startDate#
+		]]>
+		</isNotEmpty>
+			and a.dele_yn = 'N'
+	</sql>
+	
+	<!-- 조회리스트  -->
+	<select id="mpPigexmDAO.selectMpPigexmList_D" parameterClass="mpPigexmSerarchVO" resultClass="egovMap">
+		select 
+		<include refid="selectDefaultColumn_fragment"/>	
+		<include refid="selectWhere_fragment"/>
+		order by a.start_date
+	</select>	
+	<select id="mpPigexmDAO.selectMpPigexmListTotCnt_S" parameterClass="mpPigexmSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<select id="mpPigexmDAO.selectMpPigexmCodeList" parameterClass="mpPigexmSerarchVO" resultClass="egovMap">
+		select 
+			fac_code as code
+			,fac_name as label
+		<include refid="selectWhere_fragment"/>
+		group by fac_code, fac_name
+		order by fac_code, fac_name
+	</select>
+	
+	<select id="mpPigexmDAO.checkMpPigexmFacCode" resultClass="int">
+		select 
+			count(fac_code)
+		FROM openmps.mp_pigexm a
+		where a.corp_code = #corpCode#
+		and a.fac_code = #facCode#
+	</select>
+	
+	<select id="mpPigexmDAO.checkMpPigdxmDochCnt" resultClass="int">
+		select 
+			count(doch_code)
+		FROM openmps.mp_pigdxm a
+		where a.corp_code = #corpCode#
+		and a.fac_code = #facCode#
+		and a.fac_kind = #facKind#
+		and a.doch_date between #startDate# and #endDate#
+	</select>
+	
+	<!-- 최근일자조회 -->
+	<select id="mpPigexmDAO.selectMpPigexmRecentList" parameterClass="mpPigexmSerarchVO" resultClass="egovMap">
+		select 
+		<include refid="selectDefaultColumn_fragment"/>	
+		<include refid="selectWhere_fragment"/>
+		order by a.start_date desc
+		limit 1
+	</select>
+	
+	<!-- 
+	생돈정산시 기존 정산일자 조회.
+	facCode, startDate 조회 팝업목록리스트용 컬럼만 조회.
+	facCode 중복체크에도 사용 -->
+	<select id="mpPigexmDAO.selectMpPigexmFacCodeList" resultClass="egovMap">
+	
+		select
+			corp_code
+			,fac_kind
+			,openmps."FN_GET_TMCODEXDNM"(a.corp_code,'SD014',a.fac_kind) as fac_kindname
+			,fac_code
+			,fac_name
+			,start_date
+			,end_date
+		from openmps.mp_pigexm a
+		where corp_code=#corpCode#
+		and fac_kind=#facKind#
+		<isNotEmpty property="facCode">
+		and fac_code=#facCode#
+		and dele_yn='N'
+		</isNotEmpty>
+		<isNotEmpty property="startDate">
+			<isNotEmpty property="endDate">
+			<![CDATA[
+			AND start_date >= #startDate# AND end_date <= #endDate#
+			]]>	
+			</isNotEmpty>
+		</isNotEmpty>
+		
+	</select>
+	<!-- 지육시세 기준일자 조회 
+		
+		출하일 기준 적용시세
+		월,화 (출하일전주) 수/목/금 (출하일주) 월/화 지육시세 산술평균 
+		수목금 ( 출하일주) 월 ~ 금 
+	 -->
+	<select id="mpPigexmDAO.selectJiyukPeriod" resultClass="egovMap">
+	<![CDATA[
+		select 
+		(case 	when extract(dow from #startDate#::date ) <= 2
+			then to_char(date_trunc('week', #startDate#::date)::date - 5, 'YYYY-MM-DD')
+			when extract(dow from #startDate#::date ) >= 3
+			then to_char(date_trunc('week', #startDate#::date)::date, 'YYYY-MM-DD') 
+			else to_char(#startDate#::date,'YYYY-MM-DD') end ) start_date
+		,
+		(case 	when extract(dow from #startDate#::date ) <= 2
+			then to_char(( date_trunc('week', #startDate#::date)::date + 1 ), 'YYYY-MM-DD')
+			when extract(dow from #startDate#::date ) >= 3
+			then to_char(date_trunc('week', #startDate#::date)::date + 4, 'YYYY-MM-DD')
+			else to_char(#endDate#::date,'YYYY-MM-DD') end ) end_date	
+	]]>
+	</select>
+	
+	<!-- 평균지육시세 -->
+	<select id="mpPigexmDAO.selectMpPigexmJiyukAvg" resultClass="egovMap">
+	
+		select
+			#startDate# as from_date
+			,#endDate# as to_date
+			,0 pig_p02
+			,0 pig_p03
+			,0 pig_p04 
+			<isEqual property="facKind" compareValue="3">
+			,avg(a_price1)::numeric(11,0) as pig_sexa1
+			,avg(b_price1)::numeric(11,0) as pig_sexb1
+			,avg(c_price1)::numeric(11,0) as pig_sexc1
+			,avg(d_price1)::numeric(11,0) as pig_sexe1
+			,avg(a_price2)::numeric(11,0) as pig_sexa2
+			,avg(b_price2)::numeric(11,0) as pig_sexb2
+			,avg(c_price2)::numeric(11,0) as pig_sexc2
+			,avg(d_price2)::numeric(11,0) as pig_sexe2
+			,avg(a_price3)::numeric(11,0) as pig_sexa3
+			,avg(b_price3)::numeric(11,0) as pig_sexb3
+			,avg(c_price3)::numeric(11,0) as pig_sexc3
+			,avg(d_price3)::numeric(11,0) as pig_sexe3
+			,avg(a_tot_price1::numeric(11,0)) as pig_jiyuk
+			</isEqual>
+			<isEqual property="facKind" compareValue="1">
+			,avg(a1_price1)::numeric(11,0) as pig_sexa1
+			,avg(b1_price1)::numeric(11,0) as pig_sexb1
+			,avg(c1_price1)::numeric(11,0) as pig_sexc1
+			,avg(d1_price1)::numeric(11,0) as pig_sexe1
+			,avg(a1_price2)::numeric(11,0) as pig_sexa2
+			,avg(b1_price2)::numeric(11,0) as pig_sexb2
+			,avg(c1_price2)::numeric(11,0) as pig_sexc2
+			,avg(d1_price2)::numeric(11,0) as pig_sexe2
+			,avg(a1_price3)::numeric(11,0) as pig_sexa3
+			,avg(b1_price3)::numeric(11,0) as pig_sexb3
+			,avg(c1_price3)::numeric(11,0) as pig_sexc3
+			,avg(d1_price3)::numeric(11,0) as pig_sexe3
+			,avg(a1_tot_price1::numeric::numeric(11,0)) as pig_jiyuk
+			</isEqual>
+	<![CDATA[
+		FROM openmps.mp_pigixm
+		WHERE corp_code=#corpCode#
+		and jiyuk_date >= #startDate# and jiyuk_date <= #endDate#
+		and dele_yn='N'
+	]]>
+	</select>
+	<!-- 생돈정산함수호출 -->
+	<select id="mpPigexmDAO.callAdjustFnPO0202Call" resultClass="egovMap">
+		
+		select o_doch_code_cnt , o_result_code , o_result_msg
+		from openmps."FN_PO0202_PIG_ADJUST"(
+			    #corpCode#,
+			    #facKind#,
+			    #facCode#,
+			    #startDate#,
+			    #endDate#,
+			    #mdUser#) 
+		<!-- TEST
+		select o_doch_code_cnt , o_result_code , o_result_msg
+		from openmps."FN_PO0202_PIG_ADJUST"(
+			    '1001',
+			    '1',
+			    '1',
+			    '20170801',
+			    '20170801',
+			    'handon')	
+		-->    
+	</select>
+	
+	<!-- 신규생성시 이력저장, 최근일자 종료일 업데이트  -->
+	<update id="mpPigexmDAO.updateRecentMpPigexmHist">
+	update openmps.mp_pigexm 
+	set 
+		end_date=to_char((#closeDate#::date - 1 ), 'YYYYMMDD')
+		,md_user=#mdUser#
+		,md_date=now()
+		WHERE corp_code=#corpCode#
+				AND fac_kind=#facKind#
+				AND fac_code=#facCode#
+				AND start_date = #startDate#
+	</update>
+</sqlMap>

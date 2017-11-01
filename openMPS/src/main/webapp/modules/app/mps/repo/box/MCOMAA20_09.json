@@ -1,0 +1,401 @@
+{
+	"module": "WorkAreaRenderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"formBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"userCode",
+					"userName",
+					"userPass",
+					"userOpass",
+					"tabArea"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\" style=\"height:202px\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">사용자코드</label><input type=\"text\" class=\"form-control userCode\" value=\"\"></div><div class=\"form-group\"><label class=\"required\">사용자명</label><input type=\"text\" class=\"form-control userName\" value=\"\"></div><div class=\"form-group\"><label class=\"required\">현비밀번호</label><input type=\"text\" class=\"form-control userPass\" value=\"\"></div><div class=\"form-group\"><label>전비밀번호</label><input type=\"text\" class=\"form-control userOpass\" value=\"\"></div></div><div class=\"col-xs-8 tabArea_region\"></div></div>",
+					"mode": "form",
+					"items": {
+						"userCode": {
+							"module": "text",
+							"label": "사용자코드",
+							"selector": ".userCode",
+							"required": true
+						},
+						"userName": {
+							"module": "text",
+							"label": "사용자명",
+							"selector": ".userName",
+							"required": true
+						},
+						"userPass": {
+							"module": "text",
+							"label": "현비밀번호",
+							"selector": ".userPass",
+							"required": true
+						},
+						"userOpass": {
+							"module": "text",
+							"label": "전비밀번호",
+							"selector": ".userOpass",
+							"required": false
+						},
+						"tabArea": {
+							"label": "tabArea",
+							"required": false
+						}
+					},
+					"data": {}
+				},
+				"tabArea": {
+					"module": "FormBox",
+					"options": {
+						"className": "tabarea_box",
+						"order": [
+							"tab_baseInfo",
+							"tab_address"
+						],
+						"activation": {
+							"defaultWidget": "tab_baseInfo",
+							"method": "show-hide",
+							"navigator": {
+								"options": {
+									"pos": "top",
+									"closeButton": false,
+									"label": {
+										"tab_baseInfo": "기본정보",
+										"tab_address": "주소정보"
+									},
+									"pos": "top"
+								}
+							}
+						},
+						"custom_form": {
+							"mode": "form",
+							"items": {
+								"tab_baseInfo": {
+									"label": "기본정보",
+									"required": false
+								},
+								"tab_address": {
+									"label": "주소",
+									"required": false
+								}
+							},
+							"data": {}
+						},
+						"tab_baseInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_baseInfo_box",
+								"order": [
+									"phone",
+									"mobile",
+									"headCode",
+									"teamCode",
+									"deptCode",
+									"okYn",
+									"adminYn",
+									"staffYn",
+									"gitaCode1",
+									"gitaCode2",
+									"memo"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-6\"><div class=\"form-group\"><label>전화번호</label><input type=\"text\" class=\"form-control phone\" value=\"\"></div><div class=\"form-group\"><label>핸드폰</label><input type=\"text\" class=\"form-control mobile\" value=\"\"></div><div class=\"form-group\"><label>본부코드</label><div class=\"headCode_region\"></div></div><div class=\"form-group\"><label>팀코드</label><div class=\"teamCode_region\"></div></div><div class=\"form-group\"><label>부서코드</label><div class=\"deptCode_region\"></div></div></div><div class=\"col-xs-6\"><div class=\"form-group\"><label class=\"sr-only\">승인여부</label><div class=\"checkbox_box\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"okYn\" value=\"1\"><span class=\"title\">승인여부</span></label></div></div></div><div class=\"form-group\"><label class=\"sr-only\">관리자여부</label><div class=\"checkbox_box\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"adminYn\" value=\"1\"><span class=\"title\">관리자여부</span></label></div></div></div><div class=\"form-group\"><label class=\"sr-only\">직원여부</label><div class=\"checkbox_box\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"staffYn\" value=\"1\"><span class=\"title\">직원여부</span></label></div></div></div><div class=\"form-group\"><label>기타코드1</label><input type=\"text\" class=\"form-control gitaCode1\" value=\"\"></div><div class=\"form-group\"><label>기타코드2</label><input type=\"text\" class=\"form-control gitaCode2\" value=\"\"></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label>비고</label><input type=\"text\" class=\"form-control memo\" value=\"\"></div></div></div>",
+									"mode": "form",
+									"items": {
+										"phone": {
+											"module": "text",
+											"label": "전화번호",
+											"selector": ".phone",
+											"required": false
+										},
+										"mobile": {
+											"module": "text",
+											"label": "핸드폰",
+											"selector": ".mobile"
+										},
+										"headCode": {
+											"label": "본부 코드 검색 ",
+											"required": false
+										},
+										"teamCode": {
+											"label": "팀 코드 검색 ",
+											"required": false
+										},
+										"deptCode": {
+											"label": "부서 코드 검색 ",
+											"required": false
+										},
+										"okYn": {
+											"module": "checkbox",
+											"label": "승인여부",
+											"selector": "[name=okYn]",
+											"required": false
+										},
+										"adminYn": {
+											"module": "checkbox",
+											"label": "관리자여부",
+											"selector": "[name=adminYn]",
+											"required": false
+										},
+										"staffYn": {
+											"module": "checkbox",
+											"label": "직원여부",
+											"selector": "[name= staffYn]",
+											"required": false
+										},
+										"gitaCode1": {
+											"module": "text",
+											"label": "기타코드1",
+											"selector": ".gitaCode1",
+											"required": false
+										},
+										"gitaCode2": {
+											"module": "text",
+											"label": "기타코드2",
+											"selector": ".gitaCode2",
+											"required": false
+										},
+										"memo": {
+											"module": "text",
+											"label": "기타",
+											"selector": ".memo",
+											"required": false
+										}
+									},
+									"data": {}
+								},
+								"headCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "본부코드검색",
+										"required": false
+									}
+								},
+								"teamCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "팀코드검색",
+										"required": false
+									}
+								},
+								"deptCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "부서코드검색",
+										"required": false
+									}
+								}
+							}
+						},
+						"tab_address": {
+							"module": "manifest!address-1.3.0",
+							"options": {
+								"label": "주소정보",
+								"required": false
+							}
+						}
+					}
+				}
+			}
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"module": "FormBox",
+				"className": "query_box",
+				"order": [
+					"searchCondition",
+					"searchKeyword"
+				],
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"form-group form-inline\"><label>검색</label><select class=\"form-control searchCondition\"><option>조건선택</option><option value=\"userCode\">코드</option><option value=\"userName\">이름</option><option value=\"phone\">전화번호</option><option value=\"mobile\">핸드폰</option><option value=\"deptCode\">부서</option></select><input type=\"text\" class=\"form-control searchKeyword\" value=\"\"></div>",
+					"items": {
+						"searchCondition": {
+							"module": "text",
+							"label": "검색",
+							"selector": ".searchCondition",
+							"required": false
+						},
+						"searchKeyword": {
+							"module": "text",
+							"label": "검색 내용 입력",
+							"selector": ".searchKeyword",
+							"required": false
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "result_box grid_box",
+				"gridId": "userinfo",
+				"gridParams": {
+					"data": [{
+
+					}],
+					"colModel": [{
+							"name": "userCode",
+							"label": "코드",
+							"width": 60,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "userName",
+							"label": "사용자명",
+							"align": "center",
+							"width": 60
+						},
+						{
+							"name": "userPass",
+							"label": "현비밀번호",
+							"align": "center",
+							"width": 60
+						},
+						{
+							"name": "userOpass",
+							"label": "전비밀번호",
+							"align": "center",
+							"width": 60
+						},
+						{
+							"name": "phone",
+							"label": "전화번호",
+							"align": "center",
+							"width": 100
+						},
+						{
+							"name": "mobile",
+							"label": "핸드폰",
+							"align": "center",
+							"width": 100
+						},
+						{
+							"name": "headName",
+							"label": "본부코드",
+							"align": "center",
+							"width": 60
+						},
+						{
+							"name": "teamName",
+							"label": "팀코드",
+							"align": "center",
+							"width": 60
+						},
+						{
+							"name": "deptName",
+							"label": "부서코드",
+							"align": "center",
+							"width": 60
+						},
+						{
+							"name": "adminYn",
+							"label": "관리자",
+							"template": "booleanCheckboxFa",
+							"align": "center",
+							"width": 40
+						},
+						{
+							"name": "staffYn",
+							"label": "직원",
+							"template": "booleanCheckboxFa",
+							"align": "center",
+							"width": 40
+						},
+						{
+							"name": "zipc",
+							"label": "우편번호",
+							"align": "center",
+							"width": 60
+						},
+						{
+							"name": "city",
+							"label": "시/도",
+							"width": 60
+						},
+						{
+							"name": "town",
+							"label": "구/군",
+							"width": 80
+						},
+						{
+							"name": "dong",
+							"label": "읍/면/동",
+							"width": 80
+						},
+						{
+							"name": "addr",
+							"label": "상세주소",
+							"width": 100
+						},
+						{
+							"name": "memo",
+							"label": "비고",
+							"width": 160
+						}
+					],
+					"rowNum": 30,
+					"records": 30,
+					"rownumWidth": 20,
+					"rowList": [30, 50, 100, 200, "100000:All"],
+					"viewrecords": true,
+					"rownumbers": false,
+					"toppager": false,
+					"pager": true,
+					"shrinkToFit": false,
+					"multiselect": false,
+					"editurl": "clientArray",
+					"loadonce": true,
+					"width": "auto",
+					"height": 223,
+
+					"iconSet": "fontAwesome",
+					"autoencode": true,
+					"altRows": true,
+					"altclass": "myAltRowClass",
+					"pagerRightWidth": 140,
+
+					"caption": "",
+					"navOptions": {
+						"del": false
+					},
+					"searching": {
+						"closeAfterSearch": true,
+						"closeAfterReset": true,
+						"closeOnEscape": true,
+						"searchOnEnter": true,
+						"multipleSearch": true,
+						"multipleGroup": true,
+						"showQuery": true
+					},
+					"cellEdit": false
+				}
+			}
+		}
+	}
+}

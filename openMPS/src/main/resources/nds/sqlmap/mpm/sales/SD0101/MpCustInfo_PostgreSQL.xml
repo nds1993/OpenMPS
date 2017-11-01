@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpCustInfo">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpCustInfoSerarchVO" type="nds.mpm.sales.SD0101.vo.MpCustInfoVO"/>
+	
+	<resultMap id="mpCustInfo" class="nds.mpm.sales.SD0101.vo.MpCustInfoVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="custCode" column="cust_code" columnIndex="2"/>
+		<result property="custName" column="cust_name" columnIndex="3"/>
+		<result property="shortName" column="short_name" columnIndex="4"/>
+		<result property="owner" column="owner" columnIndex="5"/>
+		<result property="custType" column="cust_type" columnIndex="6"/>
+		<result property="delvZip" column="delv_zip" columnIndex="7"/>
+		<result property="delvAddr" column="delv_addr" columnIndex="8"/>
+		<result property="postZip" column="post_zip" columnIndex="9"/>
+		<result property="postAddr" column="post_addr" columnIndex="10"/>
+		<result property="bizNo" column="biz_no" columnIndex="11"/>
+		<result property="juminNo" column="jumin_no" columnIndex="12"/>
+		<result property="uptae" column="uptae" columnIndex="13"/>
+		<result property="jong" column="jong" columnIndex="14"/>
+		<result property="phone" column="phone" columnIndex="15"/>
+		<result property="mobile" column="mobile" columnIndex="16"/>
+		<result property="fax" column="fax" columnIndex="17"/>
+		<result property="email" column="email" columnIndex="18"/>
+		<result property="taxType" column="tax_type" columnIndex="19"/>
+		<result property="closeYn" column="close_yn" columnIndex="20"/>
+		<result property="delvType" column="delv_type" columnIndex="21"/>
+		<result property="delvCust" column="delv_cust" columnIndex="22"/>
+		<result property="mainDc" column="main_dc" columnIndex="23"/>
+		<result property="distType" column="dist_type" columnIndex="24"/>
+		<result property="delvTime" column="delv_time" columnIndex="25"/>
+		<result property="billType" column="bill_type" columnIndex="26"/>
+		<result property="priceComb" column="price_comb" columnIndex="27"/>
+		<result property="priceCombCust" column="price_comb_cust" columnIndex="28"/>
+		<result property="saleComb" column="sale_comb" columnIndex="29"/>
+		<result property="saleCombCust" column="sale_comb_cust" columnIndex="30"/>
+		<result property="receComb" column="rece_comb" columnIndex="31"/>
+		<result property="receCombCust" column="rece_comb_cust" columnIndex="32"/>
+		<result property="bankCode" column="bank_code" columnIndex="33"/>
+		<result property="bankName" column="bank_name" columnIndex="34"/>
+		<result property="acctNo" column="acct_no" columnIndex="35"/>
+		<result property="acctName" column="acct_name" columnIndex="36"/>
+		<result property="priceType" column="price_type" columnIndex="37"/>
+		<result property="priceDay" column="price_day" columnIndex="38"/>
+		<result property="creditYn" column="credit_yn" columnIndex="39"/>
+		<result property="taxbillYn" column="taxbill_yn" columnIndex="40"/>
+		<result property="shopNo" column="shop_no" columnIndex="41"/>
+		<result property="shopName" column="shop_name" columnIndex="42"/>
+		<result property="facCust" column="fac_cust" columnIndex="45"/>
+		<result property="brandCode" column="brand_code" columnIndex="43"/>
+		<result property="facKind" column="fac_kind" columnIndex="44"/>
+		<result property="facCode" column="fac_code" columnIndex="45"/>
+		<result property="transYn" column="trans_yn" columnIndex="46"/>
+		<result property="gagongYn" column="gagong_yn" columnIndex="47"/>
+	</resultMap>
+	
+	<insert id="mpCustInfoDAO.insertMpCustInfo" >
+		<selectKey keyProperty="custCode" resultClass="string">
+		    select #custCode# as cust_code
+		</selectKey>
+		<![CDATA[
+			INSERT INTO openmps.mp_cust_info 
+				( corp_code
+				  , cust_code
+				  , cust_name
+				  , short_name
+				  , owner
+				  , cust_type
+				  , delv_zip
+				  , delv_addr
+				  , post_zip
+				  , post_addr
+				  
+				  , biz_no
+				  , jumin_no
+				  , uptae
+				  , jong
+				  , phone
+				  , mobile
+				  , fax
+				  , email
+				  , tax_type
+				  , close_yn
+				  
+				  , delv_type
+				  , delv_cust
+				  , main_dc
+				  , dist_type
+				  , delv_time
+				  , bill_type
+				  , price_comb
+				  , price_comb_cust
+				  , sale_comb
+				  , sale_comb_cust
+				  
+				  , rece_comb
+				  , rece_comb_cust
+				  , bank_code
+				  , bank_name
+				  , acct_no
+				  , acct_name
+				  , price_type
+				  , price_day
+				  , credit_yn
+				  , taxbill_yn
+				  
+				  , shop_no
+				  , shop_name
+				  , fac_cust
+				  , brand_code
+				  , fac_kind
+				  , fac_code
+				  , trans_yn
+				  , gagong_yn
+				  , md_user
+				  , md_date
+				  
+				  , cr_user
+				  , cr_date
+				   )
+			VALUES ( #corpCode#
+				  , #custCode#
+				  , #custName#
+				  , #shortName#
+				  , #owner#
+				  , #custType#
+				  , #delvZip#
+				  , #delvAddr#
+				  , #postZip#
+				  , #postAddr#
+				  
+				  , #bizNo#
+				  , #juminNo#
+				  , #uptae#
+				  , #jong#
+				  , #phone#
+				  , #mobile#
+				  , #fax#
+				  , #email#
+				  , #taxType#
+				  , #closeYn#
+				  
+				  , #delvType#
+				  , #delvCust#
+				  , #mainDc#
+				  , #distType#
+				  , #delvTime#
+				  , #billType#
+				  , #priceComb#
+				  , #priceCombCust#
+				  , #saleComb#
+				  , #saleCombCust#
+				  
+				  , #receComb#
+				  , #receCombCust#
+				  , #bankCode#
+				  , #bankName#
+				  , #acctNo#
+				  , #acctName#
+				  , #priceType#
+				  , #priceDay#
+				  , #creditYn#
+				  , #taxbillYn#
+				  
+				  , #shopNo#
+				  , #shopName#
+				  , #facCust#
+				  , #brandCode#
+				  , #facKind#
+				  , #facCode#
+				  , #transYn#
+				  , #gagongYn# 
+				  , #mdUser#
+				  , now()
+				  
+				  , #crUser#
+				  , now())
+		]]>
+	</insert>
+	
+	<update id="mpCustInfoDAO.updateMpCustInfo">
+		<![CDATA[
+			UPDATE openmps.mp_cust_info
+			SET cust_name=#custName#
+				, short_name=#shortName#
+				, owner=#owner#
+				, cust_type=#custType#
+				, delv_zip=#delvZip#
+				, delv_addr=#delvAddr#
+				, post_zip=#postZip#
+				, post_addr=#postAddr#
+				, biz_no=#bizNo#
+				, jumin_no=#juminNo#
+				, uptae=#uptae#
+				, jong=#jong#
+				, phone=#phone#
+				, mobile=#mobile#
+				, fax=#fax#
+				, email=#email#
+				, tax_type=#taxType#
+				, close_yn=#closeYn#
+				, delv_type=#delvType#
+				, delv_cust=#delvCust#
+				, main_dc=#mainDc#
+				, dist_type=#distType#
+				, delv_time=#delvTime#
+				, bill_type=#billType#
+				, price_comb=#priceComb#
+				, price_comb_cust=#priceCombCust#
+				, sale_comb=#saleComb#
+				, sale_comb_cust=#saleCombCust#
+				, rece_comb=#receComb#
+				, rece_comb_cust=#receCombCust#
+				, bank_code=#bankCode#
+				, bank_name=#bankName#
+				, acct_no=#acctNo#
+				, acct_name=#acctName#
+				, price_type=#priceType#
+				, price_day=#priceDay#
+				, credit_yn=#creditYn#
+				, taxbill_yn=#taxbillYn#
+				, shop_no=#shopNo#
+				, shop_name=#shopName#
+				, trans_yn=#transYn#
+				, gagong_yn=#gagongYn#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+				]]>
+	</update>
+	
+	<update id="mpCustInfoDAO.updateMpCustInfoFac">
+		<![CDATA[
+			UPDATE openmps.mp_cust_info
+			SET fac_cust=#facCust#
+				, brand_code=#brandCode#
+				, fac_kind=#facKind#
+				, fac_code=#facCode#
+				, rece_comb=#receComb#
+				, rece_comb_cust=openmps."FN_GET_CUSTCODENM"(#corpCode#,#receComb#)
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+				]]>
+	</update>
+	
+	<delete id="mpCustInfoDAO.deleteMpCustInfo">
+		<![CDATA[
+			DELETE FROM openmps.mp_cust_info 
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+				]]>
+	</delete>
+	
+	<select id="mpCustInfoDAO.selectMpCustInfo_S" resultMap="mpCustInfo">
+			SELECT
+				corp_code
+				, cust_code
+				, cust_name
+				, short_name
+				, owner
+				, cust_type
+				, delv_zip
+				, delv_addr
+				, post_zip
+				, post_addr
+				, biz_no
+				, jumin_no
+				, uptae
+				, jong
+				, phone
+				, mobile
+				, fax
+				, email
+				, tax_type
+				, close_yn
+				, delv_type
+				, delv_cust
+				, main_dc
+				, dist_type
+				, delv_time
+				, bill_type
+				, price_comb
+				, price_comb_cust
+				, sale_comb
+				, sale_comb_cust
+				, rece_comb
+				, rece_comb_cust
+				, bank_code
+				, bank_name
+				, acct_no
+				, acct_name
+				, price_type
+				, price_day
+				, credit_yn
+				, taxbill_yn
+				, shop_no
+				, shop_name
+				, fac_cust
+				, brand_code
+				, fac_kind
+				, fac_code
+				, trans_yn
+				, gagong_yn
+			FROM openmps.mp_cust_info a
+			WHERE corp_code=#corpCode#
+			<dynamic>
+				<isNotEmpty prepend="and" property="shopNo">
+				a.shop_no = #shopNo#
+		        </isNotEmpty>
+				<isNotEmpty prepend="and" property="custCode">
+				a.cust_code = #custCode#
+		        </isNotEmpty>
+		        <isNotEmpty prepend="and" property="saleCombCust">
+				a.sale_comb_cust = #saleCombCust#
+		        </isNotEmpty>
+		        <isNotEmpty prepend="and" property="receCombCust">
+				a.rece_comb_cust = #receCombCust#
+		        </isNotEmpty>
+	        </dynamic>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM 
+			openmps.mp_cust_info a 
+			left outer join openmps."FN_GET_CUSTLIMIT"(a.corp_code, a.cust_code, to_char(now(),'YYYYMMDD'), 0) b on (1=1) 
+			left outer join openmps.mp_salesman_cust c on ( a.corp_code = c.corp_code and a.cust_code = c.salesman_cust )
+			left outer join openmps.tm_userxm d on ( c.salesman = d.user_code )
+			left outer join openmps.tm_teamxm g on ( g.corp_code = #corpCode#  and d.team_code = g.team_code )
+			left outer join openmps.sd_dc wmdc on ( a.main_dc = wmdc.dc  and wmdc.biz='1000' )
+			
+			WHERE a.corp_code = #corpCode#	
+			<isGreaterThan property="salesmanLevel" compareValue="3">
+			and c.salesman = #userCode#		
+			</isGreaterThan>		  	
+		<dynamic> 
+			 <isNotEmpty prepend="and" property="custCode">
+			 a.cust_code = #custCode#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="custName">
+			 a.cust_name like '%' || #custName# || '%'
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="closeYn">
+			 a.close_yn = #closeYn#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="custType">
+			 a.cust_type = #custType#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="teamCode">
+			 d.team_code = #teamCode#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="searchKeyword">
+               ( A.cust_code like '%' || #searchKeyword# || '%'
+         		or
+               A.cust_name like '%' || #searchKeyword# || '%' )
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="mpCustInfoDAO.selectMpCustInfoList_D" parameterClass="mpCustInfoSerarchVO" resultClass="egovMap">
+		SELECT
+				g.team_name as dept_name 
+				, d.user_name as salesman_name
+				, a.corp_code
+				, a.cust_code
+				, a.cust_name
+				, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'SD004',a.delv_type) as delv_typename
+				, openmps."FN_GET_CUSTCODENM"(a.corp_code,a.delv_cust) as delv_cust_name 
+				, wmdc.dcnm
+				, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'SD007',a.rece_comb) as rece_combname 
+				, openmps."FN_GET_CUSTCODENM"(a.corp_code,a.rece_comb_cust) as rece_comb_custname 
+				,(select max(dam_edate) from openmps.mp_dambo_info 
+					where corp_code = a.corp_code 
+					and cust_code = a.cust_code
+					)   dam_edate  
+				,b.o_cust_limit
+				,b.o_one_limit
+				
+				, a.main_dc
+				, a.delv_cust
+				, a.rece_comb
+				, a.rece_comb_cust
+				, a.short_name
+				, a.owner
+				, a.cust_type
+				, a.delv_zip
+				, a.delv_addr
+				, a.post_zip
+				, a.post_addr
+				, a.biz_no
+				, a.jumin_no
+				, a.uptae
+				, a.jong
+				, a.phone
+				, a.mobile
+				, a.fax
+				, a.email
+				, a.tax_type
+				, a.close_yn
+				, a.dist_type
+				, a.delv_time
+				, a.bill_type
+				, a.price_comb
+				, a.price_comb_cust
+				, a.sale_comb
+				, a.sale_comb_cust
+				, a.bank_code
+				, a.bank_name
+				, a.acct_no
+				, a.acct_name
+				, a.price_type
+				, a.price_day
+				, a.credit_yn
+				, a.taxbill_yn
+				, a.shop_no
+				, a.shop_name
+				, a.fac_cust
+				, a.brand_code
+				, a.fac_kind
+				, a.fac_code
+				, a.trans_yn
+				, a.gagong_yn
+				, c.salesman_cust
+				, c.salesman
+  				, a.delv_type 
+			<include refid="selectWhere_fragment"/>
+			order by a.cust_code
+			<include refid="Global.pagingParam_fragment"/>
+	</select>	
+	<select id="mpCustInfoDAO.selectMpCustInfoListTotCnt_S" parameterClass="mpCustInfoSerarchVO" resultClass="int">
+			select count(*)
+			<include refid="selectWhere_fragment"/>
+	</select>
+	<select id="mpCustInfoDAO.selectMpCustInfoCodeList_D" parameterClass="mpCustInfoSerarchVO" resultClass="egovMap">
+		SELECT
+				a.cust_code as code
+				, a.cust_name as label
+				, a.price_type
+				, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'SD009',a.price_type) price_type_name
+		FROM 
+			openmps.mp_cust_info a 
+		where 
+			corp_code = #corpCode#
+		<isNotEmpty property="custCode">
+		and  a.cust_code = #custCode#
+        </isNotEmpty>
+        <isNotEmpty property="custType">
+		and  a.cust_type = #custType#
+        </isNotEmpty>
+		<isNotEmpty property="searchKeyword">
+        and  ( A.cust_code like '%' || #searchKeyword# || '%'
+       		or
+             A.cust_name like '%' || #searchKeyword# || '%' )
+        </isNotEmpty>	
+		<isNotEmpty property="salesman">
+			<isNotEqual property="salesman" compareValue="ALL">
+	        and  exists (
+	         	<![CDATA[
+	         	select '1' from openmps.mp_cust_hist 
+	         	where corp_code = a.corp_code
+	         	and cust_code = a.cust_code
+	         	and start_date <= to_char(now(),'YYYYMMDD')
+	         	and last_date >= to_char(now(),'YYYYMMDD')
+	         	and salesman = #salesman#
+	         	]]>
+	         )
+	         </isNotEqual>
+         </isNotEmpty>
+		order by a.cust_code
+	</select>
+	<select id="mpCustInfoDAO.checkCustCodeCnt" resultClass="int">
+			SELECT
+				count(cust_code) 
+			FROM openmps.mp_cust_info a
+			WHERE corp_code=#corpCode#
+			and a.cust_code = #custCode#
+	</select>
+	<!-- 
+	
+     * 거래처 계좌정보
+     * 
+     * 영업본부 head_name
+     * 영업파트 team_name
+     * 영업자 salesman_name
+     * 은행코드bank_code
+     * 은행명 bank_name
+     * 입금자 acct_name
+     * 여신한도 o_cust_limit
+     * 당월입금액  curmon_rece_amt
+     * 미수 curmon_unpay
+     * 현재잔고 jango
+     * 
+     *
+	 -->
+	<select id="mpCustInfoDAO.selectMpCustAccountInfo" resultClass="egovMap">
+			select 
+				cust.bank_code
+				,cust.bank_name
+				,cust.acct_no
+				,cust.acct_name
+				,cust.owner
+				,custhist.head_name
+				,custhist.team_name
+				,custhist.salesman
+				,custhist.salesman_name
+				,rece.curday_rece_amt
+				,rece.curmon_rece_amt
+				,unpay.curmon_unpay
+				,( rece.curmon_rece_amt + unpay.curmon_unpay ) as jango
+				, climit.o_cust_limit
+			from openmps.mp_cust_info cust
+			left outer join (
+				 select salesman, user_name as salesman_name, team.team_name, orgu.head_name
+					from openmps.mp_cust_hist a
+					inner join openmps.tm_userxm usr on (a.salesman = usr.user_code)
+					left outer join openmps.tm_teamxm team on (
+						a.corp_code = team.corp_code 
+						and a.part_code = team.team_code)
+					left outer join openmps.tm_orguxm orgu on (
+						team.corp_code = orgu.corp_code 
+						and team.head_code = orgu.head_code)
+					where a.corp_code = #corpCode#
+					and a.cust_code = #custCode#
+					order by last_date desc
+					limit 1
+			) custhist on (1=1)
+			left outer join
+			(
+				select 
+					a.curday_rece_amt, b.curmon_rece_amt
+				from
+				(
+					select coalesce(sum(rece_amt),0) as curday_rece_amt  
+					 from openmps.mp_cust_receipt a
+					 where a.corp_code = #corpCode#
+					 and a.cust_code = #custCode#
+					 and a.rece_date = to_char(now(), 'YYYYMMDD')
+				 ) a
+				 ,
+				 (
+					select coalesce(sum(rece_amt),0) as curmon_rece_amt  
+					 from openmps.mp_cust_receipt a
+					 where a.corp_code = #corpCode#
+					 and a.cust_code = #custCode#
+					 and to_char(a.rece_date::date, 'YYYYMM') = to_char(now(), 'YYYYMM')
+				 ) b
+			) rece on (1=1)
+			left outer join
+			(
+				select 
+					coalesce(sum(current_unpay),0) as curmon_unpay
+				from
+				openmps.mp_last_unpayment a
+				where a.corp_code = #corpCode#
+				and a.unpay_yymm = to_char(now(), 'YYYYMM')
+				and a.cust_code = #custCode#
+				
+			) unpay on (1=1)
+			left outer join
+			(
+			select
+			o_cust_limit 
+			from
+			"FN_GET_CUSTLIMIT"(#corpCode#,#custCode#,to_char(now(), 'YYYYMMDD'),0 )
+			) climit on (1=1)
+			where
+			cust.corp_code = #corpCode#
+			and cust.cust_code = #custCode#
+	</select>
+	
+	<!-- SD0405 온라인주문거래처 리스트 -->
+	<select id="mpCustInfoDAO.selectOnlineUploadMpCustInfoCodeList" parameterClass="mpCustInfoSerarchVO" resultClass="egovMap">
+		SELECT
+				a.ordr_cust as code
+				, b.cust_name as label
+		FROM 
+			openmps.mp_order_upload a 
+			left outer join openmps.mp_cust_info b on (a.corp_code=b.corp_code and a.ordr_cust=b.cust_code)
+		where 
+			a.corp_code = #corpCode#
+		<isNotEmpty property="searchKeyword">
+		and  ( a.ordr_cust like '%' || #searchKeyword# || '%' or b.cust_name like '%' || #searchKeyword# || '%')
+        </isNotEmpty>
+		order by a.ordr_cust
+	</select>
+</sqlMap>

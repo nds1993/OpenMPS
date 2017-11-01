@@ -1,0 +1,473 @@
+{
+  "layout": {
+    "size": "xs",
+    "align": "text-left",
+    "type": "treeview"
+  },
+  "defaultMenu": "main_menu",
+  "main_menu": {
+    "label": "메인메뉴",
+    "order": [
+      "divider",
+      "MCOM",
+      "MLOG",
+			"MMAN",
+			"MSAL"
+    ]
+  },
+  "divider": {
+    "cmd": "divider"
+  },
+  "MCOM": {
+    "label": "관리",
+    "order": [
+      "MCOMAA10",
+      "MCOMAA20",
+      "MCOMAA30",
+      "MCOMAA40"
+    ]
+  },
+  "MCOMAA10": {
+    "label": "고객",
+    "order": [
+      "MCOMAA10_01",
+      "MCOMAA10_02",
+      "MCOMAA10_03"
+    ]
+  },
+  "MCOMAA10_01": {
+    "label": "여신관리",
+    "cmd": "#box/-"
+  },
+  "MCOMAA10_02": {
+    "label": "잔액조회서",
+    "cmd": "#box/-"
+  },
+  "MCOMAA10_03": {
+    "label": "한도이력관리",
+    "cmd": "#box/-"
+  },
+  "MCOMAA20": {
+    "label": "관리",
+    "order": [
+      "MCOMAA20_03",
+      "MCOMAA20_04",
+      "MCOMAA20_05",
+      "MCOMAA20_06",
+      "MCOMAA20_07",
+      "MCOMAA20_08",
+      "MCOMAA20_09",
+      "MCOMAA20_10"
+    ]
+  },
+  "MCOMAA20_03": {
+    "label": "거래처담당자변경",
+    "cmd": "#box/-"
+  },
+  "MCOMAA20_04": {
+    "label": "거래처등록",
+    "cmd": "#box/-"
+  },
+  "MCOMAA20_05": {
+    "label": "기타코드등록",
+    "cmd": "#box/mpmBaseinfo"
+  },
+  "MCOMAA20_06": {
+    "label": "목표관리",
+    "cmd": "#box/-"
+  },
+  "MCOMAA20_07": {
+    "label": "부서등록",
+    "cmd": "#box/mpmHeadinfo"
+  },
+  "MCOMAA20_08": {
+    "label": "사용자권한관리",
+    "cmd": "#box/mpmScreuser"
+  },
+  "MCOMAA20_09": {
+    "label": "사용자등록",
+    "cmd": "#box/mpmUserinfo"
+  },
+  "MCOMAA20_10": {
+    "label": "세트등록",
+    "cmd": "#box/mpmSetitem"
+  },
+  "MCOMAA30": {
+    "label": "단가",
+    "order": [
+      "MCOMAA30_01",
+      "MCOMAA30_02",
+      "MCOMAA30_03"
+    ]
+  },
+  "MCOMAA30_01": {
+    "label": "단가조정현황",
+    "cmd": "#box/-"
+  },
+  "MCOMAA30_02": {
+    "label": "판매가격등록",
+    "cmd": "#box/-"
+  },
+  "MCOMAA30_03": {
+    "label": "가격승인",
+    "cmd": "#box/-"
+  },
+  "MCOMAA40": {
+    "label": "분석",
+    "order": [
+      "MCOMAA40_01",
+      "MCOMAA40_02",
+      "MCOMAA40_03",
+      "MCOMAA40_04",
+      "MCOMAA40_05"
+    ]
+  },
+  "MCOMAA40_01": {
+    "label": "개인별목표대비실적분석",
+    "cmd": "#box/-"
+  },
+  "MCOMAA40_02": {
+    "label": "거래처별매출현황",
+    "cmd": "#box/-"
+  },
+  "MCOMAA40_03": {
+    "label": "거래처별목표대비실적분석",
+    "cmd": "#box/-"
+  },
+  "MCOMAA40_04": {
+    "label": "제품별매출실적",
+    "cmd": "#box/-"
+  },
+  "MCOMAA40_05": {
+    "label": "팀별목표대비실적분석",
+    "cmd": "#box/-"
+  },
+  "MLOG": {
+    "label": "물류",
+    "order": [
+      "MLOGAA10",
+      "MLOGAA20",
+      "MLOGAA30",
+      "MLOGAA40"
+    ]
+  },
+  "MLOGAA10": {
+    "label": "현황",
+    "order": [
+      "MLOGAA10_01",
+      "MLOGAA10_02",
+      "MLOGAA10_03",
+      "MLOGAA10_04"
+    ]
+  },
+  "MLOGAA10_01": {
+    "label": "매입장",
+    "cmd": "#box/-"
+  },
+  "MLOGAA10_02": {
+    "label": "매출장",
+    "cmd": "#box/-"
+  },
+  "MLOGAA10_03": {
+    "label": "일자별매출현황",
+    "cmd": "#box/-"
+  },
+  "MLOGAA10_04": {
+    "label": "주문현황",
+    "cmd": "#box/-"
+  },
+  "MLOGAA20": {
+    "label": "관리",
+    "order": [
+      "MLOGAA20_01",
+      "MLOGAA20_02",
+      "MLOGAA20_03",
+      "MLOGAA20_04"
+    ]
+  },
+  "MLOGAA20_01": {
+    "label": "거래내역마감",
+    "cmd": "#box/-"
+  },
+  "MLOGAA20_02": {
+    "label": "거래처조회",
+    "cmd": "#box/-"
+  },
+  "MLOGAA20_03": {
+    "label": "매입실적",
+    "cmd": "#box/-"
+  },
+  "MLOGAA20_04": {
+    "label": "생산계획서",
+    "cmd": "#box/-"
+  },
+  "MLOGAA30": {
+    "label": "분석",
+    "order": [
+      "MLOGAA30_01"
+    ]
+  },
+  "MLOGAA30_01": {
+    "label": "생산일자별재고현황(월단위)",
+    "cmd": "#box/-"
+  },
+  "MLOGAA40": {
+    "label": "주문",
+    "order": [
+      "MLOGAA40_01"
+    ]
+  },
+	"MLOGAA40_01": {
+    "label": "이월입력,삭제,현황",
+    "cmd": "#box/-"
+  },
+
+  "MMAN": {
+    "label": "생산",
+    "order": [
+      "MMANAA10",
+      "MMANAA20",
+      "MMANAA30"
+    ]
+  },
+  "MMANAA10": {
+    "label": "관리",
+    "order": [
+      "MMANAA10_01",
+      "MMANAA10_02",
+      "MMANAA10_03",
+      "MMANAA10_04",
+      "MMANAA10_05",
+      "MMANAA10_06",
+      "MMANAA10_07",
+      "MMANAA10_08",
+      "MMANAA10_09",
+      "MMANAA10_10",
+      "MMANAA10_11",
+      "MMANAA10_12"
+    ]
+  },
+  "MMANAA10_01": {
+    "label": "LPC코드관리",
+    "cmd": "#box/-"
+  },
+  "MMANAA10_02": {
+    "label": "PM오더업로드",
+    "cmd": "#box/-"
+  },
+  "MMANAA10_03": {
+    "label": "PM오더매핑관리",
+    "cmd": "#box/-"
+  },
+  "MMANAA10_04": {
+    "label": "PM입고관리",
+    "cmd": "#box/-"
+  },
+  "MMANAA10_05": {
+    "label": "공박스중량",
+    "cmd": "#box/-"
+  },
+  "MMANAA10_06": {
+    "label": "생산(삭제이력)",
+    "cmd": "#box/-"
+  },
+  "MMANAA10_07": {
+    "label": "생산수율표",
+    "cmd": "#box/-"
+  },
+  "MMANAA10_08": {
+    "label": "속라벨상세내역",
+    "cmd": "#box/-"
+  },
+  "MMANAA10_09": {
+    "label": "제품등록",
+    "cmd": "#box/-"
+  },
+  "MMANAA10_10": {
+    "label": "출하정산집계표",
+    "cmd": "#box/-"
+  },
+  "MMANAA10_11": {
+    "label": "클레임입력",
+    "cmd": "#box/-"
+  },
+  "MMANAA10_12": {
+    "label": "품목등록",
+    "cmd": "#box/-"
+  },
+  "MMANAA20": {
+    "label": "마스터",
+    "order": [
+      "MMANAA20_01",
+      "MMANAA20_02",
+      "MMANAA20_03",
+      "MMANAA20_04",
+      "MMANAA20_05",
+      "MMANAA20_06",
+      "MMANAA20_07",
+      "MMANAA20_08",
+      "MMANAA20_09",
+      "MMANAA20_10"
+    ]
+  },
+  "MMANAA20_01": {
+    "label": "BOM관리",
+    "cmd": "#box/-"
+  },
+  "MMANAA20_02": {
+    "label": "등판자료",
+    "cmd": "#box/-"
+  },
+  "MMANAA20_03": {
+    "label": "생돈구매세부입력",
+    "cmd": "#box/-"
+  },
+  "MMANAA20_04": {
+    "label": "생돈정산eKAPEpia연동",
+    "cmd": "#box/-"
+  },
+  "MMANAA20_05": {
+    "label": "생돈정산",
+    "cmd": "#box/-"
+  },
+  "MMANAA20_06": {
+    "label": "수율기초입력",
+    "cmd": "#box/-"
+  },
+  "MMANAA20_07": {
+    "label": "이력시스템연계(매입)",
+    "cmd": "#box/-"
+  },
+  "MMANAA20_08": {
+    "label": "이력시스템연계(매출)",
+    "cmd": "#box/-"
+  },
+  "MMANAA20_09": {
+    "label": "이력시스템연계(포장)",
+    "cmd": "#box/-"
+  },
+  "MMANAA20_10": {
+    "label": "지육시세업로드",
+    "cmd": "#box/-"
+  },
+  "MMANAA30": {
+    "label": "분석",
+    "order": [
+      "MMANAA30_01",
+      "MMANAA30_02",
+      "MMANAA30_03"
+    ]
+  },
+  "MMANAA30_01": {
+    "label": "부자재소요량산출 및 발주",
+    "cmd": "#box/-"
+  },
+  "MMANAA30_02": {
+    "label": "생산입고현황",
+    "cmd": "#box/-"
+  },
+  "MMANAA30_03": {
+    "label": "업체별/농장별집계",
+    "cmd": "#box/-"
+  },
+  "MSAL": {
+    "label": "영업",
+    "order": [
+      "MSALAA10",
+      "MSALAA20",
+      "MSALAA30",
+			"divider",
+      "MSALAA40"
+    ]
+  },
+  "MSALAA10": {
+    "label": "관리",
+    "order": [
+      "MSALAA10_01",
+      "MSALAA10_02"
+    ]
+  },
+  "MSALAA10_01": {
+    "label": "마감(월,출고,생돈)",
+    "cmd": "#box/-"
+  },
+  "MSALAA10_02": {
+    "label": "주간공급견적서",
+    "cmd": "#box/-"
+  },
+  "MSALAA20": {
+    "label": "마스터",
+    "order": [
+      "MSALAA20_01",
+      "MSALAA20_02",
+      "MSALAA20_03"
+    ]
+  },
+  "MSALAA20_01": {
+    "label": "담보이력관리",
+    "cmd": "#box/mpmDamboinfo"
+  },
+  "MSALAA20_02": {
+    "label": "입금입력",
+    "cmd": "#box/-"
+  },
+  "MSALAA20_03": {
+    "label": "주문입력",
+    "cmd": "#box/-"
+  },
+  "MSALAA30": {
+    "label": "분석",
+    "order": [
+      "MSALAA30_01",
+      "MSALAA30_02",
+      "MSALAA30_03",
+      "MSALAA30_04",
+      "MSALAA30_05",
+      "MSALAA30_06",
+      "MSALAA30_07"
+    ]
+  },
+  "MSALAA30_01": {
+    "label": "가격관리",
+    "cmd": "#box/-"
+  },
+  "MSALAA30_02": {
+    "label": "거래처별제품별판매분석",
+    "cmd": "#box/-"
+  },
+  "MSALAA30_03": {
+    "label": "거래처원장",
+    "cmd": "#box/-"
+  },
+  "MSALAA30_04": {
+    "label": "수불부(급식제외)",
+    "cmd": "#box/-"
+  },
+  "MSALAA30_05": {
+    "label": "월별매출및미수현황",
+    "cmd": "#box/-"
+  },
+  "MSALAA30_06": {
+    "label": "입금현황",
+    "cmd": "#box/-"
+  },
+  "MSALAA30_07": {
+    "label": "한도초과거래선",
+    "cmd": "#box/-"
+  },
+  "MSALAA40": {
+    "label": "포털",
+    "order": [
+      "MSALAA40_01",
+      "MSALAA40_02"
+    ]
+  },
+  "MSALAA40_01": {
+    "label": "고객포털 | 주문",
+    "cmd": "#box/-"
+  },
+  "MSALAA40_02": {
+    "label": "고객포털 | 주문조회",
+    "cmd": "#box/-"
+  }
+}

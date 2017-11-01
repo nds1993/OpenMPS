@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpItemMasterM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="MpItemMasterMSerarchVO" type="nds.mpm.prod.PP0103.vo.MpItemMasterMVO"/>
+	<resultMap id="mpItemMasterM" class="nds.mpm.prod.PP0103.vo.MpItemMasterMVO">
+		<result property="proCode" column="pro_code" columnIndex="1"/>
+		<result property="proName" column="pro_name" columnIndex="2"/>
+		<result property="animalKind" column="animal_kind" columnIndex="3"/>
+		<result property="largeCode" column="large_code" columnIndex="4"/>
+		<result property="proUkind" column="pro_ukind" columnIndex="5"/>
+		<result property="proUnit" column="pro_unit" columnIndex="6"/>
+		<result property="proWeig" column="pro_weig" columnIndex="7"/>
+		<result property="proEa" column="pro_ea" columnIndex="8"/>
+		<result property="proIpsu" column="pro_ipsu" columnIndex="9"/>
+		<result property="proBong" column="pro_bong" columnIndex="10"/>
+		<result property="proBox" column="pro_box" columnIndex="11"/>
+	</resultMap>
+	<!-- seq -->
+	<select id="MpItemMasterMDAO.selectSeqPigMpItemMasterM" resultClass="String">
+			select lpad( (coalesce(max(pro_code::numeric),10000)+1)::varchar, 5, '0')  from openmps.mp_item_master_m where corp_code=#corpCode# and animal_kind='1' 
+	</select>
+	<select id="MpItemMasterMDAO.selectSeqCowMpItemMasterM" resultClass="String">
+			select lpad( (coalesce(max(pro_code::numeric),50000)+1)::varchar, 5, '0') from openmps.mp_item_master_m where corp_code=#corpCode# and animal_kind='5' 
+	</select>
+	<select id="MpItemMasterMDAO.selectSeqEtcMpItemMasterM" resultClass="String">
+			select lpad( (coalesce(max(pro_code::numeric),90000)+1)::varchar, 5, '0') from openmps.mp_item_master_m where corp_code=#corpCode# and animal_kind='9' 
+	</select>
+	
+	<insert id="MpItemMasterMDAO.insertMpItemMasterM">
+		<selectKey keyProperty="proCode" resultClass="string">
+		    select #proCode# as pro_code
+		</selectKey>
+		
+			INSERT INTO mp_item_master_m 
+				( corp_code
+				  , pro_code
+				  , pro_name
+				  , animal_kind
+				  , large_code
+				  , sale_group1
+				  , sale_group2
+				  , pro_kind
+				  , meat_type
+				  , prdt_type
+				  , pm_type
+				  , code_88
+				  , pro_ukind
+				  , pro_ipsu
+				  , pro_weig
+				  , price_calc
+				  , vat_code
+				  , frozen_type
+				  , set_yn
+				  , shelf_life
+				  , r_temperature
+				  , short_code
+				  , emart_bar1
+				  , emart_bar2
+				  , emart_bar31
+				  , emart_bar32
+				  , lotte_code
+				  , memo
+				  , std_code
+				  , std_name
+				  , brand_name
+				  , ipsu_cnt
+				  , work_type1
+				  , work_type2
+				  , work_line
+				  , print_sheet
+				  , packunit
+				  , dele_yn
+				  , cr_user
+				  , cr_date
+				  , cm_rpt_type
+				  , pro_name1
+				  , weig_type )
+			VALUES ( #corpCode#
+				  , #proCode#
+				  , #proName#
+				  , #animalKind#
+				  , #largeCode#
+				  , #saleGroup1#
+				  , #saleGroup2#
+				  , #proKind#
+				  , #meatType#
+				  , #prdtType#
+				  , #pmType#
+				  , #code88Id#
+				  , #proUkind#
+				  , #proIpsu#::numeric(11,0)
+				  , #proWeig#::numeric(15,4)
+				  <!-- 화면에서 0값코드 사용못함, 대힌 1로 보냄. -->
+				  <isEqual property="priceCalc" compareValue="1">
+				  , 0
+				  </isEqual>
+				  <isEqual property="priceCalc" compareValue="2">
+				  , 1
+				  </isEqual>
+				  , #vatCode#
+				  , #frozenType#
+				  , #setYn#::varchar(1)
+				  , #shelfLife#
+				  , #rTemperature#::numeric(11,0)
+				  , #shortCode#
+				  , #emartBar1#
+				  , #emartBar2#
+				  , #emartBar31#
+				  , #emartBar32#
+				  , #lotteCode#
+				  , #memo#
+				  , #stdCode#
+				  , #stdName#
+				  , #brandCode#
+				  , #ipsuCnt#::numeric(11,1)
+				  , #workType1#
+				  , #workType2#
+				  , #workLine#
+				  , #printSheet#
+				  , 0
+				  , 'N'
+				  , #crUser#
+				  , now()
+				  , #cmRptType#
+				  , #proName1#
+				  , #weigType# )
+	</insert>
+	
+	<update id="MpItemMasterMDAO.updateMpItemMasterM">
+			UPDATE mp_item_master_m
+			SET pro_name=#proName#
+				, pro_name1=#proName1#
+				, animal_kind=#animalKind#
+				, large_code=#largeCode#
+				, sale_group1=#saleGroup1#
+				, sale_group2=#saleGroup2#
+				, short_code=#shortCode#
+				, frozen_type=#frozenType#
+				, set_yn=#setYn#::varchar(1)
+				
+				, prdt_type=#prdtType#
+				, pro_kind=#proKind#
+				, meat_type=#meatType#
+				, code_88=#code88Id#
+				
+				, brand_name=#brandCode#
+				, std_code=#stdCode#
+				, std_name=#stdName#
+				, shelf_life=#shelfLife#
+				, r_temperature=#rTemperature#::numeric(11,0)
+				, pro_ukind=#proUkind#
+				, pro_ipsu=#proIpsu#::numeric(11,0)
+				, pro_weig=#proWeig#::numeric(15,4)
+				 <!-- 화면에서 0값코드 사용못함, 대힌 1로 보냄. -->
+				  <isEqual property="priceCalc" compareValue="1">
+				  , price_calc= 0
+				  </isEqual>
+				  <isEqual property="priceCalc" compareValue="2">
+				  , price_calc= 1
+				  </isEqual>
+				, vat_code=#vatCode#
+				, memo=#memo#
+				
+				, pm_type=#pmType#
+				, cm_rpt_type=#cmRptType#
+				
+				, emart_bar1=#emartBar1#
+				, emart_bar2=#emartBar2#
+				, emart_bar31=#emartBar31#
+				, emart_bar32=#emartBar32#
+				, lotte_code=#lotteCode#
+				, ipsu_cnt=#ipsuCnt#::numeric(11,1)
+				, work_type1=#workType1#
+				, work_type2=#workType2#
+				, work_line=#workLine#
+				, print_sheet=#printSheet#
+				, weig_type = #weigType#
+				, md_user=#mdUser#
+				, md_date=now()
+			where corp_code=#corpCode#
+				and pro_code=#proCode#
+	</update>
+	
+	<delete id="MpItemMasterMDAO.deleteMpItemMasterM">
+		<![CDATA[
+			UPDATE openmps.mp_item_master_m SET 
+				dele_yn = 'Y'
+				, md_user=#mdUser#
+				, md_date=now()
+			where corp_code=#corpCode#
+			and pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<select id="MpItemMasterMDAO.selectMpItemMasterM_S" resultMap="mpItemMasterM">
+		<![CDATA[
+			SELECT
+				pro_code
+				, animal_kind
+				, large_code
+				, pro_name
+				, pro_ukind
+				, pro_unit
+				, pro_weig
+				, pro_ea
+				, pro_ipsu
+				, pro_bong
+				, pro_box
+			FROM openmps.mp_item_master_m
+			WHERE
+			corp_code = #corpCode# 
+			and pro_code=#proCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM openmps.mp_item_master_m a
+		  LEFT JOIN openmps.tm_codexd b ON a.animal_kind = b.code_id
+		                              AND b.group_code = 'MP005'
+		  LEFT JOIN openmps.tm_codexd c ON a.large_code = c.code_id
+		                              AND c.group_code = 'MP006'
+		  LEFT JOIN openmps.tm_codexd d ON a.sale_group1 = d.code_id
+		                              AND d.group_code = 'SD024'
+		  LEFT JOIN openmps.tm_codexd e ON a.sale_group2 = e.code_id
+		                              AND e.group_code = 'SD025'
+		  LEFT JOIN openmps.tm_codexd f ON a.pro_kind = f.code_id
+		                              AND f.group_code = 'MP009'
+		  LEFT JOIN openmps.tm_codexd g ON a.meat_type = g.code_id
+		                              AND g.group_code = 'MP010'
+		  LEFT JOIN openmps.tm_codexd h ON a.prdt_type = h.code_id
+		                              AND h.group_code = 'MP004'
+		  LEFT JOIN openmps.tm_codexd i ON a.pm_type = i.code_id
+		                              AND i.group_code = 'MP011'
+		  LEFT JOIN openmps.tm_codexd j ON a.cm_rpt_type = j.code_id
+		                              AND j.group_code = 'MP026'
+		  LEFT JOIN openmps.tm_codexd k ON a.code_88 = k.code_id
+		                              AND k.group_code = 'MP012'
+		  LEFT JOIN openmps.tm_codexd l ON a.price_calc = l.code_id
+		                              AND l.group_code = 'MP014'
+		  LEFT JOIN openmps.tm_codexd m ON a.vat_code = m.code_id
+		                              AND m.group_code = 'SD002'
+		  LEFT JOIN openmps.tm_codexd n ON a.frozen_type = n.code_id
+		                              AND n.group_code = 'MP008'
+		  LEFT JOIN openmps.tm_codexd o ON a.shelf_life = o.code_id
+		                              AND o.group_code = 'MP017'
+		  LEFT JOIN openmps.tm_codexd p ON a.brand_name = p.code_id
+		                              AND p.group_code = 'MP020'
+		  LEFT JOIN openmps.tm_codexd q ON a.work_type1 = q.code_id
+		                              AND q.group_code = 'MP021'
+		  LEFT JOIN openmps.tm_codexd r ON a.work_type2 = r.code_id
+		                              AND r.group_code = 'MP022'
+		  LEFT JOIN openmps.tm_codexd s ON a.work_type3 = s.code_id
+		                              AND s.group_code = 'MP023'
+		  LEFT JOIN openmps.tm_codexd t ON a.work_line = t.code_id
+		                              AND t.group_code = 'MP024'
+		  LEFT JOIN openmps.tm_codexd u ON a.print_sheet = u.code_id
+		                              AND u.group_code = 'MP025'
+		  LEFT JOIN openmps.mp_item_plntg_m v ON a.pro_code = v.pro_code
+		                                    AND a.corp_code = v.corp_code
+		                                    AND v.grup_plant = '10'
+		                                    AND v.dele_yn='N'
+		  LEFT JOIN openmps.mp_item_plntg_m p13 ON a.pro_code = p13.pro_code
+		                                    AND a.corp_code = p13.corp_code
+		                                    AND p13.grup_plant = '13'
+		                                    AND p13.dele_yn='N' 
+		  LEFT JOIN openmps.mp_item_plntg_m p14 ON a.pro_code = p14.pro_code
+		                                    AND a.corp_code = p14.corp_code
+		                                    AND p14.grup_plant = '14'
+		                                    AND p14.dele_yn='N'                                              
+		  LEFT JOIN openmps.mp_item_plntg_m w ON a.pro_code = w.pro_code
+		                                    AND a.corp_code = w.corp_code
+		                                    AND w.grup_plant = '21'
+		                                    AND w.dele_yn='N'
+		  LEFT JOIN openmps.mp_item_plntg_m x ON a.pro_code = x.pro_code
+		                                    AND a.corp_code = x.corp_code
+		                                    AND x.grup_plant = '22'
+		                                    AND x.dele_yn='N'
+		  LEFT JOIN openmps.mp_item_plntg_m y ON a.pro_code = y.pro_code
+		                                    AND a.corp_code = y.corp_code
+		                                    AND y.grup_plant = '31'
+		                                    AND y.dele_yn='N'
+		  LEFT JOIN openmps.mp_item_plntg_m p99 ON a.pro_code = p99.pro_code
+		                                    AND a.corp_code = p99.corp_code
+		                                    AND p99.grup_plant = '99'
+		                                    AND p99.dele_yn='N'                                                              
+		  left outer join openmps.tm_userxm usr1 on ( a.cr_user = usr1.user_code )
+		  left outer join openmps.tm_userxm usr2 on ( a.md_user = usr2.user_code )
+		 WHERE a.corp_code = #corpCode#
+		 <dynamic> 
+	         <isNotEmpty prepend="and" property="proCode">
+	            ( A.pro_code like '%' || #proCode# || '%'
+         		or
+                A.pro_name like '%' || #proCode# || '%' )
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="animalKind">
+	               A.animal_kind = #animalKind#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="prdtType">
+	               A.prdt_type = #prdtType#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="proKind">
+	               A.pro_kind = #proKind#
+	         </isNotEmpty>
+	         <isEqual prepend="and" property="setYn" compareValue="Y">
+	               A.set_yn = '1'
+	         </isEqual>
+	         <isEqual prepend="and" property="setYn" compareValue="N">
+	               <![CDATA[  A.set_yn <> '1' ]]>
+	         </isEqual>
+	         <isNotEmpty prepend="and" property="searchKeyword">
+               ( A.pro_code like '%' || #searchKeyword# || '%'
+         		or
+                A.pro_name like '%' || #searchKeyword# || '%' )
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="searchCondition2">
+	         	<!-- 축종구분 -->
+		               A.animal_kind = #searchCondition2#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="searchCondition3">
+	         	<!--  -->
+		               A.pro_kind = #searchCondition3#
+	         </isNotEmpty>
+		 </dynamic>
+		 and A.DELE_YN = 'N'
+		 
+	</sql>
+	
+	<select id="MpItemMasterMDAO.selectMpItemMasterMList_D" parameterClass="mpItemMasterMSerarchVO" resultClass="egovMap">
+		SELECT 
+			a.pro_code,
+		       a.pro_name,
+		       a.pro_name1,
+		       a.animal_kind,
+		       b.code_name as animal_kind_name,
+		       a.large_code,
+		       c.code_name as large_code_name,
+		       sale_group1,
+		       d.code_name sale_group1_name,
+		       
+		       sale_group2,
+		       e.code_name as sale_group2_name,
+		       frozen_type,
+		       n.code_name as frozen_type_name,
+		       set_yn,
+		       prdt_type,
+		       h.code_name as prdt_type_name,
+		       pro_kind,
+		       f.code_name as pro_kind_name,
+		       
+		       meat_type,
+		       g.code_name as meat_type_name,
+		        code_88 as code_88_id,
+		       k.code_name as code_88,
+		       k.etc01 as code_88_etc01,
+		       a.brand_name as brand_code,
+		       p.code_name as brand_name,
+		       a.std_code,
+		       a.std_name,
+		       
+		       shelf_life,
+		       o.code_name as shelf_life_name,
+		       r_temperature,
+		       pro_ukind,
+		       pro_ipsu::varchar,
+		       pro_weig::varchar,
+		       
+		       <!-- 화면에서 0값코드 사용못함, 대힌 1로 보냄. -->
+		       (case when price_calc = '0' then '1'
+		      	 when price_calc = '1' then '2' else null end ) price_calc,
+		       
+		       l.code_name as price_calc_name,
+		       
+		       vat_code,
+		       m.code_name as vat_code_name,
+		       pm_type,
+		       i.code_name as pm_type_name,
+		       a.cm_rpt_type,
+		       j.code_name as cm_rpt_type_name,
+		       
+		       emart_bar1,
+		       emart_bar2,
+		       emart_bar31,
+		       emart_bar32,
+		       
+		       lotte_code,
+		       a.ipsu_cnt::varchar,
+		       a.work_type1,
+		       q.code_name as work_type1_name,
+		       pack_type,
+		       openmps."FN_GET_TMCODEXDNM"(a.corp_code,'MP018',a.pack_type) as pack_type_name,
+		       a.work_line,
+		       t.code_name as work_line_name,
+		       
+		       a.print_sheet,
+		       u.code_name as print_sheet_name,
+		       v.safety_stock as safety_stock10,
+		       p13.safety_stock as safety_stock13,
+		       p14.safety_stock as safety_stock14,
+		       w.safety_stock as safety_stock21,
+		       x.safety_stock as safety_stock22,
+		       y.safety_stock as safety_stock31,
+		       p99.safety_stock as safety_stock99,
+		       a.memo,
+		       a.dele_yn,
+		       
+		       to_char(a.cr_date, 'YYYY-MM-DD HH:mi:ss') as cr_date,
+		       usr1.user_name,
+		       to_char(a.md_date, 'YYYY-MM-DD HH:mi:ss') as md_date,
+		       usr2.user_name,
+		       
+		       a.cm_rpt_type,
+		       
+		       a.weig_type,
+		       openmps."FN_GET_TMCODEXDNM"(a.corp_code,'MP027',a.weig_type) as weig_type_name,
+		       
+		       a.short_code,
+		       a.work_type2,
+		       r.code_name as work_type2_name,
+		       a.work_type3,
+		       s.code_name as work_type3_name,
+		       a.md_user,
+		       a.cr_user
+		       
+		       
+		       
+		 <include refid="selectWhere_fragment"/> 
+		 order by a.animal_kind, a.large_code, a.pro_code
+		 <include refid="Global.pagingParam_fragment"/>
+	</select>	
+	<select id="MpItemMasterMDAO.selectMpItemMasterMListTotCnt_S" parameterClass="mpItemMasterMSerarchVO" resultClass="int">
+			SELECT
+				count(A.pro_code)
+			<include refid="selectWhere_fragment"/> 
+	</select>
+	<select id="MpItemMasterMDAO.selectMpItemMasterMCodeList_D" parameterClass="mpItemMasterMSerarchVO" resultClass="egovMap">
+		SELECT distinct
+				A.pro_code as code
+				,A.pro_name as label
+				,A.large_code
+				,A.pro_weig
+				,A.pro_ukind
+				, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'MP006',a.large_code) as large_name
+				,	A.sale_group2
+				, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'SD025',a.sale_group2) as sale_group2_name
+		 <include refid="selectWhere_fragment"/> 
+		 ORDER BY A.pro_code
+	</select>
+	<select id="MpItemMasterMDAO.callWMSFNSetDcsku" resultClass="egovMap">
+			SELECT result_cdoe, recult_msg from openmps."set_dcsku"(#proCode#,#dsType#)
+	</select>
+	
+	<select id="MpItemMasterMDAO.checkDupMpItemMasterM" resultClass="int">
+			SELECT
+				count(pro_code)
+			FROM openmps.mp_item_master_m
+			WHERE
+			corp_code = #corpCode# 
+			<isEqual property="dsType" compareValue="U">
+				and pro_code != #proCode# and pro_name=#proName#
+			</isEqual>
+			<isEqual property="dsType" compareValue="C">
+				<isNotEmpty property="proCode">
+				and pro_code=#proCode#
+				</isNotEmpty>
+				<isNotEmpty property="proName">
+				and pro_name=#proName#
+				</isNotEmpty>
+			</isEqual>
+			
+			
+	</select>
+	
+</sqlMap>

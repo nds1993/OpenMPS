@@ -1,0 +1,255 @@
+{
+	"module": "WorkAreaRenderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"formBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box",
+				"order": [
+					"receDate",
+					"groupType",
+					"rdo_userCode",
+					"userCode",
+					"rdo_custCode",
+					"custCode"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-4 col_line\"><div class=\"form-group\"><label class=\"required\">월선택</label><input type=\"text\" class=\"form-control receDate form_type_date\"></div><div class=\"form-group\"><label>소계 </label><div class=\"radio\"><label><input type=\"radio\" name=\"groupType\" value=\"0\" checked>없음 </label><label><input type=\"radio\" name=\"groupType\" value=\"1\">담당자별 </label></div></div></div><div class=\"col-xs-4\"><div class=\"form-group form_w40\"><label>구분</label><div class=\"form-group form_only\"><div class=\"radio\"><label><input type=\"radio\" name=\"rdo_userCode\" value=\"0\" checked>전체 </label><label><input type=\"radio\" name=\"rdo_userCode\" value=\"1\">담당 </label></div></div><div class=\"form-group form_only\"><div class=\"userCode_region\"></div></div><div class=\"form-group form_only\"><select multiple class=\"form-control select_multipe userCode\"></select></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>거래처선택</label><div class=\"form-group form_only\"><div class=\"radio\"><label><input type=\"radio\" name=\"rdo_custCode\" value=\"0\" checked>전체 </label><label><input type=\"radio\" name=\"rdo_custCode\" value=\"1\">거래처 </label></div></div><div class=\"form-group form_only\"><div class=\"custCode_region\"></div></div><div class=\"form-group form_only\"><select multiple class=\"form-control select_multipe custCode\"></select></div></div></div></div>",
+					"mode": "form",
+					"items": {
+						"receDate": {
+							"module": "date",
+							"label": "선택일자",
+							"selector": ".receDate",
+							"required": true,
+							"format": "YYYY-MM",
+							"defaultDate": "2012-07"
+						},
+						"groupType": {
+							"module": "radiobox",
+							"label": "소계",
+							"selector": "[name=groupType]",
+							"required": false
+						},
+						"rdo_userCode": {
+							"module": "radiobox",
+							"label": "구분",
+							"selector": "[name=rdo_userCode]",
+							"required": false
+						},
+						"userCode": {
+							"label": "사용자코드",
+							"required": false
+						},
+						"rdo_custCode": {
+							"module": "radiobox",
+							"label": "거래처",
+							"selector": "[name=rdo_custCode]",
+							"required": false
+						},
+						"custCode": {
+							"label": "거래처코드",
+							"required": false
+						}
+					},
+					"data": {}
+				},
+				"userCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "사용자코드",
+						"required": false
+					}
+				},
+				"custCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "거래처코드",
+						"required": false
+					}
+				}
+
+			}
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"calTest",
+					"radioTest",
+					"textareaTest",
+					"comboboxTest",
+					"checkTest",
+					"textTest",
+					"multipleTest",
+					"priceTest"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">달력</label><div class=\"input-group calTest\"><input type=\"text\" class=\"form-control\" value=\"2017-06\"><span class=\"input-group-btn\"><button class=\"btn btn-default\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">월선택</span></button></span></div></div><div class=\"form-group\"><label>라디오 </label><div class=\"radio\"><label><input type=\"radio\" name=\"radioTest\" value=\"0\" checked>없음 </label><label><input type=\"radio\" name=\"radioTest\" value=\"1\">담당자별 </label></div></div><div class=\"form-group\"><label>textarea</label><textarea class=\"form-control textareaTest\" value=\"\"></textarea></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>체크박스</label><div class=\"form-group form_only\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"checkTest\" value=\"0\" checked>전체 </label></div></div></div><div class=\"form-group\"><label>Text </label><input type=\"text\" class=\"form-control textTest\"></div><div class=\"form-group\"><label>ComboBox </label><div class=\"select_design comboboxTest\"><span class=\"select_label\">선택해 주세요</span><select class=\"form-control\"><option value=\"detailCode\">코드</option><option value=\"detailName1\">코드명1</option><option value=\"detailName2\">코드명2</option></select></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>multiple</label><div class=\"form-group form_only\"><select multiple class=\"form-control select_multipe custCode\"></select></div></div><div class=\"form-group\"><label>Price</label><div class=\"input-group priceTest\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control \"></div></div></div></div>",
+					"items": {
+						"calTest": {
+							"module": "date",
+							"label": "달력",
+							"selector": ".calTest",
+							"required": true,
+							"format": "YYYY-MM-DD",
+							"defaultDate": "2013-07-07"
+						},
+						"radioTest": {
+							"module": "radiobox",
+							"label": "라디오",
+							"selector": "[name=radioTest]",
+							"required": true
+						},
+						"textareaTest": {
+							"module": "textarea",
+							"label": "textarea",
+							"selector": ".textareaTest",
+							"required": true
+						},
+						"comboboxTest": {
+							"module": "combobox",
+							"label": "combobox",
+							"selector": ".comboboxTest",
+							"required": true
+						},
+						"checkTest": {
+							"module": "checkbox",
+							"label": "checkbox",
+							"selector": "[name=checkTest]",
+							"required": true
+						},
+						"textTest": {
+							"module": "text",
+							"label": "text",
+							"selector": ".textTest",
+							"required": true
+						},
+						"multipleTest": {
+							"module": "multiple",
+							"label": "multiple",
+							"selector": ".multipleTest",
+							"required": true
+						},
+						"priceTest": {
+							"module": "price",
+							"label": "price",
+							"selector": ".priceTest",
+							"required": true
+						}
+
+					},
+					"data": {}
+				}
+			}
+		},
+
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "result_box grid_box",
+				"gridId": "outputinfoCredit",
+				"gridParams": {
+					"data": [{}, {}],
+					"datatype" : "local",
+					"colModel": [{
+							"name": "custCode",
+							"label": "코드",
+							"align": "left",
+							"width": 50
+						},
+						{
+							"name": "custName",
+							"label": "거래처",
+							"align": "left",
+							"width": 80
+						},
+						{
+							"name": "outKumak",
+							"label": "여신한도",
+							"align": "left",
+							"width": 60
+						},
+						{
+							"name": "tempCredit",
+							"label": "임시여신",
+							"align": "left",
+							"width": 60
+						},
+						{
+							"name": "oneCredit",
+							"label": "1회한도",
+							"align": "left",
+							"width": 60
+						},
+						{
+							"name": "coCredit",
+							"label": "여신+1회",
+							"align": "left",
+							"width": 60
+						},
+						{
+							"name": "creditKumak",
+							"label": "채권최고액",
+							"align": "left",
+							"width": 60
+						},
+						{
+							"name": "bJanak",
+							"label": "전기잔액",
+							"align": "left",
+							"width": 60
+						},
+						{
+							"name": "totCredit",
+							"label": "매출액",
+							"align": "left",
+							"width": 70
+						},
+						{
+							"name": "receKumak",
+							"label": "수금액",
+							"align": "left",
+							"width": 60
+						},
+						{
+							"name": "janak",
+							"label": "잔액",
+							"align": "left",
+							"width": 60
+						},
+						{
+							"name": "userName",
+							"label": "담당자",
+							"align": "left",
+							"width": 70
+						}
+
+					],
+					"width": "auto",
+					"height": 391,
+					"iconSet": "fontAwesome"
+				}
+			}
+		}
+	}
+}

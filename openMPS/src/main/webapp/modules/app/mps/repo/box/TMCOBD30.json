@@ -1,0 +1,195 @@
+{
+    "module": "TMCOBD30Renderer",
+    "options": {
+        "className": "contents_box",
+        "order": [
+            "queryBox",
+            "resultBox",
+            "formBox"
+        ],
+        "activation": {
+            "defaultWidget": "",
+            "method": "one-page"
+        },
+        "formBox": {
+            "module": "FormBox",
+            "options": {
+                "order": [
+                    "faqId",
+                    "faqTitle",
+                    "question",
+                    "answer",
+                    "sortOrder"
+                ],
+                "activation": {
+                    "defaultWidget": "",
+                    "method": "one-page"
+                },
+                "custom_form": {
+                	"name": "Form Builder Params",
+                    "template": "<div class=\"form_box form-group-tmm\"><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">제목</label><input type=\"text\" class=\"form-control faqId\" value=\"\" placeholder=\"\" style=\"display:none;\"><input type=\"text\" class=\"form-control faqTitle\" value=\"\" placeholder=\"\"></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">질문</label><textarea rows=\"10\" class=\"form-control question\"></textarea></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">답변</label><textarea rows=\"10\" class=\"form-control answer\"></textarea></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label>정렬순서</label><input type=\"text\" class=\"form-control sortOrder\" value=\"\" placeholder=\"\"></div></div></div></div>",
+                    "mode": "form",
+                    "items": {
+                    	"faqId": {
+                            "module": "text",
+                            "label": "제목",
+                            "selector": ".faqId",
+                            "required": false
+                        },
+                    	"faqTitle": {
+                            "module": "text",
+                            "label": "제목",
+                            "selector": ".faqTitle",
+                            "required": true
+                        },
+                    	"question": {
+                            "module": "textarea",
+                            "label": "내용",
+                            "selector": ".question",
+                            "required": true
+                        },
+                        "answer": {
+                            "module": "textarea",
+                            "label": "내용",
+                            "selector": ".answer",
+                            "required": true
+                        },
+                        "sortOrder": {
+                            "module": "text",
+                            "label": "정렬순서",
+                            "selector": ".sortOrder",
+                            "required":false
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "queryBox": {
+            "module": "FormBox",
+            "options": {
+                "module": "FormBox",
+                "className": "query_box form-inline",
+                "order": [
+                    "strtDate",
+                    "lastDate",
+                    "searchCondition",
+                    "searchKeyword"
+                ],
+                "custom_form": {
+                	"mode": "form",
+                    "template": "<div class=\"form-group\"><label>기간</label><input type=\"text\" class=\"form-control form_type_date strtDate\" placeholder=\"\">~ <input type=\"text\" class=\"form-control form_type_date lastDate\" placeholder=\"\"></div><div class=\"form-group\"><label>검색</label><div class=\"select_design searchCondition\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div><input type=\"text\" class=\"form-control searchKeyword\" placeholder=\"\"></div>",
+                    "items": {
+                    	"searchCondition": {
+                            "selector": ".searchCondition",
+                            "label": "검색조건",
+                            "required": false,
+                            "module": "combobox",
+                            "value": "",
+							"items": [{
+									"label": "제목",
+									"value": "10"
+								},
+								{
+									"label": "내용",
+									"value": "20"
+								},
+								{
+									"label": "작성자",
+									"value": "30"
+								}
+							]
+                        },
+                        "strtDate": {
+                            "module": "date",
+                            "label": "시작일",
+                            "selector": ".strtDate",
+                            "format": "YYYY-MM-DD",
+                            "required": false
+                        },
+                        "lastDate": {
+                            "module": "date",
+                            "label": "종료일",
+                            "selector": ".lastDate",
+                            "format": "YYYY-MM-DD",
+                            "required": false
+                        },
+                        "searchKeyword": {
+                            "module": "text",
+                            "label": "검색내용",
+                            "selector": ".searchKeyword",
+                            "required": false
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "resultBox": {
+            "module": "manifest!jqGrid4-1.0.0",
+            "options": {
+                "className": "resultBox_box grid_box",
+                "gridId": "TMCOBD30_grid_1",
+                "gridParams": {
+                    "data": [],
+                    "colModel": [
+                    {
+                        "name": "faqTitle",
+                        "label": "제목",
+                        "align": "left",
+                        "width": 600
+                    }, {
+                       "name": "crUserName",
+                        "label": "작성자",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "crDate2",
+                        "label": "작성일",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "readCnt",
+                        "label": "조회수",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "deleYn",
+                        "label": "삭제여부",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "faqId",
+                        "label": "FAQ ID",
+                        "align": "center",
+                        "width": 100,
+                        "hidden":true
+                    }, {
+                        "name": "question",
+                        "label": "질문",
+                        "align": "center",
+                        "width": 100,
+                        "hidden":true
+                    }, {
+                        "name": "answer",
+                        "label": "답변",
+                        "align": "center",
+                        "width": 100,
+                        "hidden":true
+                    }, {
+                        "name": "sortOrder",
+                        "label": "정렬순서",
+                        "align": "center",
+                        "width": 100,
+                        "hidden":true
+                    }],
+                    "width": "auto",
+                    "height": "250",
+                    "iconSet": "fontAwesome",
+                    "pager": false,
+                    "cellEdit": false
+                }
+            }
+        }
+    }
+}

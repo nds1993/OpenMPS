@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpReqMtrlM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpReqMtrlMSerarchVO" type="nds.mpm.prod.PP0401.vo.MpReqMtrlMVO"/>
+	
+	<resultMap id="mpReqMtrlM" class="nds.mpm.prod.PP0401.vo.MpReqMtrlMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="plantCode" column="plant_code" columnIndex="2"/>
+		<result property="workDate" column="work_date" columnIndex="3"/>
+		<result property="mtrlCode" column="mtrl_code" columnIndex="4"/>
+		<result property="reqSource" column="req_source" columnIndex="5"/>
+		<result property="proCode" column="pro_code" columnIndex="6"/>
+		<result property="reqMtrlQty" column="req_mtrl_qty" columnIndex="7"/>
+		<result property="invQty" column="inv_qty" columnIndex="8"/>
+		<result property="safeQty" column="safe_qty" columnIndex="9"/>
+		<result property="reqPurQty" column="req_pur_qty" columnIndex="10"/>
+		<result property="proUnit" column="pro_unit" columnIndex="11"/>
+		<result property="memo" column="memo" columnIndex="12"/>
+		<result property="deleYn" column="dele_yn" columnIndex="13"/>
+		<result property="mdUser" column="md_user" columnIndex="14"/>
+		<result property="mdDate" column="md_date" columnIndex="15"/>
+		<result property="crUser" column="cr_user" columnIndex="16"/>
+		<result property="crDate" column="cr_date" columnIndex="17"/>
+	</resultMap>
+	
+	<insert id="mpReqMtrlMDAO.insertMpReqMtrlM">
+		<![CDATA[
+			INSERT INTO mp_req_mtrl_m 
+				( corp_code
+				  , plant_code
+				  , work_date
+				  , mtrl_code
+				  , req_source
+				  , pro_code
+				  , req_mtrl_qty
+				  , inv_qty
+				  , safe_qty
+				  , req_pur_qty
+				  , pro_unit
+				  , memo
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #workDate#
+				  , #mtrlCode#
+				  , #reqSource#
+				  , #proCode#
+				  , #reqMtrlQty#::numeric(11,0)
+				  , #invQty#::numeric(11,0)
+				  , #safeQty#::numeric(11,0)
+				  , #reqPurQty#::numeric(11,0)
+				  , #proUnit#
+				  , #memo#
+				  , 'N'
+				  , #crUser#
+				  , now() )
+			ON CONFLICT (corp_code, plant_code, work_date, mtrl_code, req_source, pro_code)
+    		DO UPDATE SET
+    			req_mtrl_qty=#reqMtrlQty#::numeric(11,0)
+				, inv_qty=#invQty#::numeric(11,0)
+				, safe_qty=#safeQty#::numeric(11,0)
+				, req_pur_qty=#reqPurQty#::numeric(11,0)
+				, pro_unit=#proUnit#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+		]]>
+	</insert>
+	
+	<update id="mpReqMtrlMDAO.updateMpReqMtrlM">
+		<![CDATA[
+			UPDATE mp_req_mtrl_m
+			SET req_mtrl_qty=#reqMtrlQty#::numeric(11,0)
+				, inv_qty=#invQty#::numeric(11,0)
+				, safe_qty=#safeQty#::numeric(11,0)
+				, req_pur_qty=#reqPurQty#::numeric(11,0)
+				, pro_unit=#proUnit#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND plant_code in ( select plant_code from tm_platxm where grup_plant = #grupPlant# )
+								AND work_date=#workDate#
+								AND mtrl_code=#mtrlCode#
+								AND req_source=#reqSource#
+								AND pro_code=#proCode#
+				]]>
+	</update>
+	
+	<delete id="mpReqMtrlMDAO.deleteMpReqMtrlM">
+		<![CDATA[
+			update mp_req_mtrl_m set dele_yn = 'Y'
+						, md_user=#mdUser#
+						, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND work_date=#workDate#
+								AND mtrl_code=#mtrlCode#
+								AND req_source=#reqSource#
+								AND pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<delete id="mpReqMtrlMDAO.deleteCalcWorkDateMpReqMtrlM">
+			DELETE FROM mp_req_mtrl_m 
+			WHERE corp_code=#corpCode#
+			AND work_date=#workDate#
+			AND plant_code in ( select plant_code from tm_platxm where grup_plant = #grupPlant# )
+	</delete>
+	
+	<select id="mpReqMtrlMDAO.selectMpReqMtrlM_S" resultMap="mpReqMtrlM">
+		<![CDATA[
+			SELECT
+				corp_code
+				, plant_code
+				, work_date
+				, mtrl_code
+				, req_source
+				, pro_code
+				, req_mtrl_qty
+				, inv_qty
+				, safe_qty
+				, req_pur_qty
+				, pro_unit
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM mp_req_mtrl_m
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND work_date=#workDate#
+								AND mtrl_code=#mtrlCode#
+								AND req_source=#reqSource#
+								AND pro_code=#proCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	from openmps.mp_req_mtrl_m a
+	  	inner join openmps.tm_platxm b on ( 
+	  		a.corp_code = b.corp_code 
+	  		and a.plant_code = b.plant_code and b.use_yn = 'Y' and b.dele_yn = 'N' )
+	  	where a.corp_code = #corpCode#
+	  	and a.work_date = #workDate#
+	  	<isNotEmpty property="grupPlant">
+	  	and a.plant_code in (select plant_code from openmps.tm_platxm where grup_plant = #grupPlant#)
+	  	</isNotEmpty>
+	</sql>
+	<select id="mpReqMtrlMDAO.selectMpReqMtrlMList_D" parameterClass="mpReqMtrlMSerarchVO" resultClass="egovMap">
+		SELECT
+			a.work_date
+			, ( case max(a.req_source) when '1' then '계획' 
+				  when '2' then '실적' end ) as  req_source_name
+			, b.plant_name
+			, a.mtrl_code
+			, openmps."FN_GET_PROCODENM"(a.corp_code,a.mtrl_code) as mtrl_name
+			, (sum(a.req_mtrl_qty)::numeric(11,0))::varchar as req_mtrl_qty
+			, max(a.pro_unit)::varchar as pro_unit
+			, (max(a.inv_qty)::numeric(11,0))::varchar as inv_qty
+			, (max(a.safe_qty)::numeric(11,0))::varchar as safe_qty
+			
+			, ( sum(a.req_mtrl_qty) + coalesce(max(a.safe_qty), 0) - coalesce(max(a.inv_qty),0) ) as req_pur_qty 
+			
+			, a.plant_code
+			, max(a.req_source) req_source
+			
+		<include refid="selectWhere_fragment"/>
+		group by 
+	  		a.corp_code
+	  		, a.work_date
+			, b.plant_name
+			, a.mtrl_code
+			, a.plant_code
+		order by a.plant_code, a.mtrl_code
+	</select>	
+	<select id="mpReqMtrlMDAO.selectMpReqMtrlMListTotCnt_S" parameterClass="mpReqMtrlMSerarchVO" resultClass="int">
+		SELECT
+			COUNT(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	
+	<!-- 
+	
+		자재소요량 산출 체크
+		
+	 -->
+	<select id="mpReqMtrlMDAO.checkMpReqMtrlMCnt" parameterClass="mpReqMtrlMSerarchVO" resultClass="int">
+		SELECT
+			COUNT(*)
+			from openmps.mp_req_mtrl_m a
+			WHERE corp_code=#corpCode#
+			AND work_date=#workDate#
+			AND plant_code in ( select plant_code from tm_platxm where grup_plant = #grupPlant# )
+	</select>
+	
+	<!-- 
+	
+		자재소요량 산출
+		
+		생산실적기준일 = 계획일자 - 1
+		생산계획기준일 = 계획일자
+		
+		prdt_type = 1 CM
+		prdt_type = 2 PM
+		prdt_type = 3 확정 
+		
+	 -->
+	<select id="mpReqMtrlMDAO.selectCalculateMpReqMtrlMList" parameterClass="mpReqMtrlMSerarchVO" resultClass="egovMap">
+		<![CDATA[
+		SELECT a.corp_code,
+		       a.plant_code,
+		       #workDate# AS work_date,
+		       b.pro_code as mtrl_code,
+		       openmps."FN_GET_PROCODENM"(a.corp_code,b.pro_code) as mtrl_name,
+		       a.src  as req_source,
+		       a.pro_code,
+		       a.qty * b.qty AS req_mtrl_qty,
+		       coalesce(jaego_qty,0) AS inv_qty,
+		       coalesce(safety_stock, 0) AS safe_qty,
+		       coalesce(a.qty, 0) * coalesce(b.qty, 0) + coalesce(safety_stock, 0) - coalesce(jaego_qty,0) AS req_pur_qty,
+		       c.pro_ukind AS pro_unit
+		  FROM (SELECT a.corp_code,
+		               a.plant_code,
+		               a.pro_code,
+		               MAX(a.src) AS src,
+		               MAX(a.qty) AS qty,
+		               MAX(bom_ver) AS bom_ver
+		        
+		          FROM (SELECT a.corp_code,
+		                       a.plant_code,
+		                       a.pro_code,
+		                       CASE
+		                          WHEN sum(prod_qty) > 0 THEN
+		                           '2'
+		                          ELSE
+		                           '1'
+		                        END src,
+		                       CASE
+		                          WHEN sum(prod_qty) > 0 THEN
+		                           sum(prod_qty)
+		                          ELSE
+		                           sum(plan_qty)
+		                        END qty
+		                  FROM (SELECT cm.corp_code,
+		                               cm.plant_code,
+		                               cm.pro_code,
+		                               cm.san_qty AS plan_qty,
+		                               0          AS prod_qty
+		                          FROM openmps.mp_plan_cm_d cm, openmps.mp_plan_cm_h h
+		                         WHERE cm.work_date = #workDate#
+		                           AND cm.dele_yn = 'N'
+		                           AND cm.corp_code = #corpCode#
+		                           AND cm.san_qty > 0
+		                           AND cm.corp_code = h.corp_code
+		                           AND cm.plant_code = h.plant_code                       
+		                           AND cm.work_date = h.work_date
+		                           AND h.status = '3'
+		                           AND cm.plant_code IN
+		                               (SELECT plant_code
+		                                  FROM tm_platxm
+		                                 WHERE grup_plant IN
+		                                       (SELECT code_id
+		                                          FROM tm_codexd
+		                                         WHERE group_code = 'MP002'
+		                                           AND corp_code = #corpCode#
+		                                           AND code_id = #grupPlant#
+		                                           AND use_yn = 'Y'
+		                                           AND dele_yn = 'N')
+		                                   AND prdt_type = '1' 
+		                                   AND corp_code = #corpCode#)
+		                        UNION ALL 
+		                        SELECT bpm.corp_code,
+		                               bpm.plant_code,                                
+		                               bpm.pro_code,
+		                               0               as plan_qty,
+		                               COUNT(bar_code) AS prod_qty
+		                          FROM openmps.mp_bar_pro_m bpm
+		                         WHERE bpm.corp_code = #corpCode#
+		                           AND bpm.pro_date = to_char(#workDate#::date - 1, 'YYYYMMDD')
+		                           AND bpm.dele_yn = 'N'
+		                           AND bpm.prdt_type in ('1','2')
+		                           AND bpm.plant_code IN
+		                               (SELECT plant_code
+		                                  FROM tm_platxm
+		                                 WHERE grup_plant IN
+		                                       (SELECT code_id
+		                                          FROM tm_codexd
+		                                         WHERE group_code = 'MP002'
+		                                           AND corp_code = #corpCode#
+		                                           AND code_id = #grupPlant#
+		                                           AND use_yn = 'Y'
+		                                           AND dele_yn = 'N')
+		                                   AND corp_code = #corpCode#)
+		                         GROUP BY bpm.corp_code, bpm.plant_code, bpm.pro_code
+		                        UNION ALL
+		                        SELECT pm.corp_code,
+		                               pm.plant_code,                               
+		                               pm.pro_code,
+		                               pm.work_qty AS plan_qty,
+		                               0           as prod_qty
+		                          FROM openmps.mp_plan_pm_m pm
+		                         WHERE pm.work_date = #workDate#
+		                           AND pm.dele_yn = 'N'
+		                           AND pm.status = '3'
+		                           AND pm.corp_code = #corpCode#
+		                           AND pm.work_qty > 0
+		                           AND pm.plant_code IN
+		                               (SELECT plant_code
+		                                  FROM tm_platxm
+		                                 WHERE grup_plant IN
+		                                       (SELECT code_id
+		                                          FROM tm_codexd
+		                                         WHERE group_code = 'MP002'
+		                                           AND corp_code = #corpCode#
+		                                           AND code_id = #grupPlant#
+		                                           AND use_yn = 'Y'
+		                                           AND dele_yn = 'N')
+		                                   AND prdt_type = '2' 
+		                                   AND corp_code = #corpCode#)
+		                        UNION ALL
+		                        SELECT bpm.corp_code,
+		                               bpm.plant_code,
+		                               m.pro_code,
+		                               0                 as plan_qty,
+		                               COUNT(print_code) AS bar_code_cnt
+		                          FROM openmps.mp_auto_total_m bpm
+		                         INNER JOIN mp_item_master_m m ON bpm.corp_code =
+		                                                          m.corp_code
+		                                                      AND bpm.pro_name =
+		                                                          m.pro_name
+		                         WHERE bpm.corp_code = #corpCode#
+		                           AND bpm.work_date = to_char(#workDate#::date - 1, 'YYYYMMDD')
+		                           AND bpm.dele_yn = 'N'
+		                           AND bpm.plant_code IN
+		                               (SELECT plant_code
+		                                  FROM tm_platxm
+		                                 WHERE grup_plant IN
+		                                       (SELECT code_id
+		                                          FROM tm_codexd
+		                                         WHERE group_code = 'MP002'
+		                                           AND corp_code = #corpCode#
+		                                           AND code_id = #grupPlant#
+		                                           AND use_yn = 'Y'
+		                                           AND dele_yn = 'N')
+		                                   AND prdt_type = '2' 
+		                                   AND corp_code = #corpCode#)
+		                         GROUP BY bpm.corp_code,
+		                                  bpm.plant_code,
+		                                  m.pro_code
+		                            
+		                       ) a
+			  group by a.corp_code,
+		                          a.plant_code,
+		                          a.pro_code
+		             ) a,
+		               openmps.mp_bom_h b
+		         WHERE a.corp_code = b.corp_code
+		           AND a.plant_code = b.plant_code
+		           AND a.pro_code = b.pro_code
+		         GROUP BY a.corp_code, a.plant_code, a.pro_code) a,
+		       openmps.mp_item_master_m c,
+		       openmps.mp_bom_d b
+		  LEFT JOIN openmps.mp_item_plntg_m d ON d.corp_code = b.corp_code
+		                                    AND d.grup_plant = #grupPlant# 
+		                                    AND d.pro_code = b.pro_code
+		
+		  LEFT JOIN (SELECT plant_code, sku, SUM(stokqty) AS jaego_qty
+		               FROM openmps.st_stok_mfrde_v t, openmps.tm_plat_warhxm b
+		              WHERE t.biz = '1000'
+		                AND t.client = #corpCode#
+		                AND t.client = b.corp_code
+		                AND t.dc = b.wh_code
+		              GROUP BY plant_code, sku) e ON b.pro_code = e.sku
+		                                         AND b.plant_code = e.plant_code
+		
+		 WHERE a.corp_code = b.corp_code
+		   AND a.plant_code = b.plant_code
+		   AND a.pro_code = b.bom_code
+		   AND a.bom_ver = b.bom_ver
+		   AND b.pro_code = c.pro_code
+		   AND b.corp_code = c.corp_code   
+		
+	   ]]>
+	</select>
+</sqlMap>

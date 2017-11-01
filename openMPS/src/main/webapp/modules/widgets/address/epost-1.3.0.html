@@ -1,0 +1,156 @@
+<script id="zip_one_html" type="text/template">
+	<div class="control_box">
+		<div class="form-group home_region w100p">
+			<div class="input-group code_search_box">
+				<div class="td keyword" style="width:70px">
+					<input type="text" class="form-control zip_no" id="zip_no" value="<%= zipNo %>" disabled>
+				</div>
+				<div class="td btn_search">
+					<span class="input-group-btn ">
+						<button class="btn btn-default btn_go_zip_search" type="button">
+							<i class="fa fa-search"></i>
+						</button>
+					</span>
+				</div>
+				<div class="td result">
+					<input type="text" class="form-control address" id="address" placeholder="<%= i18n_address %>" value="<%= addr %>">
+				</div>
+			</div>
+		</div>
+		<div class="zip_floating_region"></div>
+	</div>
+</script>
+<script id="zip_two_html" type="text/template">
+<div class="label_box">
+	<label class="control-label"><span class="title">주소검색</span></label>
+</div>
+<div class="control_box">
+	<div class="form-group home_region">
+		<label for="zip_no" class="sr-only"><%= i18n_postno %></label>
+		<div class="input-group">
+			<input type="text" class="form-control zip_no" id="zip_no" placeholder="<%= i18n_postno %>" value="<%= zipNo %>" disabled>
+  		    <span class="input-group-btn">
+        		<button class="btn btn-default btn_go_zip_search" type="button"><i class="fa fa-search"></i> 검색</button>
+      		</span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="address" class="sr-only"><%= i18n_address %></label>
+			<input type="text" class="form-control address" id="address" placeholder="<%= i18n_address %>" value="<%= addr %>" disabled>
+	</div>
+	<div class="form-group">
+		<label for="address_detail" class="sr-only"><%= i18n_detail %></label>
+			<input type="text" class="form-control address_detail" id="address_detail" placeholder="<%= i18n_detail %>" value="<%= detailAddr %>" >
+		<div class="helf-block"><%= i18n_desc %></div>
+	</div>
+
+	<div>
+		<button class="btn btn-primary btn-block btn_go_confirm hide" type="button"><i class="fa fa-check"></i> <%= i18n_confirm %></button>
+	</div>
+	<div class="zip_floating_region"></div>
+</div>
+</script>
+
+<script id="zip_floating_html" type="text/template">
+	<div class="alert_box">
+		<div class="alert_title"> <i class="fa fa-search"></i> <b>우편번호 검색</b>
+			<button class="btn btn-danger fr btn-sm btn_zip_close mt10"><i class="fa fa-times"></i> <span>닫기</span>
+            </button>
+        </div>
+        <div class="alert_body">
+			<div class="form-group">
+				<label for="zip_search" class="sr-only">우편번호</label>
+
+                <div class="input-group">
+					<input type="text" class="form-control btn_zip_search" id="zip_search" placeholder="주소검색">
+                    <span class="input-group-btn">
+        				<button class="btn btn-primary btn-lg" id="searchBtn" type="button"><i class="fa fa-search"></i> 검색</button>
+      				</span>
+                </div>
+
+                <div class="desc text-left mt10">
+                    정확한 주소나 시/군/구 + 도로명, 동명 또는 건물명 입력
+                    <br>예) 동해시 중앙로 / 여수 중앙동, 대전 현대아파트
+                    <br>예) 도움5로 19 / 어진동 307-19</div>
+				</div>
+
+				<hr class="line">
+
+				<div class="zip_list_region">
+					<!-- 검색결과 보여야 할 내용 -->
+					<div class="result_box">
+					</div>
+					<hr class="line">
+    				<div class="zip_list_scroll_box">
+						<div class="scroll_box">
+						</div><!-- scroll_box -->
+					</div><!-- zip_list_scroll_box -->
+					<button class="btn btn-block btn-default btn_more btn_myappmore"><i class="fa fa-plus"></i> 더보기</button>
+    	    	</div>
+
+				<div class="zip_list_default_region">
+					<!-- 검색전에 보여야 할 내용 -->
+            	</div>
+
+				<!-- 검색결과가 없으면 보여야 할 영역 -->
+            	<div class="zip_list_empty_region">
+
+	            </div>
+
+			</div>
+		</div><!-- alert_body -->
+	</div><!-- alert_box -->
+
+</script>
+
+<script id="zip_list_default_html" type="text/template">
+	<h3>정확한 주소를 모르시는 경우</h3>
+	시/군/구 + 도로명, 동명 또는 건물명 <br>
+	예) 동해시 중앙로, 여수 중앙동, 대전 현대아파트 <br>
+
+	<h3>정확한 주소를 아시는 경우</h3>
+	도로명 + 건물번호  <br>
+	예) 도움5로 19읍/면/동/리 + 지번 예) 어진동 307-19 <br>
+</script>
+
+<script id="zip_list_empty_html" type="text/template">
+	<div class="data_none">
+		<div class="title">
+			<i class="fa fa-search"></i>
+			<div>검색 결과가 없습니다.</div>
+		</div>
+		<div class="desc">해당 게시판에는 아직 작성된 글이 없습니다.</div>
+	</div>
+
+</script>
+
+<script id="zip_list_html" type="text/template">
+
+</script>
+<script id="zip_row_html" type="text/template">
+	<div class="pr20 btn_go_detailAddr">
+		<div class="mb5">우편번호 : <b><%=zipNo %></b>
+		</div>
+	<div class="desc"><%=jibunAddr%></div>
+	<div class="desc"><%=roadAddr%></div>
+	<span class="right_icon_box">
+		<i class="fa fa-chevron-right"></i>
+	</span>
+	</div>
+
+</script>
+
+<script id="address_manager_html" type="text/html">
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+	Address Manager
+  </div>
+  <div class="panel-body jsoneditor_region">
+  </div>
+  <div class="panel-footer">
+	Address 위젯의 초기화 파라메터를 입력하세요
+  </div>
+</div>
+
+</script>

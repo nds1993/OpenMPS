@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- 지육시세 ( ASIS JIYUK_INFO ) -->
+<sqlMap namespace="MpPigkxm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpPigkxmSerarchVO" type="nds.mpm.prod.buy.vo.MpPigkxmDefaultVO"/>
+	
+	<resultMap id="mpPigkxm" class="nds.mpm.prod.buy.vo.MpPigkxmVO">
+		<result property="jiyukDate" column="jiyuk_date" columnIndex="1"/>
+		<result property="jiyukPric1" column="jiyuk_pric1" columnIndex="2"/>
+		<result property="jiyukPric2" column="jiyuk_pric2" columnIndex="3"/>
+		<result property="jiyukPric3" column="jiyuk_pric3" columnIndex="4"/>
+		<result property="jiyukPric4" column="jiyuk_pric4" columnIndex="5"/>
+		<result property="jiyukPer" column="jiyuk_per" columnIndex="6"/>
+		<result property="dochPric" column="doch_pric" columnIndex="7"/>
+		<result property="gagongDosu" column="gagong_dosu" columnIndex="8"/>
+		<result property="dochDosu1" column="doch_dosu1" columnIndex="9"/>
+		<result property="dochDosu2" column="doch_dosu2" columnIndex="10"/>
+		<result property="dochDosu3" column="doch_dosu3" columnIndex="11"/>
+		<result property="dochDosu4" column="doch_dosu4" columnIndex="12"/>
+		<result property="ASex1" column="a_sex1" columnIndex="13"/>
+		<result property="ASex2" column="a_sex2" columnIndex="14"/>
+		<result property="ASex3" column="a_sex3" columnIndex="15"/>
+		<result property="BSex1" column="b_sex1" columnIndex="16"/>
+		<result property="BSex2" column="b_sex2" columnIndex="17"/>
+		<result property="BSex3" column="b_sex3" columnIndex="18"/>
+		<result property="CSex1" column="c_sex1" columnIndex="19"/>
+		<result property="CSex2" column="c_sex2" columnIndex="20"/>
+		<result property="CSex3" column="c_sex3" columnIndex="21"/>
+		<result property="DSex1" column="d_sex1" columnIndex="22"/>
+		<result property="DSex2" column="d_sex2" columnIndex="23"/>
+		<result property="DSex3" column="d_sex3" columnIndex="24"/>
+		<result property="ESex1" column="e_sex1" columnIndex="25"/>
+		<result property="ESex2" column="e_sex2" columnIndex="26"/>
+		<result property="ESex3" column="e_sex3" columnIndex="27"/>
+		<result property="jiyuk2Pric1" column="jiyuk2_pric1" columnIndex="28"/>
+		<result property="jiyuk2Pric2" column="jiyuk2_pric2" columnIndex="29"/>
+		<result property="jiyuk2Pric3" column="jiyuk2_pric3" columnIndex="30"/>
+		<result property="jiyuk2Pric4" column="jiyuk2_pric4" columnIndex="31"/>
+		<result property="jiyuk2Pric5" column="jiyuk2_pric5" columnIndex="32"/>
+		<result property="jiyuk2Per" column="jiyuk2_per" columnIndex="33"/>
+		<result property="doch2Pric" column="doch2_pric" columnIndex="34"/>
+		<result property="gagong2Dosu" column="gagong2_dosu" columnIndex="35"/>
+		<result property="doch2Dosu1" column="doch2_dosu1" columnIndex="36"/>
+		<result property="doch2Dosu2" column="doch2_dosu2" columnIndex="37"/>
+		<result property="doch2Dosu3" column="doch2_dosu3" columnIndex="38"/>
+		<result property="doch2Dosu4" column="doch2_dosu4" columnIndex="39"/>
+		<result property="doch2Dosu5" column="doch2_dosu5" columnIndex="40"/>
+		<result property="a2Sex1" column="a2_sex1" columnIndex="41"/>
+		<result property="a2Sex2" column="a2_sex2" columnIndex="42"/>
+		<result property="a2Sex3" column="a2_sex3" columnIndex="43"/>
+		<result property="b2Sex1" column="b2_sex1" columnIndex="44"/>
+		<result property="b2Sex2" column="b2_sex2" columnIndex="45"/>
+		<result property="b2Sex3" column="b2_sex3" columnIndex="46"/>
+		<result property="c2Sex1" column="c2_sex1" columnIndex="47"/>
+		<result property="c2Sex2" column="c2_sex2" columnIndex="48"/>
+		<result property="c2Sex3" column="c2_sex3" columnIndex="49"/>
+		<result property="d2Sex1" column="d2_sex1" columnIndex="50"/>
+		<result property="d2Sex2" column="d2_sex2" columnIndex="51"/>
+		<result property="d2Sex3" column="d2_sex3" columnIndex="52"/>
+		<result property="e2Sex1" column="e2_sex1" columnIndex="53"/>
+		<result property="e2Sex2" column="e2_sex2" columnIndex="54"/>
+		<result property="e2Sex3" column="e2_sex3" columnIndex="55"/>
+		<result property="memo" column="memo" columnIndex="56"/>
+		<result property="deleYn" column="dele_yn" columnIndex="57"/>
+		<result property="mdUser" column="md_user" columnIndex="58"/>
+		<result property="mdDate" column="md_date" columnIndex="59"/>
+		<result property="crUser" column="cr_user" columnIndex="60"/>
+		<result property="crDate" column="cr_date" columnIndex="61"/>
+	</resultMap>
+	
+	<insert id="mpPigkxmDAO.insertMpPigkxm_S">
+		<![CDATA[
+			INSERT INTO mp_pigkxm 
+				( jiyuk_date
+				  , jiyuk_pric1
+				  , jiyuk_pric2
+				  , jiyuk_pric3
+				  , jiyuk_pric4
+				  , jiyuk_per
+				  , doch_pric
+				  , gagong_dosu
+				  , doch_dosu1
+				  , doch_dosu2
+				  , doch_dosu3
+				  , doch_dosu4
+				  , a_sex1
+				  , a_sex2
+				  , a_sex3
+				  , b_sex1
+				  , b_sex2
+				  , b_sex3
+				  , c_sex1
+				  , c_sex2
+				  , c_sex3
+				  , d_sex1
+				  , d_sex2
+				  , d_sex3
+				  , e_sex1
+				  , e_sex2
+				  , e_sex3
+				  , jiyuk2_pric1
+				  , jiyuk2_pric2
+				  , jiyuk2_pric3
+				  , jiyuk2_pric4
+				  , jiyuk2_pric5
+				  , jiyuk2_per
+				  , doch2_pric
+				  , gagong2_dosu
+				  , doch2_dosu1
+				  , doch2_dosu2
+				  , doch2_dosu3
+				  , doch2_dosu4
+				  , doch2_dosu5
+				  , a2_sex1
+				  , a2_sex2
+				  , a2_sex3
+				  , b2_sex1
+				  , b2_sex2
+				  , b2_sex3
+				  , c2_sex1
+				  , c2_sex2
+				  , c2_sex3
+				  , d2_sex1
+				  , d2_sex2
+				  , d2_sex3
+				  , e2_sex1
+				  , e2_sex2
+				  , e2_sex3
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #jiyukDate#
+				  , #jiyukPric1#
+				  , #jiyukPric2#
+				  , #jiyukPric3#
+				  , #jiyukPric4#
+				  , #jiyukPer#
+				  , #dochPric#
+				  , #gagongDosu#
+				  , #dochDosu1#
+				  , #dochDosu2#
+				  , #dochDosu3#
+				  , #dochDosu4#
+				  , #ASex1#
+				  , #ASex2#
+				  , #ASex3#
+				  , #BSex1#
+				  , #BSex2#
+				  , #BSex3#
+				  , #CSex1#
+				  , #CSex2#
+				  , #CSex3#
+				  , #DSex1#
+				  , #DSex2#
+				  , #DSex3#
+				  , #ESex1#
+				  , #ESex2#
+				  , #ESex3#
+				  , #jiyuk2Pric1#
+				  , #jiyuk2Pric2#
+				  , #jiyuk2Pric3#
+				  , #jiyuk2Pric4#
+				  , #jiyuk2Pric5#
+				  , #jiyuk2Per#
+				  , #doch2Pric#
+				  , #gagong2Dosu#
+				  , #doch2Dosu1#
+				  , #doch2Dosu2#
+				  , #doch2Dosu3#
+				  , #doch2Dosu4#
+				  , #doch2Dosu5#
+				  , #a2Sex1#
+				  , #a2Sex2#
+				  , #a2Sex3#
+				  , #b2Sex1#
+				  , #b2Sex2#
+				  , #b2Sex3#
+				  , #c2Sex1#
+				  , #c2Sex2#
+				  , #c2Sex3#
+				  , #d2Sex1#
+				  , #d2Sex2#
+				  , #d2Sex3#
+				  , #e2Sex1#
+				  , #e2Sex2#
+				  , #e2Sex3#
+				  , #memo#
+				  , #deleYn#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , #crDate# )
+		]]>
+	</insert>
+	
+	<update id="mpPigkxmDAO.updateMpPigkxm_S">
+		<![CDATA[
+			UPDATE mp_pigkxm
+			SET jiyuk_date=#jiyukDate#
+				, jiyuk_pric1=#jiyukPric1#
+				, jiyuk_pric2=#jiyukPric2#
+				, jiyuk_pric3=#jiyukPric3#
+				, jiyuk_pric4=#jiyukPric4#
+				, jiyuk_per=#jiyukPer#
+				, doch_pric=#dochPric#
+				, gagong_dosu=#gagongDosu#
+				, doch_dosu1=#dochDosu1#
+				, doch_dosu2=#dochDosu2#
+				, doch_dosu3=#dochDosu3#
+				, doch_dosu4=#dochDosu4#
+				, a_sex1=#ASex1#
+				, a_sex2=#ASex2#
+				, a_sex3=#ASex3#
+				, b_sex1=#BSex1#
+				, b_sex2=#BSex2#
+				, b_sex3=#BSex3#
+				, c_sex1=#CSex1#
+				, c_sex2=#CSex2#
+				, c_sex3=#CSex3#
+				, d_sex1=#DSex1#
+				, d_sex2=#DSex2#
+				, d_sex3=#DSex3#
+				, e_sex1=#ESex1#
+				, e_sex2=#ESex2#
+				, e_sex3=#ESex3#
+				, jiyuk2_pric1=#jiyuk2Pric1#
+				, jiyuk2_pric2=#jiyuk2Pric2#
+				, jiyuk2_pric3=#jiyuk2Pric3#
+				, jiyuk2_pric4=#jiyuk2Pric4#
+				, jiyuk2_pric5=#jiyuk2Pric5#
+				, jiyuk2_per=#jiyuk2Per#
+				, doch2_pric=#doch2Pric#
+				, gagong2_dosu=#gagong2Dosu#
+				, doch2_dosu1=#doch2Dosu1#
+				, doch2_dosu2=#doch2Dosu2#
+				, doch2_dosu3=#doch2Dosu3#
+				, doch2_dosu4=#doch2Dosu4#
+				, doch2_dosu5=#doch2Dosu5#
+				, a2_sex1=#a2Sex1#
+				, a2_sex2=#a2Sex2#
+				, a2_sex3=#a2Sex3#
+				, b2_sex1=#b2Sex1#
+				, b2_sex2=#b2Sex2#
+				, b2_sex3=#b2Sex3#
+				, c2_sex1=#c2Sex1#
+				, c2_sex2=#c2Sex2#
+				, c2_sex3=#c2Sex3#
+				, d2_sex1=#d2Sex1#
+				, d2_sex2=#d2Sex2#
+				, d2_sex3=#d2Sex3#
+				, e2_sex1=#e2Sex1#
+				, e2_sex2=#e2Sex2#
+				, e2_sex3=#e2Sex3#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+						WHERE jiyuk_date=#jiyukDate#
+				]]>
+	</update>
+	
+	<delete id="mpPigkxmDAO.deleteMpPigkxm_S">
+		<![CDATA[
+			DELETE FROM mp_pigkxm 
+						WHERE jiyuk_date=#jiyukDate#
+				]]>
+	</delete>
+	
+	<select id="mpPigkxmDAO.selectMpPigkxm_S" resultMap="mpPigkxm">
+		<![CDATA[
+			SELECT
+				jiyuk_date
+				, jiyuk_pric1
+				, jiyuk_pric2
+				, jiyuk_pric3
+				, jiyuk_pric4
+				, jiyuk_per
+				, doch_pric
+				, gagong_dosu
+				, doch_dosu1
+				, doch_dosu2
+				, doch_dosu3
+				, doch_dosu4
+				, a_sex1
+				, a_sex2
+				, a_sex3
+				, b_sex1
+				, b_sex2
+				, b_sex3
+				, c_sex1
+				, c_sex2
+				, c_sex3
+				, d_sex1
+				, d_sex2
+				, d_sex3
+				, e_sex1
+				, e_sex2
+				, e_sex3
+				, jiyuk2_pric1
+				, jiyuk2_pric2
+				, jiyuk2_pric3
+				, jiyuk2_pric4
+				, jiyuk2_pric5
+				, jiyuk2_per
+				, doch2_pric
+				, gagong2_dosu
+				, doch2_dosu1
+				, doch2_dosu2
+				, doch2_dosu3
+				, doch2_dosu4
+				, doch2_dosu5
+				, a2_sex1
+				, a2_sex2
+				, a2_sex3
+				, b2_sex1
+				, b2_sex2
+				, b2_sex3
+				, c2_sex1
+				, c2_sex2
+				, c2_sex3
+				, d2_sex1
+				, d2_sex2
+				, d2_sex3
+				, e2_sex1
+				, e2_sex2
+				, e2_sex3
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM mp_pigkxm
+						WHERE jiyuk_date=#jiyukDate#
+				]]>
+	</select>
+	
+	<select id="mpPigkxmDAO.selectMpPigkxmList_D" parameterClass="mpPigkxmSerarchVO" resultClass="egovMap">
+
+	</select>	
+	<select id="mpPigkxmDAO.selectMpPigkxmListTotCnt_S" parameterClass="mpPigkxmSerarchVO" resultClass="int">
+
+	</select>
+
+</sqlMap>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PighisBuy">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="pighisBuySerarchVO" type="nds.mpm.prod.buy.vo.PighisBuyDefaultVO"/>
+	
+	<resultMap id="pighisBuy" class="nds.mpm.prod.buy.vo.PighisBuyVO">
+		<result property="buyDate" column="buy_date" columnIndex="1"/>
+		<result property="hisNo" column="his_no" columnIndex="2"/>
+		<result property="dochNo" column="doch_no" columnIndex="3"/>
+		<result property="sumWeig" column="sum_weig" columnIndex="4"/>
+		<result property="gradeGubun1" column="grade_gubun1" columnIndex="5"/>
+		<result property="gradeGubun2" column="grade_gubun2" columnIndex="6"/>
+		<result property="buyType" column="buy_type" columnIndex="7"/>
+		<result property="noGubun" column="no_gubun" columnIndex="8"/>
+		<result property="basePartCode" column="base_part_code" columnIndex="9"/>
+		<result property="basePartName" column="base_part_name" columnIndex="10"/>
+		<result property="compSsno" column="comp_ssno" columnIndex="11"/>
+		<result property="compName" column="comp_name" columnIndex="12"/>
+		<result property="compOwner" column="comp_owner" columnIndex="13"/>
+		<result property="compTel" column="comp_tel" columnIndex="14"/>
+		<result property="compAddr" column="comp_addr" columnIndex="15"/>
+		<result property="buyQty" column="buy_qty" columnIndex="16"/>
+		<result property="buyWeig" column="buy_weig" columnIndex="17"/>
+		<result property="custRegno" column="cust_regno" columnIndex="18"/>
+		<result property="custName" column="cust_name" columnIndex="19"/>
+		<result property="gitaPan" column="gita_pan" columnIndex="20"/>
+		<result property="gitaType" column="gita_type" columnIndex="21"/>
+		<result property="gitaSex" column="gita_sex" columnIndex="22"/>
+		<result property="gitaWeig" column="gita_weig" columnIndex="23"/>
+		<result property="gitaDoo" column="gita_doo" columnIndex="24"/>
+		<result property="memo" column="memo" columnIndex="25"/>
+		<result property="deleYn" column="dele_yn" columnIndex="26"/>
+		<result property="mdUser" column="md_user" columnIndex="27"/>
+		<result property="mdDate" column="md_date" columnIndex="28"/>
+		<result property="crUser" column="cr_user" columnIndex="29"/>
+		<result property="crDate" column="cr_date" columnIndex="30"/>
+	</resultMap>
+	
+	<insert id="pighisBuyDAO.insertPighisBuy_S">
+		<![CDATA[
+			INSERT INTO pighis_buy 
+				( buy_date
+				  , his_no
+				  , doch_no
+				  , sum_weig
+				  , grade_gubun1
+				  , grade_gubun2
+				  , buy_type
+				  , no_gubun
+				  , base_part_code
+				  , base_part_name
+				  , comp_ssno
+				  , comp_name
+				  , comp_owner
+				  , comp_tel
+				  , comp_addr
+				  , buy_qty
+				  , buy_weig
+				  , cust_regno
+				  , cust_name
+				  , gita_pan
+				  , gita_type
+				  , gita_sex
+				  , gita_weig
+				  , gita_doo
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #buyDate#
+				  , #hisNo#
+				  , #dochNo#
+				  , #sumWeig#
+				  , #gradeGubun1#
+				  , #gradeGubun2#
+				  , #buyType#
+				  , #noGubun#
+				  , #basePartCode#
+				  , #basePartName#
+				  , #compSsno#
+				  , #compName#
+				  , #compOwner#
+				  , #compTel#
+				  , #compAddr#
+				  , #buyQty#
+				  , #buyWeig#
+				  , #custRegno#
+				  , #custName#
+				  , #gitaPan#
+				  , #gitaType#
+				  , #gitaSex#
+				  , #gitaWeig#
+				  , #gitaDoo#
+				  , #memo#
+				  , #deleYn#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , #crDate# )
+		]]>
+	</insert>
+	
+	<update id="pighisBuyDAO.updatePighisBuy_S">
+		<![CDATA[
+			UPDATE pighis_buy
+			SET buy_date=#buyDate#
+				, his_no=#hisNo#
+				, doch_no=#dochNo#
+				, sum_weig=#sumWeig#
+				, grade_gubun1=#gradeGubun1#
+				, grade_gubun2=#gradeGubun2#
+				, buy_type=#buyType#
+				, no_gubun=#noGubun#
+				, base_part_code=#basePartCode#
+				, base_part_name=#basePartName#
+				, comp_ssno=#compSsno#
+				, comp_name=#compName#
+				, comp_owner=#compOwner#
+				, comp_tel=#compTel#
+				, comp_addr=#compAddr#
+				, buy_qty=#buyQty#
+				, buy_weig=#buyWeig#
+				, cust_regno=#custRegno#
+				, cust_name=#custName#
+				, gita_pan=#gitaPan#
+				, gita_type=#gitaType#
+				, gita_sex=#gitaSex#
+				, gita_weig=#gitaWeig#
+				, gita_doo=#gitaDoo#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+						WHERE buy_date=#buyDate#
+								AND his_no=#hisNo#
+								AND doch_no=#dochNo#
+				]]>
+	</update>
+	
+	<delete id="pighisBuyDAO.deletePighisBuy_S">
+		<![CDATA[
+			DELETE FROM pighis_buy 
+						WHERE buy_date=#buyDate#
+								AND his_no=#hisNo#
+								AND doch_no=#dochNo#
+				]]>
+	</delete>
+	
+	<select id="pighisBuyDAO.selectPighisBuy_S" resultMap="pighisBuy">
+		<![CDATA[
+			SELECT
+				buy_date
+				, his_no
+				, doch_no
+				, sum_weig
+				, grade_gubun1
+				, grade_gubun2
+				, buy_type
+				, no_gubun
+				, base_part_code
+				, base_part_name
+				, comp_ssno
+				, comp_name
+				, comp_owner
+				, comp_tel
+				, comp_addr
+				, buy_qty
+				, buy_weig
+				, cust_regno
+				, cust_name
+				, gita_pan
+				, gita_type
+				, gita_sex
+				, gita_weig
+				, gita_doo
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM pighis_buy
+						WHERE buy_date=#buyDate#
+								AND his_no=#hisNo#
+								AND doch_no=#dochNo#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM PIGHIS_BUY 
+		WHERE BUY_DATE = #searchCondition# AND BUY_TYPE = #searchCondition2#
+		 <dynamic> 
+		 </dynamic>
+	</sql>
+	<select id="pighisBuyDAO.selectPighisBuyList_D" parameterClass="pighisBuySerarchVO" resultClass="egovMap">
+		SELECT BUY_DATE
+		, HIS_NO
+		, DOCH_NO
+		, COMP_SSNO
+		, COMP_NAME
+		, COMP_OWNER
+		, COMP_TEL, COMP_ADDR, BASE_PART_CODE, BASE_PART_NAME
+		, GITA_WEIG, GRADE_GUBUN2, CUST_NAME, MEMO 
+		 <include refid="selectWhere_fragment"/>  
+		 ORDER BY HIS_NO, DOCH_NO
+	</select>	
+	<select id="pighisBuyDAO.selectPighisBuyListTotCnt_S" parameterClass="pighisBuySerarchVO" resultClass="int">
+		SELECT
+		count(HIS_NO)
+		<include refid="selectWhere_fragment"/>  
+	</select>
+
+</sqlMap>

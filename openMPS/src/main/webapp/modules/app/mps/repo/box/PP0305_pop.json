@@ -1,0 +1,90 @@
+{
+	"name": "생산계획 입력(PM) 추가팝업",
+	"module": "PP0305PopupRenderer",
+	"options": {
+		"header": {
+			"title": {
+				"label": "생산계획 추가하기"
+			},
+			"feature": [{
+				"confirm": "확인"
+			}]
+		},
+		"content": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box nosearch_btn",
+				"order": [
+					"custCode", "proCode", "workQty", "delvDate", "planMemo"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-12 label_w6\"><div class=\"form-group\"><label class=\"required\">거래처</label><div class=\"custCode_region\"></div></div><div class=\"form-group\"><label class=\"required\">제품</label><div class=\"proCode_region\"></div></div><div class=\"form-group\"><label class=\"required\">작업지시량</label><input type=\"text\" class=\"form-control workQty\" style=\"width:124px\"></div><div class=\"form-group\"><label class=\"required\">출고일자</label><input type=\"text\" class=\"form-control form_type_date delvDate\" placeholder=\"\" style=\"width:124px\"></div><div class=\"form-group\"><label>계획특기사항</label><input type=\"text\" class=\"form-control planMemo\"></div></div></div>",
+					"mode": "form",
+					"items": {
+						"workQty": {
+							"required": true,
+							"selector": ".workQty",
+							"label": "작업지시사항",
+							"module": "text"
+						},
+						"delvDate": {
+							"module": "date",
+							"selector": ".delvDate",
+							"label": "출고일자",
+							"required": true,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"planMemo": {
+							"module": "text",
+							"selector": ".planMemo",
+							"label": "계획특기사항",
+							"required": false
+						},
+
+						"custCode": {
+							"label": "거래처"
+						},
+						"proCode": {
+							"label": "제품"
+						}
+					},
+					"data": {}
+				},
+				"custCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "제품",
+						"required": false,
+						"codeType": "SD0101",
+						"params": {
+						},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				},
+				"proCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "제품",
+						"required": false,
+						"codeType": "PP0103",
+						"params": {
+						},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,498 @@
+{
+	"name": "생돈구매세부입력",
+	"module": "PO0201Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"resultBox_1",
+			"resultBox_2"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": [
+					"facKind",
+					"custCode",
+					"searchCondition",
+					"strtDate",
+					"lastDate"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"facKind": {
+							"selector": ".facKind",
+							"label": "정산구분",
+							"required": false,
+							"module": "combobox",
+							"items": [{
+								"label": "탕박",
+								"value": 1
+							}, {
+								"label": "박피",
+								"value": 3
+							}]
+						},
+						"custCode": {
+							"label": "농장",
+							"required": true
+						},
+						"searchCondition": {
+							"selector": ".searchCondition",
+							"label": "조회조건",
+							"required": true,
+							"module": "combobox",
+							"items": [{
+								"label": "판정일자",
+								"value": "ipgoDate"
+							}, {
+								"label": "도축일자",
+								"value": "dochDate"
+							}]
+						},
+						"strtDate": {
+							"module": "date",
+							"selector": ".strtDate",
+							"label": "조회시작일자",
+							"required": true,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"lastDate": {
+							"module": "date",
+							"selector": ".lastDate",
+							"label": "조회종료일자",
+							"required": true,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group form_only\"><div class=\"select_design facKind\" style=\"width:60px\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>농장</label><div class=\"custCode_region\"></div> <div class=\"select_design searchCondition\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div><input type=\"text\" class=\"form-control form_type_date strtDate\" placeholder=\"\">~<input type=\"text\" class=\"form-control form_type_date lastDate\"></div>"
+				},
+				"custCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "농장",
+						"required": true,
+						"codeType": "SD0101",
+						"params": {
+							"custType": "4"
+						},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+			}
+		},
+		"resultBox_1": {
+			"module": "SubContainer",
+			"options": {
+				"header": {
+					"title": {
+						"label": "일반정보"
+					}
+				},
+				"content": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "grid_box",
+						"gridId": "PO0201_grid_1",
+						"gridParams": {
+							"cmTemplate":{"sortable":false},
+
+							"data": [ ],
+							"colModel": [
+								{
+									"name": "dochCode",
+									"label": "도축코드",
+									"width": 70,
+									"align": "center",
+									"editable": false,
+									"hidden": true
+								},
+								{
+									"name": "dochDate",
+									"label": "도축일자",
+									"width": 45,
+									"align": "center",
+									"editable": false,
+									"sorttype": "date" , "formatter": "dateFormatter",
+									"unformat": "dateUnformatter",
+									"formatoptions": {
+										"srcformat": "YYYYMMDD",
+										"newformat": "YYYY-MM-DD"
+									}
+								},
+								{
+									"name": "custCode",
+									"label": "농장",
+									"width": 45,
+									"align": "center",
+									"editable": false
+								},
+								{
+									"name": "custCodename",
+									"label": "농장명",
+									"width": 75,
+									"align": "left",
+									"editable": false
+								},
+								{
+									"name": "facKind",
+									"label": "돈피구분코드",
+									"width": 75,
+									"align": "center",
+									"editable": false,
+									"hidden":true
+								},
+								{
+									"name": "facKindname",
+									"label": "돈피구분",
+									"width": 60,
+									"align": "center",
+									"editable": false
+								},
+
+								{
+									"name": "doSu",
+									"label": "두수",
+									"width": 40,
+									"align": "center",
+									"sorttype":"integer","formatter":"integer",
+									"editable": false
+								},
+								{
+									"name": "hisNo",
+									"label": "이력번호",
+									"width": 54,
+									"align": "center",
+									"editable": false
+								},
+								{
+									"name": "repCust",
+									"label": "대표농장코드",
+									"width": 65,
+									"align": "center",
+									"editable": true,
+									"edittype": "text",
+									"hidden": true
+								},
+								{
+									"name": "repCustname",
+									"label": "<div class=\"editable_mark\"></div>대표농장",
+									"width": 55,
+									"align": "left",
+									"editable": true,
+									"edittype": "text",
+									"classes": "editable codesearch"
+								},
+								{
+									"name": "brandCode",
+									"label": "브랜드코드",
+									"width": 55,
+									"align": "center",
+									"editable": true,
+									"edittype": "text",
+									"hidden": true
+								},
+								{
+									"name": "brandCodename",
+									"label": "<div class=\"editable_mark\"></div>브랜드",
+									"width": 55,
+									"align": "left",
+									"editable": true,
+									"edittype": "text",
+									"T":{
+									"edittype": "select",
+									"formatter": "select",
+									"editoptions": {
+										"value": "1:더느림; 2:openMPS; PP007:PP007"
+									}}
+								},
+								{
+									"name": "pigWeig1",
+									"label": "<div class=\"editable_mark\"></div>생체중",
+									"width": 50,
+									"align": "right",
+									"sorttype":"number","formatter":"number",
+									"editable": true,
+									"editrules":{"number":true},
+									"editoptions":{"maxlength":12}
+								}
+							],
+							"pager": false,
+							"width": "auto","rowNum":"100000000",
+							"height": "262",
+							"cellEdit": true,
+							"shrinkToFit": true,
+							"gridview": true,
+							"datatype": "local",
+							"viewrecords": true,
+							"footerrow": false,
+							"userDataOnFooter": false,
+							"multiselect": false,
+							"multiselectWidth": 20,
+							"rownumbers": false,
+							"cellsubmit": "clientArray",
+							"pager": "#PO0201_grid_1_pager",
+							"viewrecords": true,
+							"recordpos":"left",
+							"pgbuttons":false,
+							"pginput":false
+						}
+					}
+				}
+			}
+		},
+		"resultBox_2": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "grid_box",
+				"gridId": "PO0201_grid_2",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+							"name": "dochDate",
+							"label": "도축일자",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"sorttype": "date" , "formatter": "dateFormatter",
+							"unformat": "dateUnformatter",
+							"formatoptions": {
+								"srcformat": "YYYYMMDD",
+								"newformat": "YYYY-MM-DD"
+							},
+							"frozen":true
+						},
+						{
+							"name": "ipgoDate",
+							"label": "판정일자",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"sorttype": "date" , "formatter": "dateFormatter",
+							"unformat": "dateUnformatter",
+							"formatoptions": {
+								"srcformat": "YYYYMMDD",
+								"newformat": "YYYY-MM-DD"
+							},
+							"frozen":true
+
+						},
+						{
+							"name": "custCode",
+							"label": "농장",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"frozen":true
+						},
+						{
+							"name": "custCodename",
+							"label": "농장명",
+							"width": 140,
+							"align": "center",
+							"editable": false,
+							"frozen":true
+						},
+						{
+							"name": "mainCustname",
+							"label": "대표농장",
+							"width": 120,
+							"align": "center",
+							"editable": false,
+							"frozen":true
+						},
+
+						{
+							"name": "brandCodeName",
+							"label": "브랜드",
+							"width": 100,
+							"align": "center",
+							"editable": false,
+							"frozen":true
+						},
+
+						{
+							"name": "hisNo",
+							"label": "이력번호",
+							"width": 120,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "sexCode",
+							"label": "성별",
+							"width": 55,
+							"align": "center",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "sexName",
+							"label": "성별",
+							"width": 55,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "pigGrade",
+							"label": "등급",
+							"width": 55,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "dochId",
+							"label": "도체번호",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "pigWeig1",
+							"label": "생체중",
+							"width": 100,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"editable": false
+						},
+						{
+							"name": "pigWeig2",
+							"label": "도체중",
+							"width": 100,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"editable": false
+						},
+						{
+							"name": "pigWeig3",
+							"label": "등지방",
+							"width": 100,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"editable": false
+						},
+						{
+							"name": "pigPric4",
+							"label": "적용단가",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"editable": false
+						},
+						{
+							"name": "parkPiyul",
+							"label": "박피환산율",
+							"width": 100,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"editable": false
+						},
+						{
+							"name": "pigPric1",
+							"label": "지육금액",
+							"width": 90,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"editable": false
+						},
+						{
+							"name": "pigPric3",
+							"label": "가산액외",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"editable": false
+						},
+						{
+							"name": "pigBrpric1",
+							"label": "탕박시세조정금",
+							"width": 110,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"editable": false
+						},
+						{
+							"name": "pigAspric1",
+							"label": "품질유지금외",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"editable": false
+						},
+						{
+							"name": "pigPric8",
+							"label": "정산액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"editable": false
+						},
+						{
+							"name": "pigPric7",
+							"label": "등급수수료",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"editable": false
+						},
+						{
+							"name": "pigPric9",
+							"label": "자조금",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"editable": false
+						},
+						{
+							"name": "pigPric2",
+							"label": "농장지급액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"editable": false
+						}
+					],
+					"cmTemplate":{"sortable":true,"resizable":false},
+					"width": "auto",
+					"rowNum":"100000000",
+					"height": "256",
+					"cellEdit": false,
+					"shrinkToFit": true,
+					"gridview": true,
+					"datatype": "local",
+					"viewrecords": true,
+					"footerrow": false,
+					"userDataOnFooter": false,
+					"multiselect": false,
+					"multiselectWidth": 20,
+					"rownumbers": false,
+					"cellsubmit": "clientArray",
+					"pager": "#PO0201_grid_2_pager",
+					"viewrecords": true,
+					"recordpos":"left",
+					"pgbuttons":false,
+					"pginput":false
+
+				}
+			}
+		}
+	}
+}

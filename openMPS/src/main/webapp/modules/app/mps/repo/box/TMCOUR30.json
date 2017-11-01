@@ -1,0 +1,221 @@
+{
+	"name":"구 메뉴관리-현재는 안씀 TMCOMT10 으로 변경",
+  "module": "TMCOUR30Renderer",
+  "options": {
+    "className": "contents_box",
+    "order": [
+      "queryBox",
+      "programMngBox"
+    ],
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "queryBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "query_box",
+        "order": [
+          "searchKeyword"
+        ],
+        "activation": {
+          "method": "one-page"
+        },
+        "custom_form": {
+          "mode": "form",
+          "items": {
+            "searchKeyword": {
+              "module": "combobox",
+              "selector": ".searchCondition",
+              "label": "프로그램(메뉴)",
+              "required": false
+            }
+          },
+          "data": {},
+          "template": "<div class=\"form-group form-inline\"><label>프로그램(메뉴)명</label><div class=\"select_design searchCondition\"><span class=\"select_label\">선택해 주세요</span><select class=\"form-control\"><option>전체</option></select></div>"
+        }
+      }
+    },
+    "programMngBox": {
+      "module": "RowBox",
+      "options": {
+        "className": "row programmng_box",
+        "order": [
+          "menuTree",
+          "resultBody"
+        ],
+        "col_size": {
+          "menuTree": "3",
+          "resultBody": "9"
+        },
+        "col_option": "xs",
+        "menuTree": {
+          "module": "manifest!Menu-1.0.0",
+          "options": {
+          			"className":"menuTree_box",
+					  "layout": {
+					    "size": "xs",
+					    "align": "text-left",
+					    "type": "treeview"
+					  }
+				}
+        },
+        "resultBody": {
+          "module": "BaroBox",
+          "options": {
+            "className": "resultBody_box",
+            "order": [
+              "resultBox",
+              "formBox"
+            ],
+            "activation": {
+              "defaultWidget": "",
+              "method": "one-page"
+            },
+            "formBox": {
+              "module": "FormBox",
+              "options": {
+                "className": "form_box",
+                "order": [
+                  "menuCode",
+                  "menuName",
+                  "upCode",
+                  "upName",
+                  "sortOrder",
+                  "useYn",
+                  "programYn"
+                ],
+                "activation": {
+                  "method": "one-page"
+                },
+                "custom_form": {
+                  "name": "Form Builder Params",
+                  "mode": "form",
+                  "items": {
+                    "menuCode": {
+                      "module": "text",
+                      "selector": ".menuCode",
+                      "label": "프로그램(메뉴)ID",
+                      "required": true,
+                      "max_size": 50
+                    },
+                    "menuName": {
+                      "module": "text",
+                      "selector": ".menuName",
+                      "label": "프로그램(메뉴)명",
+                      "required": true,
+                      "max_size": 50
+                    },
+                    "upCode": {
+                      "module": "text",
+                      "selector": ".upCode",
+                      "label": "상위 프로그램 ID",
+                      "required": false,
+                      "max_size": 50,
+                      "readonly": true
+                    },
+                    "upName": {
+                      "module": "text",
+                      "selector": ".upName",
+                      "label": "상위 프로그램 명",
+                      "required": false,
+                      "max_size": 50,
+                      "readonly": false
+                    },
+                    "sortOrder": {
+                      "module": "text",
+                      "selector": ".sortOrder",
+                      "label": "정렬순서",
+                      "required": true
+                    },
+                    "useYn": {
+                      "module": "checkbox",
+                      "selector": ".useYn",
+                      "label": "사용여부",
+                      "required": false
+                    },
+                    "programYn": {
+                      "module": "checkbox",
+                      "selector": ".programYn",
+                      "label": "프로그램 여부",
+                      "required": false
+                    }
+                  },
+                  "data": {},
+                  "template": "<div class=\"row\"><div class=\"col-xs-6 form_w110\"><div class=\"form-group\"><label class=\"required\">프로그램(메뉴)ID</label><input type=\"text\" class=\"form-control menuCode\"></div><div class=\"form-group\"><label>상위 프로그램 ID</label><input type=\"text\" class=\"form-control upCode\" readonly></div><div class=\"form-group\"><label>정렬순서</label><input type=\"text\" class=\"form-control sortOrder\"></div></div><div class=\"col-xs-6 form_w110\"><div class=\"form-group\"><label class=\"required\">프로그램(메뉴)명</label><input type=\"text\" class=\"form-control menuName\"></div><div class=\"form-group\"><label>상위 프로그램 명</label><input type=\"text\" class=\"form-control upName\" readonly></div><div class=\"form-group\"><label><input type=\"checkbox\" class=\"useYn\">사용여부 </label></div><div class=\"form-group\"><label><input type=\"checkbox\" class=\"programYn\">프로그램 여부 </label></div></div></div>"
+                }
+              }
+            },
+            "resultBox": {
+              "module": "manifest!jqGrid4-1.0.0",
+              "options": {
+                "className": "programInfo_box grid_box",
+                "gridId": "TMCOUR30_grid_1",
+                "gridParams": {
+                  "data": [],
+                  "colModel": [
+                    {
+                      "name": "menuCode",
+                      "label": "메뉴ID",
+                      "width": 130,
+                      "align": "left",
+                      "editable": false
+                    },
+                    {
+                      "name": "menuName",
+                      "label": "메뉴명",
+                      "width": 160,
+                      "align": "left",
+                      "editable": false
+                    },
+                    {
+                      "name": "upName",
+                      "label": "상위메뉴명",
+                      "width": 160,
+                      "align": "left",
+                      "editable": false
+                    },
+                    {
+                      "name": "upCode",
+                      "label": "상위코드",
+                      "width": 160,
+                      "align": "left",
+                      "editable": false,
+                      "hidden": true
+                    },
+                    {
+                      "name": "sortOrder",
+                      "label": "정렬순서",
+                      "width": 70,
+                      "align": "center",
+                      "editable": false
+                    },
+                    {
+                      "name": "programYn",
+                      "label": "프로그램여부",
+                      "template": "booleanCheckboxFa",
+                      "align": "center",
+                      "width": 60
+                    },
+                    {
+                      "name": "useYn",
+                      "label": "사용여부",
+                      "template": "booleanCheckboxFa",
+                      "align": "center",
+                      "width": 60
+                    }
+                  ],
+                  "width": "auto",
+                  "height": "auto",
+                  "iconSet": "fontAwesome",
+                  "pager": false,
+                  "cellEdit": false
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

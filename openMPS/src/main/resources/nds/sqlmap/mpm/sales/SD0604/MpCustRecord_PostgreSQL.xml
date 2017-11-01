@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD0604MpCustRecord">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SD0604mpCustRecordSerarchVO" type="nds.mpm.sales.SD0604.vo.MpCustRecordVO"/>
+
+	<sql id="select_CustRecordListBody">
+            WITH t1 (user_code, salesman,
+                   sale_cust,
+                   cust_name,
+                   sale_weight,
+                   sale_amt,
+                         total_weight,
+                         total_amt)
+               AS (  select u.user_code, u.user_name salesman
+                                  ,c.sale_cust
+                                  ,max(d.cust_name) cust_name
+                                  ,SUM (case when c.sale_date = #lastDate# then c.sale_weight else 0 end) sale_weight
+                                  ,SUM (case when c.sale_date = #lastDate# then c.sale_amt + c.sale_vat else 0 end) sale_amt
+                                  ,sum(c.sale_weight) total_weight
+                                  ,sum(c.sale_amt + c.sale_vat) total_amt
+                              from (select a.corp_code
+                                          ,a.salesman
+                                          ,case e.sale_comb when '2' then e.sale_comb_cust else e.cust_code end  sale_cust
+                                          ,b.sale_weight
+                                          ,b.sale_amt
+                                          ,b.sale_vat
+                                          ,a.part_code
+                                          ,b.sale_date
+                                      from mp_cust_hist a
+                                          ,mp_cust_record b
+                                          ,mp_cust_info e
+                                          ,mp_item_master_m h
+                                     where a.corp_code = #corpCode#
+                                       and a.part_code = #teamCode#
+                                       and to_char(now(), 'YYYYMMDD')::varchar between a.start_date and a.last_date
+                                       and a.corp_code = b.corp_code
+                                       and a.cust_code = b.cust_code
+                                       and b.sale_date between #strtDate# and #lastDate#
+                                       and a.corp_code = e.corp_code
+                                       and a.cust_code = e.cust_code
+                                         and b.corp_code = h.corp_code
+                                         and b.pro_code  = h.pro_code) c
+                                    ,mp_cust_info d
+                                    ,tm_deptxm g
+                                    ,tm_userxm u
+                             where c.corp_code = d.corp_code
+                               and c.sale_cust = d.cust_code
+                               and c.corp_code = g.corp_code
+                               and c.part_code = g.dept_code
+                               and c.salesman = u.user_code
+                            group by u.user_code
+                                             ,c.part_code
+                                    ,c.sale_cust
+                                    ,u.user_name
+                            order by u.user_name
+                                    ,c.sale_cust
+                                    ),
+               goal (salesman, sale_cust, target_weight)
+               AS (     select a.salesman, a.sale_cust, sum(a.target_weight) target_weight from
+                                (
+                                    select a.salesman
+                                          ,case e.sale_comb when '2' then e.sale_comb_cust else e.cust_code end as sale_cust
+                                          ,target_weight
+                                      from mp_cust_hist a
+                                          ,mp_custgoal_yymm b
+                                          ,mp_cust_info e
+                                     where a.corp_code = #corpCode#
+                                       and a.part_code = #teamCode#
+                                       and to_char(now(), 'YYYYMMDD')::varchar between a.start_date and a.last_date
+                                       and a.corp_code = b.corp_code
+                                       and a.cust_code = b.cust_code
+                                       and b.target_yymm = '201704'
+                                       and a.corp_code = e.corp_code
+                                       and a.cust_code = e.cust_code
+                                       ) a
+                                       group by a.salesman, a.sale_cust ),
+               t3 (salesman, sale_cust, month_sync)
+               AS (  select c.salesman
+                                  ,c.sale_cust
+                                  ,sum(c.sale_weight) month_sync
+                              from (select a.corp_code
+                                          ,a.salesman
+                                          ,case e.sale_comb when '2' then e.sale_comb_cust else e.cust_code end  sale_cust
+                                          ,b.sale_weight
+                                          ,b.sale_amt
+                                          ,b.sale_vat
+                                          ,a.part_code
+                                          ,b.sale_date
+                                      from mp_cust_hist a
+                                          ,mp_cust_record b
+                                          ,mp_cust_info e
+                                          ,mp_item_master_m h
+                                     where a.corp_code = #corpCode#
+                                       and a.part_code = #teamCode#
+                                       and to_char(now(), 'YYYYMMDD')::varchar between a.start_date and a.last_date
+                                       and a.corp_code = b.corp_code
+                                       and a.cust_code = b.cust_code
+                                       and a.corp_code = e.corp_code
+                                       and a.cust_code = e.cust_code
+                                         and b.corp_code = h.corp_code
+                                         and b.pro_code  = h.pro_code
+                                          and b.sale_date BETWEEN TO_CHAR(TO_DATE(#strtDate#, 'yyyymmdd') - INTERVAL '1 MONTH', 'YYYYMMDD')
+                                                           AND openmps."FN_GET_LASTDAY" (#lastDate#, 'm')
+                                          ) c
+                            group by c.salesman
+                                    ,c.sale_cust
+                            order by c.salesman
+                                    ,c.sale_cust),
+               t4 (salesman, sale_cust, yyyy_sync)
+               AS (  select c.salesman
+                                  ,c.sale_cust
+                                  ,sum(c.sale_weight) yyyy_sync
+                              from (select a.corp_code
+                                          ,a.salesman
+                                          ,case e.sale_comb when '2' then e.sale_comb_cust else e.cust_code end  sale_cust
+                                          ,b.sale_weight
+                                          ,b.sale_amt
+                                          ,b.sale_vat
+                                          ,a.part_code
+                                          ,b.sale_date
+                                      from mp_cust_hist a
+                                          ,mp_cust_record b
+                                          ,mp_cust_info e
+                                          ,mp_item_master_m h
+                                     where a.corp_code = #corpCode#
+                                       and a.part_code = #teamCode#
+                                       and to_char(now(), 'YYYYMMDD')::varchar between a.start_date and a.last_date
+                                       and a.corp_code = b.corp_code
+                                       and a.cust_code = b.cust_code
+                                       and a.corp_code = e.corp_code
+                                       and a.cust_code = e.cust_code
+                                       and b.corp_code = h.corp_code
+                                       and b.pro_code  = h.pro_code
+                                       and b.sale_date BETWEEN TO_CHAR(TO_DATE(#strtDate#, 'yyyymmdd') - INTERVAL '12 MONTH', 'YYYYMMDD')
+                                                           AND openmps."FN_GET_LASTDAY" (#lastDate#, 'y')
+                                          ) c
+                            group by c.salesman
+                                      ,c.sale_cust
+                            order by c.salesman
+                                    ,c.sale_cust)
+            SELECT t1.salesman,
+                   t1.sale_cust,
+                   t1.cust_name,
+                   t1.sale_weight,
+                   t1.sale_amt,
+                         t1.total_weight,
+                         t1.total_amt,
+                   goal.target_weight,
+                   t3.month_sync,
+                   t4.yyyy_sync
+              FROM t1
+                   LEFT OUTER JOIN goal ON t1.user_code = goal.salesman and t1.sale_cust = goal.sale_cust
+                   LEFT OUTER JOIN t3 ON t1.user_code = t3.salesman and t1.sale_cust = t3.sale_cust
+                   LEFT OUTER JOIN t4 ON t1.user_code = t4.salesman and t1.sale_cust = t4.sale_cust
+          ORDER BY t1.salesman,     t1.cust_name
+	</sql>
+	
+	<select id="SD0604mpCustRecordDAO.selectMpCustRecordList_D" parameterClass="SD0604mpCustRecordSerarchVO" resultClass="egovMap">
+		SELECT  a.salesman, a.sale_cust cust_code, a.cust_name, a.sale_weight, a.sale_amt,
+              a.total_weight, a.total_amt,
+              a.target_weight, trunc((a.total_weight/a.target_weight)*100, 1) rate,
+              a.month_sync, (a.total_weight - a.month_sync) variation_mon_weight,
+              a.yyyy_sync, (a.total_weight - a.yyyy_sync) variation_yy_weight
+		FROM(
+			<include refid="select_CustRecordListBody"/>
+		) a
+		order by 1, 2, 3
+	</select>
+		
+	<select id="SD0604mpCustRecordDAO.selectMpCustRecordListTotCnt_S" parameterClass="SD0604mpCustRecordSerarchVO" resultClass="int">
+		SELECT
+				count(a.*)
+		FROM(
+		<include refid="select_CustRecordListBody"/>
+		) a	
+	</select>
+	
+	<sql id="select_DetailTab1Body">
+         WITH t1 (sale_cust,
+                   cust_code,
+                   cust_name,
+                   sale_weight,
+                   sale_amt,
+                   total_weight,
+                   total_amt)
+               AS (  SELECT c.sale_cust,
+                            c.cust_code,
+                            c.cust_name,
+                            SUM (
+                               CASE
+                                  WHEN c.sale_date = #lastDate#
+                                  THEN
+                                     c.sale_weight
+                                  ELSE
+                                     0
+                               END)
+                               sale_weight,
+                            SUM (
+                               CASE
+                                  WHEN c.sale_date = #lastDate#
+                                  THEN
+                                     c.sale_amt + c.sale_vat
+                                  ELSE
+                                     0
+                               END)
+                               sale_amt,
+                            SUM (c.sale_weight) total_weight,
+                            SUM (c.sale_amt + c.sale_vat ) total_amt
+                       FROM (SELECT a.corp_code,
+                                    a.salesman,
+                                    CASE e.sale_comb
+                                       WHEN '2' THEN e.sale_comb_cust
+                                       ELSE e.cust_code
+                                    END
+                                       sale_cust,
+                                    e.cust_code,
+                                    e.cust_name,
+                                    b.sale_weight,
+                                    b.sale_amt,
+                                    b.sale_vat,
+                                    a.part_code,
+                                    b.sale_date
+                               FROM mp_cust_hist a,
+                                    mp_cust_record b,
+                                    mp_cust_info e
+                              WHERE     a.corp_code = #corpCode#
+                                    AND a.part_code = #teamCode#
+                                    AND (CASE e.sale_comb
+                                            WHEN '2' THEN e.sale_comb_cust
+                                            ELSE e.cust_code
+                                         END = #custCode#)
+                                                                    AND TO_CHAR (now (), 'YYYYMMDD')::varchar between a.start_date
+                                    AND a.last_date
+                                    AND a.corp_code = b.corp_code
+                                    AND a.cust_code = b.cust_code
+                                    AND b.sale_date BETWEEN    SUBSTR (
+                                                                  #strtDate#,
+                                                                  1,
+                                                                  6)
+                                                            || '01'
+                                                        AND #lastDate#
+                                    AND a.corp_code = e.corp_code
+                                    AND a.cust_code = e.cust_code) c
+                   GROUP BY c.sale_cust, c.cust_code, c.cust_name
+                   ORDER BY c.sale_cust),
+               goal (cust_code, target_weight)
+               AS (  SELECT a.cust_code, SUM (a.target_weight) target_weight
+                       FROM (SELECT e.cust_code, e.cust_name, target_weight
+                               FROM mp_cust_hist a,
+                                    mp_custgoal_yymm b,
+                                    mp_cust_info e
+                              WHERE     a.corp_code = #corpCode#
+                                    AND a.part_code = #teamCode#
+                                    AND (CASE e.sale_comb
+                                            WHEN '2' THEN e.sale_comb_cust
+                                            ELSE e.cust_code
+                                         END = #custCode#)
+                                                                    AND TO_CHAR (now (), 'YYYYMMDD')::varchar between a.start_date
+                                    AND a.last_date
+                                    AND a.corp_code = b.corp_code
+                                    AND a.cust_code = b.cust_code
+                                    AND b.target_yymm = SUBSTR (#lastDate#, 1, 6)
+                                    AND a.corp_code = e.corp_code
+                                    AND a.cust_code = e.cust_code) a
+                   GROUP BY a.cust_code),
+               t3 (cust_code, month_sync)
+               AS (  SELECT c.cust_code, SUM (c.sale_weight) month_sync
+                       FROM (SELECT e.cust_code, b.sale_weight
+                               FROM mp_cust_hist a,
+                                    mp_cust_record b,
+                                    mp_cust_info e,
+                                    mp_item_master_m h
+                              WHERE     a.corp_code = #corpCode#
+                                    AND a.part_code = #teamCode#
+                                    AND (CASE e.sale_comb
+                                            WHEN '2' THEN e.sale_comb_cust
+                                            ELSE e.cust_code
+                                         END = #custCode#)
+                                                                    AND TO_CHAR (now (), 'YYYYMMDD')::varchar between a.start_date
+                                    AND a.last_date
+                                    AND a.corp_code = b.corp_code
+                                    AND a.cust_code = b.cust_code
+                                    AND a.corp_code = e.corp_code
+                                    AND a.cust_code = e.cust_code
+                                    AND b.corp_code = h.corp_code
+                                    AND b.pro_code = h.pro_code
+                                     AND b.sale_date BETWEEN TO_CHAR(TO_DATE(#strtDate#, 'yyyymmdd') - INTERVAL '1 MONTH', 'YYYYMMDD')
+                                    AND openmps."FN_GET_LASTDAY" (#lastDate#, 'm'))
+                            c
+                   GROUP BY c.cust_code
+                   ORDER BY 1),
+               t4 (cust_code, yyyy_sync)
+               AS (  SELECT c.cust_code, SUM (c.sale_weight) yyyy_sync
+                       FROM (SELECT e.cust_code, b.sale_weight
+                               FROM mp_cust_hist a,
+                                    mp_cust_record b,
+                                    mp_cust_info e
+                              WHERE     a.corp_code = #corpCode#
+                                    AND a.part_code = #teamCode#
+                                    AND (CASE e.sale_comb
+                                            WHEN '2' THEN e.sale_comb_cust
+                                            ELSE e.cust_code
+                                         END = #custCode#)
+                                                                    AND TO_CHAR (now (), 'YYYYMMDD')::varchar between a.start_date
+                                    AND a.last_date
+                                    AND a.corp_code = b.corp_code
+                                    AND a.cust_code = b.cust_code
+                                    AND a.corp_code = e.corp_code
+                                    AND a.cust_code = e.cust_code
+                                     AND b.sale_date BETWEEN TO_CHAR(TO_DATE(#strtDate#, 'yyyymmdd') - INTERVAL '12 MONTH', 'YYYYMMDD')
+                                    AND openmps."FN_GET_LASTDAY" (#lastDate#, 'y'))
+                            c
+                   GROUP BY c.cust_code
+                   ORDER BY 1)
+            SELECT t1.sale_cust,
+                   t1.cust_code,
+                   t1.cust_name,
+                   t1.sale_weight,
+                   t1.sale_amt,
+                   t1.total_weight,
+                   t1.total_amt,
+                   goal.target_weight,
+                   t3.month_sync,
+                   t4.yyyy_sync
+              FROM t1
+                   LEFT OUTER JOIN goal ON t1.cust_code = goal.cust_code
+                   LEFT OUTER JOIN t3 ON t1.cust_code = t3.cust_code
+                   LEFT OUTER JOIN t4 ON t1.cust_code = t4.cust_code
+          ORDER BY t1.cust_name                
+	</sql>	
+
+	<select id="SD0604mpCustRecordDAO.selectDetailTab1MpCustRecordList_D" parameterClass="SD0604mpCustRecordSerarchVO" resultClass="egovMap">
+		SELECT    a.sale_cust, a.cust_code, a.cust_name, a.sale_weight, a.sale_amt,
+	              a.total_weight, a.total_amt,
+	              a.target_weight, trunc((a.total_weight/a.target_weight)*100, 1) rate,
+	              a.month_sync, (a.total_weight - a.month_sync) variation_mon_weight,
+	              a.yyyy_sync, (a.total_weight - a.yyyy_sync) variation_yy_weight
+		FROM(
+				<include refid="select_DetailTab1Body"/>
+		) a
+		order by 1, 2, 3
+	</select>	
+	
+	<sql id="select_DetailTab2Body">
+        WITH t1 ( sale_group2,
+                   pro_code,
+                   pro_name,
+                   sale_weight,
+                   sale_amt,
+                         total_weight,
+                         total_amt)
+               AS (  select "FN_GET_TMCODEXDNM" (m.corp_code, 'SD025', m.sale_group2) sale_group2
+                                      ,b.pro_code
+                                      ,m.pro_name
+                                          ,SUM (case when b.sale_date = #lastDate# then b.sale_weight else 0 end) sale_weight
+                                   ,SUM (case when b.sale_date = #lastDate# then b.sale_amt + b.sale_vat else 0 end) sale_amt
+                                   ,sum(b.sale_weight) total_weight
+                                   ,sum(b.sale_amt + b.sale_vat) total_amt
+                                      from mp_cust_hist a
+                                          ,mp_cust_record b
+                                          ,mp_cust_info e
+                                          ,mp_item_master_m m
+                                     where a.corp_code = #corpCode#
+                                       and a.part_code = #teamCode#
+                                       and (case e.sale_comb when '2' then e.sale_comb_cust else e.cust_code end = #custCode#)
+                                       and to_char(now(), 'YYYYMMDD')::varchar between a.start_date and a.last_date
+                                       and b.sale_date between substr(#strtDate#, 1, 6)||'01' and #lastDate#
+                                       and a.corp_code = b.corp_code
+                                       and a.cust_code = b.cust_code
+                                       and a.corp_code = e.corp_code
+                                       and a.cust_code = e.cust_code
+                                       and b.corp_code = m.corp_code
+                                       and b.pro_code  = m.pro_code
+                            group by m.corp_code
+                                    ,m.sale_group2
+                                    ,b.pro_code
+                                    ,m.pro_name
+                                    ),
+               goal (pro_code, target_weight)
+               AS (  select m.pro_code
+                                          ,sum(b.target_weight) target_weight
+                                      from mp_cust_hist a
+                                          ,mp_custgoal_yymm b
+                                          ,mp_cust_info e
+                                          ,mp_item_master_m m
+                                     where a.corp_code = #corpCode#
+                                       and a.part_code = #teamCode#
+                                       and (case e.sale_comb when '2' then e.sale_comb_cust else e.cust_code end = #custCode#)
+                                       and to_char(now(), 'YYYYMMDD')::varchar between a.start_date and a.last_date
+                                       and a.corp_code = b.corp_code
+                                       and a.cust_code = b.cust_code
+                                       and b.target_yymm = substr(#lastDate#, 1, 6)
+                                       and a.corp_code = e.corp_code
+                                       and a.cust_code = e.cust_code
+                                       and b.corp_code = m.corp_code
+                                       and b.sale_group2 = m.sale_group2
+                                 group by m.pro_code     ),
+               t3 (pro_code, month_sync)
+               AS (  select b.pro_code
+                                  ,sum(b.sale_weight) month_sync
+                                      from mp_cust_hist a
+                                          ,mp_cust_record b
+                                          ,mp_cust_info e
+                                          ,mp_item_master_m h
+                                     where a.corp_code = #corpCode#
+                                       and a.part_code = #teamCode#
+                                       and (case e.sale_comb when '2' then e.sale_comb_cust else e.cust_code end = #custCode#)
+                                       and to_char(now(), 'YYYYMMDD')::varchar between a.start_date and a.last_date
+                                       and a.corp_code = b.corp_code
+                                       and a.cust_code = b.cust_code
+                                       and a.corp_code = e.corp_code
+                                       and a.cust_code = e.cust_code
+                                         and b.corp_code = h.corp_code
+                                         and b.pro_code  = h.pro_code
+                                          and b.sale_date BETWEEN TO_CHAR(TO_DATE(#strtDate#, 'yyyymmdd') - INTERVAL '1 MONTH', 'YYYYMMDD')
+                                                           AND openmps."FN_GET_LASTDAY" (#lastDate#, 'm')
+
+                            group by b.pro_code
+                            order by 1),
+               t4 (pro_code, yyyy_sync)
+               AS (  select b.pro_code
+                                  ,sum(b.sale_weight) yyyy_sync
+                                      from mp_cust_hist a
+                                          ,mp_cust_record b
+                                          ,mp_cust_info e
+                                          ,mp_item_master_m h
+                                     where a.corp_code = #corpCode#
+                                       and a.part_code = #teamCode#
+                                       and (case e.sale_comb when '2' then e.sale_comb_cust else e.cust_code end = #custCode#)
+                                       and to_char(now(), 'YYYYMMDD')::varchar between a.start_date and a.last_date
+                                       and a.corp_code = b.corp_code
+                                       and a.cust_code = b.cust_code
+                                       and a.corp_code = e.corp_code
+                                       and a.cust_code = e.cust_code
+                                       and b.corp_code = h.corp_code
+                                       and b.pro_code  = h.pro_code
+                                       and b.sale_date BETWEEN TO_CHAR(TO_DATE(#strtDate#, 'yyyymmdd') - INTERVAL '12 MONTH', 'YYYYMMDD')
+                                                           AND openmps."FN_GET_LASTDAY" (#lastDate#, 'y')
+                            group by b.pro_code
+                            order by 1)
+            SELECT t1.sale_group2,
+                   t1.pro_code,
+                   t1.pro_name,
+                   t1.sale_weight,
+                   t1.sale_amt,
+                   t1.total_weight,
+                   t1.total_amt,
+                   goal.target_weight,
+                   t3.month_sync,
+                   t4.yyyy_sync
+              FROM t1
+                   LEFT OUTER JOIN goal ON t1.pro_code = goal.pro_code
+                   LEFT OUTER JOIN t3 ON t1.pro_code = t3.pro_code 
+                   LEFT OUTER JOIN t4 ON t1.pro_code = t4.pro_code 
+          ORDER BY t1.pro_code
+	</sql>	
+	<select id="SD0604mpCustRecordDAO.selectDetailTab2MpCustRecordList_D" parameterClass="SD0604mpCustRecordSerarchVO" resultClass="egovMap">
+		SELECT    a.sale_group2 pro_lname, a.pro_code, a.pro_name, a.sale_weight, a.sale_amt,
+	              a.total_weight, a.total_amt,
+	              a.target_weight, trunc((a.total_weight/a.target_weight)*100, 1) rate,
+	              a.month_sync, (a.total_weight - a.month_sync) variation_mon_weight,
+	              a.yyyy_sync, (a.total_weight - a.yyyy_sync) variation_yy_weight
+		FROM(
+				<include refid="select_DetailTab2Body"/>
+		) a
+		order by 1, 2, 3
+	</select>
+</sqlMap>

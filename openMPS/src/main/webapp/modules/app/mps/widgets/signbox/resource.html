@@ -1,0 +1,60 @@
+<script id="sign_html" type="text/html">
+<div class="headerarea_region">
+	<div class="mobileheader_box hide">
+  		<h1 class="system_title">
+    		<span class="logo"></span>
+  		</h1>
+	</div>
+</div>
+	<div class="login_in_box">
+		<h1 class="system_title" style="background-size: cover; background-repeat: no-repeat; width: 220px;">
+			<small class="sr-only">openmps <%= i18n_system %></small>
+		</h1>
+		<div class="l_field" id="l_field">
+			<ul>
+				<li>
+					<label class="sr-only" for="form1">
+						<span><%= i18n_id%></span>
+					</label>
+					<div class="input-group">
+						<span class="input-group-addon icon_user">
+							<img src="/skin/mps/img/icon_user.png">
+						</span>
+						<input class="form-control" type="text" name="userId" class="i_txt" value="" maxlength="20" size="20" tabindex="1" title="최대 20자" placeholder="<%= i18n_iddesc %>">
+					</div>
+				</li>
+				<li>
+					<label class="sr-only" for="form2">
+						<span><%= i18n_pw%></span>
+					</label>
+					<div class="input-group">
+						<span class="input-group-addon icon_pw">
+							<img src="/skin/mps/img/icon_pw.png">
+						</span>
+						<input class="form-control" type="password" class="i_txt" name="pwd" value="" size="20" maxlength="16" tabindex="2" title="최대 16자" placeholder="<%= i18n_pwdesc %>">
+					</div>
+				</li>
+			</li>
+		</ul>
+		<div class="form-group checkbox_box form_only">
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" name="checkbox" value="1">
+					<span class="title"><%= i18n_idsave %></span>
+				</label>
+			</div>
+		</div>
+		<div class="form-group label_none hide">
+			<span class="select_design selector">
+				<span class="select_label"></span>
+				<select class="form-control">
+					<option value="">식육포장처리</option>
+					<option value="">창고관리</option>
+				</select>
+			</span>
+		</div>
+		<button class="btn btn_go_login btn-block "><%= i18n_login %></button>
+	</div>
+	<div class="copyright"></div>
+</div>
+</script>

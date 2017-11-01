@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TMCOUR30">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="TMCOUR30SerarchVO" type="nds.tmm.common.TMCOUR30.vo.TMCOUR30VO"/>
+	
+	<typeAlias  alias="menuTreeVO" type="nds.tmm.common.TMCOUR30.vo.MenuTreeVO"/>
+	
+	<resultMap id="TMCOUR30" class="nds.tmm.common.TMCOUR30.vo.TMCOUR30VO">
+		<result property="menuCode" column="menu_code" columnIndex="1"/>
+		<result property="menuName" column="menu_name" columnIndex="2"/>
+		<result property="upCode" column="up_code" columnIndex="3"/>
+		<result property="sortOrder" column="sort_order" columnIndex="4"/>
+		<result property="programYn" column="program_yn" columnIndex="5"/>
+		<result property="useYn" column="use_yn" columnIndex="6"/>
+		<result property="deleYn" column="dele_yn" columnIndex="7"/>
+		<result property="mdUser" column="md_user" columnIndex="8"/>
+		<result property="mdDate" column="md_date" columnIndex="9"/>
+		<result property="crUser" column="cr_user" columnIndex="10"/>
+		<result property="crDate" column="cr_date" columnIndex="11"/>
+	</resultMap>
+	
+	<resultMap id="TMCOUR30Tree" class="nds.tmm.common.TMCOUR30.vo.MenuTreeVO">
+		<result property="menuCode" column="menu_code" columnIndex="1"/>
+		<result property="menuName" column="menu_name" columnIndex="2"/>
+		<result property="upCode" column="up_code" columnIndex="3"/>
+		<result property="sortOrder" column="sort_order" columnIndex="4"/>
+		<result property="navi" column="navi" columnIndex="5" jdbcType="ARRAY"
+            javaType="java.sql.Array" typeHandler="nds.tmm.common.TMCOUR30.vo.ArrayTypeMapper" />
+	</resultMap>
+	
+	<insert id="TMCOUR30DAO.insertTMCOUR30">
+		<![CDATA[
+			INSERT INTO openmps.tm_menuxm 
+				( menu_code
+				  , menu_name
+				  , up_code
+				  , sort_order
+				  , program_yn
+				  , use_yn
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #menuCode#
+				  , #menuName#
+				  , #upCode#
+				  , #sortOrder#
+				  , #programYn#
+				  , #useYn#
+				  , 'N'
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="TMCOUR30DAO.updateTMCOUR30">
+		<![CDATA[
+			UPDATE openmps.tm_menuxm
+			SET  menu_name=#menuName#
+				, up_code=#upCode#
+				, sort_order=#sortOrder#
+				, program_yn = #programYn#
+				, use_yn=#useYn#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE menu_code=#menuCode#
+				]]>
+	</update>
+	
+	<delete id="TMCOUR30DAO.deleteTMCOUR30">
+		<![CDATA[
+			UPDATE openmps.tm_menuxm SET dele_yn = 'Y'
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE menu_code=#menuCode#
+				]]>
+	</delete>
+	
+	<select id="TMCOUR30DAO.selectTMCOUR30_S" resultMap="TMCOUR30">
+		<![CDATA[
+			SELECT
+				menu_code
+				, menu_name
+				, up_code
+				, sort_order
+				, program_yn
+				, use_yn
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM openmps.tm_menuxm
+						WHERE menu_code=#menuCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	from openmps.tm_menuxm a
+	  	left outer join tm_menuxm b on a.up_code = b.menu_code
+	  	where a.dele_yn = 'N'
+		<dynamic>
+			 <isNotEmpty prepend="and" property="upCode">
+		               A.up_code = #upCode#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="searchKeyword">
+		               ( A.menu_code = #searchKeyword#
+		               	or
+		               A.menu_name like '%' || #searchKeyword# || '%' )
+	         </isNotEmpty>
+		 </dynamic>
+	</sql>
+	<select id="TMCOUR30DAO.selectTMCOUR30List_D" parameterClass="TMCOUR30SerarchVO" resultClass="egovMap">
+		SELECT
+				a.menu_code
+				, a.menu_name
+				, a.up_code
+				, b.menu_name as up_name
+				, a.sort_order
+				, a.program_yn
+				, a.use_yn
+				, a.dele_yn
+				, a.md_user
+				, a.md_date
+				, a.cr_user
+				, a.cr_date
+		<include refid="selectWhere_fragment"/>
+		order by a.sort_order
+	</select>	
+	<select id="TMCOUR30DAO.selectTMCOUR30ListTotCnt_S" parameterClass="TMCOUR30SerarchVO" resultClass="int">
+		SELECT
+				count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<sql id="select_treeBody">
+	  	WITH RECURSIVE t(hierarchy, system_code, menu_code, menu_name ,up_code, LEVEL,sort_order, program_yn, navi) AS (
+		   SELECT sort_order::varchar || ARRAY[menu_code] AS hierarchy
+		     ,system_code::varchar
+			 ,menu_code::varchar
+			 ,menu_name
+			 ,up_code::varchar
+			 ,0
+			 ,sort_order
+			 , program_yn
+			 ,ARRAY[menu_name] AS navi
+		   FROM   openmps.tm_menuxm
+		   WHERE  up_code = '0'
+		   UNION ALL
+		   SELECT cast(t.hierarchy || a.sort_order::varchar || a.menu_code as varchar(20)[])
+			 ,a.system_code::varchar
+			 ,a.menu_code::varchar
+			 ,a.menu_name
+			 ,a.up_code::varchar
+			 ,LEVEL+1
+			 ,a.sort_order
+			 ,a.program_yn
+			 ,cast(t.navi || a.menu_name as varchar(100)[]) as navi
+		   FROM   openmps.tm_menuxm a
+		   JOIN   t ON a.up_code = t.menu_code
+		   )
+		SELECT 
+			  hierarchy
+			  ,system_code
+			  ,menu_code
+		      ,menu_name
+		      ,up_code
+		      ,navi
+		      ,level
+		      ,sort_order
+		      , program_yn
+		FROM   t
+		<dynamic prepend="where">
+		 <isNotEmpty prepend="and" property="systemCode">
+	      	system_code = #systemCode#
+         </isNotEmpty>
+         <isNotEmpty prepend="and" property="programYn">
+	      	program_yn = #programYn#
+         </isNotEmpty>
+	    </dynamic>
+	</sql>
+	<select id="TMCOUR30DAO.selectTMCOUR30TreeList" parameterClass="TMCOUR30SerarchVO" resultClass="egovMap">
+		select 
+		a.system_code
+		,a.menu_code
+		,a.menu_name
+		,a.up_code
+		,b.menu_name as up_name
+		,a.level
+		,a.sort_order
+		,a.program_yn
+		from
+		(
+		<include refid="select_treeBody"/>
+		) a
+		inner join openmps.tm_menuxm b on a.menu_code = b.menu_code
+		ORDER  BY hierarchy
+	</select>
+</sqlMap>

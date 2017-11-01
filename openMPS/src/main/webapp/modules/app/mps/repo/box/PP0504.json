@@ -1,0 +1,1465 @@
+{
+    "name": "생산실적조회및조정(개체)",
+    "module": "PP0504Renderer",
+    "options": {
+        "className": "contents_box",
+        "order": ["queryBox", "tabAreaBox"],
+        "activation": {
+            "defaultWidget": "",
+            "method": "one-page"
+        },
+        "queryBox": {
+            "module": "FormBox",
+            "options": {
+                "className": "query_box form-inline",
+                "order": ["searchCondition", "strtDate", "lastDate", "searchCondition2", "plantCode", "largeCode", "proCode"],
+                "activation": {
+                    "method": "one-page"
+                },
+                "custom_form": {
+                    "mode": "form",
+                    "items": {
+                        "searchCondition": {
+                            "selector": ".searchKey",
+                            "label": "선택",
+                            "required": false,
+                            "module": "radiobox",
+                            "value": "date",
+                            "items": [{
+                                    "label": "일자별",
+                                    "value": "date"
+                                },
+                                {
+                                    "label": "공장별",
+                                    "value": "plant"
+                                },
+                                {
+                                    "label": "농장별",
+                                    "value": "nong"
+                                },
+                                {
+                                    "label": "품목별",
+                                    "value": "largecode"
+                                }
+                            ]
+                        },
+                        "strtDate": {
+                            "module": "date",
+                            "selector": ".strtDate",
+                            "label": "생산일자-시작",
+                            "required": false,
+                            "format": "YYYY-MM-DD",
+                            "useCurrent": true,
+                            "defaultDate": true
+                        },
+                        "lastDate": {
+                            "module": "date",
+                            "selector": ".lastDate",
+                            "label": "생산일자-끝",
+                            "required": false,
+                            "format": "YYYY-MM-DD",
+                            "useCurrent": true,
+                            "defaultDate": true
+                        },
+                        "searchCondition2": {
+                            "selector": ".searchCondition",
+                            "label": "검색조건",
+                            "required": false,
+                            "module": "combobox",
+                            "value": "0",
+                            "items": [
+
+                                {
+                                    "label": "정상",
+                                    "value": "delen"
+                                },
+                                {
+                                    "label": "삭제",
+                                    "value": "deley"
+                                }
+                            ]
+                        },
+                        "plantCode": {
+                            "selector": ".plantCode",
+                            "label": "공장",
+                            "required": true,
+                            "module": "combobox",
+                            "fetcher": {
+                                "url": "<%= host %>/rest/mpm/<%= corpCode %>/pp0101/tmplatxm?useYn=Y",
+                                "parser": "return UCMS.parseComboAll( UCMS.parseComboPlant(arguments[0]) );"
+                            }
+                        },
+                        "largeCode": {
+                            "selector": ".largeCode",
+                            "label": "품목",
+                            "required": true,
+                            "module": "combobox",
+                            "fetcher": {
+                                "url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP006/tmcodexd",
+                                "parser": "return UCMS.parseComboAll( UCMS.parseComboItems(arguments[0]) );"
+                            }
+                        },
+                        "proCode": {
+                            "label": "제품코드"
+                        }
+                    },
+                    "data": {},
+                    "template": "<div class=\"form-group\"><label>선택</label><div class=\"radio searchKey\"></div></div><div class=\"form-group\"><label>생산일자</label><input type=\"text\" class=\"form-control form_type_date strtDate\"> - <input type=\"text\" class=\"form-control form_type_date lastDate\"></div><div class=\"form-group\"><label>검색조건</label><div class=\"select_design searchCondition\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"divider\"></div><div class=\"form-group\"><label>공장</label><div class=\"select_design plantCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>품목</label><div class=\"select_design largeCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>제품코드</label><div class=\"proCode_region\"></div></div>"
+                },
+                "proCode": {
+                    "module": "manifest!CodeSearch-1.0.0",
+                    "options": {
+                        "label": "제품코드",
+                        "required": false,
+                        "codeType": "PP0103",
+                        "params": {},
+                        "value": {
+                            "keyword": null,
+                            "result": null
+                        }
+                    }
+                }
+            }
+        },
+
+        "tabAreaBox": {
+            "module": "BaroBox",
+            "options": {
+                "className": "tabarea_box",
+                "order": ["tab_plan", "tab_barcode"],
+                "activation": {
+                    "defaultWidget": "tab_plan",
+                    "method": "show-hide",
+                    "navigator": {
+                        "options": {
+                            "pos": "top",
+                            "closeButton": false,
+                            "label": {
+                                "tab_plan": "개체조회",
+                                "tab_barcode": "바코드조회"
+                            }
+                        }
+                    }
+                },
+                "tab_plan": {
+                    "module": "BaroBox",
+                    "options": {
+                        "className": "tab_plan_box",
+                        "order": ["date_grid", "plant_grid", "nong_grid", "largecode_grid"],
+                        "activation": {
+                            "defaultWidget": "",
+                            "method": "one-page"
+                        },
+                        "date_grid": {
+                            "remark": {
+                                "data": []
+                            },
+                            "module": "manifest!jqGrid4-1.0.0",
+                            "options": {
+                                "className": "grid_box",
+                                "gridId": "PP0504_grid_1",
+                                "gridParams": {
+                                    "data": [],
+                                    "colModel": [{
+                                            "name": "corpCode",
+                                            "index": "corpCode",
+                                            "hidden": true,
+                                            "label": "회사코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "frozen": false
+                                        },
+                                        {
+                                            "name": "proDate",
+                                            "index": "proDate",
+                                            "hidden": false,
+                                            "label": "생산일자",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date",
+                                            "classes": "date",
+                                            "frozen": false
+                                        },
+                                        {
+                                            "name": "proTime",
+                                            "index": "proTime",
+                                            "hidden": false,
+                                            "label": "생산시간",
+                                            "width": 80,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date",
+                                            "frozen": false
+
+                                        },
+                                        {
+                                            "name": "plantCode",
+                                            "index": "plantCode",
+                                            "hidden": true,
+                                            "label": "공장코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "frozen": false
+
+                                        },
+                                        {
+                                            "name": "plantName",
+                                            "index": "plantName",
+                                            "hidden": false,
+                                            "label": "공장",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false,
+                                            "frozen": false
+
+                                        },
+                                        {
+                                            "name": "nongCode",
+                                            "index": "nongCode",
+                                            "hidden": true,
+                                            "label": "농장코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "frozen": false
+                                        },
+                                        {
+                                            "name": "nongName",
+                                            "index": "nongName",
+                                            "hidden": false,
+                                            "label": "농장",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false,
+                                            "frozen": false
+                                        },
+                                        {
+                                            "name": "largeCode",
+                                            "index": "largeCode",
+                                            "hidden": true,
+                                            "label": "품목코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "frozen": false
+                                        },
+                                        {
+                                            "name": "largeName",
+                                            "index": "largeName",
+                                            "hidden": false,
+                                            "label": "품목",
+                                            "width": 50,
+                                            "align": "left",
+                                            "editable": false,
+                                            "frozen": false
+                                        },
+                                        {
+                                            "name": "proCode",
+                                            "index": "proCode",
+                                            "hidden": true,
+                                            "label": "제품코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "frozen": false
+                                        },
+                                        {
+                                            "name": "proName",
+                                            "index": "proName",
+                                            "hidden": false,
+                                            "label": "제품명",
+                                            "width": 180,
+                                            "align": "left",
+                                            "editable": false,
+                                            "frozen": false
+                                        },
+                                        {
+                                            "name": "cartonNo",
+                                            "index": "cartonNo",
+                                            "hidden": false,
+                                            "label": "카튼 No",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "summaryType": "sum",
+                                            "summaryTpl": "합계"
+
+                                        },
+                                        {
+                                            "name": "boxWeig",
+                                            "index": "boxWeig",
+                                            "hidden": false,
+                                            "label": "중량(Kg)",
+                                            "width": 70,
+                                            "align": "right",
+                                            "editable": false,
+                                            "sorttype": "number",
+                                            "formatter": "number",
+                                            "summaryType": "sum"
+                                        },
+                                        {
+                                            "name": "slaughterhousename",
+                                            "index": "slaughterhousename",
+                                            "hidden": false,
+                                            "label": "도축장",
+                                            "width": 120,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "manufacturername",
+                                            "index": "manufacturername",
+                                            "hidden": false,
+                                            "label": "제조원",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "temperature",
+                                            "index": "temperature",
+                                            "hidden": false,
+                                            "label": "보관",
+                                            "width": 130,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "shelfLife",
+                                            "index": "shelfLife",
+                                            "hidden": false,
+                                            "label": "유효기간",
+                                            "width": 130,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "barCode",
+                                            "index": "barCode",
+                                            "hidden": false,
+                                            "label": "바코드",
+                                            "width": 180,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "pojangji",
+                                            "index": "pojangji",
+                                            "hidden": true,
+                                            "label": "재질",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "deleYn",
+                                            "index": "deleYn",
+                                            "hidden": true,
+                                            "label": "삭제여부",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "checkbox"
+                                        },
+                                        {
+                                            "name": "deleDate",
+                                            "index": "deleDate",
+                                            "hidden": false,
+                                            "label": "삭제일자",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date"
+                                        },
+                                        {
+                                            "name": "deleUser",
+                                            "index": "deleUser",
+                                            "hidden": false,
+                                            "label": "삭제자",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        }
+                                        ,
+                                        {
+                                            "name": "wmsYn",
+                                            "index": "wmsYn",
+                                            "hidden": true,
+                                            "label": "wmsYn"
+                                        }
+                                    ],
+                                    "rowNum": "100000000",
+                                    "width": "auto",
+                                    "height": "493",
+                                    "cellEdit": false,
+                                    "shrinkToFit": false,
+                                    "gridview": true,
+                                    "datatype": "local",
+                                    "viewrecords": true,
+                                    "footerrow": true,
+                                    "userDataOnFooter": true,
+                                    "multiselect": true,
+                                    "multiselectWidth": 20,
+                                    "rownumbers": false,
+                                    "pager": "#PP0504_grid_1_pager",
+                                    "viewrecords": true,
+                                    "recordpos": "left",
+                                    "pgbuttons": false,
+                                    "pginput": false,
+                                    "sortable": false
+                                }
+                            }
+                        },
+                        "plant_grid": {
+                            "module": "manifest!jqGrid4-1.0.0",
+                            "options": {
+                                "className": "grid_box",
+                                "gridId": "PP0504_grid_2",
+                                "gridParams": {
+                                    "data": [],
+                                    "colModel": [{
+                                            "name": "corpCode",
+                                            "index": "corpCode",
+                                            "hidden": true,
+                                            "label": "회사코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "plantCode",
+                                            "index": "plantCode",
+                                            "hidden": true,
+                                            "label": "공장코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "plantName",
+                                            "index": "plantName",
+                                            "hidden": false,
+                                            "label": "공장",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "proDate",
+                                            "index": "proDate",
+                                            "hidden": false,
+                                            "label": "생산일자",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date",
+                                            "classes": "date"
+                                        },
+                                        {
+                                            "name": "proTime",
+                                            "index": "proTime",
+                                            "hidden": false,
+                                            "label": "생산시간",
+                                            "width": 80,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date"
+                                        },
+                                        {
+                                            "name": "nongCode",
+                                            "index": "nongCode",
+                                            "hidden": true,
+                                            "label": "농장코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "nongName",
+                                            "index": "nongName",
+                                            "hidden": false,
+                                            "label": "농장",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "largeCode",
+                                            "index": "largeCode",
+                                            "hidden": true,
+                                            "label": "품목코드",
+                                            "width": 50,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "largeName",
+                                            "index": "largeName",
+                                            "hidden": false,
+                                            "label": "품목",
+                                            "width": 50,
+                                            "align": "left",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "proCode",
+                                            "index": "proCode",
+                                            "hidden": true,
+                                            "label": "제품코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "proName",
+                                            "index": "proName",
+                                            "hidden": false,
+                                            "label": "제품명",
+                                            "width": 180,
+                                            "align": "left",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "cartonNo",
+                                            "index": "cartonNo",
+                                            "hidden": false,
+                                            "label": "카튼 No",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "summaryType": "sum",
+                                            "summaryTpl": "합계"
+                                        },
+                                        {
+                                            "name": "boxWeig",
+                                            "index": "boxWeig",
+                                            "hidden": false,
+                                            "label": "중량(Kg)",
+                                            "width": 70,
+                                            "align": "right",
+                                            "editable": false,
+                                            "sorttype": "number",
+                                            "formatter": "number",
+                                            "summaryType": "sum"
+                                        },
+                                        {
+                                            "name": "slaughterhousename",
+                                            "index": "slaughterhousename",
+                                            "hidden": false,
+                                            "label": "도축장",
+                                            "width": 120,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "manufacturer",
+                                            "index": "manufacturer",
+                                            "hidden": false,
+                                            "label": "제조원",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "temperature",
+                                            "index": "temperature",
+                                            "hidden": false,
+                                            "label": "보관",
+                                            "width": 130,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "shelfLife",
+                                            "index": "shelfLife",
+                                            "hidden": false,
+                                            "label": "유효기한",
+                                            "width": 130,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "barCode",
+                                            "index": "barCode",
+                                            "hidden": false,
+                                            "label": "바코드",
+                                            "width": 180,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "pojangji",
+                                            "index": "pojangji",
+                                            "hidden": true,
+                                            "label": "재질",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "deleYn",
+                                            "index": "deleYn",
+                                            "hidden": true,
+                                            "label": "삭제여부",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "checkbox"
+                                        },
+                                        {
+                                            "name": "deleDate",
+                                            "index": "deleDate",
+                                            "hidden": false,
+                                            "label": "삭제일자",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date"
+                                        },
+                                        {
+                                            "name": "deleUser",
+                                            "index": "deleUser",
+                                            "hidden": false,
+                                            "label": "삭제자",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        }
+                                        ,
+                                        {
+                                            "name": "wmsYn",
+                                            "index": "wmsYn",
+                                            "hidden": true,
+                                            "label": "wmsYn"
+                                        }
+                                    ],
+                                    "rowNum": "100000000",
+                                    "width": "auto",
+                                    "height": "493",
+                                    "cellEdit": false,
+                                    "shrinkToFit": false,
+                                    "gridview": true,
+                                    "datatype": "local",
+                                    "viewrecords": true,
+                                    "footerrow": true,
+                                    "userDataOnFooter": true,
+                                    "multiselect": true,
+                                    "multiselectWidth": 20,
+                                    "rownumbers": false,
+                                    "pager": "#PP0504_grid_2_pager",
+                                    "viewrecords": true,
+                                    "recordpos": "left",
+                                    "pgbuttons": false,
+                                    "pginput": false
+
+                                }
+                            }
+                        },
+                        "nong_grid": {
+                            "module": "manifest!jqGrid4-1.0.0",
+                            "options": {
+                                "className": "grid_box",
+                                "gridId": "PP0504_grid_3",
+                                "gridParams": {
+                                    "data": [],
+                                    "colModel": [{
+                                            "name": "corpCode",
+                                            "index": "corpCode",
+                                            "hidden": true,
+                                            "label": "회사코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "nongCode",
+                                            "index": "nongCode",
+                                            "hidden": true,
+                                            "label": "농장코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "nongName",
+                                            "index": "nongName",
+                                            "hidden": false,
+                                            "label": "농장",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "proDate",
+                                            "index": "proDate",
+                                            "hidden": false,
+                                            "label": "생산일자",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date",
+                                            "classes": "date"
+                                        },
+                                        {
+                                            "name": "proTime",
+                                            "index": "proTime",
+                                            "hidden": false,
+                                            "label": "생산시간",
+                                            "width": 80,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date"
+                                        },
+                                        {
+                                            "name": "plantCode",
+                                            "index": "plantCode",
+                                            "hidden": true,
+                                            "label": "공장코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "plantName",
+                                            "index": "plantName",
+                                            "hidden": false,
+                                            "label": "공장",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "largeCode",
+                                            "index": "largeCode",
+                                            "hidden": true,
+                                            "label": "품목코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "largeName",
+                                            "index": "largeName",
+                                            "hidden": false,
+                                            "label": "품목",
+                                            "width": 50,
+                                            "align": "left",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "proCode",
+                                            "index": "proCode",
+                                            "hidden": true,
+                                            "label": "제품코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "proName",
+                                            "index": "proName",
+                                            "hidden": false,
+                                            "label": "제품명",
+                                            "width": 180,
+                                            "align": "left",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "cartonNo",
+                                            "index": "cartonNo",
+                                            "hidden": false,
+                                            "label": "카튼 No",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "summaryType": "sum",
+                                            "summaryTpl": "합계"
+
+                                        },
+                                        {
+                                            "name": "boxWeig",
+                                            "index": "boxWeig",
+                                            "hidden": false,
+                                            "label": "중량(Kg)",
+                                            "width": 70,
+                                            "align": "right",
+                                            "editable": false,
+                                            "sorttype": "number",
+                                            "formatter": "number",
+                                            "summaryType": "sum"
+                                        },
+                                        {
+                                            "name": "slaughterhousename",
+                                            "index": "slaughterhousename",
+                                            "hidden": false,
+                                            "label": "도축장",
+                                            "width": 120,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "manufacturer",
+                                            "index": "manufacturer",
+                                            "hidden": false,
+                                            "label": "제조원",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "temperature",
+                                            "index": "temperature",
+                                            "hidden": false,
+                                            "label": "보관",
+                                            "width": 130,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "shelfLife",
+                                            "index": "shelfLife",
+                                            "hidden": false,
+                                            "label": "유효기한",
+                                            "width": 130,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "barCode",
+                                            "index": "barCode",
+                                            "hidden": false,
+                                            "label": "바코드",
+                                            "width": 180,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "pojangji",
+                                            "index": "pojangji",
+                                            "hidden": true,
+                                            "label": "재질",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "deleYn",
+                                            "index": "deleYn",
+                                            "hidden": true,
+                                            "label": "삭제여부",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "checkbox"
+                                        },
+                                        {
+                                            "name": "deleDate",
+                                            "index": "deleDate",
+                                            "hidden": false,
+                                            "label": "삭제일자",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date"
+                                        },
+                                        {
+                                            "name": "deleUser",
+                                            "index": "deleUser",
+                                            "hidden": false,
+                                            "label": "삭제자",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        }
+                                        ,
+                                        {
+                                            "name": "wmsYn",
+                                            "index": "wmsYn",
+                                            "hidden": true,
+                                            "label": "wmsYn"
+                                        }
+                                    ],
+                                    "rowNum": "100000000",
+                                    "width": "auto",
+                                    "height": "493",
+                                    "cellEdit": false,
+                                    "shrinkToFit": false,
+                                    "gridview": true,
+                                    "datatype": "local",
+                                    "viewrecords": true,
+                                    "footerrow": true,
+                                    "userDataOnFooter": true,
+                                    "multiselect": true,
+                                    "multiselectWidth": 20,
+                                    "rownumbers": false,
+                                    "pager": "#PP0504_grid_3_pager",
+                                    "viewrecords": true,
+                                    "recordpos": "left",
+                                    "pgbuttons": false,
+                                    "pginput": false
+
+                                }
+                            }
+                        },
+                        "largecode_grid": {
+                            "module": "manifest!jqGrid4-1.0.0",
+                            "options": {
+                                "className": "grid_box",
+                                "gridId": "PP0504_grid_4",
+                                "gridParams": {
+                                    "data": [],
+                                    "colModel": [{
+                                            "name": "corpCode",
+                                            "index": "corpCode",
+                                            "hidden": true,
+                                            "label": "회사코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "largeName",
+                                            "index": "largeName",
+                                            "hidden": false,
+                                            "label": "품목",
+                                            "width": 50,
+                                            "align": "left",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "plantCode",
+                                            "index": "plantCode",
+                                            "hidden": true,
+                                            "label": "공장코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "plantName",
+                                            "index": "plantName",
+                                            "hidden": false,
+                                            "label": "공장",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "proDate",
+                                            "index": "proDate",
+                                            "hidden": false,
+                                            "label": "생산일자",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date",
+                                            "classes": "date"
+                                        },
+                                        {
+                                            "name": "proTime",
+                                            "index": "proTime",
+                                            "hidden": false,
+                                            "label": "생산시간",
+                                            "width": 80,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date"
+                                        },
+                                        {
+                                            "name": "nongCode",
+                                            "index": "nongCode",
+                                            "hidden": true,
+                                            "label": "농장코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "nongName",
+                                            "index": "nongName",
+                                            "hidden": false,
+                                            "label": "농장",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "largeCode",
+                                            "index": "largeCode",
+                                            "hidden": true,
+                                            "label": "품목코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        
+                                        {
+                                            "name": "proCode",
+                                            "index": "proCode",
+                                            "hidden": true,
+                                            "label": "제품코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "proName",
+                                            "index": "proName",
+                                            "hidden": false,
+                                            "label": "제품명",
+                                            "width": 180,
+                                            "align": "left",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "barCode",
+                                            "index": "barCode",
+                                            "hidden": false,
+                                            "label": "바코드",
+                                            "width": 180,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "cartonNo",
+                                            "index": "cartonNo",
+                                            "hidden": true,
+                                            "label": "카튼 No",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "summaryType": "sum",
+                                            "summaryTpl": "합계"
+
+                                        },
+                                        {
+                                            "name": "boxWeig",
+                                            "index": "boxWeig",
+                                            "hidden": false,
+                                            "label": "중량(Kg)",
+                                            "width": 70,
+                                            "align": "right",
+                                            "editable": false,
+                                            "sorttype": "number",
+                                            "formatter": "number",
+                                            "summaryType": "sum"
+                                        },
+                                        {
+                                            "name": "slaughterhousename",
+                                            "index": "slaughterhousename",
+                                            "hidden": false,
+                                            "label": "도축장",
+                                            "width": 120,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "manufacturer",
+                                            "index": "manufacturer",
+                                            "hidden": false,
+                                            "label": "제조원",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "temperature",
+                                            "index": "temperature",
+                                            "hidden": true,
+                                            "label": "보관",
+                                            "width": 130,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "shelfLife",
+                                            "index": "shelfLife",
+                                            "hidden": true,
+                                            "label": "유효기한",
+                                            "width": 130,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "pojangji",
+                                            "index": "pojangji",
+                                            "hidden": true,
+                                            "label": "재질",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "deleYn",
+                                            "index": "deleYn",
+                                            "hidden": false,
+                                            "label": "삭제여부",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "checkbox"
+                                        },
+                                        {
+                                            "name": "deleDate",
+                                            "index": "deleDate",
+                                            "hidden": false,
+                                            "label": "삭제일자",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date"
+                                        },
+                                        {
+                                            "name": "deleUser",
+                                            "index": "deleUser",
+                                            "hidden": false,
+                                            "label": "삭제자",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        }
+                                        ,
+                                        {
+                                            "name": "wmsYn",
+                                            "index": "wmsYn",
+                                            "hidden": true,
+                                            "label": "wmsYn"
+                                        }
+                                    ],
+                                    "rowNum": "100000000",
+                                    "width": "auto",
+                                    "height": "493",
+                                    "cellEdit": false,
+                                    "shrinkToFit": false,
+                                    "gridview": true,
+                                    "datatype": "local",
+                                    "viewrecords": true,
+                                    "footerrow": true,
+                                    "userDataOnFooter": true,
+                                    "multiselect": true,
+                                    "multiselectWidth": 20,
+                                    "rownumbers": false,
+                                    "pager": "#PP0504_grid_4_pager",
+                                    "viewrecords": true,
+                                    "recordpos": "left",
+                                    "pgbuttons": false,
+                                    "pginput": false
+                                }
+                            }
+                        }
+                    }
+                },
+                "tab_barcode": {
+                    "module": "BaroBox",
+                    "options": {
+                        "className": "tab_barcode_box",
+                        "order": ["barcode_query", "barcode_grid"],
+                        "activation": {
+                            "method": "one-page"
+                        },
+                        "barcode_query": {
+                            "module": "FormBox",
+                            "options": {
+                                "className": "form_box form-inline",
+                                "order": ["barCode", "cartonNo", "btnGoSearch"],
+                                "activation": {
+                                    "method": "one-page"
+                                },
+                                "custom_form": {
+                                    "mode": "form",
+                                    "items": {
+                                        "barCode": {
+                                            "module": "text",
+                                            "selector": ".barCode",
+                                            "label": "바코드번호",
+                                            "required": false,
+                                            "style": "width:200px"
+                                        },
+                                        "cartonNo": {
+                                            "module": "text",
+                                            "selector": ".cartonNo",
+                                            "label": "카톤 No.",
+                                            "required": false,
+                                            "style": "width:100px"
+                                        },
+                                        "btnGoSearch": {
+                                            "label": "검색"
+                                        }
+                                    },
+                                    "data": {},
+                                    "template": "<div class=\"form-group\"><label>바코드번호</label><input type=\"text\" class=\"form-control barCode\"><span style=\"margin-left: 10px;\">또는</span></div><div class=\"form-group\"><label>카톤 No</label><input type=\"text\" class=\"form-control cartonNo\"><div class=\"btnGoSearch_region\"></div></div>"
+                                },
+                                "btnGoSearch": {
+                                    "module": "manifest!Button-1.0.0",
+                                    "options": {
+                                        "className": "btn_go_box",
+                                        "label": "검색",
+                                        "icons": [{
+                                            "pos": "prefix",
+                                            "view": false,
+                                            "type": "fa",
+                                            "value": "hide"
+                                        }],
+                                        "button_loyout": {
+                                            "style": "btn-primary",
+                                            "sr_only": false,
+                                            "block": false
+                                        },
+                                        "cmd": ""
+                                    }
+                                }
+                            }
+                        },
+                        "barcode_grid": {
+                            "module": "manifest!jqGrid4-1.0.0",
+                            "options": {
+                                "className": "grid_box",
+                                "gridId": "PP0504_grid_5",
+                                "gridParams": {
+                                    "data": [],
+                                    "colModel": [{
+                                            "name": "corpCode",
+                                            "index": "corpCode",
+                                            "hidden": true,
+                                            "label": "회사코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "barCode",
+                                            "index": "barCode",
+                                            "hidden": false,
+                                            "label": "바코드",
+                                            "width": 180,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "plantCode",
+                                            "index": "plantCode",
+                                            "hidden": true,
+                                            "label": "공장코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "plantName",
+                                            "index": "plantName",
+                                            "hidden": false,
+                                            "label": "공장",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "proDate",
+                                            "index": "proDate",
+                                            "hidden": false,
+                                            "label": "생산일자",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date",
+                                            "classes": "date"
+                                        },
+                                        {
+                                            "name": "proTime",
+                                            "index": "proTime",
+                                            "hidden": false,
+                                            "label": "생산시간",
+                                            "width": 80,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date"
+                                        },
+                                        {
+                                            "name": "nongCode",
+                                            "index": "nongCode",
+                                            "hidden": true,
+                                            "label": "농장코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "nongName",
+                                            "index": "nongName",
+                                            "hidden": false,
+                                            "label": "농장",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "largeCode",
+                                            "index": "largeCode",
+                                            "hidden": true,
+                                            "label": "품목코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "largeName",
+                                            "index": "largeName",
+                                            "hidden": false,
+                                            "label": "품목",
+                                            "width": 50,
+                                            "align": "left",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "proCode",
+                                            "index": "proCode",
+                                            "hidden": true,
+                                            "label": "제품코드",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "proName",
+                                            "index": "proName",
+                                            "hidden": false,
+                                            "label": "제품명",
+                                            "width": 180,
+                                            "align": "left",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "cartonNo",
+                                            "index": "cartonNo",
+                                            "hidden": false,
+                                            "label": "카톤 No",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "summaryType": "sum",
+                                            "summaryTpl": "합계"
+                                        },
+                                        {
+                                            "name": "boxWeig",
+                                            "index": "boxWeig",
+                                            "hidden": false,
+                                            "label": "중량(Kg)",
+                                            "width": 70,
+                                            "align": "right",
+                                            "editable": false,
+                                            "sorttype": "number",
+                                            "formatter": "number",
+                                            "summaryType": "sum"
+                                        },
+                                        {
+                                            "name": "slaughterhousename",
+                                            "index": "slaughterhousename",
+                                            "hidden": false,
+                                            "label": "도축장",
+                                            "width": 120,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "manufacturer",
+                                            "index": "manufacturer",
+                                            "hidden": false,
+                                            "label": "제조원",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "temperature",
+                                            "index": "temperature",
+                                            "hidden": true,
+                                            "label": "보관",
+                                            "width": 130,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "shelfLife",
+                                            "index": "shelfLife",
+                                            "hidden": true,
+                                            "label": "유효기한",
+                                            "width": 130,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "pojangji",
+                                            "index": "pojangji",
+                                            "hidden": false,
+                                            "label": "재질",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        },
+                                        {
+                                            "name": "deleYn",
+                                            "index": "deleYn",
+                                            "hidden": false,
+                                            "label": "삭제여부",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "checkbox"
+                                        },
+                                        {
+                                            "name": "deleDate",
+                                            "index": "deleDate",
+                                            "hidden": false,
+                                            "label": "삭제일자",
+                                            "width": 100,
+                                            "align": "center",
+                                            "editable": false,
+                                            "formatter": "date"
+                                        },
+                                        {
+                                            "name": "deleUser",
+                                            "index": "deleUser",
+                                            "hidden": false,
+                                            "label": "삭제자",
+                                            "width": 70,
+                                            "align": "center",
+                                            "editable": false
+                                        }
+                                        ,
+                                        {
+                                            "name": "wmsYn",
+                                            "index": "wmsYn",
+                                            "hidden": true,
+                                            "label": "wmsYn"
+                                        }
+                                    ],
+                                    "rowNum": "100000000",
+                                    "width": "auto",
+                                    "height": "441",
+                                    "cellEdit": false,
+                                    "shrinkToFit": false,
+                                    "gridview": true,
+                                    "datatype": "local",
+                                    "viewrecords": true,
+                                    "footerrow": true,
+                                    "userDataOnFooter": true,
+                                    "multiselect": true,
+                                    "multiselectWidth": 20,
+                                    "rownumbers": false,
+                                    "pager": "#PP0504_grid_5_pager",
+                                    "viewrecords": true,
+                                    "recordpos": "left",
+                                    "pgbuttons": false,
+                                    "pginput": false
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

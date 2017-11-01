@@ -1,0 +1,144 @@
+{
+	"name": "PM라벨실적 입고요청",
+	"module": "PP0505Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["queryBox", "resultBox"],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": ["plantCode", "strtDate"],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"strtDate": {
+							"module": "date",
+							"selector": ".strtDate",
+							"label": "생산일자",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"plantCode": {
+							"selector": ".plantCode",
+							"label": "공장",
+							"required": false,
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/mpm/<%= corpCode %>/pp0101/tmplatxm?prdtType=2",
+								"parser": "return UCMS.parseComboPlant(arguments[0]);"
+							}
+						}
+					},
+					"data": {},
+					"template": null
+				}
+			}
+		},
+		"resultBox": {
+			"module": "SubContainer",
+			"options": {
+				"header": {
+					"title": {
+						"className": "contnet_header_box no_label btn_red",
+						"label": "입고요청"
+					},
+					"feature": [{
+						"confirm": "입고요청"
+					}]
+				},
+				"content": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "grid_box",
+						"gridId": "PP0505_grid_1",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+								"name": "proCode",
+								"label": "제품코드",
+								"width": 60,
+								"align": "center",
+								"editable": false
+							}, {
+								"name": "proName",
+								"label": "제품명",
+								"width": 150,
+								"align": "left",
+								"editable": false,
+								"summaryType":"sum",
+								"summaryTpl":"합계"
+							}, {
+								"name": "workQty",
+								"label": "생산수량",
+								"width": 100,
+								"align": "right",
+								"editable": false,
+								"sorttype":"integer","formatter":"integer",
+								"summaryType":"sum"
+							}
+							, {
+								"name": "workWeight",
+								"label": "생산중량(kg)",
+								"width": 100,
+								"align": "right",
+								"editable": false,
+								"sorttype":"number","formatter":"number",
+								"summaryType":"sum"
+
+							}, {
+								"name": "inQty",
+								"label": "입고수량",
+								"width": 100,
+								"align": "right",
+								"editable": false,
+								"sorttype":"integer","formatter":"integer",
+								"summaryType":"sum"
+							}
+							, {
+								"name": "gapQty",
+								"label": "차이량(생산수량-입고량)",
+								"width": 100,
+								"align": "right",
+								"editable": false,
+								"sorttype":"number","formatter":"number",
+								"summaryType":"sum"
+
+							}
+							],
+							"rowNum":"100000000",
+							"width": "auto",
+							"height": "545",
+							"cellEdit": true,
+							"shrinkToFit": false,
+							"gridview": true,
+							"datatype": "local",
+							"multiselect": false,
+							"multiselectWidth": 10,
+							"rownumbers": false,
+							"cellsubmit": "clientArray",
+							"pager": "#PP0505_grid_1_pager",
+							"viewrecords": true,
+							"recordpos": "left",
+							"pgbuttons": false,
+							"pginput": false,
+							"footerrow": true,
+							"userDataOnFooter": true
+
+						}
+					}
+				}
+			}
+		}
+	}
+}

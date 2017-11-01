@@ -1,0 +1,296 @@
+{
+  "name": "생산계획서 조회 및 발행(CM)",
+  "module": "PP0303Renderer",
+  "options": {
+    "className": "contents_box",
+    "order": [
+      "queryBox",
+      "resultBox"
+    ],
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "queryBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "query_box  form-inline",
+        "order": [
+          "workDate",
+          "plantCode"
+        ],
+        "activation": {
+          "method": "one-page"
+        },
+        "custom_form": {
+          "mode": "form",
+          "name": "API Runner Form",
+          "items": {
+            "plantCode": {
+              "selector": ".plantCode",
+              "label": "공장",
+              "required": false,
+              "module": "combobox",
+              "fetcher": {
+                "url": "<%= host %>/rest/mpm/<%= corpCode %>/pp0101/tmplatxm?useYn=Y",
+                "parser": "return UCMS.parseComboPlant(arguments[0]);"
+              }
+            },
+            "workDate": {
+              "module": "date",
+              "selector": ".workDate",
+              "label": "계획일자",
+              "required": false,
+              "format": "YYYY-MM-DD",
+              "useCurrent": true,
+              "defaultDate": true
+            }
+          },
+          "data": {},
+          "template": null
+        }
+      }
+    },
+    "resultBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "result_box",
+        "order": [
+          "upGrid",
+          "downGrid"
+        ],
+        "activation": {
+          "defaultWidget": "",
+          "method": "one-page"
+        },
+        "custom_form": {
+          "mode": "form",
+          "template": "<div class=\"upGrid_region\"></div><div class=\"downGrid_region\"></div>",
+          "items": {
+            "upGrid": {
+              "label": "baseInfo",
+              "required": true
+            },
+            "downGrid": {
+              "label": "baseItem",
+              "required": true
+            }
+          },
+          "data": {}
+        },
+        "upGrid": {
+          "module": "manifest!jqGrid4-1.0.0",
+          "options": {
+            "className": "upGrid_box grid_box",
+            "gridId": "PP0303_upGrid_1",
+            "gridParams": {
+              "data": [],
+              "colModel": [
+                {
+                  "name": "doosu5",
+                  "label": "가공두수(합)",
+                  "width": 100,
+                  "align": "center",
+                  "sorttype":"integer","formatter":"integer",
+                  "editable": false
+                },
+                {
+                  "name": "doosu1",
+                  "label": "일반",
+                  "width": 100,
+                  "align": "center",
+                  "sorttype":"integer","formatter":"integer",
+                  "editable": false
+                },
+                {
+                  "name": "doosu2",
+                  "label": "더느림",
+                  "width": 100,
+                  "align": "center",
+                  "sorttype":"integer","formatter":"integer",
+                  "editable": false
+                },
+                {
+                  "name": "doosu3",
+                  "label": "무항생제",
+                  "width": 100,
+                  "align": "center",
+                  "sorttype":"integer","formatter":"integer",
+                  "editable": false
+                },
+                {
+                  "name": "doosu4",
+                  "label": "임금님표",
+                  "width": 100,
+                  "align": "center",
+                  "sorttype":"integer","formatter":"integer",
+                  "editable": false
+                }
+              ],
+              "width": "auto",
+              "height": "26",
+              "cellEdit": false,
+              "shrinkToFit": true,
+              "gridview": true,
+              "datatype": "local",
+              "multiselect": false,
+              "multiselectWidth": 20,
+              "rownumbers": false,
+              "cellsubmit": "clientArray",
+              "footerrow": false,
+              "userDataOnFooter": false,
+              "pager": false
+            }
+          }
+        },
+        "downGrid": {
+          "module": "manifest!jqGrid4-1.0.0",
+          "options": {
+            "className": "downGrid_box grid_box",
+            "gridId": "PP0303_downGrid_1",
+            "gridParams": {
+              "data": [],
+              "colModel": [
+
+                {
+                  "name": "proLcodeName",
+                  "label": "품목",
+                  "width": 60,
+                  "align": "left",
+                  "editable": false,
+                  "sortable": false
+                },
+                {
+                  "name": "proCode",
+                  "label": "제품코드",
+                  "width": 50,
+                  "align": "left",
+                  "editable": false,
+                  "sortable": false
+                },
+                {
+                  "name": "proName",
+                  "label": "제품명",
+                  "width": 180,
+                  "align": "left",
+                  "editable": false,
+                  "summaryType": "count",
+                  "summaryTpl": "<div class=\"text-center\">({0})소계</div>",
+                  "sortable": false
+                },
+                {
+                  "name": "sanQty",
+                  "label": "작업지시량<br>(box)",
+                  "width": 60,
+                  "align": "right",
+                  "editable": false,
+                  "sorttype":"integer","formatter":"integer",
+                  "summaryType": "sum"
+                },
+                {
+                  "name": "sanDosu",
+                  "label": "생산두수",
+                  "width": 60,
+                  "align": "right",
+                  "editable": false,
+                  "sorttype":"number","formatter":"number",
+                  "summaryType": "sum"
+                },
+                {
+                  "name": "workLinename",
+                  "label": "라인",
+                  "width": 30,
+                  "align": "center",
+                  "editable": false
+                },
+                {
+                  "name": "frozenNName",
+                  "label": "냉장",
+                  "width": 40,
+                  "align": "center",
+                  "editable": false
+                },
+                {
+                  "name": "frozenYName",
+                  "label": "냉동",
+                  "width": 40,
+                  "align": "center",
+                  "editable": false
+                },
+                {
+                  "name": "workType1",
+                  "label": "작업사양",
+                  "width": 100,
+                  "align": "center",
+                  "editable": false
+                },
+                {
+                  "name": "workType2",
+                  "label": "포장방법",
+                  "width": 100,
+                  "align": "center",
+                  "editable": false
+                },
+                {
+                  "name": "memo",
+                  "label": "비고",
+                  "width": 150,
+                  "align": "left",
+                  "editable": false
+                }
+              ],
+			  "rowNum":"100000000",
+              "width": "auto",
+              "height": "516",
+              "cellEdit": false,
+              "shrinkToFit": true,
+              "gridview": true,
+              "datatype": "local",
+              "multiselect": false,
+              "multiselectWidth": 20,
+              "rownumbers": false,
+              "cellsubmit": "clientArray",
+              "pager": "#PP0303_downGrid_1_pager",
+              "viewrecords": true,
+              "recordpos": "left",
+              "pgbuttons": false,
+              "pginput": false,
+              "footerrow": false,
+              "userDataOnFooter": false,
+              "grouping": true,
+              "groupingView": {
+                "groupField": [
+                  "plantName",
+                  "proLcodeName"
+                ],
+                "groupColumnShow": [
+                  true,
+                  true
+                ],
+                "groupText": [
+                  "<b>{0}</b>",
+                  "<b>{0}</b>"
+                ],
+                "groupCollapse": false,
+                "groupOrder": [
+                  "asc",
+                  "asc"
+                ],
+                "groupSummary": [
+                  true,
+                  true
+                ],
+                "groupDataSorted": true
+              }
+		  },
+		  "cellattr.backup": {
+			  "colNames": [
+				"plantName"
+			  ]
+	  		}
+          }
+        }
+      }
+    }
+  }
+}

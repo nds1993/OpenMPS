@@ -1,0 +1,175 @@
+{
+	"name": "부자재 출고오류 현황",
+	"module": "PP0501Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": [
+					"plantCode",
+					"strtDate",
+					"lastDate"
+
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"strtDate": {
+							"module": "date",
+							"selector": ".strtDate",
+							"label": "기준일자시작",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"lastDate": {
+							"module": "date",
+							"selector": ".lastDate",
+							"label": "기준일자끝",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"plantCode": {
+							"selector": ".plantCode",
+							"label": "공장",
+							"required": false,
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/mpm/<%= corpCode %>/pp0101/tmplatxm",
+								"parser": "return UCMS.parseComboAll( UCMS.parseComboPlant(arguments[0]));"
+							}
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>공장</label><div class=\"select_design plantCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div>\t</div><div class=\"form-group\"><label>생산일자</label><input type=\"text\" class=\"form-control form_type_date strtDate\"> ~ <input type=\"text\" class=\"form-control form_type_date lastDate\"></div>"
+				}
+			}
+		},
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "grid_box",
+				"gridId": "PP0501_grid_1",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+							"name": "plantName",
+							"label": "공장",
+							"width": 55,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "workDate",
+							"label": "생산일자",
+							"width": 50,
+							"align": "center",
+							"editable": false,
+							"sorttype": "date" , "formatter": "dateFormatter",
+							"unformat": "dateUnformatter",
+							"formatoptions": {
+								"srcformat": "YYYYMMDD",
+								"newformat": "YYYY-MM-DD"
+							}
+						},
+						{
+							"name": "mtrlCode",
+							"label": "자재코드",
+							"width": 40,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "proName",
+							"label": "자재명",
+							"width": 160,
+							"align": "left",
+							"editable": false
+						},
+						{
+							"name": "usedQty",
+							"label": "출고수량",
+							"width": 40,
+							"align": "right",
+							"editable": false,
+							"sorttype":"integer","formatter":"integer"
+						},
+						{
+							"name": "unit",
+							"label": "단위",
+							"width": 30,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "outStatus",
+							"label": "출고상태",
+							"width": 40,
+							"align": "center",
+							"editable": false,
+							"formatter": "select",
+							"editoptions": {
+								"value": "0:대상;1:완료;E:오류"
+							}
+						},
+						{
+							"name": "errorMsg",
+							"label": "오류메시지",
+							"width": 120,
+							"align": "left",
+							"editable": false
+						},
+						{
+							"name": "oderno",
+							"label": "출고번호",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "odersn",
+							"label": "출고순번",
+							"width": 40,
+							"align": "center",
+							"editable": false
+						}
+					],
+					"rowNum":"100000000",
+					"width": "auto",
+					"height": "597",
+					"cellEdit": false,
+					"shrinkToFit": true,
+					"gridview": true,
+					"datatype": "local",
+					"multiselect": false,
+					"multiselectWidth": 20,
+					"rownumbers": false,
+					"cellsubmit": "clientArray",
+					"pager": "#PP0501_grid_1_pager",
+					"viewrecords": true,
+					"recordpos": "left",
+					"pgbuttons": false,
+					"pginput": false
+
+				}
+			}
+		}
+	}
+}

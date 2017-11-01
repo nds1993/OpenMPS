@@ -1,0 +1,148 @@
+{
+	"module": "CodeSearchRenderer",
+	"options": {
+		"header": {
+			"title": {
+				"label": "코드검색"
+			},
+			"feature": [{
+				"query": "검색"
+			}]
+		},
+		"content": {
+			"module": "BaroBox",
+			"options": {
+				"className": "contents_box",
+				"order": [
+					"queryBox",
+					"resultBox"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"queryBox": {
+					"module": "FormBox",
+					"options": {
+						"className": "query_box",
+						"order": [
+							"searchKeyword"
+						],
+						"activation": {
+							"method": "one-page"
+						},
+						"custom_form": {
+							"name": "API Runner Form",
+							"mode": "form",
+							"items": {
+								"searchKeyword": {
+									"module": "text",
+									"selector": ".searchKeyword",
+									"label": "코드/명",
+									"required": false
+								}
+							},
+							"data": {},
+							"template": "<div class=\"form-group form-inline\"><label>코드/명</label><input type=\"text\" class=\"form-control searchKeyword\"></div>"
+						}
+					}
+				},
+				"resultBox": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "mesgInfo_box grid_box gird_btn_hide",
+						"gridId": "mesgInfo",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+									"name": "code",
+									"label": "코드",
+									"width": 70,
+									"align": "center",
+									"editable": false
+								}, {
+									"name": "label",
+									"label": "코드명",
+									"width": 150,
+									"align": "left",
+									"editable": false
+								},
+								{
+									"name": "largeCode",
+									"label": "제품코드용 대분류 코드",
+									"width": 50,
+									"align": "left",
+									"editable": false,
+									"hidden": true
+								}, {
+									"name": "largeName",
+									"label": "제품코드용 대분류 이름",
+									"width": 50,
+									"align": "left",
+									"editable": false,
+									"hidden": true
+								},
+								{
+									"name": "proUkind",
+									"label": "부자재 단위",
+									"width": 50,
+									"align": "left",
+									"editable": false,
+									"hidden": true
+								}, {
+									"name": "proWeig",
+									"label": "부자재 무게",
+									"width": 50,
+									"align": "left",
+									"editable": false,
+									"hidden": true
+								}, {
+									"name": "priceType",
+									"label": "단가유형코드",
+									"width": 50,
+									"align": "left",
+									"editable": false,
+									"hidden": true
+								}, {
+									"name": "priceTypeName",
+									"label": "단가유형",
+									"width": 50,
+									"align": "left",
+									"editable": false,
+									"hidden": true
+								}
+								, {
+									"name": "saleGroup2Name",
+									"label": "saleGroup2Name",
+									"width": 50,
+									"align": "left",
+									"editable": false,
+									"hidden": true
+								}, {
+									"name": "saleGroup2",
+									"label": "saleGroup2",
+									"width": 50,
+									"align": "left",
+									"editable": false,
+									"hidden": true
+								}
+							],
+							"width": "auto",
+							"height": "260",
+							"cellEdit": false,
+							"shrinkToFit": true,
+							"gridview": true,
+							"datatype": "local",
+							"cellsubmit": "clientArray",
+							"pager": "#mesgInfo_pager",
+							"viewrecords": true,
+							"recordpos": "left",
+							"pgbuttons": false,
+							"pginput": false
+						}
+					}
+				}
+			}
+		}
+	}
+}

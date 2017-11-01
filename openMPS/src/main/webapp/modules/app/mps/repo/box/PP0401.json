@@ -1,0 +1,164 @@
+{
+	"name":"자재 소요량 산출",
+	"module": "PP0401Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["queryBox", "resultBox"],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": ["workDate", "plantCode"],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"workDate": {
+							"module": "date",
+							"selector": ".workDate",
+							"label": "계획일자",
+							"required": true,
+						   "format": "YYYY-MM-DD",
+						   "useCurrent": true,
+						   "defaultDate": true
+						},
+						"plantCode": {
+							"selector": ".plantCode",
+							"label": "(그룹)공장",
+							"required": true,
+							"module": "combobox",
+							"fetcher": {
+							"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP002/tmcodexd",
+							"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+							}
+						}
+					},
+					"data": {},
+					"template": null
+				}
+			}
+		},
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "grid_box",
+				"gridId": "PP0401_grid_1",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+						"name": "workDate",
+						"label": "소요일자",
+						"width": 90,
+						"align": "center",
+						"sorttype": "date" , "formatter": "dateFormatter",
+						"unformat": "dateUnformatter",
+						"formatoptions": {
+						    "srcformat": "YYYYMMDD",
+						    "newformat": "YYYY-MM-DD"
+						},
+						"hidden": true
+					}, {
+						"name": "reqSourceName",
+						"label": "소스",
+						"width": 70,
+						"align": "center",
+						"editable": false
+					}, {
+						"name": "plantName",
+						"label": "공장",
+						"width": 70,
+						"align": "center",
+						"editable": false
+					}, {
+						"name": "mtrlCode",
+						"label": "자재코드",
+						"width": 80,
+						"align": "center",
+						"editable": false
+					}, {
+						"name": "mtrlName",
+						"label": "자재명",
+						"width": 150,
+						"align": "left",
+						"editable": false
+					}, {
+						"name": "reqMtrlQty",
+						"label": "표준소요량",
+						"width": 70,
+						"align": "right",
+						"editable": false,
+						"sorttype":"integer","formatter":"integer"
+					}, {
+						"name": "proUnit",
+						"label": "단위",
+						"width": 50,
+						"align": "center",
+						"editable": false
+					}, {
+						"name": "invQty",
+						"label": "현재고",
+						"width": 70,
+						"align": "right",
+						"editable": false,
+						"sorttype":"integer","formatter":"integer"
+					}, {
+						"name": "safeQty",
+						"label": "안전재고",
+						"width": 70,
+						"align": "right",
+						"editable": false,
+						"sorttype":"integer","formatter":"integer"
+					}, {
+						"name": "reqPurQty",
+						"label": "구매 요청량",
+						"width": 70,
+						"align": "right",
+						"editable": false,
+						"sorttype":"integer","formatter":"integer",
+						"editrules": {"integer": true},
+						"editoptions": {"maxlength": 14},
+						"sorttype":"int"
+					}, {
+						"name": "proCode",
+						"label": "제품코드",
+						"width": 80,
+						"align": "center",
+						"editable": false,
+						"hidden": true
+					}, {
+						"name": "reqSource",
+						"label": "reqSource",
+						"width": 80,
+						"align": "center",
+						"editable": false,
+						"hidden": true
+					}],
+					"rowNum":"100000000",
+					"width": "auto",
+					"height": "597",
+					"cellEdit": true,
+					"shrinkToFit": true,
+					"gridview": true,
+					"datatype": "local",
+					"multiselect": false,
+					"rownumbers": false,
+					"cellsubmit": "clientArray",
+					"pager": "#PP0401_grid_1_pager",
+					"viewrecords": true,
+					"recordpos":"left",
+					"pgbuttons":false,
+					"pginput":false,
+					"footerrow": false,
+					"userDataOnFooter": false
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Title",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "title-1.0.0.js",
+  	"manager": "title.manager-1.0.0.js"
+  },
+  "resource": {
+  	"template": "resource.html"
+  },
+  "dependencies":
+  [
+	"BaroPanelBase", 
+	"Logger"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  },
+  "tag":["title","widget"]
+}

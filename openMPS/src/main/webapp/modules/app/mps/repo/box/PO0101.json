@@ -1,0 +1,1304 @@
+{
+	"name": "지육시세등록",
+	"module": "PO0101Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["queryBox", "customBtnBox", "tabAreaBox"],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": ["strtDate", "lastDate"],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"strtDate": {
+							"module": "date",
+							"selector": ".strtDate",
+							"label": "strtDate",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"lastDate": {
+							"module": "date",
+							"selector": ".lastDate",
+							"label": "lastDate",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>기준일자</label><input type=\"text\" class=\"form-control form_type_date strtDate\" placeholder=\"\">~ <input type=\"text\" class=\"form-control form_type_date lastDate\" placeholder=\"\"></div>"
+				}
+			}
+		},
+		"customBtnBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "custom_btn_box",
+				"order": [
+					"btnLoad", "exUpload"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "Form Builder Params",
+					"items": {
+						"btnLoad": {
+							"label": "btnLoad"
+						},
+						"exUpload": {
+							"exUpload": "btnLoad"
+						}
+
+					},
+					"data": {},
+					"template": "<div class=\"pull-right\"><span class=\"btnLoad_region inline_block mr20\"></span><span class=\"exUpload_region inline_block\"></span></div>"
+				},
+				"btnLoad": {
+					"module": "manifest!ButtonMulti-1.0.0",
+					"options": {
+						"className": "custom_btn",
+						"btn_item": [{
+							"buttonId": "quotation",
+							"label": "지육시세 I/F",
+							"icon": {
+								"view": false,
+								"type": "",
+								"value": ""
+							},
+							"style": "btn-primary",
+							"sr_only": false,
+							"state": null,
+							"cmd": ""
+						}],
+						"btn_group_layout": "btn-inline",
+						"text_align": "text-left"
+					}
+
+				},
+				"exUpload": {
+					"module": "FormBox",
+					"options": {
+						"className": "exUpload_box",
+						"order": [
+							"exFileUpload"
+						],
+						"activation": {
+							"method": "one-page"
+						},
+						"custom_form": {
+							"mode": "form",
+							"items": {
+								"exFileUpload": {
+									"module": "text",
+									"selector": ".exFileUpload",
+									"label": "엑셀파일",
+									"required": false
+								}
+							},
+							"data": {},
+							"template": "<div class=\"form-group form-inline form_only\"><form style=\"margin-left:-20px;width:90px\" class=\"upload_btn\" title=\"엑셀업로드\"><input type=\"file\" class=\"form-control exFileUpload\" style=\"display:inline\"></form></div>"
+
+						}
+					}
+				}
+			}
+		},
+		"tabAreaBox": {
+			"module": "BaroBox",
+			"options": {
+				"className": "tabarea_box",
+				"order": ["tab_nonskin", "tab_skin"],
+				"activation": {
+					"defaultWidget": "tab_nonskin",
+					"method": "show-hide",
+					"navigator": {
+						"options": {
+							"pos": "top",
+							"closeButton": false,
+							"label": {
+								"tab_nonskin": "탕박",
+								"tab_skin": "박피"
+							}
+						}
+					}
+				},
+				"tab_nonskin": {
+					"module": "BaroBox",
+					"options": {
+						"className": "tab_nonskin_box",
+						"order": ["formBox", "resultBox"],
+						"activation": {
+							"method": "one-page"
+						},
+						"formBox": {
+							"module": "FormBox",
+							"options": {
+								"className": "form_box",
+								"order": [
+									"jiyukDate",
+									"a1TotPrice1",
+									"a1Price1",
+									"a1Dosu1",
+									"a1Price2",
+									"a1Dosu2",
+									"a1Price3",
+									"a1Dosu3",
+									"b1Price1",
+									"b1Dosu1",
+									"b1Price2",
+									"b1Dosu2",
+									"b1Price3",
+									"b1Dosu3",
+									"c1Price1",
+									"c1Dosu1",
+									"c1Price2",
+									"c1Dosu2",
+									"c1Price3",
+									"c1Dosu3",
+									"d1Price1",
+									"d1Dosu1",
+									"d1Price2",
+									"d1Dosu2",
+									"d1Price3",
+									"d1Dosu3",
+									"memo"
+								],
+								"activation": {
+									"method": "one-page"
+								},
+								"custom_form": {
+									"mode": "form",
+									"items": {
+										"jiyukDate": {
+											"required": false,
+											"selector": ".jiyukDate",
+											"label": "기준일자",
+											"module": "date",
+											"format": "YYYY-MM-DD",
+											"useCurrent": true,
+											"defaultDate": true
+										},
+										"a1Price1": {
+											"required": false,
+											"selector": ".a1Price1",
+											"label": "박피(암)-1+",
+											"module": "price"
+										},
+										"a1Dosu1": {
+											"required": false,
+											"selector": ".a1Dosu1",
+											"label": "박피(암)-1+_두수",
+											"module": "number"
+										},
+										"a1Price2": {
+											"required": false,
+											"selector": ".a1Price2",
+											"label": "박피(수)-1+",
+											"module": "price"
+										},
+										"a1Dosu2": {
+											"required": false,
+											"selector": ".a1Dosu2",
+											"label": "박피(수)-1+_두수",
+											"module": "number"
+										},
+										"a1Price3": {
+											"required": false,
+											"selector": ".a1Price3",
+											"label": "박피(거)-1+",
+											"module": "price"
+										},
+										"a1Dosu3": {
+											"required": false,
+											"selector": ".a1Dosu3",
+											"label": "박피(거)-1+_두수",
+											"module": "number"
+										},
+										"b1Price1": {
+											"required": false,
+											"selector": ".b1Price1",
+											"label": "박피(암)-1",
+											"module": "price"
+										},
+										"b1Dosu1": {
+											"required": false,
+											"selector": ".b1Dosu1",
+											"label": "박피(암)-1_두수",
+											"module": "number"
+										},
+										"b1Price2": {
+											"required": false,
+											"selector": ".b1Price2",
+											"label": "박피(수)-1",
+											"module": "price"
+										},
+										"b1Dosu2": {
+											"required": false,
+											"selector": ".b1Dosu2",
+											"label": "박피(수)-1_두수",
+											"module": "number"
+										},
+										"b1Price3": {
+											"required": false,
+											"selector": ".b1Price3",
+											"label": "박피(거)-1",
+											"module": "price"
+										},
+										"b1Dosu3": {
+											"required": false,
+											"selector": ".b1Dosu3",
+											"label": "박피(거)-1_두수",
+											"module": "number"
+										},
+										"c1Price1": {
+											"required": false,
+											"selector": ".c1Price1",
+											"label": "박피(암)-2",
+											"module": "price"
+										},
+										"c1Dosu1": {
+											"required": false,
+											"selector": ".c1Dosu1",
+											"label": "박피(암)-2_두수",
+											"module": "number"
+										},
+										"c1Price2": {
+											"required": false,
+											"selector": ".c1Price2",
+											"label": "박피(수)-2",
+											"module": "price"
+										},
+										"c1Dosu2": {
+											"required": false,
+											"selector": ".c1Dosu2",
+											"label": "박피(수)-2_두수",
+											"module": "number"
+										},
+										"c1Price3": {
+											"required": false,
+											"selector": ".c1Price3",
+											"label": "박피(거)-2",
+											"module": "price"
+										},
+										"c1Dosu3": {
+											"required": false,
+											"selector": ".c1Dosu3",
+											"label": "박피(거)-2_두수",
+											"module": "number"
+										},
+										"d1Price1": {
+											"required": false,
+											"selector": ".d1Price1",
+											"label": "박피(암)-등외",
+											"module": "price"
+										},
+										"d1Dosu1": {
+											"required": false,
+											"selector": ".d1Dosu1",
+											"label": "박피(암)-등외_두수",
+											"module": "number"
+										},
+										"d1Price2": {
+											"required": false,
+											"selector": ".d1Price2",
+											"label": "박피(수)-등외",
+											"module": "price"
+										},
+										"d1Dosu2": {
+											"required": false,
+											"selector": ".d1Dosu2",
+											"label": "박피(수)-등외_두수",
+											"module": "number"
+										},
+										"d1Price3": {
+											"required": false,
+											"selector": ".d1Price3",
+											"label": "박피(거)-등외",
+											"module": "price"
+										},
+										"d1Dosu3": {
+											"required": false,
+											"selector": ".d1Dosu3",
+											"label": "박피(거)-등외_두수",
+											"module": "number"
+										},
+										"a1TotPrice1": {
+											"required": false,
+											"selector": ".a1TotPrice1",
+											"label": "당일시세",
+											"module": "price"
+										},
+										"memo": {
+											"required": false,
+											"selector": ".memo",
+											"label": "비고",
+											"module": "text"
+										}
+									},
+									"data": {},
+									"template": "<div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label>기준일자</label><input type=\"text\" class=\"form-control form_type_date jiyukDate\" placeholder=\"\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>당일시세</label><div class=\"input-group a1TotPrice1\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div></div></div></div><div class=\"row\"><div class=\"col-xs-3\"><fieldset><legend>1+</legend><div class=\"form-group\"><label>암</label><div class=\"input-group a1Price1\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control a1Dosu1 text-right\"></div><div class=\"form-group\"><label>수</label><div class=\"input-group a1Price2\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control a1Dosu2 text-right\"></div><div class=\"form-group\"><label>거</label><div class=\"input-group a1Price3\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control a1Dosu3 text-right\"></div></fieldset></div><div class=\"col-xs-3\"><fieldset><legend>1</legend><div class=\"form-group\"><label>암</label><div class=\"input-group b1Price1\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control b1Dosu1 text-right\"></div><div class=\"form-group\"><label>수</label><div class=\"input-group b1Price2\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control b1Dosu2 text-right\"></div><div class=\"form-group\"><label>거</label><div class=\"input-group b1Price3\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control b1Dosu3 text-right\"></div></fieldset></div><div class=\"col-xs-3\"><fieldset><legend>2</legend><div class=\"form-group\"><label>암</label><div class=\"input-group c1Price1\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control c1Dosu1 text-right\"></div><div class=\"form-group\"><label>수</label><div class=\"input-group c1Price2\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control c1Dosu2 text-right\"></div><div class=\"form-group\"><label>거</label><div class=\"input-group c1Price3\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control c1Dosu3 text-right\"></div></fieldset></div><div class=\"col-xs-3\"><fieldset><legend>등외</legend><div class=\"form-group\"><label>암</label><div class=\"input-group d1Price1\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control d1Dosu1 text-right\"></div><div class=\"form-group\"><label>수</label><div class=\"input-group d1Price2\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control d1Dosu2 text-right\"></div><div class=\"form-group\"><label>거</label><div class=\"input-group d1Price3\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control d1Dosu3 text-right\"></div></fieldset></div></div><div class=\"divider\"></div><div class=\"row\"><div class=\"col-xs-12 label_w2\"><div class=\"form-group\"><label>비고</label><input type=\"text\" class=\"form-control memo\"></div></div></div>"
+								}
+							}
+						},
+						"resultBox": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "result_box grid_box",
+								"gridId": "PO0101_grid_2",
+								"gridParams": {
+									"data": [],
+									"colModel": [{
+											"name": "jiyukDate",
+											"label": "기준일자",
+											"width": 100,
+											"align": "center",
+											"editable": false,
+											"sorttype": "date" , "formatter": "dateFormatter",
+											"unformat": "dateUnformatter",
+											"formatoptions": {
+												"srcformat": "YYYYMMDD",
+												"newformat": "YYYY-MM-DD"
+											}
+										},
+										{
+											"name": "a1Price1",
+											"label": "탕박(암)-1+",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "b1Price1",
+											"label": "탕박(암)-1",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "c1Price1",
+											"label": "탕박(암)-2",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "d1Price1",
+											"label": "탕박(암)-등외",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "d1Price2",
+											"label": "탕박(수)-등외",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "a1Price3",
+											"label": "탕박(거)-1+",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "b1Price3",
+											"label": "탕박(거)-1",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "c1Price3",
+											"label": "탕박(거)-2",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "d1Price3",
+											"label": "탕박(거)-등외",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "a1Dosu1",
+											"label": "탕박(암)-1+_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										},
+										{
+											"name": "a1Dosu2",
+											"label": "탕박(수)-1+_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										}, {
+											"name": "a1Dosu3",
+											"label": "탕박(거)-1+_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										}, {
+											"name": "b1Dosu1",
+											"label": "탕박(암)-1_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										}, {
+											"name": "b1Dosu2",
+											"label": "탕박(수)-1_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										}, {
+											"name": "b1Dosu3",
+											"label": "탕박(거)-1_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										}, {
+											"name": "c1Dosu1",
+											"label": "탕박(암)-2_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										}, {
+											"name": "c1Dosu2",
+											"label": "탕박(수)-2_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										}, {
+											"name": "c1Dosu3",
+											"label": "탕박(거)-2_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										}, {
+											"name": "d1Dosu1",
+											"label": "탕박(암)-등외_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										}, {
+											"name": "d1Dosu2",
+											"label": "탕박(수)-등외_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										}, {
+											"name": "d1Dosu3",
+											"label": "탕박(거)-등외_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										},
+										{
+											"name": "a1TotPrice1",
+											"label": "당일시세",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "memo",
+											"label": "비고",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+
+										},  
+										{
+											"name": "deleYn",
+											"label": "삭제유무",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+										},
+										{
+											"name": "mdUser",
+											"label": "생성자아이디",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+										},
+										{
+											"name": "mdDate",
+											"label": "생성일시",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+										},
+										{
+											"name": "crUser",
+											"label": "수정자아이디",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+										},
+										{
+											"name": "crDate",
+											"label": "수정일시",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+										},
+										{
+											"name": "aPrice1",
+											"label": "박피(암)-1+",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										},
+										{
+											"name": "bPrice1",
+											"label": "박피(암)-1",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "cPrice1",
+											"label": "박피(암)-2",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "dPrice1",
+											"label": "박피(암)-등외",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "dPrice2",
+											"label": "박피(수)-등외",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "aPrice3",
+											"label": "박피(거)-1+",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "bPrice3",
+											"label": "박피(거)-1",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "cPrice3",
+											"label": "박피(거)-2",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "dPrice3",
+											"label": "박피(거)-등외",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										},
+										{
+											"name": "aTotPrice1",
+											"label": "당일시세",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}
+									],
+									"width": "auto","rowNum": "-1",
+									"height": "365",
+									"cellEdit": true,
+									"shrinkToFit": true,
+									"gridview": true,
+									"datatype": "local",
+									"viewrecords": true,
+									"footerrow": false,
+									"multiselect": true,
+									"multiselectWidth": 15,
+									"rownumbers": false,
+									"pager": "#PO0101_grid_2_pager",
+									"recordpos":"left",
+									"pgbuttons":false,
+									"pginput":false
+								}
+							}
+						}
+
+					}
+				},
+				"tab_skin": {
+					"module": "BaroBox",
+					"options": {
+						"className": "tab_skin_box",
+						"order": ["formBox", "resultBox"],
+						"activation": {
+							"method": "one-page"
+						},
+
+						"formBox": {
+							"module": "FormBox",
+							"options": {
+								"className": "form_box",
+								"order": [
+									"jiyukDate",
+									"aPrice1",
+									"aDosu1",
+									"aPrice2",
+									"aDosu2",
+									"aPrice3",
+									"aDosu3",
+									"bPrice1",
+									"bDosu1",
+									"bPrice2",
+									"bDosu2",
+									"bPrice3",
+									"bDosu3",
+									"cPrice1",
+									"cDosu1",
+									"cPrice2",
+									"cDosu2",
+									"cPrice3",
+									"cDosu3",
+									"dPrice1",
+									"dDosu1",
+									"dPrice2",
+									"dDosu2",
+									"dPrice3",
+									"dDosu3",
+									"aTotPrice1",
+									"memo"
+								],
+								"activation": {
+									"method": "one-page"
+								},
+								"custom_form": {
+									"mode": "form",
+									"name": "Form Builder Params",
+									"items": {
+										"jiyukDate": {
+											"required": false,
+											"selector": ".jiyukDate",
+											"label": "기준일자",
+											"module": "date",
+											"format": "YYYY-MM-DD",
+											"useCurrent": true,
+											"defaultDate": true
+										},
+										"aPrice1": {
+											"required": false,
+											"selector": ".aPrice1",
+											"label": "박피(암)-1+",
+											"module": "price"
+										},
+										"aDosu1": {
+											"required": false,
+											"selector": ".aDosu1",
+											"label": "박피(암)-1+_두수",
+											"module": "number"
+										},
+										"aPrice2": {
+											"required": false,
+											"selector": ".aPrice2",
+											"label": "박피(수)-1+",
+											"module": "price"
+										},
+										"aDosu2": {
+											"required": false,
+											"selector": ".aDosu2",
+											"label": "박피(수)-1+_두수",
+											"module": "number"
+										},
+										"aPrice3": {
+											"required": false,
+											"selector": ".aPrice3",
+											"label": "박피(거)-1+",
+											"module": "price"
+										},
+										"aDosu3": {
+											"required": false,
+											"selector": ".aDosu3",
+											"label": "박피(거)-1+_두수",
+											"module": "number"
+										},
+										"bPrice1": {
+											"required": false,
+											"selector": ".bPrice1",
+											"label": "박피(암)-1",
+											"module": "price"
+										},
+										"bDosu1": {
+											"required": false,
+											"selector": ".bDosu1",
+											"label": "박피(암)-1_두수",
+											"module": "number"
+										},
+										"bPrice2": {
+											"required": false,
+											"selector": ".bPrice2",
+											"label": "박피(수)-1",
+											"module": "price"
+										},
+										"bDosu2": {
+											"required": false,
+											"selector": ".bDosu2",
+											"label": "박피(수)-1_두수",
+											"module": "number"
+										},
+										"bPrice3": {
+											"required": false,
+											"selector": ".bPrice3",
+											"label": "박피(거)-1",
+											"module": "price"
+										},
+										"bDosu3": {
+											"required": false,
+											"selector": ".bDosu3",
+											"label": "박피(거)-1_두수",
+											"module": "number"
+										},
+										"cPrice1": {
+											"required": false,
+											"selector": ".cPrice1",
+											"label": "박피(암)-2",
+											"module": "price"
+										},
+										"cDosu1": {
+											"required": false,
+											"selector": ".cDosu1",
+											"label": "박피(암)-2_두수",
+											"module": "number"
+										},
+										"cPrice2": {
+											"required": false,
+											"selector": ".cPrice2",
+											"label": "박피(수)-2",
+											"module": "price"
+										},
+										"cDosu2": {
+											"required": false,
+											"selector": ".cDosu2",
+											"label": "박피(수)-2_두수",
+											"module": "number"
+										},
+										"cPrice3": {
+											"required": false,
+											"selector": ".cPrice3",
+											"label": "박피(거)-2",
+											"module": "price"
+										},
+										"cDosu3": {
+											"required": false,
+											"selector": ".cDosu3",
+											"label": "박피(거)-2_두수",
+											"module": "number"
+										},
+										"dPrice1": {
+											"required": false,
+											"selector": ".dPrice1",
+											"label": "박피(암)-등외",
+											"module": "price"
+										},
+										"dDosu1": {
+											"required": false,
+											"selector": ".dDosu1",
+											"label": "박피(암)-등외_두수",
+											"module": "number"
+										},
+										"dPrice2": {
+											"required": false,
+											"selector": ".dPrice2",
+											"label": "박피(수)-등외",
+											"module": "price"
+										},
+										"dDosu2": {
+											"required": false,
+											"selector": ".dDosu2",
+											"label": "박피(수)-등외_두수",
+											"module": "number"
+										},
+										"dPrice3": {
+											"required": false,
+											"selector": ".dPrice3",
+											"label": "박피(거)-등외",
+											"module": "price"
+										},
+										"dDosu3": {
+											"required": false,
+											"selector": ".dDosu3",
+											"label": "박피(거)-등외_두수",
+											"module": "number"
+										},
+										"aTotPrice1": {
+											"required": false,
+											"selector": ".aTotPrice1",
+											"label": "박피_전체_등외제외",
+											"module": "price"
+										},
+										"memo": {
+											"required": false,
+											"selector": ".memo",
+											"label": "비고",
+											"module": "text"
+										}
+									},
+									"data": {},
+									"template": "<div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label>기준일자</label><input type=\"text\" class=\"form-control form_type_date jiyukDate\" placeholder=\"\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>당일시세</label><div class=\"input-group aTotPrice1\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div></div></div></div><div class=\"row\"><div class=\"col-xs-3\"><fieldset><legend>1+</legend><div class=\"form-group\"><label>암</label><div class=\"input-group aPrice1\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control aDosu1 text-right\"></div><div class=\"form-group\"><label>수</label><div class=\"input-group aPrice2\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control aDosu2 text-right\"></div><div class=\"form-group\"><label>거</label><div class=\"input-group aPrice3\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control aDosu3 text-right\"></div></fieldset></div><div class=\"col-xs-3\"><fieldset><legend>1</legend><div class=\"form-group\"><label>암</label><div class=\"input-group bPrice1\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control bDosu1 text-right\"></div><div class=\"form-group\"><label>수</label><div class=\"input-group bPrice2\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control bDosu2 text-right\"></div><div class=\"form-group\"><label>거</label><div class=\"input-group bPrice3\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control bDosu3 text-right\"></div></fieldset></div><div class=\"col-xs-3\"><fieldset><legend>2</legend><div class=\"form-group\"><label>암</label><div class=\"input-group cPrice1\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control cDosu1 text-right\"></div><div class=\"form-group\"><label>수</label><div class=\"input-group cPrice2\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control cDosu2 text-right\"></div><div class=\"form-group\"><label>거</label><div class=\"input-group cPrice3\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control cDosu3 text-right\"></div></fieldset></div><div class=\"col-xs-3\"><fieldset><legend>등외</legend><div class=\"form-group\"><label>암</label><div class=\"input-group dPrice1\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control dDosu1 text-right\"></div><div class=\"form-group\"><label>수</label><div class=\"input-group dPrice2\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control dDosu2 text-right\"></div><div class=\"form-group\"><label>거</label><div class=\"input-group dPrice3\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div><input type=\"text\" class=\"form-control dDosu3 text-right\"></div></fieldset></div></div><div class=\"divider\"></div><div class=\"row\"><div class=\"col-xs-12 label_w2\"><div class=\"form-group\"><label>비고</label><input type=\"text\" class=\"form-control memo\"></div></div></div>"
+								}
+							}
+						},
+
+						"resultBox": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "result_box grid_box",
+								"gridId": "PO0101_grid_1",
+								"gridParams": {
+									"data": [],
+									"colModel": [{
+											"name": "corpCode",
+											"label": "회사코드",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+										},
+										{
+											"name": "jiyukDate",
+											"label": "기준일자",
+											"width": 100,
+											"align": "center",
+											"editable": false,
+											"sorttype": "date" , "formatter": "dateFormatter",
+											"unformat": "dateUnformatter",
+											"formatoptions": {
+												"srcformat": "YYYYMMDD",
+												"newformat": "YYYY-MM-DD"
+											}
+										},
+										{
+											"name": "aPrice1",
+											"label": "박피(암)-1+",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										},
+										{
+											"name": "bPrice1",
+											"label": "박피(암)-1",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "cPrice1",
+											"label": "박피(암)-2",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "dPrice1",
+											"label": "박피(암)-등외",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "dPrice2",
+											"label": "박피(수)-등외",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "aPrice3",
+											"label": "박피(거)-1+",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "bPrice3",
+											"label": "박피(거)-1",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "cPrice3",
+											"label": "박피(거)-2",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, {
+											"name": "dPrice3",
+											"label": "박피(거)-등외",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										},
+										{
+											"name": "aTotPrice1",
+											"label": "당일시세",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency","formatter": "currency"
+										}, 
+										{
+											"name": "aDosu1",
+											"label": "박피(암)-1+_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+										},
+										{
+											"name": "aDosu2",
+											"label": "박피(수)-1+_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										},
+										{
+											"name": "aDosu3",
+											"label": "박피(거)-1+_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										},
+										{
+											"name": "bDosu1",
+											"label": "박피(암)-1_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										},
+										{
+											"name": "bDosu2",
+											"label": "박피(수)-1_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										},
+										{
+											"name": "bDosu3",
+											"label": "박피(거)-1_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										},
+										{
+											"name": "cDosu1",
+											"label": "박피(암)-2_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										},
+										{
+											"name": "cDosu2",
+											"label": "박피(수)-2_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										},
+										{
+											"name": "cDosu3",
+											"label": "박피(거)-2_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										},
+										{
+											"name": "dDosu1",
+											"label": "박피(암)-등외_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										},
+										{
+											"name": "dDosu2",
+											"label": "박피(수)-등외_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										},
+										{
+											"name": "dDosu3",
+											"label": "박피(거)-등외_두수",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer",
+											"hidden": true
+										},
+										{
+											"name": "memo",
+											"label": "비고",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+										},
+										{
+											"name": "deleYn",
+											"label": "삭제유무",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+										},
+										{
+											"name": "mdUser",
+											"label": "생성자아이디",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+										},
+										{
+											"name": "mdDate",
+											"label": "생성일시",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+										},
+										{
+											"name": "crUser",
+											"label": "수정자아이디",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+										},
+										{
+											"name": "crDate",
+											"label": "수정일시",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"hidden": true
+										}
+										,
+										{
+											"name": "a1Price1",
+											"label": "탕박(암)-1+",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "b1Price1",
+											"label": "탕박(암)-1",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "c1Price1",
+											"label": "탕박(암)-2",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "d1Price1",
+											"label": "탕박(암)-등외",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "d1Price2",
+											"label": "탕박(수)-등외",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "a1Price3",
+											"label": "탕박(거)-1+",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "b1Price3",
+											"label": "탕박(거)-1",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "c1Price3",
+											"label": "탕박(거)-2",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "d1Price3",
+											"label": "탕박(거)-등외",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										},
+										{
+											"name": "a1TotPrice1",
+											"label": "당일시세",
+											"width": 80,
+											"align": "right",
+											"editable": false,
+											"sorttype": "currency" , "formatter": "currency",
+											"hidden": false
+										}
+									],
+									"width": "auto","rowNum": "-1",
+									"height": "365",
+									"cellEdit": true,
+									"shrinkToFit": true,
+									"gridview": true,
+									"datatype": "local",
+									"viewrecords": true,
+									"footerrow": false,
+									"multiselect": true,
+									"multiselectWidth": 15,
+									"rownumbers": false,
+									"pager": "#PO0101_grid_1_pager",
+									"recordpos":"left",
+									"pgbuttons":false,
+									"pginput":false,
+									"cmTemplate": { "sortable": false }
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

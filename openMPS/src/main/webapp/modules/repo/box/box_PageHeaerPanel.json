@@ -1,0 +1,130 @@
+{
+  "module": "BaroBox",
+  "options": {
+    "className": "pageheader_box",
+    "order": [
+      "page_title",
+      "page_breadcrumbs",
+      "top_button"
+    ],
+	  "activation": {
+	    "defaultWidget": "",
+	    "method": "one-page"
+	  },
+    "page_title": {
+      "module": "manifest!Title-1.0.0",
+      "options": {
+        "label": "타이틀",
+        "icon": {
+          "pos": "prefix",
+          "view": true,
+          "type": "fa",
+          "value": "fa-paw"
+        },
+
+        "title_type": "h1"
+      }
+    },
+    "page_breadcrumbs": {
+      "module": "manifest!Breadcrumbs-1.0.0",
+      "options": {
+        "breadcrumbs_item": [
+          {
+            "label": "영업"
+          },
+          {
+            "label": "자료입력",
+            "cmd": "#asdf"
+          },
+          {
+            "label": "주문입력",
+            "active": true,
+            "cmd": null
+          }
+        ],
+        "text_align": "text-right"
+      }
+    },
+    "top_button": {
+      "module": "manifest!ButtonMulti-1.0.0",
+      "options": {
+        "btn_item": [
+          {
+            "label": "신규",
+            "style": "btn-primary",
+            "state": null,
+            "cmd": ""
+          },
+          {
+            "label": "조회",
+            "style": "btn-primary",
+            "state": null,
+            "cmd": ""
+          },
+          {
+            "label": "저장",
+            "style": "btn-primary",
+            "cmd": ""
+          },
+          {
+            "label": "취소",
+            "style": "btn-primary",
+            "cmd": ""
+          },
+          {
+            "label": "삭제",
+            "style": "btn-primary",
+            "state": "disabled",
+            "cmd": ""
+          },
+          {
+            "label": "엑셀",
+            "style": "btn-primary",
+            "state": "disabled",
+            "cmd": ""
+          },
+          {
+            "label": "임시조회",
+            "style": "btn-primary",
+            "cmd": ""
+          },
+          {
+            "label": "임시저장",
+            "style": "btn-primary",
+            "cmd": ""
+          },
+          {
+            "label": "저장처리",
+            "style": "btn-primary",
+            "cmd": ""
+          },
+          {
+            "label": "프린트",
+            "icon": {
+              "view": true,
+              "type": "fa",
+              "value": "fa-print"
+            },
+            "style": "btn-info",
+            "sr_only": true,
+            "cmd": ""
+          }
+			,
+          {
+            "label": "화면닫기",
+            "icon": {
+              "view": true,
+              "type": "fa",
+              "value": "fa-times"
+            },
+            "style": "btn-info",
+            "sr_only": true,
+            "cmd": ""
+          }
+        ],
+        "btn_group_layout": "btn-openmps",
+        "text_align": "text-right"
+      }
+    }
+  }
+}

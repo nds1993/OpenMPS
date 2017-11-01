@@ -1,0 +1,101 @@
+{
+	"name": "생산계획 Setup",
+	"module": "PP0301Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["resultBox"],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "grid_box mw50p gird_btn_hide",
+				"gridId": "PP0301_grid_1",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+						"name": "proLcodename",
+						"label": "품목",
+						"width": 100,
+						"align": "center",
+						"editable": false,
+						"sortable": false
+
+					}, {
+						"name": "proLcode",
+						"label": "품목 코드",
+						"width": 150,
+						"align": "center",
+						"editable": false,
+						"hidden": true,
+						"sortable": false
+
+					}, {
+						"name": "plantName",
+						"label": "공장",
+						"width": 150,
+						"align": "center",
+						"editable": false,
+						"sortable": false
+
+					}, {
+						"name": "plantCode",
+						"label": "공장 코드",
+						"width": 150,
+						"align": "center",
+						"editable": false,
+						"hidden": true,
+						"sortable": false
+					}, {
+						"name": "rateType",
+						"label": "<div class=\"editable_mark\"></div>무박비율",
+						"width": 100,
+						"align": "center",
+						"editable": true,
+						"classes": "editable",
+						"edittype": "select",
+						"formatter": "select",
+						"editoptions": {
+							"value": "0:없음;1:10%;2:15%;3:20%"
+						},
+						"sortable": false
+					}],
+					"rowNum":"100000000",
+					"width": "auto",
+					"height": "645",
+					"cellEdit": true,
+					"cellsubmit": "clientArray",
+					"shrinkToFit": true,
+					"gridview": true,
+					"datatype": "local",
+					"footerrow": false,
+					"multiselect": false,
+					"multiselectWidth": 20,
+					"rownumbers": false,
+					"pager": "#PP0301_grid_1_pager",
+					"viewrecords": true,
+					"recordpos": "left",
+					"pgbuttons": false,
+					"pginput": false,
+					"grouping": true,
+					"groupingView": {
+						"groupField": ["proLcodename"],
+						"groupColumnShow": [true],
+						"groupText": ["<b>{0}</b>"],
+						"groupCollapse": false,
+						"groupOrder": ["asc"],
+						"groupSummary": [true],
+						"groupDataSorted": true
+					}
+				},
+				"cellattr": {
+					"colNames": [
+						"proLcodename"
+					]
+				}
+			}
+		}
+	}
+}

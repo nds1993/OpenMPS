@@ -1,0 +1,18 @@
+<script id="img_holder_html" type="text/html">
+
+<label class=" control-label input-lg-height"><%= title %></label>
+<div class="form_img">
+	<div  id="gcon_imgpreview_box" class="thumbnail cover_thumbnail">
+		<!-- 이미지 변환용 캔버스 -->
+<% if( typeof file.path == 'string' ) { %>
+		<img id="gconImagePreview" width="100%" src="<%= file.path %>" />
+<% }else{ %>
+		<img id="gconImagePreview" width="100%" />
+<% } %>
+	</div>
+	<button type="button" id="field_files" class="btn btn-primary btn_go_imageUpPopup mt-10"><i class="fa fa-arrow-up"></i> 이미지 등록하기</button>
+</div>
+<!-- 이미지 등록 팝업 화면 //-->
+<div id="image_control_popup" class="img_up_popup modal_box hide"></div>
+
+</script>

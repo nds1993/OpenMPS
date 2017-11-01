@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpClosingDate">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpClosingDateSerarchVO" type="nds.mpm.sales.SD0801.vo.MpClosingDateVO"/>
+	
+	<resultMap id="mpClosingDate" class="nds.mpm.sales.SD0801.vo.MpClosingDateVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="applyMonth" column="apply_month" columnIndex="2"/>
+		<result property="saleClose" column="sale_close" columnIndex="3"/>
+		<result property="receClose" column="rece_close" columnIndex="4"/>
+		<result property="prodClose" column="prod_close" columnIndex="5"/>
+		<result property="purcClose" column="purc_close" columnIndex="6"/>
+		<result property="logiClose" column="logi_close" columnIndex="7"/>
+	</resultMap>
+	
+	<insert id="mpClosingDateDAO.insertMpClosingDate_S">
+		<![CDATA[
+			INSERT INTO mp_closing_date 
+				( corp_code
+				  , apply_month
+				  , sale_close
+				  , rece_close
+				  , prod_close
+				  , purc_close
+				  , logi_close )
+			VALUES ( #corpCode#
+				  , #applyMonth#
+				  , #saleClose#
+				  , #receClose#
+				  , #prodClose#
+				  , #purcClose#
+				  , #logiClose# )
+		]]>
+	</insert>
+	
+	<update id="mpClosingDateDAO.updateMpClosingDate_S">
+		<![CDATA[
+			UPDATE mp_closing_date
+			SET sale_close=#saleClose#
+				, rece_close=#receClose#
+				, prod_close=#prodClose#
+				, purc_close=#purcClose#
+				, logi_close=#logiClose#
+						WHERE corp_code=#corpCode#
+								AND apply_month=#applyMonth#
+				]]>
+	</update>
+	
+	<delete id="mpClosingDateDAO.deleteMpClosingDate_S">
+		<![CDATA[
+			DELETE FROM mp_closing_date 
+						WHERE corp_code=#corpCode#
+								AND apply_month=#applyMonth#
+				]]>
+	</delete>
+	
+	<select id="mpClosingDateDAO.selectMpClosingDate_S" resultMap="mpClosingDate">
+		<![CDATA[
+			SELECT
+				sale_close
+				, rece_close
+				, prod_close
+				, purc_close
+				, logi_close
+			FROM mp_closing_date
+						WHERE corp_code=#corpCode#
+								AND apply_month=#applyMonth#
+				]]>
+	</select>
+	
+	<select id="mpClosingDateDAO.selectMpClosingDateList_D" parameterClass="mpClosingDateSerarchVO" resultClass="egovMap">
+		SELECT
+				corp_code
+				, apply_month
+				, sale_close
+				, rece_close
+				, prod_close
+				, purc_close
+				, logi_close
+			FROM mp_closing_date
+			WHERE corp_code=#corpCode#
+			AND apply_month between #applyMonth# || '01' and #applyMonth# || '12'
+	</select>	
+	<select id="mpClosingDateDAO.selectMpClosingDateListTotCnt_S" parameterClass="mpClosingDateSerarchVO" resultClass="int">
+
+	</select>
+	
+	
+	<!-- 
+		mp_closing_date
+		생산 마감체크 
+		prod_close <= check
+	 -->
+	<select id="mpClosingDateDAO.checkProdClosing" resultClass="string">
+		<![CDATA[
+		select 
+			( case when close_cnt > 0 then 'Y' else 'N' end ) close_yn
+		from
+		(	
+		select count(*)	as close_cnt
+		from openmps.mp_closing_date
+		where corp_code = #corpCode#
+		and apply_month = to_char(now(), 'YYYYMM')
+		and prod_close <= to_char(now(), 'YYYYMMDD')
+		limit 1
+		) aa
+		]]>
+	</select>
+
+</sqlMap>

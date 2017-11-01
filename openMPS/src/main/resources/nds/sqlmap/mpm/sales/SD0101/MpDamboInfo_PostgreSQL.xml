@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpDamboInfo">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpDamboInfoSerarchVO" type="nds.mpm.sales.SD0101.vo.MpDamboInfoVO"/>
+	
+	<resultMap id="mpDamboInfo" class="nds.mpm.sales.SD0101.vo.MpDamboInfoVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="damCode" column="dam_code" columnIndex="2"/>
+		<result property="custCode" column="cust_code" columnIndex="3"/>
+		<result property="damCkind" column="dam_ckind" columnIndex="4"/>
+		<result property="damNkind" column="dam_nkind" columnIndex="5"/>
+		<result property="damPrice" column="dam_price" columnIndex="6"/>
+		<result property="damList" column="dam_list" columnIndex="7"/>
+		<result property="damSdate" column="dam_sdate" columnIndex="8"/>
+		<result property="damEdate" column="dam_edate" columnIndex="9"/>
+		<result property="damHdate" column="dam_hdate" columnIndex="10"/>
+		<result property="damComp" column="dam_comp" columnIndex="11"/>
+		<result property="damTel" column="dam_tel" columnIndex="12"/>
+		<result property="damBuil" column="dam_buil" columnIndex="13"/>
+		<result property="damSrank" column="dam_srank" columnIndex="14"/>
+		<result property="damSkum" column="dam_skum" columnIndex="15"/>
+		<result property="damMemo" column="dam_memo" columnIndex="16"/>
+		<result property="deleYn" column="dele_yn" columnIndex="17"/>
+		<result property="userDef1" column="user_def1" columnIndex="18"/>
+		<result property="userDef2" column="user_def2" columnIndex="19"/>
+		<result property="userDef3" column="user_def3" columnIndex="20"/>
+		<result property="userDef4" column="user_def4" columnIndex="21"/>
+		<result property="userDef5" column="user_def5" columnIndex="22"/>
+		<result property="mdUser" column="md_user" columnIndex="23"/>
+		<result property="mdDate" column="md_date" columnIndex="24"/>
+		<result property="crUser" column="cr_user" columnIndex="25"/>
+		<result property="crDate" column="cr_date" columnIndex="26"/>
+	</resultMap>
+	
+	<insert id="mpDamboInfoDAO.insertMpDamboInfo">
+		<selectKey keyProperty="damCode" resultClass="int">
+		    select coalesce(max(dam_code),0)+1 from openmps.mp_dambo_info where corp_code = #corpCode# 
+		</selectKey>
+		<![CDATA[
+			INSERT INTO mp_dambo_info 
+				( corp_code
+				  , dam_code
+				  , cust_code
+				  , dam_ckind
+				  , dam_nkind
+				  , dam_price
+				  , dam_list
+				  , dam_sdate
+				  , dam_edate
+				  , dam_hdate
+				  , dam_comp
+				  , dam_tel
+				  , dam_buil
+				  , dam_srank
+				  , dam_skum
+				  , dam_memo
+				  , dele_yn
+				  , user_def1
+				  , user_def2
+				  , user_def3
+				  , user_def4
+				  , user_def5
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #damCode#
+				  , #custCode#
+				  , #damCkind#
+				  , #damNkind#
+				  , #damPrice#::numeric
+				  , #damList#
+				  , #damSdate#
+				  , #damEdate#
+				  , #damHdate#
+				  , #damComp#
+				  , #damTel#
+				  , #damBuil#
+				  , #damSrank#
+				  , #damSkum#::numeric
+				  , #damMemo#
+				  , 'N'
+				  , #userDef1#
+				  , #userDef2#
+				  , #userDef3#
+				  , #userDef4#
+				  , #userDef5#
+				  , #mdUser#
+				  , now()
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="mpDamboInfoDAO.updateMpDamboInfo">
+		<![CDATA[
+			UPDATE mp_dambo_info
+			SET dam_ckind=#damCkind#
+				, dam_nkind=#damNkind#
+				, dam_price=#damPrice#::numeric
+				, dam_list=#damList#
+				, dam_sdate=#damSdate#
+				, dam_edate=#damEdate#
+				, dam_hdate=#damHdate#
+				, dam_comp=#damComp#
+				, dam_tel=#damTel#
+				, dam_buil=#damBuil#
+				, dam_srank=#damSrank#
+				, dam_skum=#damSkum#::numeric
+				, dam_memo=#damMemo#
+				, user_def1=#userDef1#
+				, user_def2=#userDef2#
+				, user_def3=#userDef3#
+				, user_def4=#userDef4#
+				, user_def5=#userDef5#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND dam_code=#damCode#::numeric
+				]]>
+	</update>
+	
+	<delete id="mpDamboInfoDAO.deleteMpDamboInfo">
+		<![CDATA[
+			update mp_dambo_info set dele_yn = 'Y'
+						WHERE corp_code=#corpCode#
+								AND dam_code=#damCode#
+				]]>
+	</delete>
+	
+	<select id="mpDamboInfoDAO.selectMpDamboInfo_S" resultMap="mpDamboInfo">
+		<![CDATA[
+			SELECT
+				corp_code
+				, dam_code
+				, cust_code
+				, dam_ckind
+				, dam_nkind
+				, dam_price
+				, dam_list
+				, dam_sdate
+				, dam_edate
+				, dam_hdate
+				, dam_comp
+				, dam_tel
+				, dam_buil
+				, dam_srank
+				, dam_skum
+				, dam_memo
+				, dele_yn
+				, user_def1
+				, user_def2
+				, user_def3
+				, user_def4
+				, user_def5
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM mp_dambo_info
+						WHERE corp_code=#corpCode#
+								AND dam_code=#damCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM 
+			openmps.mp_dambo_info a 
+		where 
+			a.corp_code = #corpCode#
+			 <isNotEmpty prepend="and" property="corpCode">
+			 	a.corp_code = #corpCode#		
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="custCode">
+			 	a.cust_code = #custCode#		
+	         </isNotEmpty>
+			and a.dele_yn = 'N'
+	</sql>
+	<select id="mpDamboInfoDAO.selectMpDamboInfoList_D" parameterClass="mpDamboInfoSerarchVO" resultClass="egovMap">
+		SELECT
+				a.corp_code
+				, a.dam_code
+				, a.cust_code
+				, a.dam_ckind
+				, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'SD016',a.dam_ckind) as dam_ckindname 
+				, a.dam_nkind
+				, a.dam_price
+				, a.dam_list
+				, a.dam_sdate
+				, a.dam_edate
+				, a.dam_hdate
+				, a.dam_comp
+				, a.dam_tel
+				, a.dam_buil
+				, a.dam_srank
+				, a.dam_skum
+				, a.dam_memo
+				, a.dele_yn
+				, a.user_def1
+				, a.user_def2
+				, a.user_def3
+				, a.user_def4
+				, a.user_def5
+				, a.md_user
+				, a.md_date
+				, a.cr_user
+				, a.cr_date
+		<include refid="selectWhere_fragment"/>
+		order by a.dam_sdate, a.dam_edate
+	</select>	
+	<select id="mpDamboInfoDAO.selectMpDamboInfoListTotCnt_S" parameterClass="mpDamboInfoSerarchVO" resultClass="int">
+		select 
+			count(*)
+			<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

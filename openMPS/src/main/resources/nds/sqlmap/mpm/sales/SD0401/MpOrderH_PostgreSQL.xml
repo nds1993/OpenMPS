@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD0401">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SD0401SerarchVO" type="nds.mpm.sales.SD0401.vo.SD0401VO"/>
+	<typeAlias  alias="SD0402SerarchVO" type="nds.mpm.sales.SD0402.vo.SD0402VO"/>
+	
+	<resultMap id="SD0401" class="nds.mpm.sales.SD0401.vo.SD0401VO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="delvDate" column="delv_date" columnIndex="2"/>
+		<result property="ordrNo" column="ordr_no" columnIndex="3"/>
+		<result property="ordrType" column="ordr_type" columnIndex="4"/>
+		<result property="ordrCust" column="ordr_cust" columnIndex="5"/>
+		<result property="delvCust" column="delv_cust" columnIndex="6"/>
+		<result property="saleCust" column="sale_cust" columnIndex="7"/>
+		<result property="aggreGubn" column="aggre_gubn" columnIndex="8"/>
+		<result property="delvType" column="delv_type" columnIndex="9"/>
+		<result property="delvDc" column="delv_dc" columnIndex="10"/>
+		<result property="amtDisplay" column="amt_display" columnIndex="11"/>
+		<result property="limitYn" column="limit_yn" columnIndex="12"/>
+		<result property="occurSrc" column="occur_src" columnIndex="13"/>
+		<result property="approYn" column="appro_yn" columnIndex="14"/>
+		<result property="ordrWeight" column="ordr_weight" columnIndex="15"/>
+		<result property="ordrAmt" column="ordr_amt" columnIndex="16"/>
+		<result property="delvWeight" column="delv_weight" columnIndex="17"/>
+		<result property="delvAmt" column="delv_amt" columnIndex="18"/>
+		<result property="phoneNo" column="phone_no" columnIndex="19"/>
+		<result property="arrivalTime" column="arrival_time" columnIndex="20"/>
+		<result property="memo" column="memo" columnIndex="21"/>
+		<result property="status" column="status" columnIndex="22"/>
+		<result property="crUser" column="cr_user" columnIndex="23"/>
+		<result property="crDate" column="cr_date" columnIndex="24"/>
+		<result property="mdUser" column="md_user" columnIndex="25"/>
+		<result property="mdDate" column="md_date" columnIndex="26"/>
+	</resultMap>
+	
+	<select id="SD0401DAO.selectSD0401_S" resultMap="SD0401">
+		<![CDATA[
+			SELECT
+				corp_code
+				, delv_date
+				, ordr_no
+				, ordr_type
+				, ordr_cust
+				, delv_cust
+				, sale_cust
+				, aggre_gubn
+				, delv_type
+				, delv_dc
+				, amt_display
+				, limit_yn
+				, occur_src
+				, appro_yn
+				, ordr_weight
+				, ordr_amt
+				, delv_weight
+				, delv_amt
+				, phone_no
+				, arrival_time
+				, memo
+				, status
+				, cr_user
+				, cr_date
+				, md_user
+				, md_date
+			FROM openmps.mp_order_h
+						WHERE corp_code=#corpCode#
+								AND delv_date=#delvDate#
+								AND ordr_no=#ordrNo#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+		<!-- 
+			limit_inf.cur_unpay 당일미수 = 전월미수 + 주문일까지 판매금액 - 주문일까지 수금금액합
+			당일미수 > 기본한도
+			여신한도 = 기본한도
+			잔여한도 = 기본한도 - 당일미수 + 주문합계
+		 -->
+		 <![CDATA[
+			FROM openmps.mp_order_h h
+			left outer join openmps.mp_order_d d on (h.corp_code=d.corp_code 
+				and h.delv_date=d.delv_date 
+				and h.ordr_no=d.ordr_no
+				)
+			left outer join openmps."SD_CREDIT_CHECK"(
+			    'O',
+			    h.corp_code,
+			    NULL,
+			    h.delv_date,
+			    h.ordr_no)  custlimit on (1=1)
+			left outer join mp_salesman_cust sc on ( h.corp_code = sc.corp_code and h.ordr_cust = sc.salesman_cust )
+			WHERE h.corp_code=#corpCode#
+			AND h.delv_date between #strtDate# and #lastDate#
+		]]>
+		<dynamic > 
+	         <isNotEmpty prepend="and" property="ordrCust">
+	         h.ordr_cust = #ordrCust#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="salesman">
+	         <!-- sc.salesman = #salesman# -->
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="ordrType">
+	         h.ordr_type = #ordrType#
+	         </isNotEmpty>
+	         <isEqual prepend="and" property="status" compareValue="1">
+	         h.delv_weight = 0
+	         </isEqual>
+	         <isNotEqual prepend="and" property="status" compareValue="1">
+	         h.delv_weight != 0
+	         </isNotEqual>
+		</dynamic>
+	</sql>
+	<select id="SD0401DAO.selectSD0401List_D" parameterClass="SD0401SerarchVO" resultClass="egovMap">
+		SELECT
+				h.delv_date
+				, h.delv_date || '-' || h.ordr_no as ordr_num
+				, openmps."FN_GET_TMCODEXDNM"(h.corp_code,'SD017',h.ordr_type) as ordr_type_name 
+				, openmps."FN_GET_CUSTCODENM"(h.corp_code,h.ordr_cust) as ordr_cust_name 
+				, custlimit.o_remain_amt as remaining_limit
+				, sum(d.ordr_box) as ordr_box
+				, h.ordr_amt
+				, (case when h.delv_weight != 0 then '출고완료' else '출고예정' end)  as delv_status 
+				, openmps."FN_GET_TMCODEXDNM"(h.corp_code,'SDDC',h.delv_dc) as delv_dcname 
+				
+				, h.delv_cust
+				, h.aggre_gubn
+				, h.delv_type
+				, h.delv_dc
+				, h.ordr_weight
+				, h.delv_weight
+				, h.delv_amt
+				, h.memo
+				, h.status
+				, h.ordr_cust
+				, h.ordr_type
+				, h.ordr_no
+				, h.cr_user
+				, h.cr_date
+				, h.md_user
+				, h.md_date
+				
+				, h.amt_display
+  				, h.limit_yn 
+				<include refid="selectWhere_fragment"/>
+				group by 
+				h.corp_code
+				, h.delv_date
+				, h.delv_cust
+				, h.aggre_gubn
+				, h.delv_type
+				, h.delv_dc
+				, h.ordr_weight
+				, h.delv_weight
+				, h.delv_amt
+				, h.memo
+				, h.status
+				, h.ordr_cust
+				, h.ordr_type
+				, h.ordr_no
+				, h.cr_user
+				, h.cr_date
+				, h.md_user
+				, h.md_date
+				, custlimit.o_remain_amt
+				, h.ordr_amt
+				, h.amt_display
+  				, h.limit_yn 
+				order by h.corp_code
+				, h.delv_date
+				, h.ordr_no
+	</select>	
+	<select id="SD0401DAO.selectSD0401ListTotCnt_S" parameterClass="SD0401SerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<!-- 
+	
+		신규주문시 추가한제품의 단가, 재고 조회. 
+		
+	-->
+	<select id="SD0401DAO.selectSD0401ProJaegoInfo" resultClass="egovMap">
+			SELECT
+				openmps."FN_GET_PROPRICE"(#corpCode#,#delvDate#,#custCode#,#proCode#) as sale_price
+				, 0 delv_avail <!--  출고가능 -->
+				, coalesce(cur_stokqty,0) stock_box <!--  현재고	-->
+				, coalesce(last_stokqty,0) misu_box <!--  전일재고	-->
+				, coalesce(out_planqty,0) ordr_plan <!--  출고계획  -->      
+				, coalesce(prod_planqty,0) work_plan <!--  생산계획   -->
+			from openmps."FN_GET_WMSJAEGO"('1000',#corpCode#,#delvDate#,#delvDc#,#proCode#)
+			<dynamic > 
+	         <isNotEmpty prepend="and" property="proCode">
+	         </isNotEmpty>
+			</dynamic>
+	</select>
+	<select id="SD0401DAO.selectSD0401CustLimit" resultClass="egovMap">
+	<![CDATA[
+		select 
+			#custCode# as o_cust_code
+			, #strtDate# as o_strt_date 
+			, cl.base_limit as o_base_limit 
+			, cl.one_limit as o_one_limit 
+			, credit.o_credit_limit as o_cust_limit 
+			, 0 as o_cur_unpay 
+			, credit.o_remain_amt as o_remaining_limit	
+		from openmps."SD_CREDIT_CHECK"(
+			    'C',
+			    #corpCode#,
+			    #custCode#,
+			    #strtDate#,
+			    NULL) credit
+		left outer join openmps.mp_credit_limit cl on ( 
+			corp_code = #corpCode# 
+			and cust_code = #custCode#
+			and start_date <= #strtDate# and last_date >= #strtDate#
+		)
+		order by start_date desc limit 1
+	]]>				
+	</select>
+	<!-- 
+	
+	주문입력-거래처의 배송처조회.
+	
+	 -->
+	<select id="SD0401DAO.selectSD0401DelvCust" resultClass="String">
+			SELECT
+				delv_cust
+			from openmps.mp_cust_info a
+			where a.corp_code = #corpCode#
+			and a.cust_code = #ordrCust#
+	</select>
+	
+	<!-- 
+		 주문현황
+	-->
+	<select id="SD0401DAO.selectTab1MpOrderDList" parameterClass="SD0401SerarchVO" resultClass="egovMap">
+		SELECT
+				d.pro_code
+				, openmps."FN_GET_PROCODENM"(a.corp_code,a.pro_code) as pro_name
+				, d.ordr_box
+				, d.ordr_weight
+				, coalesce(d.delv_box,0) - d.ordr_box as adjust_box
+				, coalesce(d.delv_weight,0) - d.ordr_weight as adjust_weight
+				, d.unit_price
+				, d.ordr_amt
+				, d.ordr_vat
+				, (d.ordr_amt + d.ordr_vat) as sum_amt
+				
+				, d.delv_date
+				, d.ordr_no
+				, d.ordr_seq
+				, d.sale_group2
+				, d.pro_ukind
+				, d.price_src
+				, d.delv_weight
+				, d.delv_amt
+				, d.delv_vat
+				, d.weight_comp
+				, d.pm_accept_yn
+				, d.status
+				, d.cust_po_no
+				, d.cust_po_seq
+				, d.cust_pro_code
+				, d.cr_user
+				, d.cr_date
+				, d.md_user
+				, d.md_date
+		FROM 
+			openmps.mp_order_h a
+			inner join openmps.mp_order_d d on (a.corp_code = d.corp_code 
+									and a.delv_date = d.delv_date 
+									and a.ordr_no = d.ordr_no)
+			WHERE a.corp_code=#corpCode#
+				AND a.delv_date=#delvDate#
+				AND a.ordr_no=#ordrNo#
+		order by d.pro_code		
+	</select>
+	<!-- 
+		 주문내역
+	-->
+	<select id="SD0401DAO.selectTab2MpOrderDList" parameterClass="SD0401SerarchVO" resultClass="egovMap">
+		SELECT
+				d.pro_code
+				, openmps."FN_GET_PROCODENM"(a.corp_code,a.pro_code) as pro_name
+				, coalesce(stok.last_stokqty,0) 
+					+ coalesce(stok.prod_planqty,0) 
+					- coalesce(stok.out_planqty,0)
+					- coalesce(d.ordr_amt,0)  delv_avail <!--  출고가능 -->
+				, stok.cur_stokqty stock_box <!--  현재고	-->
+				, d.ordr_box
+				, d.ordr_weight
+				, d.unit_price
+				, d.ordr_amt
+				, stok.last_stokqty misu_box <!--  전일재고	-->
+				, stok.out_planqty ordr_plan <!--  출고계획  -->      
+				, stok.prod_planqty work_plan <!--  생산계획   -->     
+		FROM 
+			openmps.mp_order_h a
+			inner join openmps.mp_order_d d on (a.corp_code = d.corp_code 
+									and a.delv_date = d.delv_date 
+									and a.ordr_no = d.ordr_no)
+			left outer join openmps."FN_GET_WMSJAEGO"('1000',a.corp_code,a.delv_date, a.delv_dc,d.pro_code) 
+			stok on (1=1)
+			WHERE a.corp_code=#corpCode#
+				AND a.delv_date=#delvDate#
+				AND a.ordr_no=#ordrNo#
+		order by d.pro_code		
+	</select>
+</sqlMap>

@@ -1,0 +1,34 @@
+<script id="imageeditor" type="text/html">
+<!-- 아이콘 등록 팝업 화면 //-->
+<div class="popup_box container-fix popup_panel">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title headTitle">아이콘 등록하기</h3>
+		</div>
+		<div class="panel-body">
+			<input type="button" value="갤러리 선택" class="btn btn-primary btn_go_native_image"/>
+			<input type="button" value="카메라" class="btn btn-primary btn_go_native_camera"/>
+			<!-- web view -->
+			<form id='web_image_form' style="display:none" method='POST' enctype='multipart/form-data' onsubmit='return false;' >
+				<input type="file" name="file" class="btn_web_get_image form-control" />
+			</form>
+			<div class="desc subTitle">앱 아이콘 이미지 미리보기 </div>
+			<canvas id="editor_iconCanvas" class="hide" > Your browser does not support the HTML5 canvas tag.</canvas>
+			<!-- css thumnail 적용시 jcrop 기능이 정상적으로 처리되지 않아 제거함. -->
+			<div id="editor_preview_box" class="">
+				<canvas id="iconCanvasPreview"  ></canvas>
+				<img id="iconPreview"  style="display:none" /> </div>
+		</div>
+  		<div class="panel-footer">
+			<div class="desc infoMsg"> <small>아이콘 이미지는 가로 300px 이상, 높이 300px 이상의 이미지를 업로드하여 주세요.</small> </div>
+			<div class="mt5 mb5">
+				<button type="button" class="btn btn-info btn-xs btn_crop btn_go_crop_canvas"><i class="fa fa-fw fa-crop"></i>자르기</button>
+				<button type="button" class="btn btn-info btn-xs btn_rotate btn_go_rotate_canvas"><i class="fa fa-fw fa-repeat"></i>회전하기</button>
+				<button type="button" class="btn btn-primary btn-xs btn_rotate fr btn_go_iconUpClose"><i class="fa fa-fw fa-check"></i>선택</button>
+				<button type="button" class="btn btn-primary btn-xs btn_rotate fr btn_go_Cancel mr3"><i class="fa fa-fw fa-check"></i>취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- //아이콘 등록 팝업 화면 --> 
+</script>

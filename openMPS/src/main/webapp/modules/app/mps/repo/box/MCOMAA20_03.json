@@ -1,0 +1,337 @@
+{
+	"module": "WorkAreaRenderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"formBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"module": "FormBox",
+				"className": "query_box",
+				"order": [
+					"check",
+					"searchCondition",
+					"searchKeyword"
+				],
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"form-group form-inline\"><div class=\"checkbox_box\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"check\" value=\"1\"><span class=\"title\">선택</span></label></div></div><label>검색</label><select class=\"form-control searchCondition\"><option>조건선택</option><option value=\"mhisDate\">변경일자</option><option value=\"beforeUser\">이전담당자</option><option value=\"afterUser\">변경담당자</option></select><input type=\"text\" class=\"form-control searchKeyword\" value=\"\"></div>",
+					"items": {
+						"check": {
+							"module": "checkbox",
+							"label": "선택",
+							"selector": "[ㅜname=check]",
+							"required": false
+						},
+
+						"searchCondition": {
+							"module": "text",
+							"label": "검색",
+							"selector": ".searchCondition",
+							"required": false
+						},
+						"searchKeyword": {
+							"module": "text",
+							"label": "검색 내용 입력",
+							"selector": ".searchKeyword",
+							"required": false
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"mhisDate",
+					"beforeUser",
+					"afterUser",
+					"memo",
+					"beforeHeadName",
+					"beforeTeamName",
+					"beforeDeptName",
+					"afterHeadName",
+					"afterTeamName",
+					"afterDeptName"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">변경일자</label><div class=\"input-group\"><input type=\"text\" class=\"form-control mhisDate\" value=\"2017-06-09\"><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">날짜선택</span></button></span></div></div><div class=\"form-group\"><label>이전담당자</label><div class=\"beforeUser_region\"></div></div><div class=\"form-group\"><label>본부</label><input type=\"text\" class=\"form-control beforeHeadName\" readonly></div><div class=\"form-group\"><label>팀</label><input type=\"text\" class=\"form-control beforeTeamName\" readonly></div><div class=\"form-group\"><label>부서</label><input type=\"text\" class=\"form-control beforeDeptName\" readonly></div></div><div class=\"col-xs-4\"><div class=\"form-group form_empty\"></div><div class=\"form-group\"><label>변경담당자</label><div class=\"afterUser_region\"></div></div><div class=\"form-group\"><label>본부</label><input type=\"text\" class=\"form-control afterHeadName\" readonly></div><div class=\"form-group\"><label>팀</label><input type=\"text\" class=\"form-control afterTeamName\" readonly></div><div class=\"form-group\"><label>부서</label><input type=\"text\" class=\"form-control afterDeptName\" readonly></div></div><div class=\"col-xs-4\"><div class=\"form-group form_empty\"></div><div class=\"form-group form_w40\"><label>비고</label><textarea class=\"form-control memo text4line\" value=\"\"></textarea></div></div></div>",
+					"items": {
+						"mhisDate" : {"module": "date","label": "변경일자","selector": ".mhisDate","required": true},
+						"beforeUser" : {"label": "이전담당자","required": false},
+						"afterUser" : {"label": "변경담당자","required": false},
+						"memo" : {"module": "textarea","label": "비고","selector": ".memo","required": false},
+						"beforeHeadName" : {"module": "text","label": "본부","selector": ".beforeHeadName","required": false},
+						"beforeTeamName" : {"module": "text","label": "팀","selector": ".beforeTeamName","required": false},
+						"beforeDeptName" : {"module": "text","label": "부서","selector": ".beforeDeptName","required": false},
+						"afterHeadName" : {"module": "text","label": "본부","selector": ".afterHeadName","required": false},
+						"afterTeamName" : {"module": "text","label": "팀","selector": ".afterTeamName","required": false},
+						"afterDeptName" : {"module": "text","label": "부서","selector": ".afterDeptName","required": false}
+					},
+					"data": {}
+				},
+				"beforeUser": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "이전담당자",
+						"required": false
+					}
+				},
+				"afterUser": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "변경담당자",
+						"required": false
+					}
+				}
+
+			}
+		},
+
+		"resultBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "result_box",
+				"order": [
+					"tab_custmhis",
+					"tab_custmhismodify"
+				],
+				"activation": {
+					"defaultWidget": "tab_custmhis",
+					"method": "show-hide",
+					"navigator": {
+						"options": {
+							"pos": "top",
+							"closeButton": false,
+							"label": {
+								"tab_custmhis": "조회",
+								"tab_custmhismodify": "변경"
+							}
+						}
+					}
+				},
+				"custom_form": {
+					"mode": "form",
+					"items": {
+						"tab_custmhis": {
+							"label": "이력관리",
+							"required": false
+						},
+						"tab_custmhismodify": {
+							"label": "전체내역",
+							"required": false
+						}
+					},
+					"data": {}
+				},
+				"tab_custmhis": {
+					"module": "FormBox",
+					"options": {
+						"className": "tab_custmhis_box",
+						"order": [
+							"custmhis",
+							"custmhisdetail"
+						],
+						"activation": {
+							"defaultWidget": "",
+							"method": "one-page"
+						},
+						"custom_form": {
+							"mode": "form",
+							"template": "<div class=\"row\"><div class=\"col-xs-4 custmhis_region\"></div><div class=\"col-xs-8 custmhisdetail_region\"></div></div>",
+							"items": {
+								"custmhis": {
+									"label": "custmhis",
+									"required": true
+								},
+								"custmhisdetail": {
+									"label": "custmhisdetail",
+									"required": true
+								}
+							},
+							"data": {}
+						},
+						"custmhis": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "custmhis_box grid_box",
+								"gridId": "custmhis",
+								"gridParams": {
+									"data": [{
+									}],
+									"colModel": [
+										{"name": "mhisDate","label": "일자",			 "width": 60, "align": "left"},
+										{"name": "beforeName","label": "이전담당자",		"width": 60, "align": "left"},
+										{"name": "afterName","label": "변경담당자",		"width": 60, "align": "left"},
+										{"name": "memo","label": "비고",				 "width": 100, "align": "left"}
+									],
+									"rowNum": 30,
+									"records": 30,
+									"rownumWidth": 20,
+									"rowList": [30, 50, 100, 200, "100000:All"],
+									"viewrecords": true,
+									"rownumbers": false,
+									"toppager": false,
+									"pager": true,
+									"shrinkToFit": false,
+									"multiselect": false,
+									"editurl": "clientArray",
+									"loadonce": true,
+									"width": "auto",
+									"height": 261,
+
+									"iconSet": "fontAwesome",
+									"autoencode": true,
+									"altRows": true,
+									"altclass": "myAltRowClass",
+									"pagerRightWidth": 140,
+
+									"caption": "",
+									"navOptions": {
+										"del": false
+									},
+									"searching": {
+										"closeAfterSearch": true,
+										"closeAfterReset": true,
+										"closeOnEscape": true,
+										"searchOnEnter": true,
+										"multipleSearch": true,
+										"multipleGroup": true,
+										"showQuery": true
+									},
+									"cellEdit": false
+								}
+							}
+						},
+						"custmhisdetail": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "custmhisdetail_box grid_box",
+								"gridId": "custmhisdetail",
+								"gridParams": {
+									"data": [{
+									}],
+									"colModel": [
+										{"name": "custCode","label": "거래처코드", "width": 70, "align": "left"},
+										{"name": "custName","label": "거래처명", "width": 100, "align": "left"},
+										{"name": "owner","label": "대표자", "width": 60, "align": "left"},
+										{"name": "ssno","label": "사업자번호", "width": 70, "align": "left"},
+										{"name": "phone","label": "전화번호", "width": 70, "align": "left"},
+										{"name": "mobile","label": "핸드폰", "width": 70, "align": "left"},
+										{"name": "miSu","label": "미수금", "width": 80, "align": "right"},
+										{"name": "memo","label": "비고", "width": 180, "align": "left"}
+									],
+									"rowNum": 30,
+									"records": 30,
+									"rownumWidth": 20,
+									"rowList": [30, 50, 100, 200, "100000:All"],
+									"viewrecords": true,
+									"rownumbers": false,
+									"toppager": false,
+									"pager": true,
+									"shrinkToFit": false,
+									"multiselect": false,
+									"editurl": "clientArray",
+									"loadonce": true,
+									"width": "auto",
+									"height": 261,
+
+									"iconSet": "fontAwesome",
+									"autoencode": true,
+									"altRows": true,
+									"altclass": "myAltRowClass",
+									"pagerRightWidth": 140,
+
+									"caption": "",
+									"navOptions": {
+										"del": false
+									},
+									"searching": {
+										"closeAfterSearch": true,
+										"closeAfterReset": true,
+										"closeOnEscape": true,
+										"searchOnEnter": true,
+										"multipleSearch": true,
+										"multipleGroup": true,
+										"showQuery": true
+									},
+									"cellEdit": false
+								}
+							}
+						}
+					}
+				},
+				"tab_custmhismodify": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "custmhismodify_box grid_box",
+						"gridId": "custmhismodify",
+						"gridParams": {
+							"data": [],
+							"colModel": [
+								{"name": "custCode","label": "거래처코드", "width": 70, "align": "left"},
+								{"name": "custCode","label": "거래처코드", "width": 70, "align": "left"},
+								{"name": "custName","label": "거래처명", "width": 100, "align": "left"},
+								{"name": "owner","label": "대표자", "width": 60, "align": "left"},
+								{"name": "ssno","label": "사업자번호", "width": 70, "align": "left"},
+								{"name": "phone","label": "전화번호", "width": 70, "align": "left"},
+								{"name": "mobile","label": "핸드폰", "width": 70, "align": "left"},
+								{"name": "misuPrice","label": "미수금", "width": 80, "align": "right"},
+								{"name": "memo","label": "비고", "width": 180, "align": "left"}
+							],
+							"rowNum": 30,
+							"records": 30,
+							"rownumWidth": 20,
+							"rowList": [30, 50, 100, 200, "100000:All"],
+							"viewrecords": true,
+							"rownumbers": false,
+							"toppager": false,
+							"pager": true,
+							"shrinkToFit": false,
+							"multiselect": true,
+							"editurl": "clientArray",
+							"loadonce": true,
+							"width": "auto",
+							"height": 261,
+							"iconSet": "fontAwesome",
+							"autoencode": true,
+							"altRows": true,
+							"altclass": "myAltRowClass",
+							"pagerRightWidth": 140,
+
+							"caption": "",
+							"navOptions": {
+								"del": false
+							},
+							"searching": {
+								"closeAfterSearch": true,
+								"closeAfterReset": true,
+								"closeOnEscape": true,
+								"searchOnEnter": true,
+								"multipleSearch": true,
+								"multipleGroup": true,
+								"showQuery": true
+							},
+							"cellEdit": false
+						}
+					}
+				}
+			}
+		}
+	}
+}

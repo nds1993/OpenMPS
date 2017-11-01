@@ -1,0 +1,163 @@
+{
+	"module": "WorkAreaRenderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"formBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"module": "FormBox",
+				"className": "query_box",
+				"order": [
+					"searchCondition",
+					"searchKeyword",
+					"beginDate",
+					"endDate"
+				],
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"form-group form-inline\"><label>검색</label><select class=\"form-control searchCondition\"><option value=\"custName\">거래처명</option><option value=\"custCode\">거래처코드</option></select><input type=\"text\" class=\"form-control searchKeyword\" value=\"\" ><label class=\"ml50\">등록일자</label><div class=\"input-group\"><input type=\"text\" class=\"form-control beginDate\" value=\"2017-06-09\"><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">날짜선택</span></button></span></div>~ <div class=\"input-group\"><input type=\"text\" class=\"form-control endDate\" value=\"2017-06-09\"><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">날짜선택</span></button></span></div></div>",
+					"items": {
+						"searchCondition": {
+							"module": "text",
+							"label": "검색",
+							"selector": ".searchCondition",
+							"required": false
+						},
+						"searchKeyword": {
+							"module": "text",
+							"label": "검색 내용 입력",
+							"selector": ".searchKeyword",
+							"required": false
+						},
+						"beginDate": {
+							"module": "date",
+							"label": "시작일 선택",
+							"selector": ".beginDate",
+							"required": false
+						},
+						"endDate": {
+							"module": "date",
+							"label": "마지막일 선택",
+							"selector": ".endDate",
+							"required": false
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"custCode",
+					"creditDate",
+					"creditPrice",
+					"tempPrice",
+					"tempDate",
+					"onePrice",
+					"nowJan",
+					"juPrice",
+					"juJan"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">거래처</label><div class=\"custCode_region\"></div></div><div class=\"form-group\"><label class=\"required\">등록일자</label><div class=\"input-group\"><input type=\"text\" class=\"form-control creditDate\" value=\"2017-06-09\"><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">날짜선택</span></button></span></div></div><div class=\"form-group\"><label class=\"required\">여신한도</label><div class=\"input-group\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control creditPrice\" readonly><span class=\"input-group-addon\">원</span></div></div><div class=\"form-group\"><label>임시여신</label><div class=\"input-group\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control tempPrice\"><span class=\"input-group-addon\">원</span></div></div><div class=\"form-group\"><label class=\"required\">증액만기일</label><div class=\"input-group\"><input type=\"text\" class=\"form-control tempDate\" value=\"2017-06-09\"><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">날짜선택</span></button></span></div></div><div class=\"form-group\"><label>1회한도</label><div class=\"input-group\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control onePrice\" readonly><span class=\"input-group-addon\">원</span></div></div></div><div class=\"col-xs-4\"><div class=\"form-group form_empty\"></div><div class=\"form-group form_empty\"></div><div class=\"form-group\"><label>현재잔고</label><div class=\"input-group\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control nowJan\" readonly><span class=\"input-group-addon\">원</span></div></div><div class=\"form-group\"><label>주문금액</label><div class=\"input-group\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control juPrice\" readonly><span class=\"input-group-addon\">원</span></div></div><div class=\"form-group\"><label>주문잔고</label><div class=\"input-group\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control juJan\" readonly><span class=\"input-group-addon\">원</span></div></div></div><div class=\"col-xs-4\"><div class=\"form-group form_empty\"></div><div class=\"form-group form_empty\"></div><div class=\"form-group form_w40\"><label>비고</label><textarea class=\"form-control memo text3line\" value=\"\"></textarea></div></div></div>",
+					"items": {
+						"custCode": {
+							"label": "custCode",
+							"required": true
+						},
+						"creditDate" : {"module": "date","label": "등록일자","selector": ".creditDate","required": true},
+						"creditPrice" : {"module": "date","label": "여신한도","selector": ".creditPrice","required": false},
+						"tempPrice" : {"module": "price","label": "임시여신","selector": ".tempPrice","required": false},
+						"tempDate" : {"module": "date","label": "증액만기일","selector": ".tempDate","required": false},
+						"onePrice" : {"module": "price","label": "1회한도증액","selector": ".onePrice","required": false},
+						"damDate" : {"module": "date","label": "등록일자","selector": ".damDate","required": false},
+						"nowJan" : {"module": "price","label": "현재잔고","selector": ".nowJan","required": false},
+						"juPrice" : {"module": "price","label": "주문금액" ,"selector": ".juPrice","required": false},
+						"juJan" : {"module": "price","label": "주문잔고" ,"selector": ".juJan","required": false},
+						"memo" :  {"module": "date","label": "등록일자","selector": ".memo","required": false}
+					},
+					"data": {}
+				},
+				"custCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "거래처",
+						"required": true
+					}
+				}
+			}
+		},
+
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "resultBox_box grid_box",
+				"gridId": "creditinfo",
+				"gridParams": {
+					"data": [],
+					"colModel": [
+						{"name": "creditCode",	"label": "코드",	"align": "right",	"width": 60},
+						{"name": "custCode",	"label": "거래처",	"align": "left",	"width": 70},
+						{"name": "custName",	"label": "거래처명",	"align": "left",	"width": 150},
+						{"name": "creditDate",	"label": "등록일자",	"align": "left",	"width": 80},
+						{"name": "creditPrice",	"label": "한도금액",	"align": "right",	"width": 80},
+						{"name": "tempPrice",	"label": "임시여신",	"align": "right",	"width": 80},
+						{"name": "tempDate",	"label": "증액만기일",	"align": "left",	"width": 70},
+						{"name": "onePrice",	"label": "1회한도증액",	"align": "right",	"width": 60},
+						{"name": "memo",		"label": "비고",	"align": "left",	"width": 200}
+					],
+					"rowNum": 30,
+					"records": 30,
+					"rownumWidth": 20,
+					"rowList": [30, 50, 100, 200, "100000:All"],
+					"viewrecords": true,
+					"rownumbers": false,
+					"toppager": false,
+					"pager": true,
+					"shrinkToFit": false,
+					"multiselect": false,
+					"editurl": "clientArray",
+					"loadonce": true,
+					"width": "auto",
+					"height": 258,
+					"iconSet": "fontAwesome",
+					"autoencode": true,
+					"altRows": true,
+					"altclass": "myAltRowClass",
+					"pagerRightWidth": 140,
+
+					"caption": "",
+					"navOptions": {
+						"del": false
+					},
+					"searching": {
+						"closeAfterSearch": true,
+						"closeAfterReset": true,
+						"closeOnEscape": true,
+						"searchOnEnter": true,
+						"multipleSearch": true,
+						"multipleGroup": true,
+						"showQuery": true
+					},
+					"cellEdit": false
+				}
+			}
+		}
+	}
+}

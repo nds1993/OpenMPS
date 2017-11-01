@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="UserInfo">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="userInfoSerarchVO" type="nds.mpm.common.user.vo.UserInfoDefaultVO"/>
+	
+	<resultMap id="userInfo" class="nds.mpm.common.user.vo.UserInfoVO">
+		<result property="userCode" column="user_code" columnIndex="1"/>
+		<result property="userName" column="user_name" columnIndex="2"/>
+		<result property="userPass" column="user_pass" columnIndex="3"/>
+		<result property="userOpass" column="user_opass" columnIndex="4"/>
+		<result property="adminYn" column="admin_yn" columnIndex="5"/>
+		<result property="staffYn" column="staff_yn" columnIndex="6"/>
+		<result property="okYn" column="ok_yn" columnIndex="7"/>
+		<result property="phone" column="phone" columnIndex="8"/>
+		<result property="mobile" column="mobile" columnIndex="9"/>
+		<result property="deptCode" column="dept_code" columnIndex="10"/>
+		<result property="headCode" column="head_code" columnIndex="11"/>
+		<result property="teamCode" column="team_code" columnIndex="12"/>
+		<result property="gitaCode1" column="gita_code1" columnIndex="13"/>
+		<result property="gitaCode2" column="gita_code2" columnIndex="14"/>
+		<result property="passChk" column="pass_chk" columnIndex="15"/>
+		<result property="zipc" column="zipc" columnIndex="16"/>
+		<result property="city" column="city" columnIndex="17"/>
+		<result property="town" column="town" columnIndex="18"/>
+		<result property="dong" column="dong" columnIndex="19"/>
+		<result property="addr" column="addr" columnIndex="20"/>
+		<result property="memo" column="memo" columnIndex="21"/>
+		<result property="deleYn" column="dele_yn" columnIndex="22"/>
+		<result property="mdUser" column="md_user" columnIndex="23"/>
+		<result property="mdDate" column="md_date" columnIndex="24"/>
+		<result property="crUser" column="cr_user" columnIndex="25"/>
+		<result property="crDate" column="cr_date" columnIndex="26"/>
+	</resultMap>
+	
+	<insert id="userInfoDAO.insertUserInfo_S">
+		<![CDATA[
+			INSERT INTO user_info 
+				( user_code
+				  , user_name
+				  , user_pass
+				  , user_opass
+				  , admin_yn
+				  , staff_yn
+				  , ok_yn
+				  , phone
+				  , mobile
+				  , dept_code
+				  , head_code
+				  , team_code
+				  , gita_code1
+				  , gita_code2
+				  , pass_chk
+				  , zipc
+				  , city
+				  , town
+				  , dong
+				  , addr
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #userCode#
+				  , #userName#
+				  , #userPass#
+				  , #userOpass#
+				  , #adminYn#
+				  , #staffYn#
+				  , #okYn#
+				  , #phone#
+				  , #mobile#
+				  , #deptCode#
+				  , #headCode#
+				  , #teamCode#
+				  , #gitaCode1#
+				  , #gitaCode2#
+				  , #passChk#
+				  , #zipc#
+				  , #city#
+				  , #town#
+				  , #dong#
+				  , #addr#
+				  , #memo#
+				  , #deleYn#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , TO_CHAR(now(),'yyyy-mm-dd hh24:mi:ss') )
+		]]>
+	</insert>
+	
+	<update id="userInfoDAO.updateUserInfo_S">
+		<![CDATA[
+			UPDATE user_info
+			SET user_code=#userCode#
+				, user_name=#userName#
+				, user_pass=#userPass#
+				, user_opass=#userOpass#
+				, admin_yn=#adminYn#
+				, staff_yn=#staffYn#
+				, ok_yn=#okYn#
+				, phone=#phone#
+				, mobile=#mobile#
+				, dept_code=#deptCode#
+				, head_code=#headCode#
+				, team_code=#teamCode#
+				, gita_code1=#gitaCode1#
+				, gita_code2=#gitaCode2#
+				, pass_chk=#passChk#
+				, zipc=#zipc#
+				, city=#city#
+				, town=#town#
+				, dong=#dong#
+				, addr=#addr#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=TO_CHAR(now(),'yyyy-mm-dd hh24:mi:ss')
+						WHERE user_code=#userCode#
+				]]>
+	</update>
+	
+	<delete id="userInfoDAO.deleteUserInfo_S">
+		<![CDATA[
+			DELETE FROM user_info 
+						WHERE user_code=#userCode#
+				]]>
+	</delete>
+	
+	<select id="userInfoDAO.selectUserInfo_S" resultMap="userInfo">
+		<![CDATA[
+			SELECT
+				user_code
+				, user_name
+				, user_pass
+				, user_opass
+				, admin_yn
+				, staff_yn
+				, ok_yn
+				, phone
+				, mobile
+				, dept_code
+				, head_code
+				, team_code
+				, gita_code1
+				, gita_code2
+				, pass_chk
+				, zipc
+				, city
+				, town
+				, dong
+				, addr
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM user_info
+						WHERE user_code=#userCode#
+				]]>
+	</select>
+	
+	<select id="userInfoDAO.selectUserInfoList_D" parameterClass="userInfoSerarchVO" resultClass="egovMap">
+		SELECT A.*, A.USER_PASS OLD_PASS, USER_CODE, USER_NAME,
+		       COALESCE(B.HEAD_NAME, '') HEAD_NAME,
+		       COALESCE(C.TEAM_NAME, '') TEAM_NAME,
+		       COALESCE(D.DEPT_NAME, '') DEPT_NAME 
+		  FROM USER_INFO A
+		  LEFT OUTER JOIN HEAD_INFO B ON (A.HEAD_CODE = B.HEAD_CODE)
+		  LEFT OUTER JOIN TEAM_INFO C ON (A.HEAD_CODE = C.HEAD_CODE AND A.TEAM_CODE = C.TEAM_CODE)
+		  LEFT OUTER JOIN DEPT_INFO D ON (A.HEAD_CODE = D.HEAD_CODE 
+		   AND A.TEAM_CODE = D.TEAM_CODE 
+		   AND A.DEPT_CODE = D.DEPT_CODE)
+		 WHERE A.DELE_YN = 'N'
+	</select>	
+	<select id="userInfoDAO.selectUserInfoListTotCnt_S" parameterClass="userInfoSerarchVO" resultClass="int">
+			SELECT
+				count(user_code)
+			FROM user_info
+	</select>
+
+</sqlMap>

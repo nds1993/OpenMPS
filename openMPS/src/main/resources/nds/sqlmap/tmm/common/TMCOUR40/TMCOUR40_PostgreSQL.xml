@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TMCOUR40">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="TMCOUR40SerarchVO" type="nds.tmm.common.TMCOUR40.vo.TMCOUR40VO"/>
+	
+	<resultMap id="TMCOUR40" class="nds.tmm.common.TMCOUR40.vo.TMCOUR40VO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="groupCode" column="group_code" columnIndex="2"/>
+		<result property="groupName" column="group_name" columnIndex="3"/>
+		<result property="upCode" column="up_code" columnIndex="4"/>
+		<result property="sortOrder" column="sort_order" columnIndex="5"/>
+		<result property="memo" column="memo" columnIndex="6"/>
+		<result property="useYn" column="use_yn" columnIndex="7"/>
+		<result property="deleYn" column="dele_yn" columnIndex="8"/>
+		<result property="mdUser" column="md_user" columnIndex="9"/>
+		<result property="mdDate" column="md_date" columnIndex="10"/>
+		<result property="crUser" column="cr_user" columnIndex="11"/>
+		<result property="crDate" column="cr_date" columnIndex="12"/>
+	</resultMap>
+	
+	<insert id="TMCOUR40DAO.insertTMCOUR40">
+		<![CDATA[
+			INSERT INTO openmps.tm_grupxm 
+				( corp_code
+				  , group_code
+				  , group_name
+				  , up_code
+				  , sort_order
+				  , memo
+				  , use_yn
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #groupCode#
+				  , #groupName#
+				  , #upCode#
+				  , #sortOrder#
+				  , #memo#
+				  , #useYn#
+				  , 'N'
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="TMCOUR40DAO.updateTMCOUR40">
+		<![CDATA[
+			UPDATE openmps.tm_grupxm
+			SET corp_code=#corpCode#
+				, group_code=#groupCode#
+				, group_name=#groupName#
+				, up_code=#upCode#
+				, sort_order=#sortOrder#
+				, memo=#memo#
+				, use_yn=#useYn#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND group_code=#groupCode#
+				]]>
+	</update>
+	
+	<delete id="TMCOUR40DAO.deleteTMCOUR40">
+		<![CDATA[
+			UPDATE openmps.tm_grupxm SET
+						dele_yn = 'Y'
+						,md_date = now()
+						WHERE corp_code=#corpCode#
+								AND group_code=#groupCode#
+				]]>
+	</delete>
+	
+	<select id="TMCOUR40DAO.selectTMCOUR40_S" resultMap="TMCOUR40">
+		<![CDATA[
+			SELECT
+				corp_code
+				, group_code
+				, group_name
+				, up_code
+				, sort_order
+				, memo
+				, use_yn
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM openmps.tm_grupxm
+						WHERE corp_code=#corpCode#
+								AND group_code=#groupCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	from openmps.tm_grupxm a
+	  	where a.dele_yn = 'N'
+		<dynamic>
+	         <isNotEmpty prepend="and" property="searchKeyword">
+		               ( A.group_code = #searchKeyword#
+		         		or
+		               A.group_name like '%' || #searchKeyword# || '%' )
+	         </isNotEmpty>
+		 </dynamic>
+	</sql>
+	<select id="TMCOUR40DAO.selectTMCOUR40List_D" parameterClass="TMCOUR40SerarchVO" resultClass="egovMap">
+		SELECT
+				corp_code
+				, group_code
+				, group_name
+				, up_code
+				, sort_order
+				, memo
+				, use_yn
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+		<include refid="selectWhere_fragment"/>
+		order by a.sort_order
+	</select>	
+	<select id="TMCOUR40DAO.selectTMCOUR40ListTotCnt_S" parameterClass="TMCOUR40SerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

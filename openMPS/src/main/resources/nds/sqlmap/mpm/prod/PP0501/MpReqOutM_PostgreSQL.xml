@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PP0501MpReqOutM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="PP0501mpReqOutMSerarchVO" type="nds.mpm.prod.PP0501.vo.MpReqOutMVO"/>
+	
+	<sql id="selectWhere_fragment">
+		
+	  	from openmps.mp_req_out_m a
+	  	left outer join tm_platxm b on (
+	  		a.corp_code = b.corp_code 
+	  		and a.plant_code = b.plant_code
+	  		<![CDATA[ and b.plant_kind<>'3' ]]>
+	  		AND b.use_yn='Y') 
+		where a.corp_code = #corpCode#
+		and a.work_date between #strtDate# and #lastDate#
+		<!-- and a.out_status='E' -->
+		
+		<isNotEmpty property="plantCode">
+		and a.plant_code = #plantCode#
+		</isNotEmpty>
+		<dynamic> 
+		</dynamic>
+	</sql>
+	<select id="PP0501mpReqOutMDAO.selectMpReqOutMList_D" parameterClass="PP0501mpReqOutMSerarchVO" resultClass="egovMap">
+		SELECT
+				b.plant_name
+				, a.work_date
+				, a.mtrl_code::varchar
+				, openmps."FN_GET_PROCODENM"(a.corp_code,a.mtrl_code)  pro_name
+				, (a.used_qty::numeric(11,0))::varchar
+				, a.unit
+				, a.out_status
+				, a.error_msg
+				, a.oderno::varchar
+				, a.odersn::varchar
+		<include refid="selectWhere_fragment"/>
+		order by a.plant_code, a.work_date, a.mtrl_code
+	</select>	
+	<select id="PP0501mpReqOutMDAO.selectMpReqOutMListTotCnt_S" parameterClass="PP0501mpReqOutMSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpTargetYyyy">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpTargetYyyySerarchVO" type="nds.mpm.sales.SD0301.vo.MpTargetYyyyVO"/>
+	
+	<resultMap id="mpTargetYyyy" class="nds.mpm.sales.SD0301.vo.MpTargetYyyyVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="targetYyyy" column="target_yyyy" columnIndex="2"/>
+		<result property="headCode" column="head_code" columnIndex="3"/>
+		<result property="partCode" column="part_code" columnIndex="4"/>
+		<result property="salesman" column="salesman" columnIndex="5"/>
+		<result property="saleGroup1" column="sale_group1" columnIndex="6"/>
+		<result property="saleGroup2" column="sale_group2" columnIndex="7"/>
+		<result property="targetWeight" column="target_weight" columnIndex="8"/>
+		<result property="mdUser" column="md_user" columnIndex="9"/>
+		<result property="mdDate" column="md_date" columnIndex="10"/>
+		<result property="crUser" column="cr_user" columnIndex="11"/>
+		<result property="crDate" column="cr_date" columnIndex="12"/>
+	</resultMap>
+	
+	<insert id="mpTargetYyyyDAO.insertMpTargetYyyy_S">
+		<![CDATA[
+			INSERT INTO mp_target_yyyy 
+				( corp_code
+				  , target_yyyy
+				  , head_code
+				  , part_code
+				  , salesman
+				  , sale_group1
+				  , sale_group2
+				  , target_weight
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #targetYyyy#
+				  , #headCode#
+				  , #partCode#
+				  , #salesman#
+				  , #saleGroup1#
+				  , #saleGroup2#
+				  , #targetWeight#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , #crDate# )
+		]]>
+	</insert>
+	
+	<update id="mpTargetYyyyDAO.updateMpTargetYyyy_S">
+		<![CDATA[
+			UPDATE mp_target_yyyy
+			SET corp_code=#corpCode#
+				, target_yyyy=#targetYyyy#
+				, head_code=#headCode#
+				, part_code=#partCode#
+				, salesman=#salesman#
+				, sale_group1=#saleGroup1#
+				, sale_group2=#saleGroup2#
+				, target_weight=#targetWeight#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+						WHERE corp_code=#corpCode#
+								AND target_yyyy=#targetYyyy#
+								AND head_code=#headCode#
+								AND part_code=#partCode#
+								AND salesman=#salesman#
+								AND sale_group1=#saleGroup1#
+								AND sale_group2=#saleGroup2#
+				]]>
+	</update>
+	
+	<delete id="mpTargetYyyyDAO.deleteMpTargetYyyy_S">
+		<![CDATA[
+			DELETE FROM mp_target_yyyy 
+						WHERE corp_code=#corpCode#
+								AND target_yyyy=#targetYyyy#
+								AND head_code=#headCode#
+								AND part_code=#partCode#
+								AND salesman=#salesman#
+								AND sale_group1=#saleGroup1#
+								AND sale_group2=#saleGroup2#
+				]]>
+	</delete>
+	
+	<select id="mpTargetYyyyDAO.selectMpTargetYyyy_S" resultMap="mpTargetYyyy">
+		<![CDATA[
+			SELECT
+				corp_code
+				, target_yyyy
+				, head_code
+				, part_code
+				, salesman
+				, sale_group1
+				, sale_group2
+				, target_weight
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM mp_target_yyyy
+						WHERE corp_code=#corpCode#
+								AND target_yyyy=#targetYyyy#
+								AND head_code=#headCode#
+								AND part_code=#partCode#
+								AND salesman=#salesman#
+								AND sale_group1=#saleGroup1#
+								AND sale_group2=#saleGroup2#
+				]]>
+	</select>
+	
+	<select id="mpTargetYyyyDAO.selectMpTargetYyyyList_D" parameterClass="mpTargetYyyySerarchVO" resultClass="egovMap">
+	WITH 
+		SALES_WEIGHT AS
+		(SELECT CORP_CODE
+				,PART_CODE
+				,SALESMAN
+				,SALE_GROUP1
+				,SALE_GROUP2
+				,SUM(CASE WHEN TARGET_YYMM = #targetYyyy#||'01' THEN TARGET_WEIGHT ELSE 0 END) AS MON01
+				,SUM(CASE WHEN TARGET_YYMM = #targetYyyy#||'02' THEN TARGET_WEIGHT ELSE 0 END) AS MON02
+				,SUM(CASE WHEN TARGET_YYMM = #targetYyyy#||'03' THEN TARGET_WEIGHT ELSE 0 END) AS MON03
+				,SUM(CASE WHEN TARGET_YYMM = #targetYyyy#||'04' THEN TARGET_WEIGHT ELSE 0 END) AS MON04
+				,SUM(CASE WHEN TARGET_YYMM = #targetYyyy#||'05' THEN TARGET_WEIGHT ELSE 0 END) AS MON05
+				,SUM(CASE WHEN TARGET_YYMM = #targetYyyy#||'06' THEN TARGET_WEIGHT ELSE 0 END) AS MON06
+				,SUM(CASE WHEN TARGET_YYMM = #targetYyyy#||'07' THEN TARGET_WEIGHT ELSE 0 END) AS MON07
+				,SUM(CASE WHEN TARGET_YYMM = #targetYyyy#||'08' THEN TARGET_WEIGHT ELSE 0 END) AS MON08
+				,SUM(CASE WHEN TARGET_YYMM = #targetYyyy#||'09' THEN TARGET_WEIGHT ELSE 0 END) AS MON09
+				,SUM(CASE WHEN TARGET_YYMM = #targetYyyy#||'10' THEN TARGET_WEIGHT ELSE 0 END) AS MON10
+				,SUM(CASE WHEN TARGET_YYMM = #targetYyyy#||'11' THEN TARGET_WEIGHT ELSE 0 END) AS MON11
+				,SUM(CASE WHEN TARGET_YYMM = #targetYyyy#||'12' THEN TARGET_WEIGHT ELSE 0 END) AS MON12
+				FROM MP_TARGET_YYMM
+				GROUP BY CORP_CODE, PART_CODE, SALESMAN, SALE_GROUP1,SALE_GROUP2
+		)
+		,SALES_WEIGHT_SUM AS
+		(SELECT CORP_CODE, PART_CODE, SALESMAN, SALE_GROUP1, SALE_GROUP2
+				,(MON01 + MON02 + MON03 + MON04 + MON05 + MON06 + MON07 + MON08 + MON09 + MON10 + MON11 + MON12) SALES_WEIGHT_SUM
+			FROM SALES_WEIGHT
+		)
+		SELECT D.DEPT_NAME
+				,A.PART_CODE
+				,E.USER_NAME
+				,A.SALESMAN
+				,openmps."FN_GET_TMCODEXDNM"(A.CORP_CODE, 'SD024', A.SALE_GROUP1 ) SALE_GROUP1
+				,openmps."FN_GET_TMCODEXDNM"(A.CORP_CODE, 'SD025', A.SALE_GROUP2 ) SALE_GROUP2
+				,B.SALES_WEIGHT_SUM
+				,A.MON01
+				,A.MON02
+				,A.MON03
+				,A.MON04
+				,A.MON05
+				,A.MON06
+				,A.MON07
+				,A.MON08
+				,A.MON09
+				,A.MON10
+				,A.MON11
+				,A.MON12
+			FROM SALES_WEIGHT A
+			LEFT OUTER JOIN SALES_WEIGHT_SUM B ON  ( A.CORP_CODE = B.CORP_CODE AND A.PART_CODE = B.PART_CODE AND A.SALE_GROUP1 = B.SALE_GROUP1 AND A.SALE_GROUP2 = B.SALE_GROUP2 AND A.SALESMAN = B.SALESMAN )
+			LEFT OUTER JOIN TM_DEPTXM D ON ( A.CORP_CODE = D.CORP_CODE AND A.PART_CODE = D.DEPT_CODE )
+			LEFT OUTER JOIN TM_USERXM E ON ( A.SALESMAN  = E.USER_CODE )
+			WHERE A.PART_CODE = #partCode#
+				AND A.SALESMAN = #salesman#
+		ORDER BY A.SALE_GROUP1, A.SALE_GROUP2
+	</select>	
+	<select id="mpTargetYyyyDAO.selectMpTargetYyyyListTotCnt_S" parameterClass="mpTargetYyyySerarchVO" resultClass="int">
+
+	</select>
+
+</sqlMap>

@@ -1,0 +1,315 @@
+{
+	"name": "BOM등록",
+	"module": "PP0105Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"formBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"module": "FormBox",
+				"className": "query_box form-inline",
+				"order": [
+					"plantCode",
+					"bomCode",
+					"bomVer",
+					"proCode"
+				],
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"form-group\"><label>공장</label><div class=\"select_design plantCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>BOM</label><input type=\"text\" class=\"form-control bomCode\"></div><div class=\"form-group\"><label>버전</label><input type=\"text\" class=\"bomVer form-control\" style=\"width:60px\"></div></div><div class=\"form-group\"><label>제품명</label><div class=\"proCode_region equal_width\"></div></div>",
+					"items": {
+						"plantCode": {
+							"module": "combobox",
+							"label": "공장",
+							"selector": ".plantCode",
+							"required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/mpm/<%= corpCode %>/pp0101/tmplatxm?useYn=Y",
+								"parser": "return UCMS.parseComboPlant(arguments[0]);"
+							}
+						},
+						"bomVer": {
+							"module": "text",
+							"label": "버전",
+							"selector": ".bomVer",
+							"required": false,
+							"disable": true
+						},
+						"proCode": {
+							"label": "제품"
+						},
+						"bomCode": {
+							"label": "BOM",
+							"module": "text",
+							"selector": ".bomCode",
+							"required": false,
+							"readonly": true
+						}
+					},
+					"data": {}
+				},
+				"proCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "제품",
+						"required": true,
+						"codeType": "PP0103",
+						"params": {
+							"animalKind": 1,
+							"queryBox": true
+						},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+			}
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"bomCode",
+					"bomVer",
+					"plantCode",
+					"proCode",
+					"totWeig",
+					"boxWeig",
+					"filmWeig",
+					"etcWeig",
+					"memo"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-3 label_w5\"><div class=\"form-group\"><label class=\"required\">BOM코드</label><input type=\"text\" class=\"form-control bomCode\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label class=\"required\">버전</label><input type=\"text\" class=\"form-control bomVer\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label class=\"required\">공장</label><div class=\"select_design plantCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div><div class=\"row\"><div class=\"col-xs-9 label_w5\"><div class=\"form-group\"><label class=\"required\">제품</label><div class=\"proCode_region\"></div></div></div></div><div class=\"row\"><div class=\"col-xs-3 label_w5\"><div class=\"form-group\"><label>공박스중량</label><div class=\"input-group\"><input type=\"text\" class=\"form-control totWeig text-right\"><div class=\"input-group-addon\">kg</div></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>박스중량</label><div class=\"input-group\"><input type=\"text\" class=\"form-control boxWeig text-right\"><div class=\"input-group-addon\">kg</div></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>필름중량</label><div class=\"input-group\"><input type=\"text\" class=\"form-control filmWeig text-right\"><div class=\"input-group-addon\">kg</div></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>기타중량</label><div class=\"input-group\"><input type=\"text\" class=\"form-control etcWeig text-right\"><div class=\"input-group-addon\">kg</div></div></div></div></div><div class=\"row\"><div class=\"col-xs-12 label_w5\"><div class=\"form-group\"><label>비고</label><input type=\"text\" class=\"form-control memo\" maxlength=\"200\"></div></div></div>",
+					"mode": "form",
+					"items": {
+
+						"bomCode": {
+							"required": true,
+							"selector": ".bomCode",
+							"label": "BOM코드",
+							"module": "text",
+							"disable": true
+						},
+						"bomVer": {
+							"required": true,
+							"selector": ".bomVer",
+							"label": "BOM버전",
+							"module": "text",
+							"disable": true
+						},
+						"plantCode": {
+							"required": true,
+							"selector": ".plantCode",
+							"label": "공장",
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/mpm/<%= corpCode %>/pp0101/tmplatxm",
+								"parser": "return UCMS.parseComboPlant(arguments[0]);"
+							}
+						},
+						"proCode": {
+							"required": false,
+							"label": "제품"
+						},
+						"totWeig": {
+							"required": false,
+							"selector": ".totWeig",
+							"label": "공박스중량",
+							"module": "text",
+							"disable": true
+						},
+						"boxWeig": {
+							"required": false,
+							"selector": ".boxWeig",
+							"label": "박스중량",
+							"module": "text",
+							"disable": true
+						},
+						"filmWeig": {
+							"required": false,
+							"selector": ".filmWeig",
+							"label": "필름중량",
+							"module": "text",
+							"disable": true
+						},
+						"etcWeig": {
+							"required": false,
+							"selector": ".etcWeig",
+							"label": "기타중량",
+							"module": "text"
+						},
+						"memo": {
+							"required": false,
+							"selector": ".memo",
+							"label": "비고",
+							"module": "text"
+						}
+					},
+					"data": {}
+				},
+				"proCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "제품",
+						"required": false,
+						"codeType": "PP0103",
+						"params": {
+							"animalKind": 1
+						},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "SubContainer",
+			"options": {
+				"header": {
+					"title": {
+						"className": "contnet_header_box no_label",
+						"label": "BOM"
+					},
+					"feature": [{
+						"create": "행추가"
+					}, {
+						"delete": "행삭제"
+					}]
+				},
+				"content": {
+
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "resultBox_box grid_box",
+						"gridId": "PP0105_grid_1",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+									"name": "proType",
+									"label": "<div class=\"editable_mark\"></div>부자재구분",
+									"width": 100,
+									"align": "center",
+									"editable": true,
+									"hidden": false,
+									"edittype": "select",
+									"formatter": "select",
+									"editoptions": {
+										"value": "1:박스;2:필름;3:기타"
+									},
+									"classes": "editable"
+								},
+								{
+									"name": "buProCode",
+									"label": "<div class=\"editable_mark\"></div>부자재코드",
+									"width": 100,
+									"align": "center",
+									"editable": true,
+									"hidden": false,
+									"edittype": "text",
+									"classes": "editable codesearch"
+								},
+								{
+									"name": "buProName",
+									"label": "부자재명",
+									"width": 180,
+									"align": "left",
+									"editable": false,
+									"hidden": false
+								},
+								{
+									"name": "qty",
+									"label": "<div class=\"editable_mark\"></div>소요량",
+									"width": 70,
+									"align": "right",
+									"editable": true,
+									"hidden": false,
+									"sorttype":"integer","formatter":"integer",
+									"classes": "editable",
+									"editoptions": {
+										"maxlength": 12
+									},
+									"editrules": {
+										"integer": true
+									}
+								},
+								{
+									"name": "proWeig",
+									"label": "단위당중량",
+									"width": 80,
+									"align": "right",
+									"editable": false,
+									"hidden": false,
+									"sorttype":"number",
+									"formatter":"number4"
+								},
+								{
+									"name": "proUnit",
+									"label": "단위",
+									"width": 70,
+									"align": "center",
+									"editable": false,
+									"hidden": false,
+									"classes": "editable"
+								},
+								{
+									"name": "bumemo",
+									"label": "<div class=\"editable_mark\"></div>비고",
+									"width": 220,
+									"align": "left",
+									"editable": true,
+									"hidden": false,
+									"classes": "editable"
+								},
+								{
+									"name": "lineNo",
+									"label": "lineNo",
+									"width": 220,
+									"align": "center",
+									"editable": false,
+									"hidden": true
+								}
+							],
+							"rowNum": "100000000",
+							"width": "auto",
+							"height": "447",
+							"cellEdit": true,
+							"shrinkToFit": true,
+							"gridview": true,
+							"datatype": "local",
+							"footerrow": false,
+							"multiselect": false,
+							"multiselectWidth": 19,
+							"rownumbers": true,
+							"rownumbersWidth": 19,
+							"pager": "#PP0105_grid_1_pager",
+							"viewrecords": true,
+							"recordpos": "left",
+							"pgbuttons": false,
+							"pginput": false,
+							"cellsubmit": "clientArray"
+
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PP0601MpBarProM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="PP0601mpBarProMSerarchVO" type="nds.mpm.prod.PP0504.vo.MpBarProMVO"/>
+
+	
+	<select id="PP0601mpBarProMDAO.selectMpBarProMList_D" parameterClass="PP0601mpBarProMSerarchVO" resultClass="egovMap">
+		SELECT b.large_code,
+		       MAX(d.code_name) AS proLcode,
+		       a.pro_code,
+		       MAX(b.pro_name) AS proName,
+		       a.pro_date AS sanDate,       
+		       c.plant_name AS plantCode,
+		       e.code_name AS nongCode,
+		       COUNT(*) AS cnt,
+		       SUM(a.qty) AS sanQty,
+		       MAX(b.pro_ukind) AS proUnit,
+		       SUM(a.weig) AS weight_SanQty
+		  FROM (SELECT a.corp_code,
+		               a.pro_code,
+		               a.pro_date,
+		               a.plant_code,
+		               a.nong_code,
+		               SUM(qty) AS qty,
+		               SUM(a.box_weig) AS weig
+		          FROM (SELECT a.corp_code,
+		                       a.pro_code,
+		                       a.pro_date,
+		                       a.plant_code,
+		                       a.nong_code,
+		                       1 AS qty,
+		                       a.box_weig
+		                  FROM openmps.mp_bar_pro_m a
+		                 WHERE a.corp_code = #corpCode#
+		                 <isNotEmpty property="plantCode">
+		                   AND a.plant_code IN (SELECT a.plant_code
+						                          FROM openmps.tm_platxm a
+						                         WHERE a.corp_code = #corpCode#
+						                           AND a.grup_plant = #plantCode#) 
+		                 </isNotEmpty>
+		                   AND a.prdt_type IN ('1', '2') 
+		                   AND a.dele_yn = 'N'
+		                   AND a.pro_date BETWEEN #strtDate# AND #lastDate#
+		                
+		                UNION ALL
+		                SELECT a.corp_code, 
+							        b.pro_code,
+		                            a.work_date, 
+									  a.plant_code, 
+									  '' AS nong_code, 
+									  1 AS qty, 
+									  b.pro_weig
+		                  FROM openmps.mp_auto_total_m a, openmps.mp_item_master_m b
+		                 WHERE a.corp_code = #corpCode#
+		                 <isNotEmpty property="plantCode">
+		                   AND a.plant_code IN (SELECT a.plant_code
+						                          FROM openmps.tm_platxm a
+						                         WHERE a.corp_code = #corpCode#
+						                           AND a.grup_plant = #plantCode#) 
+		                 </isNotEmpty>
+		                   AND a.dele_yn = 'N' 
+								 AND a.work_date BETWEEN #strtDate# AND #lastDate# 
+								 AND a.pro_name = b.pro_name) a
+		         GROUP BY a.corp_code, a.pro_code, a.pro_date, a.plant_code, a.nong_code) a
+		  LEFT JOIN openmps.tm_codexd e ON a.nong_code = e.code_id
+		                              AND a.corp_code = e.corp_code
+		                              AND e.group_code = 'PP010',
+		 openmps.tm_platxm c, openmps.mp_item_master_m b
+		  LEFT JOIN openmps.tm_codexd d ON b.large_code = d.code_id
+		                              AND b.corp_code = d.corp_code
+		                              AND d.group_code = 'MP006'
+		
+		 WHERE a.pro_code = b.pro_code
+		   AND a.corp_code = b.corp_code
+		   AND a.plant_code = c.plant_code
+		   AND a.corp_code = c.corp_code
+		 GROUP BY b.large_code, a.pro_code, a.pro_date, c.plant_name, e.code_name
+		 ORDER BY b.large_code, MAX(b.pro_name), a.pro_date, c.plant_name, e.code_name
+	</select>	
+	
+
+	<select id="PP0601mpBarProMDAO.selectMpBarProMListTotCnt_S" parameterClass="PP0601mpBarProMSerarchVO" resultClass="int">
+	</select>
+</sqlMap>

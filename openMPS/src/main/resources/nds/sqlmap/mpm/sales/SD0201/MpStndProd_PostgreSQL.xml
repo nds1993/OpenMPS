@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpStndProd">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpStndProdSerarchVO" type="nds.mpm.sales.SD0201.vo.MpStndProdVO"/>
+	
+	<resultMap id="mpStndProd" class="nds.mpm.sales.SD0201.vo.MpStndProdVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="proCode" column="pro_code" columnIndex="2"/>
+		<result property="crUser" column="cr_user" columnIndex="3"/>
+		<result property="crDate" column="cr_date" columnIndex="4"/>
+	</resultMap>
+	
+	<insert id="MpStndProdDAO.insertMpStndProd">
+		<![CDATA[
+			INSERT INTO openmps.mp_stnd_prod 
+				( corp_code
+				  , pro_code
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #proCode#
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="MpStndProdDAO.updateMpStndProd">
+		<![CDATA[
+			UPDATE openmps.mp_stnd_prod
+			SET corp_code=#corpCode#
+				, pro_code=#proCode#
+				, cr_user=#crUser#
+				, cr_date=now()
+						WHERE corp_code=#corpCode#
+								AND pro_code=#proCode#
+				]]>
+	</update>
+	
+	<delete id="MpStndProdDAO.deleteMpStndProd">
+		<![CDATA[
+			DELETE FROM openmps.mp_stnd_prod 
+						WHERE corp_code=#corpCode#
+								AND pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<select id="MpStndProdDAO.selectMpStndProd" resultMap="mpStndProd">
+		<![CDATA[
+			SELECT
+				corp_code
+				, pro_code
+				, cr_user
+				, cr_date
+			FROM openmps.mp_stnd_prod
+						WHERE corp_code=#corpCode#
+								AND pro_code=#proCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM 
+			openmps.mp_stnd_prod a
+			left outer join openmps.mp_item_master_m b on ( a.pro_code = b.pro_code )
+		where 
+			a.corp_code = #corpCode#	
+		<dynamic prepend="where"> 
+			 <isNotEmpty prepend="and" property="proCode">
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="MpStndProdDAO.selectMpStndProdList_D" parameterClass="mpStndProdSerarchVO" resultClass="egovMap">
+		SELECT
+				a.corp_code
+				, a.pro_code
+				, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'SD025',b.sale_group2) as sale_group2_name
+				, b.pro_name 
+				, a.pro_code as old_pro_code
+				, a.cr_user
+				, a.cr_date
+		<include refid="selectWhere_fragment"/>
+		order by b.pro_name
+	</select>	
+	<select id="MpStndProdDAO.selectMpStndProdListTotCnt_S" parameterClass="mpStndProdSerarchVO" resultClass="int">
+		SELECT
+				count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

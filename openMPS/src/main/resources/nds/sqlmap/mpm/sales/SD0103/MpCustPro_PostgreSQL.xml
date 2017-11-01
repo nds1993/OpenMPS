@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpCustPro">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpCustProSerarchVO" type="nds.mpm.sales.SD0103.vo.MpCustProVO"/>
+	
+	<resultMap id="mpCustPro" class="nds.mpm.sales.SD0103.vo.MpCustProVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="salesman" column="salesman" columnIndex="2"/>
+		<result property="salesmanCust" column="salesman_cust" columnIndex="3"/>
+		<result property="salesmanProd" column="salesman_prod" columnIndex="4"/>
+		<result property="priceType" column="price_type" columnIndex="5"/>
+		<result property="priceClass" column="price_class" columnIndex="6"/>
+		<result property="crUser" column="cr_user" columnIndex="7"/>
+		<result property="crDate" column="cr_date" columnIndex="8"/>
+	</resultMap>
+	
+	<insert id="MpCustProDAO.insertMpCustPro">
+		<![CDATA[
+			INSERT INTO openmps.mp_cust_pro 
+				( corp_code
+				  , salesman
+				  , salesman_cust
+				  , salesman_prod
+				  , price_type
+				  , price_class
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #salesman#
+				  , #salesmanCust#
+				  , #salesmanProd#
+				  , (select price_type from openmps.mp_cust_info where corp_code = #corpCode# and cust_code =  #salesmanCust#) 
+				  , #priceClass#
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="MpCustProDAO.updateMpCustPro">
+		<![CDATA[
+			UPDATE openmps.mp_cust_pro
+			SET price_type = (select price_type from openmps.mp_cust_info where corp_code = #corpCode# and cust_code =  #salesmanCust#)
+				,price_class=#priceClass#
+						WHERE corp_code=#corpCode#
+								AND salesman=#salesman#
+								AND salesman_cust=#salesmanCust#
+								AND salesman_prod=#salesmanProd#
+				]]>
+	</update>
+	
+	<delete id="MpCustProDAO.deleteMpCustPro">
+		<![CDATA[
+			DELETE FROM openmps.mp_cust_pro 
+						WHERE corp_code=#corpCode#
+								AND salesman=#salesman#
+								AND salesman_cust=#salesmanCust#
+								AND salesman_prod=#salesmanProd#
+				]]>
+	</delete>
+	
+	<delete id="MpCustProDAO.deleteAllMpCustPro">
+			DELETE FROM openmps.mp_cust_pro 
+						WHERE corp_code=#corpCode#
+								AND salesman=#salesman#
+								AND salesman_cust=#salesmanCust#
+	</delete>
+	
+	<select id="MpCustProDAO.selectMpCustPro_S" resultMap="mpCustPro">
+		<![CDATA[
+			SELECT
+				corp_code
+				, salesman
+				, salesman_cust
+				, salesman_prod
+				, price_type
+				, price_class
+				, cr_user
+				, cr_date
+			FROM openmps.mp_cust_pro
+						WHERE corp_code=#corpCode#
+								AND salesman=#salesman#
+								AND salesman_cust=#salesmanCust#
+								AND salesman_prod=#salesmanProd#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM 
+			openmps.mp_cust_pro a 
+		where a.corp_code = #corpCode#
+		and a.salesman_cust = #salesmanCust#
+		<dynamic>
+			 <isNotEmpty property="salesman">
+			 and a.salesman = #salesman#
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="MpCustProDAO.selectMpCustProList_D" parameterClass="mpCustProSerarchVO" resultClass="egovMap">
+		SELECT
+				corp_code
+				, salesman
+				, salesman_cust
+				, salesman_prod
+				, price_type
+				, price_class
+				, cr_user
+				, cr_date
+				, openmps."FN_GET_PROCODENM"(a.corp_code, a.salesman_prod) as salesman_prodname
+		<include refid="selectWhere_fragment"/>
+	</select>	
+	<select id="MpCustProDAO.selectMpCustProListTotCnt_S" parameterClass="mpCustProSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

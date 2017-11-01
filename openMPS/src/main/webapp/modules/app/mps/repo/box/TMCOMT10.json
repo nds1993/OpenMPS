@@ -1,0 +1,244 @@
+{
+  "name":"메뉴(프로그램) 관리",
+  "module": "TMCOMT10Renderer",
+  "options": {
+    "className": "contents_box",
+    "order": [
+      "queryBox",
+      "programMngBox"
+    ],
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "queryBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "query_box form-inline",
+        "order": [
+          "searchKey1","searchKey2"
+        ],
+        "activation": {
+          "method": "one-page"
+        },
+        "custom_form": {
+          "mode": "form",
+          "items": {
+            "searchKey1": {
+              "module": "combobox",
+              "selector": ".searchKey1",
+              "label": "시스템구분",
+              "required": false,
+			  "items":[{"label":"MPS","Value":"1"}]
+			  },
+			  "searchKey2": {
+				"module": "combobox",
+				"selector": ".searchKey2",
+				"label": "프로그램(메뉴)",
+				"required": false,
+				"items":[{"label":"전체","Value":"0"}]
+			  }
+
+          },
+          "data": {},
+          "template": null
+        }
+      }
+    },
+    "programMngBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "result_box programmng_box",
+        "order": [
+          "menuTree",
+          "resultBody"
+        ],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"custom_form": {
+			"mode": "form",
+			"template": "<div class=\"row\"><div class=\"col-xs-4  menuTree_region\"></div><div class=\"col-xs-8 resultBody_region\"></div></div>",
+			"items": {
+				"menuTree": {
+					"label": "baseInfo"
+				},
+				"resultBody": {
+					"label": "baseItem"
+				}
+			},
+			"data": {}
+		},
+		"menuTree": {
+          "module": "manifest!Menu-1.0.0",
+          "options": {
+          			"className":"menuTree_box",
+					  "layout": {
+					    "size": "xs",
+					    "align": "text-left",
+					    "type": "treeview"
+					  }
+				}
+        },
+        "resultBody": {
+          "module": "BaroBox",
+          "options": {
+            "className": "resultBody_box",
+            "order": [
+              "resultBox",
+              "formBox"
+            ],
+            "activation": {
+              "defaultWidget": "",
+              "method": "one-page"
+            },
+            "formBox": {
+              "module": "FormBox",
+              "options": {
+                "className": "form_box",
+                "order": [
+                  "menuCode",
+                  "menuName",
+                  "upCode",
+                  "upName",
+                  "sortOrder",
+                  "useYn",
+                  "programYn"
+                ],
+                "activation": {
+                  "method": "one-page"
+                },
+                "custom_form": {
+                  "name": "Form Builder Params",
+                  "mode": "form",
+                  "items": {
+                    "menuCode": {
+                      "module": "text",
+                      "selector": ".menuCode",
+                      "label": "프로그램(메뉴)ID",
+                      "required": true,
+                      "max_size": 50
+                    },
+                    "menuName": {
+                      "module": "text",
+                      "selector": ".menuName",
+                      "label": "프로그램(메뉴)명",
+                      "required": true,
+                      "max_size": 50
+                    },
+                    "upCode": {
+                      "module": "text",
+                      "selector": ".upCode",
+                      "label": "상위 프로그램 ID",
+                      "required": false,
+                      "max_size": 50,
+                      "readonly": true
+                    },
+                    "upName": {
+                      "module": "text",
+                      "selector": ".upName",
+                      "label": "상위 프로그램 명",
+                      "required": false,
+                      "max_size": 50,
+                      "readonly": false
+                    },
+                    "sortOrder": {
+                      "module": "text",
+                      "selector": ".sortOrder",
+                      "label": "정렬순서",
+                      "required": true
+                    },
+                    "useYn": {
+                      "module": "checkbox",
+                      "selector": ".useYn",
+                      "label": "사용여부",
+                      "required": false
+                    },
+                    "programYn": {
+                      "module": "checkbox",
+                      "selector": ".programYn",
+                      "label": "프로그램 여부",
+                      "required": false
+                    }
+                  },
+                  "data": {},
+                  "template": "<div class=\"row\"><div class=\"col-xs-6 form_w110\"><div class=\"form-group\"><label class=\"required\">프로그램(메뉴)ID</label><input type=\"text\" class=\"form-control menuCode\"></div><div class=\"form-group\"><label>상위 프로그램 ID</label><input type=\"text\" class=\"form-control upCode\" readonly></div><div class=\"form-group\"><label>정렬순서</label><input type=\"text\" class=\"form-control sortOrder\"></div></div><div class=\"col-xs-6 form_w110\"><div class=\"form-group\"><label class=\"required\">프로그램(메뉴)명</label><input type=\"text\" class=\"form-control menuName\"></div><div class=\"form-group\"><label>상위 프로그램 명</label><input type=\"text\" class=\"form-control upName\" readonly></div><div class=\"form-group\"><label><input type=\"checkbox\" class=\"programYn\">프로그램 여부 </label><div class=\"checkbox\"><label><input type=\"checkbox\" class=\"useYn\">사용여부 </label></div></div></div>"
+                }
+              }
+            },
+            "resultBox": {
+              "module": "manifest!jqGrid4-1.0.0",
+              "options": {
+                "className": "programInfo_box grid_box",
+                "gridId": "TMCOUR30_grid_1",
+                "gridParams": {
+                  "data": [],
+                  "colModel": [
+                    {
+                      "name": "menuCode",
+                      "label": "메뉴ID",
+                      "width": 100,
+                      "align": "left",
+                      "editable": false
+                    },
+                    {
+                      "name": "menuName",
+                      "label": "메뉴명",
+                      "width": 160,
+                      "align": "left",
+                      "editable": false
+                    },
+                    {
+                      "name": "upName",
+                      "label": "상위메뉴명",
+                      "width": 160,
+                      "align": "left",
+                      "editable": false
+                    },
+                    {
+                      "name": "upCode",
+                      "label": "상위코드",
+                      "width": 100,
+                      "align": "left",
+                      "editable": false,
+                      "hidden": true
+                    },
+                    {
+                      "name": "sortOrder",
+                      "label": "정렬순서",
+                      "width": 70,
+                      "align": "center",
+                      "editable": false
+                    },
+                    {
+                      "name": "programYn",
+                      "label": "프로그램여부",
+                      "formatter":"checkbox",
+                      "align": "center",
+                      "width": 80
+                    },
+                    {
+                      "name": "useYn",
+                      "label": "사용여부",
+                      "formatter":"checkbox",
+                      "align": "center",
+                      "width": 70
+                    }
+                  ],
+				  "rowNum":"100000000",
+                  "width": "auto",
+                  "height": "515",
+                  "pager": false,
+                  "cellEdit": false,
+				  "datatype": "local",
+				  "cellsubmit": "clientArray"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TMCOBD20">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="TMCOBD20VO" type="nds.tmm.common.TMCOBD20.vo.TMCOBD20VO"/>
+	
+	<resultMap id="TMCOBD20" class="nds.tmm.common.TMCOBD20.vo.TMCOBD20VO">
+		<result property="contId" column="cont_id" columnIndex="1"/>
+		<result property="bbsCode" column="bbs_code" columnIndex="2"/>
+		<result property="title" column="title" columnIndex="3"/>
+		<result property="content" column="content" columnIndex="4"/>
+		<result property="contReyn" column="cont_reyn" columnIndex="5"/>
+		<result property="upcontId" column="upcont_id" columnIndex="6"/>
+		<result property="contLv" column="cont_lv" columnIndex="7"/>
+		<result property="sortOrder" column="sort_order" columnIndex="8"/>
+		<result property="readCnt" column="read_cnt" columnIndex="9"/>
+		<result property="notiYn" column="noti_yn" columnIndex="10"/>
+		<result property="periodYn" column="period_yn" columnIndex="11"/>
+		<result property="beginDate" column="begin_date" columnIndex="12"/>
+		<result property="endDate" column="end_date" columnIndex="13"/>
+		<result property="secretYn" column="secret_yn" columnIndex="14"/>
+		<result property="contPwd" column="cont_pwd" columnIndex="15"/>
+		<result property="fileId" column="file_id" columnIndex="16"/>
+		<result property="deleYn" column="dele_yn" columnIndex="17"/>
+		<result property="mdUser" column="md_user" columnIndex="18"/>
+		<result property="mdDate" column="md_date" columnIndex="19"/>
+		<result property="crUser" column="cr_user" columnIndex="20"/>
+		<result property="crDate" column="cr_date" columnIndex="21"/>
+		<result property="crUserName" column="cr_user_name" columnIndex="22"/>
+		<result property="crDate2" column="cr_date2" columnIndex="23"/>
+		<result property="codeId" column="code_id" columnIndex="24"/>
+		<result property="codeName" column="code_name" columnIndex="25"/>
+		<result property="bbsName" column="bbs_name" columnIndex="26"/>
+		<result property="contGrp" column="cont_grp" columnIndex="27"/>
+		<result property="reTitle" column="re_title" columnIndex="28"/>
+		<result property="periodBeginEnd" column="period_begin_end" columnIndex="29"/>
+		<result property="readUser" column="read_user" columnIndex="30"/>
+		<result property="isFile" column="is_file" columnIndex="31"/>
+	</resultMap>
+	
+	<resultMap id="TMCOBDREDH" class="nds.tmm.common.TMCOBD20.vo.TMCOBD20VO">
+		<result property="readId" column="read_id" columnIndex="1"/>
+		<result property="contId" column="cont_id" columnIndex="2"/>
+		<result property="bbsCode" column="bbs_code" columnIndex="3"/>
+		<result property="readUser" column="read_user" columnIndex="4"/>
+		<result property="readUsnm" column="read_usnm" columnIndex="5"/>
+		<result property="readDate" column="read_date" columnIndex="6"/>
+	</resultMap>
+	
+	<resultMap id="TMCOBDFILE" class="nds.tmm.common.TMCOBD20.vo.TMCOBD20VO">
+		<result property="fileId" column="file_id" columnIndex="1"/>
+		<result property="fileNo" column="file_no" columnIndex="2"/>
+		<result property="filePath" column="file_path" columnIndex="3"/>
+		<result property="saveFlnm" column="save_flnm" columnIndex="4"/>
+		<result property="originFlnm" column="origin_flnm" columnIndex="5"/>
+	</resultMap>
+	
+	<insert id="TMCOBD20DAO.insertTMCOBD20">
+INSERT INTO tm_bdctxm (
+	cont_id, 
+	cont_grp,
+	bbs_code, 
+	title, 
+	content, 
+	cont_reyn, 
+	<dynamic>
+		 <isNotEmpty  property="upcontId">
+			upcont_id,
+		 </isNotEmpty>
+	</dynamic>  
+	cont_lv, 
+	sort_order, 
+	read_cnt, 
+	noti_yn, 
+	secret_yn,
+	period_yn, 
+	<dynamic>
+		 <isNotEmpty  property="beginDate">
+		 	begin_date, 
+		 </isNotEmpty>
+	</dynamic>    
+	<dynamic>
+		 <isNotEmpty  property="endDate">
+		 	end_date, 
+		 </isNotEmpty>
+	</dynamic>    
+	cont_pwd, 
+	file_id, 
+	dele_yn, 
+	cr_user, 
+	cr_date
+) select 
+		(select COALESCE(max(cont_id), 0) + 1 from tm_bdctxm) cont_id,
+		<dynamic>
+			 <isEmpty  property="contGrp">
+			 	(select COALESCE(max(cont_id), 0) + 1 from tm_bdctxm) cont_id,
+			 </isEmpty>
+			 <isNotEmpty  property="contGrp">
+				to_number(#contGrp#, '9999999999999'),
+			 </isNotEmpty>
+		</dynamic> 
+		#bbsCode#,
+		#title#,
+		#content#,
+		#contReyn#,
+		<dynamic>
+			 <isNotEmpty  property="upcontId">
+				to_number(#upcontId#, '9999999999999'),
+			 </isNotEmpty>
+		</dynamic>    
+		to_number(#contLv#, '9999999999999') + 1,
+		to_number(#sortOrder#, '9999999999999') + 1,
+		0,
+		#notiYn#,
+		#secretYn#,
+		#periodYn#,
+		<dynamic>
+			 <isNotEmpty  property="beginDate">
+				to_date(#beginDate#,'YYYY-MM-DD'), 
+			 </isNotEmpty>
+		</dynamic>    
+		<dynamic>
+			 <isNotEmpty  property="endDate">
+			 	to_date(#endDate#,'YYYY-MM-DD'),
+			 </isNotEmpty>
+		</dynamic>
+		#contPwd#,
+		#fileId#,
+		'N',
+		#crUser#,
+		NOW()
+	</insert>
+
+	<update id="TMCOBD20DAO.updateTMCOBD20">
+UPDATE tm_bdctxm
+	SET
+			bbs_code 	=#bbsCode#,
+			title       =#title#,
+			content     =#content#,
+			noti_yn     =#notiYn#,
+			secret_yn   =#secretYn#,
+			period_yn   =#periodYn#,
+			<dynamic>
+				 <isNotEmpty  property="beginDate">
+					begin_date  =to_date(#beginDate#,'YYYY-MM-DD'), 
+				 </isNotEmpty>
+			</dynamic>    
+			<dynamic>
+				 <isNotEmpty  property="endDate">
+				 	end_date    =to_date(#endDate#,'YYYY-MM-DD'),
+				 </isNotEmpty>
+			</dynamic>
+			cont_pwd    =#contPwd#,
+			file_id     =#fileId#
+	WHERE cont_id=to_number(#contId#, '9999999999999')
+	</update>
+	
+	<update id="TMCOBD20DAO.updateReplySortOrderTMCOBD20">
+UPDATE tm_bdctxm
+SET sort_order =  sort_order + 1
+WHERE cont_grp= to_number(#contGrp#, '9999999999999')
+and sort_order > to_number(#sortOrder#, '9999999999999')
+	</update>	
+	
+	<update id="TMCOBD20DAO.deleteTMCOBD20">
+		<![CDATA[
+UPDATE tm_bdctxm
+SET dele_yn = 'Y',
+	md_user=#mdUser#,			
+	md_date=NOW()
+WHERE cont_id=to_number(#contId#, '9999999999999')
+		]]>
+	</update>
+	
+	<select id="TMCOBD20DAO.selectTMCOBD20_S" resultMap="TMCOBD20">
+		<![CDATA[
+			SELECT *
+			FROM tm_bdctxm
+			WHERE cont_id=to_number(#contId#, '9999999999999')
+		]]>
+	</select>
+	
+	<sql id="selectWhere_fragment">
+		<![CDATA[
+		FROM tm_bdctxm A
+		LEFT OUTER JOIN tm_bdcaxm B on B.bbs_code = A.bbs_code
+		LEFT OUTER JOIN tm_userxm C on C.user_code = A.cr_user
+		LEFT OUTER JOIN tm_bdctxm D ON D.cont_id = A.cont_grp and A.cont_id <> A.cont_grp
+		]]>
+		WHERE 1=1
+		<dynamic>
+			<isEqual property="searchMode" compareValue="USER">
+				<![CDATA[
+				and A.dele_yn = 'N'
+				and A.bbs_code = #bbsCode#
+				and (     A.period_yn <> 'Y'
+				        or (A.period_yn = 'Y' and to_char(now(),'YYYY-MM-DD') >= to_char(A.begin_date,'YYYY-MM-DD') and to_char(now(),'YYYY-MM-DD') <= to_char(A.end_date,'YYYY-MM-DD')))
+				]]>
+			</isEqual>
+			<isNotEmpty property="corpCode">
+				and B.corp_code = #corpCode#
+			</isNotEmpty>
+			<isNotEmpty property="strtDate">
+				<![CDATA[
+				and to_char(A.cr_date,'YYYY-MM-DD') >= #strtDate#
+				]]>
+			</isNotEmpty>
+			<isNotEmpty property="lastDate">
+				<![CDATA[
+				and to_char(A.cr_date,'YYYY-MM-DD') <= #lastDate#
+				]]>
+			</isNotEmpty>
+			<isNotEmpty property="searchKeyword">
+				<isEqual property="searchCondition" compareValue="10">
+					and B.bbs_name like '%' || #searchKeyword# || '%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="20">
+					and A.title like '%' || #searchKeyword# || '%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="30">
+					and C.user_name like '%' || #searchKeyword# || '%'
+				</isEqual>
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<select id="TMCOBD20DAO.selectTMCOBD20List_D" parameterClass="TMCOBD20VO" resultClass="egovMap">
+		SELECT
+					A.cont_id, 
+					A.bbs_code, 
+					case 
+						when A.cont_reyn = 'Y' and A.cont_lv = 2 then
+							'  └ ' || A.title
+						when A.cont_reyn = 'Y' and A.cont_lv = 3 then
+							'    └ ' || A.title
+						when A.cont_reyn = 'Y' and A.cont_lv = 4 then
+							'      └ ' || A.title
+						when A.cont_reyn = 'Y' and A.cont_lv = 5 then
+							'        └ ' || A.title
+						when A.cont_reyn = 'Y' and A.cont_lv = 6 then
+							'          └ ' || A.title
+						else
+							A.title 
+					end as re_title,
+					A.title,
+					<isEqual property="searchMode" compareValue="USER">
+						<![CDATA[
+						case
+							when A.secret_yn = 'Y' and A.cr_user <> #readId# then
+								''
+							else
+								A.content
+						end as content,
+						]]>
+					</isEqual>
+					<isNotEqual property="searchMode" compareValue="USER">
+						A.content,
+					</isNotEqual>
+					A.cont_reyn, 
+					A.upcont_id, 
+					A.cont_lv, 
+					A.sort_order, 
+					A.read_cnt, 
+					A.noti_yn, 
+					A.period_yn, 
+					A.begin_date, 
+					A.end_date, 
+					A.secret_yn, 
+					A.cont_pwd, 
+					A.file_id, 
+					A.dele_yn, 
+					A.md_user, 
+					A.md_date, 
+					A.cr_user, 
+					A.cr_date, 
+					A.cont_grp,
+					case 
+					 	when COALESCE(A.period_yn, 'N') = 'Y' then
+					 		A.begin_date || ' ~ ' || A.end_date
+					 	else 
+					 		'영구'
+					end period_begin_end,
+					C.user_name cr_user_name,
+					to_char(a.cr_date, 'YYYY-MM-DD') cr_date2,
+					B.bbs_name,
+					case 
+					 when (select count(*) from tm_atflxd where dele_yn = 'N' and file_id = A.file_id) > 0 then
+					 	'Y'
+					 else 
+					 	'N'
+					end as is_file
+		<include refid="selectWhere_fragment"/>
+		ORDER BY COALESCE(CASE WHEN A.cont_lv = 1 THEN A.noti_yn ELSE D.noti_yn END, 'N') DESC, cont_grp desc, sort_order
+	</select>	
+	<select id="TMCOBD20DAO.selectTMCOBD20ListTotCnt_S" parameterClass="TMCOBD20VO" resultClass="int">
+		SELECT count(A.bbs_code)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	
+	<update id="TMCOBD20DAO.updateReadCntTMCOBD20">
+		<![CDATA[
+			UPDATE tm_bdctxm
+			SET read_cnt = COALESCE(read_cnt, 0) + 1
+			WHERE cont_id=to_number(#contId#, '9999999999999')
+				]]>
+	</update>
+	
+	<insert id="TMCOBD20DAO.insertBdredhTMCOBD20">
+INSERT INTO tm_bdredh (
+	read_id, cont_id, bbs_code, read_user, read_usnm, read_date
+)
+select 
+		(select COALESCE(max(read_id), 0) + 1 from tm_bdredh),
+		to_number(#contId#, '9999999999999'),
+		#bbsCode#,
+		user_code,
+		user_name,
+		NOW()
+from tm_userxm
+where user_code = #readUser#
+	</insert>	
+
+	<select id="TMCOBD20DAO.selectBdredhTMCOBD20_S" resultMap="TMCOBDREDH">
+		<![CDATA[
+			SELECT *
+			FROM tm_bdredh
+			WHERE cont_id=to_number(#contId#, '9999999999999')
+			and bbs_code = #bbsCode#
+			and read_user = #readUser#
+		]]>
+	</select>
+	
+	<insert id="TMCOBD20DAO.insertComment">
+INSERT INTO tm_bdcmxm (
+	comt_code, 
+	cont_id, 
+	bbs_code, 
+	comment, 
+	dele_yn, 
+	cr_user, 
+	cr_name, 
+	cr_date)
+select 
+		(select COALESCE(max(comt_code), 0) + 1 from tm_bdcmxm),
+		to_number(#contId#, '9999999999999'),
+		#bbsCode#,
+		#comment#,
+		'N',
+		#crUser#,
+		user_name,
+		NOW()
+from tm_userxm
+where user_code = #crUser#
+	</insert>		
+
+	<select id="TMCOBD20DAO.selectComment" parameterClass="TMCOBD20VO" resultClass="egovMap">
+		SELECT comt_code, cont_id, bbs_code, comment, dele_yn, md_user, md_date, cr_user, cr_name, to_char(cr_date, 'YYYY-MM-DD') cr_date
+		FROM tm_bdcmxm
+		where cont_id = to_number(#contId#, '9999999999999')
+		<isEqual property="searchMode" compareValue="USER">
+			<![CDATA[
+			and dele_yn <> 'Y'
+			]]>
+		</isEqual>
+		order by comt_code
+	</select>
+
+	<update id="TMCOBD20DAO.updateComment">
+		<![CDATA[
+			UPDATE tm_bdcmxm
+			SET comment = #comment#,
+				   md_user = #mdUser#,
+				   md_date = NOW()
+			WHERE comt_code=to_number(#comtCode#, '9999999999999')
+		]]>
+	</update>	
+	
+	<update id="TMCOBD20DAO.deleteComment">
+		<![CDATA[
+			UPDATE tm_bdcmxm
+			SET dele_yn = 'Y',
+				   md_user = #mdUser#,
+				   md_date = NOW()
+			WHERE comt_code=to_number(#comtCode#, '9999999999999')
+		]]>
+	</update>
+	
+	<select id="TMCOBD20DAO.selectNextFileId" parameterClass="TMCOBD20VO" resultClass="String">
+		select 'FILE' || to_char((select count(*) + 1 from tm_atflxm), 'FM000000000') as file_id
+	</select>
+	
+	<insert id="TMCOBD20DAO.insertFileMaster">
+INSERT INTO tm_atflxm
+	(file_id, cr_user, cr_date, dele_yn)
+values (#fileId#, #crUser#, NOW(), 'N')
+	</insert>
+	
+	<insert id="TMCOBD20DAO.insertFileDetail">
+INSERT INTO tm_atflxd (
+	file_id, 
+	file_no, 
+	file_path, 
+	save_flnm, 
+	origin_flnm, 
+	file_ext, 
+	dele_yn, 
+	cr_user, 
+	cr_date)
+select 
+	 #fileId#
+	,(select COALESCE(max(file_no), 0) + 1 from tm_atflxd)
+	,#filePath#
+	,#saveFlnm#
+	,#originFlnm#
+	,#fileExt#
+	,'N'
+	,#crUser#
+	,NOW()
+	</insert>	
+	
+	<select id="TMCOBD20DAO.selectFile" parameterClass="TMCOBD20VO" resultMap="TMCOBDFILE">
+		SELECT file_id, file_no, file_path, save_flnm, origin_flnm
+		FROM tm_atflxd
+		where dele_yn='N'
+		<isNotEmpty property="fileId">
+			<![CDATA[
+			and file_id = #fileId#
+			]]>
+		</isNotEmpty>
+		<isNotEmpty property="fileNo">
+			<![CDATA[
+			and file_no = to_number(#fileNo#, '9999999999999')
+			]]>
+		</isNotEmpty>
+		order by file_no
+	</select>	
+	
+	<update id="TMCOBD20DAO.deleteFile">
+		<![CDATA[
+			UPDATE tm_atflxd
+			SET dele_yn = 'Y',
+				   md_user = #mdUser#,
+				   md_date = NOW()
+			WHERE file_no=to_number(#fileNo#, '9999999999999')
+		]]>
+	</update>
+	
+</sqlMap>

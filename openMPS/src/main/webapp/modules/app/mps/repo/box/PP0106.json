@@ -1,0 +1,253 @@
+{
+	"name": "BOM 조회",
+	"module": "PP0106Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["queryBox", "resultBox"],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box form-inline",
+				"order": ["proCode"],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"proCode": {
+							"label": "제품",
+							"required": false
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>제품</label><div class=\"proCode_region\"></div></div>"
+				},
+				"proCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "제품",
+						"required": true,
+						"codeType": "PP0103",
+						"params": {
+							"baseCode": null
+						},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "grid_box",
+				"gridId": "PP0106_grid_1",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+						"name": "bomCode",
+						"label": "BOM코드",
+						"width": 70,
+						"align": "center",
+						"editable": false,
+						"sortable": true,
+						"frozen":true
+					}, {
+						"name": "bomVer",
+						"label": "버전",
+						"width": 40,
+						"align": "center",
+						"editable": false,
+
+						"frozen":true
+					}, {
+						"name": "plantCode",
+						"label": "공장코드",
+						"width": 70,
+						"align": "left",
+						"editable": false,
+						"hidden": true,
+						"frozen":true
+					}, {
+						"name": "plantName",
+						"label": "공장",
+						"width": 90,
+						"align": "left",
+						"editable": false,
+
+						"frozen":true
+					}, {
+						"name": "proCode",
+						"label": "제품코드",
+						"width": 95,
+						"align": "left",
+						"editable": false,
+						"hidden": true,
+						"frozen":true
+					}, {
+						"name": "proName",
+						"label": "제품명",
+						"width": 150,
+						"align": "left",
+						"editable": false,
+
+						"frozen":true
+					}, {
+						"name": "totWeig",
+						"label": "<div>공박스<br>중량</div>",
+						"width": 70,
+						"align": "right",
+						"editable": false,
+						"sorttype":"integer","formatter":"number4",
+
+						"frozen":true
+					}, {
+						"name": "boxWeig",
+						"label": "<div>박스<br>중량</div>",
+						"width": 70,
+						"align": "right",
+						"editable": false,
+						"sorttype":"integer","formatter":"number4",
+
+						"frozen":true
+					}, {
+						"name": "filmWeig",
+						"label": "<div>필름<br>중량</div>",
+						"width": 70,
+						"align": "right",
+						"editable": false,
+						"sorttype":"integer","formatter":"number4",
+
+						"frozen":true
+					}, {
+						"name": "etcWeig",
+						"label": "<div>기타<br>중량</div>",
+						"width": 70,
+						"align": "right",
+						"editable": false,
+						"sorttype":"integer","formatter":"number4",
+
+						"frozen":true
+					}, {
+						"name": "memo",
+						"label": "비고",
+						"width": 150,
+						"align": "right",
+						"editable": false,
+
+						"frozen":true
+					}, {
+						"name": "proTypeName",
+						"label": "<div>부자재<br>구분</div>",
+						"width": 60,
+						"align": "center",
+						"editable": false,
+						"sortable": false
+					}, {
+						"name": "buProName",
+						"label": "부자재명",
+						"width": 200,
+						"align": "left",
+						"editable": false,
+						"sortable": false
+					}, {
+						"name": "qty",
+						"label": "소요량",
+						"width": 70,
+						"align": "right",
+						"editable": false,
+
+						"sorttype":"integer","formatter":"integer"
+					}, {
+						"name": "proUnit",
+						"label": "단위",
+						"width": 40,
+						"align": "center",
+						"editable": false,
+						"sortable": false
+					}, {
+						"name": "bumemo",
+						"label": "비고",
+						"width": 80,
+						"align": "left",
+						"editable": false,
+						"sortable": false
+					}, {
+						"name": "crDate",
+						"label": "생성일시",
+						"width": 150,
+						"align": "center",
+						"sortable": false
+
+					}, {
+						"name": "mdDate",
+						"label": "변경일시",
+						"width": 150,
+						"align": "center",
+						"sortable": false
+					}, {
+						"name": "changeList",
+						"label": "변경내역",
+						"width": 150,
+						"align": "left",
+						"editable": false,
+						"sortable": false
+					}, {
+						"name": "cssStyle",
+						"label": "<style>#gbox_PP0106_grid_1_list .frozen-bdiv {top:36px !important}</style>",
+						"width": 150,
+						"hidden":true,
+						"align": "left",
+						"editable": false,
+						"sortable": false
+					}],
+					"rowNum":"100000000",
+					"width":"auto",
+					"height": "589",
+					"cellEdit": false,
+					"shrinkToFit": false,
+					"gridview": true,
+					"datatype": "local",
+					"multiselect": false,
+					"multiselectWidth": 20,
+					"rownumbers": false,
+					"cellsubmit": "clientArray",
+					"pager": "#PP0106_grid_1_pager",
+					"viewrecords": true,
+					"recordpos": "left",
+					"pgbuttons": false,
+					"pginput": false,
+					"footerrow": false,
+					"userDataOnFooter": false,
+					"sortable":false,
+					"deselectAfterSort" :true,
+					"deepempty":true,
+					"cmTemplate": { "sortable": false }
+				},
+				"backup":{
+					"cellattr": {
+						"colNames": [
+							"bomCode",
+							"bomVer",
+							"plantName",
+							"proName",
+							"totWeig",
+							"boxWeig",
+							"filmWeig",
+							"etcWeig",
+							"memo"
+						]
+					}
+				}
+			}
+		}
+	}
+}

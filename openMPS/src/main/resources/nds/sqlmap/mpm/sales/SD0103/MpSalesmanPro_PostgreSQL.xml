@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpSalesmanPro">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpSalesmanProSerarchVO" type="nds.mpm.sales.SD0103.vo.MpSalesmanProDefaultVO"/>
+	
+	<resultMap id="mpSalesmanPro" class="nds.mpm.sales.SD0103.vo.MpSalesmanProVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="salesman" column="salesman" columnIndex="2"/>
+		<result property="salesmanProd" column="salesman_prod" columnIndex="3"/>
+		<result property="crUser" column="cr_user" columnIndex="4"/>
+		<result property="crDate" column="cr_date" columnIndex="5"/>
+	</resultMap>
+	
+	<insert id="MpSalesmanProDAO.insertMpSalesmanPro">
+		<![CDATA[
+			INSERT INTO openmps.mp_salesman_pro 
+				( corp_code
+				  , salesman
+				  , salesman_prod
+				  , interest_pro
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #salesman#
+				  , #salesmanProd#
+				  , #intetestPro#::numeric(10,0)
+				  , #crUser#
+				  , now())
+		]]>
+	</insert>
+	
+	<update id="MpSalesmanProDAO.updateMpSalesmanPro">
+		<![CDATA[
+			UPDATE openmps.mp_salesman_pro
+			SET interest_pro=#intetestPro#::numeric(10,0)
+						WHERE corp_code=#corpCode#
+								AND salesman=#salesman#
+								AND salesman_prod=#salesmanProd#
+				]]>
+	</update>
+	
+	<delete id="MpSalesmanProDAO.deleteMpSalesmanPro">
+		<![CDATA[
+			DELETE FROM openmps.mp_salesman_pro 
+						WHERE corp_code=#corpCode#
+								AND salesman=#salesman#
+								AND salesman_prod=#salesmanProd#
+				]]>
+	</delete>
+	
+	<select id="MpSalesmanProDAO.selectMpSalesmanPro_S" resultMap="mpSalesmanPro">
+		<![CDATA[
+			SELECT
+				corp_code
+				, salesman
+				, salesman_prod
+				, cr_user
+				, cr_date
+			FROM openmps.mp_salesman_pro
+						WHERE corp_code=#corpCode#
+								AND salesman=#salesman#
+								AND salesman_prod=#salesmanProd#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM 
+			openmps.mp_salesman_pro a 
+		where a.corp_code = #corpCode#	
+		<dynamic > 
+	         <isNotEmpty prepend="and" property="salesman">
+				a.salesman = #salesman#
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="MpSalesmanProDAO.selectMpSalesmanProList_D" parameterClass="mpSalesmanProSerarchVO" resultClass="egovMap">
+		SELECT
+				corp_code
+				, salesman
+				, salesman_prod
+				, openmps."FN_GET_PROCODENM"(a.corp_code, a.salesman_prod) as salesman_prodname
+				, interest_pro
+				
+				, cr_user
+				, cr_date
+		<include refid="selectWhere_fragment"/>
+		order by salesman_prod
+	</select>	
+	<select id="MpSalesmanProDAO.selectMpSalesmanProListTotCnt_S" parameterClass="mpSalesmanProSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

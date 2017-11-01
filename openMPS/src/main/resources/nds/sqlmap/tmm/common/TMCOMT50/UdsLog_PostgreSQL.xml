@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="UdsLog">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="udsLogSerarchVO" type="nds.tmm.common.TMCOMT50.vo.UdsLogDefaultVO"/>
+	
+	<resultMap id="udsLog" class="nds.tmm.common.TMCOMT50.vo.UdsLogVO">
+		<result property="cmid" column="cmid" columnIndex="1"/>
+		<result property="umid" column="umid" columnIndex="2"/>
+		<result property="msgType" column="msg_type" columnIndex="3"/>
+		<result property="status" column="status" columnIndex="4"/>
+		<result property="requestTime" column="request_time" columnIndex="5"/>
+		<result property="sendTime" column="send_time" columnIndex="6"/>
+		<result property="reportTime" column="report_time" columnIndex="7"/>
+		<result property="destPhone" column="dest_phone" columnIndex="8"/>
+		<result property="destName" column="dest_name" columnIndex="9"/>
+		<result property="sendPhone" column="send_phone" columnIndex="10"/>
+		<result property="sendName" column="send_name" columnIndex="11"/>
+		<result property="subject" column="subject" columnIndex="12"/>
+		<result property="msgBody" column="msg_body" columnIndex="13"/>
+		<result property="wapUrl" column="wap_url" columnIndex="14"/>
+		<result property="coverFlag" column="cover_flag" columnIndex="15"/>
+		<result property="smsFlag" column="sms_flag" columnIndex="16"/>
+		<result property="replyFlag" column="reply_flag" columnIndex="17"/>
+		<result property="retryCnt" column="retry_cnt" columnIndex="18"/>
+		<result property="faxFile" column="fax_file" columnIndex="19"/>
+		<result property="vxmlFile" column="vxml_file" columnIndex="20"/>
+		<result property="callStatus" column="call_status" columnIndex="21"/>
+		<result property="usePage" column="use_page" columnIndex="22"/>
+		<result property="useTime" column="use_time" columnIndex="23"/>
+		<result property="snResult" column="sn_result" columnIndex="24"/>
+		<result property="wapInfo" column="wap_info" columnIndex="25"/>
+		<result property="cinfo" column="cinfo" columnIndex="26"/>
+
+	</resultMap>
+	
+	<!-- paging parameter Global include -->
+	<sql id="pagingParam_fragment">
+		<isNotEqual property="pageSize" compareValue="0">
+		         LIMIT #pageSize#
+		</isNotEqual>
+		<isNotEqual property="firstIndex" compareValue="0">
+		         OFFSET #firstIndex#
+		</isNotEqual>
+	</sql>
+	
+	<select id="udsLogDAO.selectUdsLog_S" resultMap="udsLog">
+		<![CDATA[
+		SELECT
+			cmid
+			, umid
+			, case 
+					when msg_type = 0 then 'SMS'
+					when msg_type = 2 then 'FAX'
+			 END msg_type
+			, case 
+					when status = 0 then '대기'
+					when status = 1 then '발송중'
+					when status = 2 then '발송완료'
+					when status = 3 then '에러'
+			 END status
+			, status
+			, to_char(request_time::timestamp, 'YYYY-MM-DD HH24:MI:SS') request_time 
+			, to_char(send_time::timestamp, 'YYYY-MM-DD HH24:MI:SS') send_time 
+			, to_char(report_time::timestamp, 'YYYY-MM-DD HH24:MI:SS') report_time 
+			, dest_phone
+			, dest_name
+			, send_phone
+			, send_name
+			, subject 
+			, msg_body
+			, wap_url
+			, cover_flag
+			, sms_flag
+			, reply_flag
+			, retry_cnt
+			, fax_file 
+			, vxml_file
+			, call_status
+			, use_page
+			, use_time 
+			, sn_result
+			, wap_info
+			, cinfo 
+		FROM ddrapi.uds_log
+		WHERE
+			msg_type = #msgType#
+		 AND to_char(send_time::timestamp, 'yyyyMMdd') BETWEEN #frstDate# AND #lastDate#
+				]]>
+	</select>
+	
+	<select id="udsLogDAO.selectUdsLogList_D" parameterClass="udsLogSerarchVO" resultClass="egovMap">
+		<![CDATA[
+		SELECT
+			cmid
+			, umid
+			, case 
+					when msg_type = 0 then 'SMS'
+					when msg_type = 2 then 'FAX'
+			 END msg_type
+			, case 
+					when status = 0 then '대기'
+					when status = 1 then '발송중'
+					when status = 2 then '발송완료'
+					when status = 3 then '에러'
+			 END status
+			, status
+			, to_char(request_time::timestamp, 'YYYY-MM-DD HH24:MI:SS') request_time 
+			, to_char(send_time::timestamp, 'YYYY-MM-DD HH24:MI:SS') send_time 
+			, to_char(report_time::timestamp, 'YYYY-MM-DD HH24:MI:SS') report_time 
+			, dest_phone
+			, dest_name
+			, send_phone
+			, send_name
+			, subject 
+			, msg_body
+			, wap_url
+			, cover_flag
+			, sms_flag
+			, reply_flag
+			, retry_cnt
+			, fax_file 
+			, vxml_file
+			, call_status
+			, use_page
+			, use_time 
+			, sn_result
+			, wap_info
+			, cinfo 
+		FROM ddrapi.uds_log
+		WHERE
+			msg_type = #msgType#
+		 AND to_char(send_time::timestamp, 'yyyyMMdd') BETWEEN #frstDate# AND #lastDate#
+				]]>
+			<include refid="pagingParam_fragment"/>
+	</select>	
+	<select id="udsLogDAO.selectUdsLogListTotCnt_S" parameterClass="udsLogSerarchVO" resultClass="int">
+		<![CDATA[
+		SELECT count(*) FROM ddrapi.uds_log 
+		WHERE
+			msg_type = #msgType#
+		 AND to_char(send_time::timestamp, 'yyyyMMdd') BETWEEN #frstDate# AND #lastDate#
+				]]>
+	</select>
+
+</sqlMap>

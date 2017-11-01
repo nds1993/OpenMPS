@@ -1,0 +1,179 @@
+{
+	"name": "공장창고매핑 등록",
+	"module": "PP0107Renderer",
+	"options": {
+		"order": ["queryBox", "resultBox"],
+		"className": "contents_box",
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": ["plantCode"],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "Form Builder Params",
+					"items": {
+						"plantCode": {
+							"selector": ".plantCode",
+							"label": "공장",
+							"required": false,
+							"module": "text"
+						}
+					},
+					"data": {},
+					"template": null
+				}
+			}
+		},
+		"resultBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "result_box",
+				"order": ["leftGrid", "rightGrid"],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"row\"><div class=\"col-xs-3  leftGrid_region\"></div><div class=\"col-xs-9 rightGrid_region\"></div></div>",
+					"items": {
+						"leftGrid": {
+							"label": "plantInfo",
+							"required": true
+						},
+						"rightGrid": {
+							"label": "plantSetUp",
+							"required": true
+						}
+					},
+					"data": {}
+				},
+				"leftGrid": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "plantInfo_box grid_box mt27",
+						"gridId": "PP0107_leftGrid_1",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+								"name": "plantCode",
+								"label": "공장코드",
+								"width": 50,
+								"align": "center",
+								"editable": false
+							}, {
+								"name": "plantName",
+								"label": "공장명",
+								"width": 90,
+								"align": "center",
+								"editable": false
+							}],
+							"rowNum":"100000000",
+							"width": "auto",
+							"height": "570",
+							"cellEdit": false,
+							"shrinkToFit": true,
+							"gridview": true,
+							"datatype": "local",
+							"viewrecords": true,
+							"footerrow": false,
+							"multiselect": false,
+							"multiselectWidth": 20,
+							"rownumbers": false,
+							"pager": "#PP0107_leftGrid_1_pager",
+							"viewrecords": true,
+							"recordpos": "left",
+							"pgbuttons": false,
+							"pginput": false,
+							"cellsubmit": "clientArray"
+						}
+					}
+				},
+				"rightGrid": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"className": "contnet_header_box no_label",
+								"label": "공장추가 삭제"
+							},
+							"feature": [{
+								"create": "행 추가"
+							}]
+						},
+						"content": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "plantSetUp_box grid_box",
+								"gridId": "PP0107_rightGrid_1",
+								"gridParams": {
+									"data": [],
+									"colModel": [{
+										"name": "whCode",
+										"label": "<div class=\"editable_mark\"></div>창고코드",
+										"width": 60,
+										"align": "center",
+										"editable": true,
+										"classes": "editable codesearch"
+									}, {
+										"name": "dcnm",
+										"label": "창고명",
+										"width": 80,
+										"align": "left",
+										"editable": false,
+										"editoptions": {
+											"readonly": "readonly"
+										}
+									}, {
+										"name": "useYn",
+										"label": "<div class=\"editable_mark\"></div>사용유무",
+										"width": 30,
+										"align": "center",
+										"editable": true,
+										"formatter": "select",
+										"edittype": "select",
+										"editoptions": {
+											"value": "Y:사용;N:사용안함"
+										}
+									}, {
+										"name": "memo",
+										"label": "<div class=\"editable_mark\"></div>비고",
+										"align": "left",
+										"width": 200,
+										"editable": true,
+										"classes": "editable"
+									}],
+									"rowNum":"100000000",
+									"width": "auto",
+									"height": "570",
+									"cellEdit": true,
+									"cellsubmit": "clientArray",
+									"shrinkToFit": true,
+									"gridview": true,
+									"datatype": "local",
+									"viewrecords": true,
+									"footerrow": false,
+									"multiselect": false,
+									"multiselectWidth": 5,
+									"pager": "#PP0107_rightGrid_1_pager",
+									"viewrecords": true,
+									"recordpos": "left",
+									"pgbuttons": false,
+									"pginput": false
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

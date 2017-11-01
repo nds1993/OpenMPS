@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpAcceptOrdrPmM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpAcceptOrdrPmMSerarchVO" type="nds.mpm.prod.PP0304.vo.MpAcceptOrdrPmMVO"/>
+	
+	<resultMap id="mpAcceptOrdrPmM" class="nds.mpm.prod.PP0304.vo.MpAcceptOrdrPmMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="plantCode" column="plant_code" columnIndex="2"/>
+		<result property="planNo" column="plan_no" columnIndex="3"/>
+		<result property="delvDate" column="delv_date" columnIndex="4"/>
+		<result property="ordrNo" column="ordr_no" columnIndex="5"/>
+		<result property="proCode" column="pro_code" columnIndex="6"/>
+		<result property="status" column="status" columnIndex="7"/>
+		<result property="deleYn" column="dele_yn" columnIndex="8"/>
+		<result property="mdUser" column="md_user" columnIndex="9"/>
+		<result property="mdDate" column="md_date" columnIndex="10"/>
+		<result property="crUser" column="cr_user" columnIndex="11"/>
+		<result property="crDate" column="cr_date" columnIndex="12"/>
+	</resultMap>
+	
+	<!-- 계획번호 생성기준 delv_date+ordr_no+ordr_cust seq -->
+	<select id="mpAcceptOrdrPmMDAO.selectMpAcceptOrdrPMPlanNo" parameterClass="egovMap" resultClass="string">
+		 select 
+			case when bb.plan_no is not null then  plan_no
+			else aa.plan_date || cc.new_seq end 
+			as plan_no    
+			from     
+			( select to_char(now(), 'YYYYMMDD') plan_date ) aa    
+			left outer join  (        
+				select max( plan_no ) plan_no        
+				from openmps.mp_accept_ordr_pm_m        
+				where corp_code =  #corpCode#         
+				and delv_date = #delvDate#             
+				and ordr_cust = #ordrCust#
+				and ordr_no = #ordrNo#
+			) bb on (1=1)    
+			left outer join
+			(
+				select lpad( (count(a.plan_no) + 1)::varchar, 3, '0') new_seq
+				from
+				(
+					select distinct plan_no        
+					from openmps.mp_accept_ordr_pm_m        
+					where corp_code =   #corpCode#     
+					and plan_no like  to_char(now(), 'YYYYMMDD') || '%'
+				) a
+			) cc on (1=1)
+	</select>
+	<!-- PP0305 생산계획 PM 입력 신규제품추가시 seq 생성 -->
+	<select id="mpAcceptOrdrPmMDAO.selectMpPlanPmMAddProdSeq" parameterClass="egovMap" resultClass="string">
+		select lpad( (coalesce(max(ordr_seq::integer),0)+1)::varchar ,3,'0') from openmps.mp_accept_ordr_pm_m 
+				  	where corp_code = #corpCode# and delv_date = #delvDate# and ordr_no = #ordrNo# 
+	</select>
+	<insert id="mpAcceptOrdrPmMDAO.insertMpAcceptOrdrPmM">
+		<![CDATA[
+			INSERT INTO mp_accept_ordr_pm_m 
+				( corp_code
+				  , plant_code
+				  , plan_no
+				  , delv_date
+				  , ordr_seq
+				  , ordr_no
+				  , pro_code
+				  , ordr_box
+				  , ordr_weight
+				  , ordr_cust 
+				  , status
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #planNo#
+				  , #delvDate#
+				  , #ordrSeq#
+				  , #ordrNo#
+				  , #proCode#
+				  , #ordrBox#::numeric
+				  , #ordrWeight#::numeric
+				  , #ordrCust#
+				  , #status#
+				  , 'N'
+				  , #crUser#
+				  , now() )
+			ON CONFLICT (corp_code, plant_code, plan_no, delv_date, ordr_no, ordr_seq, pro_code)
+			DO UPDATE SET
+				  status = '0'
+				  , md_user=#mdUser#
+				  , md_date=now()
+		]]>
+	</insert>
+	
+	<update id="mpAcceptOrdrPmMDAO.updateMpOrderD">
+		<![CDATA[
+			UPDATE mp_order_d
+			SET pm_accept_yn = #pmAcceptYn#
+				, md_user=#mdUser#
+				, md_date=now()
+			WHERE corp_code=#corpCode#
+					AND delv_date=#delvDate#
+					AND ordr_no=#ordrNo#
+					AND ordr_seq=#ordrSeq#
+					AND pro_code=#proCode#
+				]]>
+	</update>
+	
+	<update id="mpAcceptOrdrPmMDAO.updateMpAcceptOrdrPmMStatus">
+		<![CDATA[
+			UPDATE mp_accept_ordr_pm_m
+			SET status = #status#
+				, md_user=#mdUser#
+				, md_date=now()
+			WHERE corp_code=#corpCode#
+					AND delv_date=#delvDate#
+					AND plan_no=#planNo#
+					AND pro_code=#proCode#
+				]]>
+	</update>
+	
+	<delete id="mpAcceptOrdrPmMDAO.deleteMpAcceptOrdrPmM">
+		<![CDATA[
+			DELETE FROM mp_accept_ordr_pm_m 
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND plan_no=#planNo#
+								AND delv_date=#delvDate#
+								AND ordr_no=#ordrNo#
+								AND pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<select id="mpAcceptOrdrPmMDAO.selectMpAcceptOrdrPmM_S" resultMap="mpAcceptOrdrPmM">
+		<![CDATA[
+			SELECT
+				corp_code
+				, plant_code
+				, plan_no
+				, delv_date
+				, ordr_no
+				, pro_code
+				, status
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM mp_accept_ordr_pm_m
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND plan_no=#planNo#
+								AND delv_date=#delvDate#
+								AND ordr_no=#ordrNo#
+								AND pro_code=#proCode#
+				]]>
+	</select>
+	<!--
+	 생산계획 PM 접수 대상조회 mp_order_d
+	 pm_accept_yn 접수되지않은것 
+	 mp_item_master_m.prdt_type 가공구분 MP004 세절육
+	 -->
+	<sql id="selectWhere_MpOrderDfragment">
+	<![CDATA[
+		from 
+		openmps.mp_order_h h
+		inner join openmps.mp_order_d d on (h.corp_code = d.corp_code 
+			and h.delv_date = d.delv_date
+			and h.ordr_no = d.ordr_no)
+		inner join openmps.mp_item_master_m m 
+			on (d.corp_code = m.corp_code and d.pro_code = m.pro_code)
+		WHERE h.corp_code=#corpCode#
+		and h.delv_date between #strtDate# and #lastDate#
+		and d.pm_accept_yn = 'N'
+		and h.delv_dc in (select wh_code from tm_plat_warhxm where plant_code = #plantCode#)
+		and h.ordr_type in (select code_id from openmps.tm_codexd where group_code='SD017' and etc03='PP')
+		and h.status != 'D'
+		and d.status != 'D'
+		and m.animal_kind='1'
+		and m.pro_kind='1'
+		and m.prdt_type = '2'
+		and d.ordr_box > 0
+		]]>
+		<dynamic> 
+		</dynamic>
+	</sql>
+	<select id="mpAcceptOrdrPmMDAO.selectMpOrderDList_D" parameterClass="mpAcceptOrdrPmMSerarchVO" resultClass="egovMap">
+		SELECT
+				d.delv_date || d.ordr_no as ordr_num
+				, m.large_code
+				, openmps."FN_GET_TMCODEXDNM"(h.corp_code,'MP006',m.large_code) as pro_large_name
+				, d.ordr_seq 
+				, d.pro_code
+				, openmps."FN_GET_PROCODENM"(h.corp_code,d.pro_code) as pro_name
+				, d.ordr_box as work_qty
+				, d.ordr_weight as ordr_weight
+				, h.delv_date
+				, 'N' as status
+				, h.memo
+
+				, h.ordr_cust
+				, d.ordr_box
+				, h.corp_code
+				, (select plant_code from tm_plat_warhxm where wh_code = h.delv_dc limit 1) as plant_code
+				, '' as plan_no 
+				, d.ordr_no as ordr_no
+				, h.delv_dc
+				, openmps."FN_GET_CUSTCODENM"(h.corp_code,h.ordr_cust ) as ordr_custname
+				, h.delv_date
+				, d.pro_ukind as pro_unit
+				
+		<include refid="selectWhere_MpOrderDfragment"/>
+		order by h.delv_date, d.ordr_no
+	</select>	
+	<select id="mpAcceptOrdrPmMDAO.selectMpOrderDListTotCnt_S" parameterClass="mpAcceptOrdrPmMSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_MpOrderDfragment"/>
+	</select>
+	
+	<!--
+	 생산계획 PM 접수 mp_accept_ordr_pm_m 조회
+	 -->
+	<sql id="selectWhere_MpAcceptOrdrPmMfragment">
+	<![CDATA[
+		from 
+		openmps.mp_accept_ordr_pm_m pm
+		inner join openmps.mp_order_h h on (h.corp_code = pm.corp_code 
+			and h.delv_date = pm.delv_date
+			and h.ordr_no = pm.ordr_no)
+		inner join openmps.mp_item_master_m m 
+			on (pm.corp_code = m.corp_code and pm.pro_code = m.pro_code)
+		WHERE pm.corp_code=#corpCode#
+		and pm.plant_code = #plantCode#
+		and pm.delv_date between #strtDate# and #lastDate#
+		and m.prdt_type = '2'
+		]]>
+		<dynamic> 
+	         <isNotEmpty prepend="and" property="plantCode">
+	         </isNotEmpty>
+		</dynamic>
+		and pm.dele_yn = 'N'
+	</sql>
+	<select id="mpAcceptOrdrPmMDAO.selectMpAcceptOrdrPmMList_D" parameterClass="mpAcceptOrdrPmMSerarchVO" resultClass="egovMap">
+		SELECT
+				pm.delv_date || pm.ordr_no as ordr_num
+				, m.large_code
+				, openmps."FN_GET_CUSTCODENM"(pm.corp_code,h.ordr_cust ) as ordr_custname
+				, openmps."FN_GET_TMCODEXDNM"(pm.corp_code,'MP006',m.large_code) pro_large_name
+				, pm.ordr_seq
+				, pm.pro_code
+				, openmps."FN_GET_PROCODENM"(pm.corp_code,pm.pro_code) as pro_name
+				, (pm.ordr_box::numeric(11,0))::varchar work_qty
+				, pm.ordr_weight::varchar as ordr_weight
+				, pm.delv_date
+				, 'Y' pm_accept_yn
+				, h.memo
+				, pm.status
+				
+				, pm.plan_no
+				, pm.ordr_box
+				, pm.corp_code
+				, pm.plant_code
+				, pm.delv_date
+				, pm.ordr_no
+				, pm.ordr_cust 
+				, m.pro_ukind as pro_unit
+				
+		<include refid="selectWhere_MpAcceptOrdrPmMfragment"/>
+		order by pm.ordr_no, pm.ordr_seq, h.ordr_cust, m.large_code, pm.pro_code
+	</select>	
+	<select id="mpAcceptOrdrPmMDAO.selectMpAcceptOrdrPmMListTotCnt_S" parameterClass="mpAcceptOrdrPmMSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_MpAcceptOrdrPmMfragment"/>
+	</select>
+</sqlMap>

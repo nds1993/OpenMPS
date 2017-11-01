@@ -1,0 +1,22 @@
+{
+  "name": "map",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "map-1.0.0.js",
+  	"manager": ""
+  },
+  "resource": {
+  	"template": "map-1.0.0.html"
+  },
+  "dependencies":
+  [
+	"FormItemPanel",
+	"BaroProps",
+	"Logger",
+	"osapi",
+	"DaumMap"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  }
+}

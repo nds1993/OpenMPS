@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpBarProM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpBarProMSerarchVO" type="nds.mpm.prod.PP0504.vo.MpBarProMVO"/>
+	
+	<resultMap id="mpBarProM" class="nds.mpm.prod.PP0504.vo.MpBarProMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="plantCode" column="plant_code" columnIndex="2"/>
+		<result property="barCode" column="bar_code" columnIndex="3"/>
+		<result property="proDate" column="pro_date" columnIndex="4"/>
+		<result property="proTime" column="pro_time" columnIndex="5"/>
+		<result property="proCode" column="pro_code" columnIndex="6"/>
+		<result property="suCode" column="su_code" columnIndex="7"/>
+		<result property="nongCode" column="nong_code" columnIndex="8"/>
+		<result property="boxWeig" column="box_weig" columnIndex="9"/>
+		<result property="cartonNo" column="carton_no" columnIndex="10"/>
+		<result property="dochDate" column="doch_date" columnIndex="11"/>
+		<result property="pojangji" column="pojangji" columnIndex="12"/>
+		<result property="shelfLife" column="shelf_life" columnIndex="13"/>
+		<result property="manufacturer" column="manufacturer" columnIndex="14"/>
+		<result property="slaughterhouse" column="slaughterhouse" columnIndex="15"/>
+		<result property="temperature" column="temperature" columnIndex="16"/>
+		<result property="bunchNo" column="bunch_no" columnIndex="17"/>
+		<result property="prdtType" column="prdt_type" columnIndex="18"/>
+		<result property="wmsYn" column="wms_yn" columnIndex="19"/>
+		<result property="memo" column="memo" columnIndex="20"/>
+		<result property="deleYn" column="dele_yn" columnIndex="21"/>
+		<result property="mdUser" column="md_user" columnIndex="22"/>
+		<result property="mdDate" column="md_date" columnIndex="23"/>
+		<result property="crUser" column="cr_user" columnIndex="24"/>
+		<result property="crDate" column="cr_date" columnIndex="25"/>
+	</resultMap>
+	
+	<insert id="MpBarProMDAO.insertMpBarProM">
+		<![CDATA[
+			INSERT INTO openmps.mp_bar_pro_m 
+				( corp_code
+				  , plant_code
+				  , bar_code
+				  , pro_date
+				  , pro_time
+				  , pro_code
+				  , su_code
+				  , nong_code
+				  , box_weig
+				  , carton_no
+				  , doch_date
+				  , pojangji
+				  , shelf_life
+				  , manufacturer
+				  , slaughterhouse
+				  , temperature
+				  , bunch_no
+				  , prdt_type
+				  , wms_yn
+				  , memo
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #barCode#
+				  , #proDate#
+				  , #proTime#
+				  , #proCode#
+				  , #suCode#
+				  , #nongCode#
+				  , #boxWeig#
+				  , #cartonNo#
+				  , #dochDate#
+				  , #pojangji#
+				  , #shelfLife#
+				  , #manufacturer#
+				  , #slaughterhouse#
+				  , #temperature#
+				  , #bunchNo#
+				  , #prdtType#
+				  , #wmsYn#
+				  , #memo#
+				  , #deleYn#
+				  , #crUser#
+				  , #crDate# )
+		]]>
+	</insert>
+	
+	<update id="MpBarProMDAO.updateMpBarProM">
+		<![CDATA[
+			update openmps.mp_bar_pro_m set dele_yn=#deleYn#
+						, md_user=#mdUser#
+						, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND bar_code=#barCode#
+				]]>
+	</update>
+	
+	<delete id="MpBarProMDAO.deleteMpBarProM">
+		<![CDATA[
+			update openmps.mp_bar_pro_m set dele_yn='Y'
+						, md_user=#mdUser#
+						, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND bar_code=#barCode#
+				]]>
+	</delete>
+	
+	<select id="MpBarProMDAO.selectMpBarProM" resultMap="mpBarProM">
+		<![CDATA[
+			SELECT
+				corp_code
+				, plant_code
+				, bar_code
+				, pro_date
+				, pro_time
+				, pro_code
+				, su_code
+				, nong_code
+				, box_weig
+				, carton_no
+				, doch_date
+				, pojangji
+				, shelf_life
+				, manufacturer
+				, slaughterhouse
+				, temperature
+				, bunch_no
+				, prdt_type
+				, wms_yn
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM openmps.mp_bar_pro_m
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND bar_code=#barCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+		from openmps.mp_bar_pro_m a
+		inner join openmps.mp_item_master_m m on (a.corp_code = m.corp_code and a.pro_code = m.pro_code)
+		left outer join openmps.tm_codexd nongcd on (a.corp_code = nongcd.corp_code 
+			and nongcd.group_code  = 'PP010' and a.nong_code = nongcd.code_id)
+		left outer join openmps.tm_codexd largecd on (a.corp_code = largecd.corp_code 
+			and largecd.group_code  = 'MP006' and m.large_code = largecd.code_id)
+		left outer join openmps.tm_codexd slau on (a.corp_code = slau.corp_code 
+			and slau.group_code  = 'PP008' and slau.code_id = a.slaughterhouse)	
+		left outer join openmps.tm_platxm platcd on (a.corp_code = platcd.corp_code 
+			and a.plant_code = platcd.plant_code)
+		left outer join openmps.tm_userxm usr on (a.md_user = usr.user_code)
+		WHERE a.corp_code=#corpCode#
+		and a.pro_date between #strtDate# and #lastDate#
+		and a.prdt_type in('1', '2')
+		<dynamic> 
+	         <isNotEqual property="searchCondition2" compareValue="all">
+	             <isEqual property="searchCondition2" compareValue="deley">
+			     and a.dele_yn = 'Y'
+			     </isEqual>
+			     <isEqual property="searchCondition2" compareValue="delen">
+			     and a.dele_yn = 'N'
+			     </isEqual>
+	         </isNotEqual>
+	         <isNotEmpty property="plantCode">
+		     and a.plant_code = #plantCode#
+		     </isNotEmpty>
+		     <isNotEmpty property="largeCode">
+		     and m.large_code = #largeCode#
+		     </isNotEmpty>
+		     <isNotEmpty property="proCode">
+		     and m.pro_code = #proCode#
+		     </isNotEmpty>
+		     <isNotEmpty property="barCode">
+		     and a.bar_code like '%' || #barCode# || '%'
+		     </isNotEmpty>
+		     <isNotEmpty property="cartonNo">
+		     and a.carton_no like '%' || #cartonNo# || '%'
+		     </isNotEmpty>
+		     
+		</dynamic>
+	</sql>
+	<select id="MpBarProMDAO.selectMpBarProMList_D" parameterClass="mpBarProMSerarchVO" resultClass="egovMap">
+		select 
+			<isEqual property="searchCondition" compareValue="date">
+			nongcd.code_name as nong_name
+		    , to_char( a.pro_date::date, 'YYYY-MM-DD') as pro_date
+		    ,a.pro_time
+		    ,platcd.plant_name
+		    , largecd.code_name as large_name
+		    </isEqual>
+		    <isEqual property="searchCondition" compareValue="plant">
+		    platcd.plant_name
+		    , to_char( a.pro_date::date, 'YYYY-MM-DD') as pro_date
+		    ,a.pro_time
+		    ,nongcd.code_name as nong_name
+		    ,largecd.code_name as large_name
+		    </isEqual>
+		    <isEqual property="searchCondition" compareValue="nong">
+		    nongcd.code_name as nong_name
+		    , platcd.plant_name
+		    , to_char( a.pro_date::date, 'YYYY-MM-DD') as pro_date
+		    ,a.pro_time
+		    , largecd.code_name as large_name
+		    </isEqual>
+		    <isEqual property="searchCondition" compareValue="barCode">
+		    a.bar_code
+		    , platcd.plant_name
+		    , to_char( a.pro_date::date, 'YYYY-MM-DD') as pro_date
+		    ,a.pro_time
+		    , nongcd.code_name as nong_name
+		    , largecd.code_name as large_name
+		    </isEqual>
+		    <isEqual property="searchCondition" compareValue="largecode">
+		    largecd.code_name as large_name
+		    , platcd.plant_name
+		    , to_char( a.pro_date::date, 'YYYY-MM-DD') as pro_date
+		    ,a.pro_time
+		    , nongcd.code_name as nong_name
+		    , a.bar_code
+		    </isEqual>
+		    ,largecd.code_name as large_name
+		    ,m.pro_name
+		    ,a.carton_no::varchar
+			,a.box_weig::varchar
+			,slau.etc01 as slaughterhousename 
+			,a.manufacturer as manufacturername	<!-- 제조원 TM_CODEXD(공장그룹)의 ETC1 -->
+			,a.temperature
+			,a.shelf_life
+			<isNotEqual property="searchCondition" compareValue="barCode">
+			,a.bar_code::varchar
+			</isNotEqual>
+			,(case when a.dele_yn='Y' then to_char(a.md_date,'YYYY-MM-DD HH:mi:ss') else null end) dele_date
+			,(case when a.dele_yn='Y' then usr.user_name else null end) dele_user
+			
+			,a.plant_code
+			,a.slaughterhouse <!-- 도축장 PP006 -->
+			,a.manufacturer
+			,a.nong_code
+			,a.dele_yn
+			,a.wms_yn
+		<include refid="selectWhere_fragment"/>
+			<isEqual property="searchCondition" compareValue="date">
+			order by a.pro_date, a.pro_time
+		    </isEqual>
+		    <isEqual property="searchCondition" compareValue="plant">
+			order by a.plant_code, a.pro_date, a.pro_time
+		    </isEqual>
+		    <isEqual property="searchCondition" compareValue="nong">
+		    order by a.nong_code, a.pro_date, a.pro_time
+		    </isEqual>
+		    <isEqual property="searchCondition" compareValue="barCode">
+		    order by a.bar_code, a.pro_date, a.pro_time
+		    </isEqual>
+		    <isEqual property="searchCondition" compareValue="largecode">
+		    order by m.large_code, a.pro_date, a.pro_time
+		    </isEqual>
+		    <isEmpty property="searchCondition">
+		    order by a.bar_code, a.pro_date, a.pro_time
+		    </isEmpty>
+	</select>	
+	<select id="MpBarProMDAO.selectMpBarProMListTotCnt_S" parameterClass="mpBarProMSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

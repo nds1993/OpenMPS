@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD0608MpOrderD">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<select id="SD0608mpOrderDDAO.selectMpOrderDList_D" resultClass="egovMap">
+		<![CDATA[ 
+		with ordr as (
+			select order_h.corp_code, order_h.delv_date, order_h.ordr_no, order_h.ordr_type
+					,order_h.ordr_cust, order_h.delv_weight as h_delv_weight, order_h.delv_amt as h_delv_amt
+					,order_d.ordr_seq, order_d.pro_code, order_d.sale_group2
+					,order_d.delv_weight, order_d.delv_amt, order_d.delv_vat
+			from	mp_order_h as order_h
+				left outer join mp_order_d as order_d
+					on order_h.corp_code = order_d.corp_code
+					and order_h.delv_date = order_d.delv_date
+					and order_h.ordr_no = order_d.ordr_no
+			where	order_h.corp_code = #corpCode#
+		)
+		, hist as (
+			select corp_code, cust_code, seq_no, start_date, last_date, part_code, salesman
+			from	mp_cust_hist
+			where	corp_code = #corpCode#
+			and	part_code like #teamCode#
+		)
+		, ordr1 as (
+			select ordr1.part_code, ordr1.salesman
+					,sum(ordr1.delv_weight) delv_weight
+					,sum(ordr1.delv_amt+ordr1.delv_vat) delv_amt
+					,sum(ordr1.delv_weight) filter (where ordr1.ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')) rma_weight
+					,sum(ordr1.delv_amt+ordr1.delv_vat) filter (where ordr1.ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')) rma_amt
+			from ( 	select hist.*, ordr.*
+						from	ordr
+							right outer join hist
+								on ordr.ordr_cust = hist.cust_code
+								and ordr.delv_date between hist.start_date and hist.last_date
+						where delv_date between #strtDate# and #lastDate#
+						and	start_date < #lastDate#
+						and	last_date > #strtDate#	) ordr1
+			group by part_code, salesman
+		)
+		, ordr2 as (
+			select hist.salesman
+					,sum(ordr.delv_weight) rma_weight
+					,sum(ordr.delv_amt+ordr.delv_vat) rma_amt
+			from	ordr
+				right outer join hist
+					on ordr.ordr_cust = hist.cust_code
+					and ordr.delv_date between hist.start_date and hist.last_date
+			where ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')
+			and	delv_date between to_char( date(#strtDate#) - interval '1 months','yyyymmdd') and to_char( date(#lastDate#) - interval '1 months','yyyymmdd')
+			and	start_date < to_char( date(#lastDate#) - interval '1 months','yyyymmdd')
+			and	last_date > to_char( date(#strtDate#) - interval '1 months','yyyymmdd')
+			group by salesman
+		)
+		, ordr3 as (
+			select hist.salesman
+					,sum(ordr.delv_weight) rma_weight
+					,sum(ordr.delv_amt+ordr.delv_vat) rma_amt
+			from	ordr
+				right outer join hist
+					on ordr.ordr_cust = hist.cust_code
+					and ordr.delv_date between hist.start_date and hist.last_date
+			where ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')
+			and	delv_date between to_char( date(#strtDate#) - interval '12 months','yyyymmdd') and to_char( date(#lastDate#) - interval '12 months','yyyymmdd')
+			and	start_date < to_char( date(#lastDate#) - interval '12 months','yyyymmdd')
+			and	last_date > to_char( date(#strtDate#) - interval '12 months','yyyymmdd')
+			group by salesman
+		)
+		select head_name, tm_userxm.team_code, team_name, user_name, ordr1.salesman
+				,coalesce(ordr1.delv_weight,0.0) delv_weight
+				,coalesce(ordr1.delv_amt,0) delv_amt
+				,coalesce(ordr1.rma_weight,0.0) rma_weight
+				,coalesce(ordr1.rma_amt,0) rma_amt
+				,coalesce(round(ordr1.rma_weight / ordr1.delv_weight * 100,2), 0.0) as rma_rate
+				,coalesce(ordr2.rma_weight,0.0) rma_weight2
+				,coalesce(ordr1.rma_weight - ordr2.rma_weight,0.0) rma_dif2
+				,coalesce(ordr3.rma_weight,0.0) rma_weight3
+				,coalesce(ordr1.rma_weight - ordr3.rma_weight,0.0) rma_dif3
+		from	ordr1
+				left outer join ordr2
+					on ordr1.salesman = ordr2.salesman
+				left outer join ordr3
+					on ordr1.salesman = ordr3.salesman
+				left outer join tm_userxm
+					on tm_userxm.corp_code = #corpCode#
+					and ordr1.salesman = user_code
+				left outer join tm_teamxm
+					on tm_teamxm.corp_code = #corpCode#
+					and tm_userxm.team_code = tm_teamxm.team_code
+				left outer join tm_orguxm
+					on tm_orguxm.corp_code = #corpCode#
+					and tm_teamxm.head_code = tm_orguxm.head_code
+		order by part_code, ordr1.salesman
+		]]>
+	</select>
+	
+	<select id="SD0608mpOrderDDAO.selectMpOrderDTab1List_D" resultClass="egovMap">
+		<![CDATA[
+		with ordr as (
+			select order_h.corp_code, order_h.delv_date, order_h.ordr_no, order_h.ordr_type
+					,order_h.ordr_cust, order_h.delv_weight as h_delv_weight, order_h.delv_amt as h_delv_amt
+					,order_d.ordr_seq, order_d.pro_code, order_d.sale_group2
+					,order_d.delv_weight, order_d.delv_amt, order_d.delv_vat
+			from	mp_order_h as order_h
+				left outer join mp_order_d as order_d
+					on order_h.corp_code = order_d.corp_code
+					and order_h.delv_date = order_d.delv_date
+					and order_h.ordr_no = order_d.ordr_no
+			where	order_h.corp_code = #corpCode#
+		)
+		, hist as (
+			select corp_code, cust_code, seq_no, start_date, last_date, part_code, salesman
+			from	mp_cust_hist
+			where	corp_code = #corpCode#
+			and	part_code like #teamCode#
+		)
+		, cust as (
+			select corp_code, cust_code, cust_name, short_name, dist_type
+					,(select code_name from tm_codexd where group_code = 'SD005' and code_id = dist_type) dist_name
+			from	mp_cust_info
+			where	corp_code = #corpCode#
+		)
+		, ordr1 as (
+			select ordr1.cust_code, cust_name, dist_type, dist_name
+					,sum(ordr1.delv_weight) delv_weight
+					,sum(ordr1.delv_amt+ordr1.delv_vat) delv_amt
+					,sum(ordr1.delv_weight) filter (where ordr1.ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')) rma_weight
+					,sum(ordr1.delv_amt+ordr1.delv_vat) filter (where ordr1.ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')) rma_amt
+			from ( 	select cust.*, ordr.*
+						from	ordr
+							right outer join cust
+								on ordr.ordr_cust = cust.cust_code
+						where delv_date between #strtDate# and #lastDate# ) ordr1
+					inner join hist
+						on ordr1.ordr_cust = hist.cust_code
+						and ordr1.delv_date between hist.start_date and hist.last_date
+			/*헤더 사람선택*/
+			where	hist.salesman = #salesman#
+			group by ordr1.cust_code, cust_name, dist_type, dist_name
+		) /*select * from ordr1;*/
+		, ordr2 as (
+			select cust_code, cust_name, dist_type, dist_name
+					,sum(ordr.delv_weight) rma_weight
+					,sum(ordr.delv_amt+ordr.delv_vat) rma_amt
+			from	ordr
+				right outer join cust
+					on ordr.ordr_cust = cust.cust_code
+			where ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')
+			and	delv_date between to_char( date(#strtDate#) - interval '1 months','yyyymmdd') and to_char( date(#lastDate#) - interval '1 months','yyyymmdd')
+			group by cust_code, cust_name, dist_type, dist_name
+		)
+		, ordr3 as (
+			select cust_code, cust_name, dist_type, dist_name
+					,sum(ordr.delv_weight) rma_weight
+					,sum(ordr.delv_amt+ordr.delv_vat) rma_amt
+			from	ordr
+				right outer join cust
+					on ordr.ordr_cust = cust.cust_code
+			where ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')
+			and	delv_date between to_char( date(#strtDate#) - interval '12 months','yyyymmdd') and to_char( date(#lastDate#) - interval '12 months','yyyymmdd')
+			group by cust_code, cust_name, dist_type, dist_name
+		)
+		select ordr1.dist_type, ordr1.dist_name, ordr1.cust_code, ordr1.cust_name
+				,coalesce(ordr1.delv_weight,0.0) delv_weight
+				,coalesce(ordr1.delv_amt,0) delv_amt
+				,coalesce(ordr1.rma_weight,0.0) rma_weight
+				,coalesce(ordr1.rma_amt,0) rma_amt
+				,coalesce(round(ordr1.rma_weight / ordr1.delv_weight * 100,2), 0.0) as rma_rate
+				,coalesce(ordr2.rma_weight,0.0) rma_weight2
+				,coalesce(ordr1.rma_weight - ordr2.rma_weight,0.0) rma_dif2
+				,coalesce(ordr3.rma_weight,0.0) rma_weight3
+				,coalesce(ordr1.rma_weight - ordr3.rma_weight,0.0) rma_dif3
+		from	ordr1
+				left outer join ordr2
+					on ordr1.cust_code = ordr2.cust_code
+				left outer join ordr3
+					on ordr1.cust_code = ordr3.cust_code
+		order by ordr1.dist_type, ordr1.cust_code
+		]]>
+	</select>
+	
+	<select id="SD0608mpOrderDDAO.selectMpOrderDTab2List_D" resultClass="egovMap">
+		<![CDATA[
+		with ordr as (
+			select order_h.corp_code, order_h.delv_date, order_h.ordr_no, order_h.ordr_type
+					,order_h.ordr_cust, order_h.delv_weight as h_delv_weight, order_h.delv_amt as h_delv_amt
+					,order_d.ordr_seq, order_d.pro_code, order_d.sale_group2
+					,order_d.delv_weight, order_d.delv_amt, order_d.delv_vat
+			from	mp_order_h as order_h
+				left outer join mp_order_d as order_d
+					on order_h.corp_code = order_d.corp_code
+					and order_h.delv_date = order_d.delv_date
+					and order_h.ordr_no = order_d.ordr_no
+			where	order_h.corp_code = #corpCode#
+		)
+		, hist as (
+			select corp_code, cust_code, seq_no, start_date, last_date, part_code, salesman
+			from	mp_cust_hist
+			where	corp_code = #corpCode#
+			and	part_code like #teamCode#
+		)
+		, item as (
+			select corp_code, pro_code as item_code, pro_name as item_name/*, coalesce(sale_group2,'0') sale_group2
+					,coalesce((select code_name from tm_codexd where group_code = 'SD025' and code_id = sale_group2),'기타') sale_name*/
+			from	mp_item_master_m
+			where	corp_code = #corpCode#
+		)
+		, ordr1 as (
+			select sale_group2, coalesce((select code_name from tm_codexd where group_code = 'SD025' and code_id = sale_group2),'기타') sale_name
+					,pro_code, item_name
+					,sum(ordr1.delv_weight) delv_weight
+					,sum(ordr1.delv_amt+ordr1.delv_vat) delv_amt
+					,sum(ordr1.delv_weight) filter (where ordr1.ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')) rma_weight
+					,sum(ordr1.delv_amt+ordr1.delv_vat) filter (where ordr1.ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')) rma_amt
+			from ( 	select item.*, ordr.*
+						from	ordr
+							right outer join item
+								on ordr.pro_code = item.item_code
+						where delv_date between #strtDate# and #lastDate# ) ordr1
+					inner join hist
+						on ordr1.ordr_cust = hist.cust_code
+						and ordr1.delv_date between hist.start_date and hist.last_date
+			where	hist.salesman = #salesman#
+			group by sale_group2, pro_code, item_name
+		)
+		, ordr2 as (
+			select sale_group2, pro_code, item_name
+					,sum(ordr.delv_weight) rma_weight
+					,sum(ordr.delv_amt+ordr.delv_vat) rma_amt
+			from	ordr
+				right outer join item
+					on ordr.pro_code = item.item_code
+			where ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')
+			and	delv_date between to_char( date(#strtDate#) - interval '1 months','yyyymmdd') and to_char( date(#lastDate#) - interval '1 months','yyyymmdd')
+			group by sale_group2, pro_code, item_name
+		)
+		, ordr3 as (
+			select sale_group2, pro_code, item_name
+					,sum(ordr.delv_weight) rma_weight
+					,sum(ordr.delv_amt+ordr.delv_vat) rma_amt
+			from	ordr
+				right outer join item
+					on ordr.pro_code = item.item_code
+			where ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')
+			and	delv_date between to_char( date(#strtDate#) - interval '12 months','yyyymmdd') and to_char( date(#lastDate#) - interval '12 months','yyyymmdd')
+			group by sale_group2, pro_code, item_name
+		)
+		select ordr1.sale_group2, ordr1.sale_name, ordr1.pro_code, ordr1.item_name
+				,coalesce(ordr1.delv_weight,0.0) delv_weight
+				,coalesce(ordr1.delv_amt,0) delv_amt
+				,coalesce(ordr1.rma_weight,0.0) rma_weight
+				,coalesce(ordr1.rma_amt,0) rma_amt
+				,coalesce(round(ordr1.rma_weight / ordr1.delv_weight * 100,2), 0.0) as rma_rate
+				,coalesce(ordr2.rma_weight,0.0) rma_weight2
+				,coalesce(ordr1.rma_weight - ordr2.rma_weight,0.0) rma_dif2
+				,coalesce(ordr3.rma_weight,0.0) rma_weight3
+				,coalesce(ordr1.rma_weight - ordr3.rma_weight,0.0) rma_dif3
+		from	ordr1
+				left outer join ordr2
+					on ordr1.pro_code = ordr2.pro_code
+				left outer join ordr3
+					on ordr1.pro_code = ordr3.pro_code
+		order by ordr1.sale_group2, ordr1.pro_code
+		]]>
+	</select>	
+	
+	<select id="SD0608mpOrderDDAO.selectMpOrderDTab3List_D" resultClass="egovMap">
+		<![CDATA[
+		with ordr as (
+			select order_h.corp_code, order_h.delv_date, order_h.ordr_no, order_h.ordr_type
+					,order_h.ordr_cust, order_h.delv_weight as h_delv_weight, order_h.delv_amt as h_delv_amt
+					,order_d.ordr_seq, order_d.pro_code, order_d.sale_group2
+					,order_d.delv_weight, order_d.delv_amt, order_d.delv_vat
+			from	mp_order_h as order_h
+				left outer join mp_order_d as order_d
+					on order_h.corp_code = order_d.corp_code
+					and order_h.delv_date = order_d.delv_date
+					and order_h.ordr_no = order_d.ordr_no
+			where	order_h.corp_code = #corpCode#
+		)
+		, hist as (
+			select corp_code, cust_code, seq_no, start_date, last_date, part_code, salesman
+			from	mp_cust_hist
+			where	corp_code = #corpCode#
+			and	part_code like #teamCode#
+		)
+		, item as (
+			select corp_code, pro_code as item_code, pro_name as item_name/*, coalesce(sale_group2,'0') sale_group2
+					,coalesce((select code_name from tm_codexd where group_code = 'SD025' and code_id = sale_group2),'기타') sale_name*/
+			from	mp_item_master_m
+			where	corp_code = #corpCode#
+		)
+		, rcpt as (
+			select client, dealde, rcpttp, erpslipno, erpslipsn, sku, rtnrsntp
+				,(select code_name from tm_codexd where group_code='RcptRtnRsnTp' and code_id = rtnrsntp) rtnr_name
+			from	(	select *
+						from	openmps.rc_rcpthd
+						where	client = #corpCode#
+						and	rcpttp in ('R31','R32','R33')
+						and	stat != '99' ) rcpthd
+					left outer join
+					(	select rcptno, rcptsn, dc, biz, sku, amt, rtnrsntp, erpslipsn
+						from	openmps.rc_rcptdt
+						where	1=1 /*rtnrsntp != 'None'*/
+						and	stat != '99' ) rcptdt
+					on	rcpthd.rcptno = rcptdt.rcptno
+					and rcpthd.dc = rcptdt.dc
+					and rcpthd.biz = rcptdt.biz
+		)
+		, ordr1 as (
+			select rcpt.rtnrsntp, rcpt.rtnr_name
+					,pro_code, item_name
+					,sum(ordr1.delv_weight) delv_weight
+					,sum(ordr1.delv_amt+ordr1.delv_vat) delv_amt
+					,sum(ordr1.delv_weight) filter (where ordr1.ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')) rma_weight
+					,sum(ordr1.delv_amt+ordr1.delv_vat) filter (where ordr1.ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')) rma_amt
+			from ( 	select item.*, ordr.*
+						from	ordr
+							right outer join item
+								on ordr.pro_code = item.item_code
+						where delv_date between #strtDate# and #lastDate# ) ordr1
+					inner join hist
+						on ordr1.ordr_cust = hist.cust_code
+						and ordr1.delv_date between hist.start_date and hist.last_date
+					left outer join rcpt
+						on ordr1.delv_date = rcpt.dealde
+						and ordr1.ordr_no = rcpt.erpslipno
+						and ordr1.pro_code = rcpt.sku
+			where	hist.salesman = #salesman#
+			group by rcpt.rtnrsntp, rcpt.rtnr_name, pro_code, item_name
+		)
+		, ordr2 as (
+			select rcpt.rtnrsntp, rcpt.rtnr_name, pro_code, item_name
+					,sum(ordr.delv_weight) rma_weight
+					,sum(ordr.delv_amt+ordr.delv_vat) rma_amt
+			from	ordr
+				right outer join item
+					on ordr.pro_code = item.item_code
+				left outer join rcpt
+					on ordr.delv_date = rcpt.dealde
+					and ordr.ordr_no = rcpt.erpslipno
+					and ordr.pro_code = rcpt.sku
+			where ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')
+			and	delv_date between to_char( date(#strtDate#) - interval '1 months','yyyymmdd') and to_char( date(#lastDate#) - interval '1 months','yyyymmdd')
+			group by rcpt.rtnrsntp, rcpt.rtnr_name, pro_code, item_name
+		)
+		, ordr3 as (
+			select rcpt.rtnrsntp, rcpt.rtnr_name, pro_code, item_name
+					,sum(ordr.delv_weight) rma_weight
+					,sum(ordr.delv_amt+ordr.delv_vat) rma_amt
+			from	ordr
+				right outer join item
+					on ordr.pro_code = item.item_code
+				left outer join rcpt
+					on ordr.delv_date = rcpt.dealde
+					and ordr.ordr_no = rcpt.erpslipno
+					and ordr.pro_code = rcpt.sku
+			where ordr_type in (select code_id from tm_codexd where group_code = 'SD017' and etc04 = 'RMA')
+			and	delv_date between to_char( date(#strtDate#) - interval '12 months','yyyymmdd') and to_char( date(#lastDate#) - interval '12 months','yyyymmdd')
+			group by rcpt.rtnrsntp, rcpt.rtnr_name, pro_code, item_name
+		)
+		select ordr1.rtnrsntp, ordr1.rtnr_name, ordr1.pro_code, ordr1.item_name
+				,coalesce(ordr1.delv_weight,0.0) delv_weight
+				,coalesce(ordr1.delv_amt,0) delv_amt
+				,coalesce(ordr1.rma_weight,0.0) rma_weight
+				,coalesce(ordr1.rma_amt,0) rma_amt
+				,coalesce(round(ordr1.rma_weight / ordr1.delv_weight * 100,2), 0.0) as rma_rate
+				,coalesce(ordr2.rma_weight,0.0) rma_weight2
+				,coalesce(ordr1.rma_weight - ordr2.rma_weight,0.0) rma_dif2
+				,coalesce(ordr3.rma_weight,0.0) rma_weight3
+				,coalesce(ordr1.rma_weight - ordr3.rma_weight,0.0) rma_dif3
+		from	ordr1
+				left outer join ordr2
+					on ordr1.rtnrsntp = ordr2.rtnrsntp
+					and ordr1.pro_code = ordr2.pro_code
+				left outer join ordr3
+					on ordr1.rtnrsntp = ordr3.rtnrsntp
+					and ordr1.pro_code = ordr3.pro_code
+		order by ordr1.rtnrsntp, ordr1.pro_code
+		]]>
+	</select>		
+		
+</sqlMap>

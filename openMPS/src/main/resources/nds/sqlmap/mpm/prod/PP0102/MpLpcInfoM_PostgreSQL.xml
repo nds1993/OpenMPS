@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpLpcInfoM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpLpcInfoMSerarchVO" type="nds.mpm.prod.PP0102.vo.MpLpcInfoMVO"/>
+	
+	<resultMap id="mpLpcInfoM" class="nds.mpm.prod.PP0102.vo.MpLpcInfoMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="lpcCode" column="lpc_code" columnIndex="2"/>
+		<result property="lpcName" column="lpc_name" columnIndex="3"/>
+		<result property="sumaeCode" column="sumae_code" columnIndex="4"/>
+		<result property="lpcType" column="lpc_type" columnIndex="5"/>
+		<result property="etc01" column="etc01" columnIndex="6"/>
+		<result property="etc02" column="etc02" columnIndex="7"/>
+		<result property="etc03" column="etc03" columnIndex="8"/>
+		<result property="etc04" column="etc04" columnIndex="9"/>
+		<result property="etc05" column="etc05" columnIndex="10"/>
+		<result property="memo" column="memo" columnIndex="11"/>
+		<result property="deleYn" column="dele_yn" columnIndex="12"/>
+		<result property="mdUser" column="md_user" columnIndex="13"/>
+		<result property="mdDate" column="md_date" columnIndex="14"/>
+		<result property="crUser" column="cr_user" columnIndex="15"/>
+		<result property="crDate" column="cr_date" columnIndex="16"/>
+	</resultMap>
+	
+	<insert id="mpLpcInfoMDAO.insertMpLpcInfoM">
+		<![CDATA[
+			INSERT INTO openmps.mp_lpc_info_m 
+				( corp_code
+				  , lpc_code
+				  , lpc_name
+				  , sumae_code
+				  , lpc_type
+				  , etc01
+				  , etc02
+				  , etc03
+				  , etc04
+				  , etc05
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , (select coalesce(max(lpc_code::integer), 0) from openmps.mp_lpc_info_m) + 1
+				  , #lpcName#
+				  , #sumaeCode#
+				  , #lpcType#
+				  , #etc01#
+				  , #etc02#
+				  , #etc03#
+				  , #etc04#
+				  , #etc05#
+				  , #memo#
+				  , #deleYn#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="mpLpcInfoMDAO.updateMpLpcInfoM">
+		<![CDATA[
+			UPDATE openmps.mp_lpc_info_m
+			SET sumae_code=#sumaeCode#
+				, lpc_type=#lpcType#
+				, etc01=#etc01#
+				, etc02=#etc02#
+				, etc03=#etc03#
+				, etc04=#etc04#
+				, etc05=#etc05#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND lpc_code=#lpcCode#
+				]]>
+	</update>
+	
+	<delete id="mpLpcInfoMDAO.deleteMpLpcInfoM">
+		<![CDATA[
+			update openmps.mp_lpc_info_m 
+						set dele_yn = 'Y'
+						, md_user = #mdUser#
+						, md_date = now() 
+						WHERE corp_code=#corpCode#
+								AND lpc_code=#lpcCode#
+				]]>
+	</delete>
+	
+	<select id="mpLpcInfoMDAO.selectMpLpcInfoM_S" resultMap="mpLpcInfoM">
+			SELECT
+				*
+			FROM openmps.mp_lpc_info_m
+						WHERE corp_code=#corpCode#
+			<dynamic> 
+				 <isNotEmpty prepend="and" property="plantCode">
+		            a.plant_code = #plantCode#
+		         </isNotEmpty>
+		         <isNotEmpty prepend="and" property="plantName">
+		            a.plant_name = #plantName#
+		         </isNotEmpty>
+			</dynamic>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	from openmps.mp_lpc_info_m a
+		where a.dele_yn = 'N'
+		<dynamic> 
+			 <isNotEmpty prepend="and" property="lpcCode">
+	            a.lpc_code = #lpcCode#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="lpcName">
+	            a.lpc_name = #lpcName#
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="mpLpcInfoMDAO.selectMpLpcInfoMList_D" parameterClass="mpLpcInfoMSerarchVO" resultClass="egovMap">
+		SELECT
+				*
+			<include refid="selectWhere_fragment"/>
+	</select>	
+	<select id="mpLpcInfoMDAO.selectMpLpcInfoMListTotCnt_S" parameterClass="mpLpcInfoMSerarchVO" resultClass="int">
+		SELECT
+				count(*)
+			<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

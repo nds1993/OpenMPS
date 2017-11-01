@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpCreditLimit">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpCreditLimitSerarchVO" type="nds.mpm.sales.SD0101.vo.MpCreditLimitVO"/>
+	
+	<resultMap id="mpCreditLimit" class="nds.mpm.sales.SD0101.vo.MpCreditLimitVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="custCode" column="cust_code" columnIndex="2"/>
+		<result property="seqNo" column="seq_no" columnIndex="3"/>
+		<result property="startDate" column="start_date" columnIndex="4"/>
+		<result property="lastDate" column="last_date" columnIndex="5"/>
+		<result property="baseLimit" column="base_limit" columnIndex="6"/>
+		<result property="oneLimit" column="one_limit" columnIndex="7"/>
+		<result property="tempLimit" column="temp_limit" columnIndex="8"/>
+		<result property="crUser" column="cr_user" columnIndex="9"/>
+		<result property="crDate" column="cr_date" columnIndex="10"/>
+		<result property="mdUser" column="md_user" columnIndex="11"/>
+		<result property="mdDate" column="md_date" columnIndex="12"/>
+	</resultMap>
+	
+	<insert id="mpCreditLimitDAO.insertMpCreditLimit" >
+		<selectKey keyProperty="seqNo" resultClass="string">
+		    select (coalesce(max(seq_no::integer),0)+1)::varchar from mp_credit_limit where corp_code = #corpCode# and cust_code = #custCode#
+		</selectKey>
+		<![CDATA[
+			INSERT INTO mp_credit_limit 
+				( corp_code
+				  , cust_code
+				  , seq_no
+				  , start_date
+				  , last_date
+				  , base_limit
+				  , one_limit
+				  , temp_limit
+				  , appro_yn
+				  , cr_user
+				  , cr_date
+				  , md_user
+				  , md_date )
+			VALUES ( #corpCode#
+				  , #custCode#
+				  , #seqNo#::numeric
+				  , #startDate#
+				  , #lastDate#
+				  , #baseLimit#::numeric
+				  , #oneLimit#::numeric
+				  , 0
+				  , 'N'
+				  , #crUser#
+				  , now()
+				  , #mdUser#
+				  , #mdDate# )
+		]]>
+	</insert>
+	
+	<update id="mpCreditLimitDAO.updateMpCreditLimit">
+		<![CDATA[
+			UPDATE mp_credit_limit
+			SET start_date=#startDate#
+				, last_date=#lastDate#
+				, base_limit=#baseLimit#::numeric
+				, one_limit=#oneLimit#::numeric
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								and seq_no=#seqNo#::numeric
+				]]>
+	</update>
+	
+	<update id="mpCreditLimitDAO.updateApproMpCreditLimit">
+		<![CDATA[
+			UPDATE mp_credit_limit
+			SET 
+				appro_yn=#approYn#
+				appro_user=#mdUser#
+				appro_date=now()
+				md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								and seq_no=#seqNo#::numeric
+				]]>
+	</update>
+	
+	<delete id="mpCreditLimitDAO.deleteMpCreditLimit">
+		<![CDATA[
+			DELETE FROM mp_credit_limit 
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								and seq_no=#seqNo#::numeric
+				]]>
+	</delete>
+	
+	<select id="mpCreditLimitDAO.selectMpCreditLimit_S" resultMap="mpCreditLimit">
+		<![CDATA[
+			SELECT
+				corp_code
+				, cust_code
+				, seq_no
+				, start_date
+				, last_date
+				, base_limit
+				, one_limit
+				, temp_limit
+				, cr_user
+				, cr_date
+				, md_user
+				, md_date
+			FROM mp_credit_limit
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM 
+			mp_credit_limit c 
+			left outer join tm_userxm e on ( c.cr_user = e.user_code )
+			left outer join tm_userxm f on ( c.appro_user = f.user_code )
+			where 
+			c.corp_code = #corpCode#
+			 <isNotEmpty prepend="and" property="custCode">
+			 c.cust_code = #custCode#
+	         </isNotEmpty>
+	</sql>
+	<select id="mpCreditLimitDAO.selectMpCreditLimitList_D" parameterClass="mpCreditLimitSerarchVO" resultClass="egovMap">
+		SELECT
+				c.corp_code
+				, c.cust_code
+				, c.seq_no
+				, c.start_date
+				, c.last_date
+				, c.base_limit
+				, c.one_limit
+				, c.temp_limit
+				, c.cr_user
+				, e.user_name as cr_user_name
+				, c.cr_date
+				, c.appro_yn
+				, c.appro_user
+				, f.user_name appro_user_name
+				, to_char(c.appro_date,'YYYY-MM-DD HH:mi:ss') as appro_date
+		<include refid="selectWhere_fragment"/>
+		order by seq_no
+	</select>	
+	<select id="mpCreditLimitDAO.selectMpCreditLimitListTotCnt_S" parameterClass="mpCreditLimitSerarchVO" resultClass="int">
+		select 
+			count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

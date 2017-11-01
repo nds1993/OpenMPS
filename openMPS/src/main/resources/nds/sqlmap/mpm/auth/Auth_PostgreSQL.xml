@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Auth">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="authSerarchVO" type="nds.mpm.auth.vo.AuthVO"/>
+	
+	<select id="authDAO.selectDeptList" parameterClass="authSerarchVO" resultClass="egovMap">
+		SELECT 
+		corp_code
+		, dept_code as code_id
+		, dept_name as code_name
+		, head_code
+		, team_code
+		from tm_deptxm
+		where corp_code = #corpCode#
+		and use_yn = 'Y'
+		order by dept_code		
+	</select>
+	
+	<select id="authDAO.selectUserList" parameterClass="authSerarchVO" resultClass="egovMap">
+		SELECT 
+		corp_code
+		, user_code as code_id
+		, user_name as code_name
+		from tm_userxm
+		where corp_code = #corpCode#
+		and use_yn = 'Y'
+		<isNotEmpty property="partCode">
+		and dept_code=#partCode#
+		</isNotEmpty>
+		order by user_code		
+	</select>	
+
+</sqlMap>

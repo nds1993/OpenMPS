@@ -1,0 +1,19 @@
+{
+  "name": "jqGrid4",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "jqgrid4-1.0.0.js",
+  	"manager": "jqgrid4.manager-1.0.0.js"
+  },
+  "resource": {
+  	"template": "resource.html"
+  },
+  "dependencies":
+  [
+	"Logger",
+	"BaroPanelBase"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  }
+}

@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Openapi" >
+
+  <!-- 돼지도체 경락가격 연계 -->
+  <insert id="insert" parameterClass="nds.mpm.api.openApi.service.OpenapiVO" >
+     INSERT INTO openmps.if_piggxm 
+  		  (
+			grade_type,
+			start_ymd,
+			end_ymd,
+			grade_cd,
+			grade_nm,
+			skin_yn,
+			skin_nm,
+			judge_sex_cd,
+			judge_sex_nm,
+			c_0101_amt,
+			c_0101_cnt,
+			c_0320_amt,
+			c_0320_cnt,
+			c_0302_amt,
+			c_0302_cnt,
+			c_1301_amt,
+			c_1301_cnt,
+			c_0323_amt,
+			c_0323_cnt,
+			c_city_amt,
+			c_city_cnt,
+			c_0513_amt,
+			c_0513_cnt,
+			c_1005_amt,
+			c_1005_cnt,
+			c_0202_amt,
+			c_0202_cnt,
+			c_0201_amt,
+			c_0201_cnt,
+			c_1201_amt,
+			c_1201_cnt,
+			c_0905_amt,
+			c_0905_cnt,
+			c_east_amt,
+			c_east_cnt,
+			c_0714_amt,
+			c_0714_cnt,
+			c_0809_amt,
+			c_0809_cnt,
+			c_1401_amt,
+			c_1401_cnt,
+			c_west_amt,
+			c_west_cnt,
+			c_1101_amt,
+			c_1101_cnt,
+			c_tot_amt,
+			c_tot_cnt,
+			c_1101e_tot_amt,
+			c_1101e_tot_cnt,
+			inst_usid,
+			inst_date,
+			result_code,
+			result_msg
+  		    )
+   values (
+   			#gradeType:VARCHAR#, 
+    	    #startYmd:VARCHAR#, 
+    	    #endYmd:VARCHAR#, 
+            #gradeCd:VARCHAR#, 
+            #gradeNm:VARCHAR#, 
+            #skinYn:VARCHAR#, 
+   			#skinNm:VARCHAR#, 
+    	    #judgeSexCd:VARCHAR#, 
+    	    #judgeSexNm:VARCHAR#, 
+            #c_0101Amt:VARCHAR#, 
+            #c_0101Cnt:VARCHAR#, 
+            #c_0320Amt:VARCHAR#, 
+   			#c_0320Cnt:VARCHAR#, 
+    	    #c_0302Amt:VARCHAR#, 
+    	    #c_0302Cnt:VARCHAR#, 
+            #c_1301Amt:VARCHAR#, 
+            #c_1301Cnt:VARCHAR#, 
+            #c_0323Amt:VARCHAR#, 
+   			#c_0323Cnt:VARCHAR#, 
+    	    #CCityAmt:VARCHAR#, 
+    	    #CCityCnt:VARCHAR#, 
+            #c_0513Amt:VARCHAR#, 
+            #c_0513Cnt:VARCHAR#, 
+            #c_1005Amt:VARCHAR#, 
+   			#c_1005Cnt:VARCHAR#, 
+    	    #c_0202Amt:VARCHAR#, 
+    	    #c_0202Cnt:VARCHAR#, 
+            #c_0201Amt:VARCHAR#, 
+            #c_0201Cnt:VARCHAR#, 
+            #c_1201Amt:VARCHAR#, 
+   			#c_1201Cnt:VARCHAR#, 
+    	    #c_0905Amt:VARCHAR#, 
+    	    #c_0905Cnt:VARCHAR#, 
+            #CEastAmt:VARCHAR#, 
+            #CEastCnt:VARCHAR#, 
+            #c_0714Amt:VARCHAR#, 
+   			#c_0714Cnt:VARCHAR#, 
+    	    #c_0809Amt:VARCHAR#, 
+    	    #c_0809Cnt:VARCHAR#, 
+            #c_1401Amt:VARCHAR#, 
+            #c_1401Cnt:VARCHAR#, 
+            #CWestAmt:VARCHAR#, 
+            #CWestCnt:VARCHAR#, 
+    	    #c_1101Amt:VARCHAR#, 
+    	    #c_1101Cnt:VARCHAR#, 
+            #CTotAmt:VARCHAR#, 
+            #CTotCnt:VARCHAR#, 
+            #c_1101eTotAmt:VARCHAR#, 
+            #c_1101eTotCnt:VARCHAR#,
+            'system', 
+			NOW(),
+            #resultcode:VARCHAR#, 
+            #resultmsg:VARCHAR#
+			)
+    ON CONFLICT (start_ymd, end_ymd, grade_cd, skin_yn, judge_sex_cd)
+    DO UPDATE SET
+    		grade_type   = #gradeType:VARCHAR#, 
+    	    start_ymd    = #startYmd:VARCHAR#, 
+    	    end_ymd      = #endYmd:VARCHAR#, 
+            grade_cd     = #gradeCd:VARCHAR#, 
+            grade_nm     = #gradeNm:VARCHAR#, 
+            skin_yn      = #skinYn:VARCHAR#, 
+   			skin_nm      = #skinNm:VARCHAR#, 
+    	    judge_sex_cd = #judgeSexCd:VARCHAR#, 
+    	    judge_sex_nm = #judgeSexNm:VARCHAR#, 
+            c_0101_amt   = #c_0101Amt:VARCHAR#, 
+            c_0101_cnt   = #c_0101Cnt:VARCHAR#, 
+            c_0320_amt   = #c_0320Amt:VARCHAR#, 
+   			c_0320_cnt   = #c_0320Cnt:VARCHAR#, 
+    	    c_0302_amt   = #c_0302Amt:VARCHAR#, 
+    	    c_0302_cnt   = #c_0302Cnt:VARCHAR#, 
+            c_1301_amt   = #c_1301Amt:VARCHAR#, 
+            c_1301_cnt   = #c_1301Cnt:VARCHAR#, 
+            c_0323_amt   = #c_0323Amt:VARCHAR#, 
+   			c_0323_cnt   = #c_0323Cnt:VARCHAR#, 
+    	    c_city_amt   = #CCityAmt:VARCHAR#, 
+    	    c_city_cnt   = #CCityCnt:VARCHAR#, 
+            c_0513_amt   = #c_0513Amt:VARCHAR#, 
+            c_0513_cnt   = #c_0513Cnt:VARCHAR#, 
+            c_1005_amt   = #c_1005Amt:VARCHAR#, 
+   			c_1005_cnt   = #c_1005Cnt:VARCHAR#, 
+    	    c_0202_amt   = #c_0202Amt:VARCHAR#, 
+    	    c_0202_cnt   = #c_0202Cnt:VARCHAR#, 
+            c_0201_amt   = #c_0201Amt:VARCHAR#, 
+            c_0201_cnt   = #c_0201Cnt:VARCHAR#, 
+            c_1201_amt   = #c_1201Amt:VARCHAR#, 
+   			c_1201_cnt   = #c_1201Cnt:VARCHAR#, 
+    	    c_0905_amt   = #c_0905Amt:VARCHAR#, 
+    	    c_0905_cnt   = #c_0905Cnt:VARCHAR#, 
+            C_east_amt   = #CEastAmt:VARCHAR#, 
+            c_east_cnt   = #CEastCnt:VARCHAR#, 
+            c_0714_amt   = #c_0714Amt:VARCHAR#, 
+   			c_0714_cnt   = #c_0714Cnt:VARCHAR#, 
+    	    c_0809_amt   = #c_0809Amt:VARCHAR#, 
+    	    c_0809_cnt   = #c_0809Cnt:VARCHAR#, 
+            c_1401_amt   = #c_1401Amt:VARCHAR#, 
+            c_1401_cnt   = #c_1401Cnt:VARCHAR#, 
+            c_west_amt   = #CWestAmt:VARCHAR#, 
+            c_west_cnt   = #CWestCnt:VARCHAR#, 
+    	    c_1101_amt   = #c_1101Amt:VARCHAR#, 
+    	    c_1101_cnt   = #c_1101Cnt:VARCHAR#, 
+            c_tot_amt    = #CTotAmt:VARCHAR#, 
+            c_tot_cnt    = #CTotCnt:VARCHAR#, 
+            c_1101e_tot_amt = #c_1101eTotAmt:VARCHAR#, 
+            c_1101e_tot_cnt = #c_1101eTotCnt:VARCHAR#,
+            updt_usid   = 'update', 
+            updt_date   = NOW(),
+            result_code = #resultcode:VARCHAR#, 
+            result_msg  = #resultmsg:VARCHAR#
+   </insert>
+
+  <!-- 돼지 이력정보 -->
+  <insert id="insertTrace" parameterClass="nds.mpm.api.openApi.service.OpenapiVO" >
+     INSERT INTO openmps.if_trcexm 
+  		  (
+  		   	trace_no_type, 			   					
+  		    info_type, 
+  		    farm_addr, 
+  		    farmer_nm, 
+  		    farm_unique_no,
+  		    pig_no, 
+  		    butchery_place_addr, 
+  		    butchery_place_nm, 
+  		    butchery_ymd,
+  		   	inspect_pass_yn, 
+  		    grade_nm, 
+  		    process_place_addr, 
+  		    process_ymd, 
+  		    corp_no,
+  		    lot_no, 
+  		    process_place_nm, 
+  		    inst_usid, 
+  		    inst_date,
+  		    result_code, 
+  		    result_msg
+  		     )
+   values (
+   			#traceNoType:VARCHAR#, 
+    	    #infoType:VARCHAR#, 
+    	    #farmAddr:VARCHAR#, 
+            #farmerNm:VARCHAR#, 
+            #farmUniqueNo:VARCHAR#, 
+            #pigNo:VARCHAR#, 
+   			#butcheryPlaceAddr:VARCHAR#, 
+    	    #butcheryPlaceNm:VARCHAR#, 
+    	    #butcheryYmd:VARCHAR#, 
+            #inspectPassYn:VARCHAR#, 
+            #gradeNm:VARCHAR#, 
+            #processPlaceAddr:VARCHAR#, 
+   			#processYmd:VARCHAR#, 
+    	    #corpNo:VARCHAR#, 
+    	    #lotNo:VARCHAR#, 
+            #processPlaceNm:VARCHAR#, 
+            'system', 
+			NOW(),
+            #resultcode:VARCHAR#, 
+            #resultmsg:VARCHAR#
+			)
+    ON CONFLICT (trace_no_type, info_type, pig_no)
+    DO UPDATE SET
+   			trace_no_type        = #traceNoType:VARCHAR#, 
+    	    info_type            = #infoType:VARCHAR#, 
+    	    farm_addr            = #farmAddr:VARCHAR#, 
+            farmer_nm            = #farmerNm:VARCHAR#, 
+            farm_unique_no       = #farmUniqueNo:VARCHAR#, 
+            pig_no               = #pigNo:VARCHAR#, 
+   			butchery_place_addr  = #butcheryPlaceAddr:VARCHAR#, 
+    	    butchery_place_nm    = #butcheryPlaceNm:VARCHAR#, 
+    	    butchery_ymd         = #butcheryYmd:VARCHAR#, 
+            inspect_pass_yn      = #inspectPassYn:VARCHAR#, 
+            grade_nm             = #gradeNm:VARCHAR#, 
+            process_place_addr   = #processPlaceAddr:VARCHAR#, 
+   			process_ymd          = #processYmd:VARCHAR#, 
+    	    corp_no              = #corpNo:VARCHAR#, 
+    	    lot_no               = #lotNo:VARCHAR#, 
+            process_place_nm     = #processPlaceNm:VARCHAR#, 
+            updt_usid            = 'update', 
+            updt_date            = NOW(),
+            result_code          = #resultcode:VARCHAR#, 
+            result_msg           = #resultmsg:VARCHAR#
+   </insert>
+   
+  <!-- 등급판정결과(확인서) -->
+  <insert id="insertConfirm" parameterClass="nds.mpm.api.openApi.service.OpenapiVO" >
+     INSERT INTO openmps.if_confxm 
+  		  (
+  		   	issue_no, 			   					
+  		    issue_date, 
+  		    judge_kind_cd, 
+  		    judge_kind_nm, 
+  		    rater_code,
+  		    rater_nm, 
+  		    abatt_code, 
+  		    mgr_abatt_nm, 
+  		    abatt_addr,
+  		   	abatt_tel_no, 
+  		    req_name, 
+  		    req_reg_no, 
+  		    req_com_name, 
+  		    req_addr,
+  		    req_telno, 
+  		    judge_date, 
+  		    abatt_no2, 
+  		    grade_cd,
+  		    grade_nm, 
+  		    abatt_weight, 
+  		    total_weight, 
+  		    total_issue_cnt,
+			inst_usid,
+			inst_date,
+  		    result_code, 
+  		    result_msg
+  		     )
+   values (
+   			#issueNo:VARCHAR#, 
+    	    #issueDate:VARCHAR#, 
+    	    #judgeKindCd:VARCHAR#, 
+            #judgeKindNm:VARCHAR#, 
+            #raterCode:VARCHAR#, 
+            #raterNm:VARCHAR#, 
+   			#abattCode:VARCHAR#, 
+    	    #mgrAbattNm:VARCHAR#, 
+    	    #abattAddr:VARCHAR#, 
+            #abattTelNo:VARCHAR#, 
+            #reqName:VARCHAR#, 
+            #reqRegNo:VARCHAR#, 
+   			#reqComName:VARCHAR#, 
+    	    #reqAddr:VARCHAR#, 
+    	    #reqTelno:VARCHAR#, 
+            #judgeDate:VARCHAR#, 
+            #abattNo2:VARCHAR#, 
+   			#gradeCd:VARCHAR#, 
+    	    #gradeNm:VARCHAR#, 
+    	    #abattWeight:VARCHAR#, 
+            #totalWeight:VARCHAR#, 
+            #totalIssueCnt:VARCHAR#, 
+            'system', 
+			NOW(),
+            #resultcode:VARCHAR#, 
+            #resultmsg:VARCHAR#
+			)
+    ON CONFLICT (issue_no, abatt_no2)
+    DO UPDATE SET
+   			issue_no         = #issueNo:VARCHAR#, 
+    	    issue_date       = #issueDate:VARCHAR#, 
+    	    judge_kind_cd    = #judgeKindCd:VARCHAR#, 
+            judge_kind_nm    = #judgeKindNm:VARCHAR#, 
+            rater_code       = #raterCode:VARCHAR#, 
+            rater_nm         = #raterNm:VARCHAR#, 
+   			abatt_code       = #abattCode:VARCHAR#, 
+    	    mgr_abatt_nm     = #mgrAbattNm:VARCHAR#, 
+    	    abatt_addr       = #abattAddr:VARCHAR#, 
+            abatt_tel_no     = #abattTelNo:VARCHAR#, 
+            req_name         = #reqName:VARCHAR#, 
+            req_reg_no       = #reqRegNo:VARCHAR#, 
+   			req_com_name     = #reqComName:VARCHAR#, 
+    	    req_addr         = #reqAddr:VARCHAR#, 
+    	    req_telno        = #reqTelno:VARCHAR#, 
+            judge_date       = #judgeDate:VARCHAR#, 
+            abatt_no2        = #abattNo2:VARCHAR#, 
+   			grade_cd         = #gradeCd:VARCHAR#, 
+    	    grade_nm         = #gradeNm:VARCHAR#, 
+    	    abatt_weight     = #abattWeight:VARCHAR#, 
+            total_weight     = #totalWeight:VARCHAR#, 
+            total_issue_cnt  = #totalIssueCnt:VARCHAR#,  
+            updt_usid        = 'update', 
+            updt_date        = NOW(),
+            result_code      = #resultcode:VARCHAR#, 
+            result_msg       = #resultmsg:VARCHAR#
+   </insert>
+   
+  <!-- 등급판정결과 상세 -->
+   <insert id="insertConfirmDetail" parameterClass="nds.mpm.api.openApi.service.OpenapiVO" >
+     INSERT INTO openmps.if_confxd 
+  		  (
+  		   	issue_no, 			   					
+  		    issue_date, 
+  		    meat_type, 
+  		    cutmeat_code, 
+  		    cutmeat_name,
+  		    cutmeat_weight, 
+  		    cutmeat_rate, 
+			inst_usid,
+			inst_date,
+  		    result_code, 
+  		    result_msg
+  		     )
+   values (
+   			#issueNo:VARCHAR#, 
+    	    #issueDate:VARCHAR#, 
+    	    #meatType:VARCHAR#, 
+            #cutmeatCode:VARCHAR#, 
+            #cutmeatName:VARCHAR#, 
+            #cutmeatWeight:VARCHAR#, 
+   			#cutmeatRate:VARCHAR#, 
+            'system', 
+			NOW(),
+            #resultcode:VARCHAR#, 
+            #resultmsg:VARCHAR#
+			)
+    ON CONFLICT (issue_no, issue_date, cutmeat_code)
+    DO UPDATE SET
+   			issue_no        = #issueNo:VARCHAR#, 
+    	    issue_date      = #issueDate:VARCHAR#, 
+    	    meat_type       = #meatType:VARCHAR#, 
+            cutmeat_code    = #cutmeatCode:VARCHAR#, 
+            cutmeat_name    = #cutmeatName:VARCHAR#, 
+            cutmeat_weight  = #cutmeatWeight:VARCHAR#, 
+   			cutmeat_rate    = #cutmeatRate:VARCHAR#, 
+            updt_usid       = 'update', 
+            updt_date       = NOW(),
+            result_code     = #resultcode:VARCHAR#, 
+            result_msg      = #resultmsg:VARCHAR#
+   </insert>
+   
+     <!-- 축산물등급판정확인서  발급번호정보 -->
+   <insert id="insertConfirmNo" parameterClass="nds.mpm.api.openApi.service.OpenapiVO" >
+     INSERT INTO openmps.if_confno 
+  		  (
+  		   	animal_no, 			   					
+  		    judge_kind_nm, 
+  		    abatt_nm, 
+  		    abatt_date, 
+  		    judge_date,
+  		    issue_date, 
+  		    issue_no, 
+			inst_usid,
+			inst_date,
+  		    result_code, 
+  		    result_msg
+  		     )
+   values (
+   			#animalNo:VARCHAR#, 
+    	    #judgeKindNm:VARCHAR#, 
+    	    #abattNm:VARCHAR#, 
+            #abattDate:VARCHAR#, 
+            #judgeDate:VARCHAR#, 
+            #issueDate:VARCHAR#, 
+   			#issueNo:VARCHAR#, 
+            'system', 
+			NOW(),
+            #resultcode:VARCHAR#, 
+            #resultmsg:VARCHAR#
+			)
+    ON CONFLICT (animal_no, issue_no)
+    DO UPDATE SET
+   			animal_no        = #animalNo:VARCHAR#, 
+    	    judge_kind_nm    = #judgeKindNm:VARCHAR#, 
+    	    abatt_nm         = #abattNm:VARCHAR#, 
+            abatt_date       = #abattDate:VARCHAR#, 
+            judge_date       = #judgeDate:VARCHAR#, 
+            issue_date       = #issueDate:VARCHAR#, 
+   			issue_no         = #issueNo:VARCHAR#, 
+            updt_usid        = 'update', 
+            updt_date        = NOW(),
+            result_code      = #resultcode:VARCHAR#, 
+            result_msg       = #resultmsg:VARCHAR#
+   </insert>
+   
+  <!-- 등급별경매현황정보 -->
+    <insert id="insertGrade" parameterClass="nds.mpm.api.openApi.service.OpenapiVO" >
+     INSERT INTO openmps.if_lapgxm 
+  		  (
+  		   	auct_date, 			   					
+  		    abatt_code, 
+  		    skin_yn, 
+  		    judge_sex_cd, 
+  		    abatt_nm,
+  		    skin_nm, 
+  		    judge_sex_nm, 
+  		    auct_1_amt, 			   					
+  		    auct_2_amt, 
+  		    auct_3_amt, 
+  		    auct_e_amt, 
+  		    auct_except_amt,
+  		    total_auct_amt, 
+  		    total_auct_cnt, 
+			inst_usid,
+			inst_date,
+  		    result_code, 
+  		    result_msg
+  		     )
+   values (
+   			#auctDate:VARCHAR#, 
+    	    #abattCode:VARCHAR#, 
+    	    #skinYn:VARCHAR#, 
+            #judgeSexCd:VARCHAR#, 
+            #abattNm:VARCHAR#, 
+            #skinNm:VARCHAR#, 
+   			#judgeSexNm:VARCHAR#, 
+   			#auct_1Amt:VARCHAR#, 
+    	    #auct_2Amt:VARCHAR#, 
+    	    #auct_3Amt:VARCHAR#, 
+            #auctEAmt:VARCHAR#, 
+            #auctEExceptAmt:VARCHAR#, 
+            #totalAuctAmt:VARCHAR#, 
+   			#totalAuctCnt:VARCHAR#, 
+            'system', 
+			NOW(),
+            #resultcode:VARCHAR#, 
+            #resultmsg:VARCHAR#
+			)
+    ON CONFLICT (auct_date, skin_yn, judge_sex_cd)
+    DO UPDATE SET
+   			auct_date        = #auctDate:VARCHAR#, 
+    	    abatt_code       = #abattCode:VARCHAR#, 
+    	    skin_yn          = #skinYn:VARCHAR#, 
+            judge_sex_cd     = #judgeSexCd:VARCHAR#, 
+            abatt_nm         = #abattNm:VARCHAR#, 
+            skin_nm          = #skinNm:VARCHAR#, 
+   			judge_sex_nm     = #judgeSexNm:VARCHAR#, 
+   			auct_1_amt       = #auct_1Amt:VARCHAR#, 
+    	    auct_2_amt       = #auct_2Amt:VARCHAR#, 
+    	    auct_3_amt       = #auct_3Amt:VARCHAR#, 
+            auct_e_amt       = #auctEAmt:VARCHAR#, 
+            auct_except_amt  = #auctEExceptAmt:VARCHAR#, 
+            total_auct_amt   = #totalAuctAmt:VARCHAR#, 
+   			total_auct_cnt   = #totalAuctCnt:VARCHAR#, 
+            updt_usid        = 'update', 
+            updt_date        = NOW(),
+            result_code      = #resultcode:VARCHAR#, 
+            result_msg       = #resultmsg:VARCHAR#
+   </insert>
+
+  <!-- 등급별경매현황정보 -->
+    <insert id="insertGradeDetail" parameterClass="nds.mpm.api.openApi.service.OpenapiVO" >
+     INSERT INTO openmps.if_lapgxd 
+  		  (
+  		   	abatt_code, 			   					
+  		    abatt_date, 
+  		    abatt_no, 
+  		    abatt_nm, 
+  		    auct_date,
+  		    auct_rank, 
+  		    auct_time, 
+  		    etc, 			   					
+  		    grade_cd, 
+  		    grade_nm, 
+  		    skin_yn, 
+  		    skin_yn_nm,
+  		    judge_sex_cd, 
+  		    judge_sex_nm, 
+  		    left_weight, 
+  		    right_weight,
+  		    auct_amt, 
+  		    weight, 
+			inst_usid,
+			inst_date,
+  		    result_code, 
+  		    result_msg
+  		     )
+   values (
+   			#abattCode:VARCHAR#, 
+    	    #abattDate:VARCHAR#, 
+    	    #abattNo:VARCHAR#, 
+            #abattNm:VARCHAR#, 
+            #auctDate:VARCHAR#, 
+            #auctRank:VARCHAR#, 
+   			#auctTime:VARCHAR#, 
+   			#etc:VARCHAR#, 
+    	    #gradeCd:VARCHAR#, 
+    	    #gradeNm:VARCHAR#, 
+            #skinYn:VARCHAR#, 
+            #skinYnNm:VARCHAR#, 
+            #judgeSexCd:VARCHAR#, 
+   			#judgeSexNm:VARCHAR#, 
+            #leftWeight:VARCHAR#, 
+            #rightWeight:VARCHAR#, 
+            #auctAmt:VARCHAR#, 
+   			#weight:VARCHAR#, 
+            'system', 
+			NOW(),
+            #resultcode:VARCHAR#, 
+            #resultmsg:VARCHAR#
+			)
+    ON CONFLICT (auct_date, abatt_no)
+    DO UPDATE SET
+   			abatt_code       = #abattCode:VARCHAR#, 
+    	    abatt_date       = #abattDate:VARCHAR#, 
+    	    abatt_no         = #abattNo:VARCHAR#, 
+            abatt_nm         = #abattNm:VARCHAR#, 
+            auct_date        = #auctDate:VARCHAR#, 
+            auct_rank        = #auctRank:VARCHAR#, 
+   			auct_time        = #auctTime:VARCHAR#, 
+   			etc              = #etc:VARCHAR#, 
+    	    grade_cd         = #gradeCd:VARCHAR#, 
+    	    grade_nm         = #gradeNm:VARCHAR#, 
+            skin_yn          = #skinYn:VARCHAR#, 
+            skin_yn_nm       = #skinYnNm:VARCHAR#, 
+            judge_sex_cd     = #judgeSexCd:VARCHAR#, 
+   			judge_sex_nm     = #judgeSexNm:VARCHAR#, 
+            left_weight      = #leftWeight:VARCHAR#, 
+            right_weight     = #rightWeight:VARCHAR#, 
+            auct_amt         = #auctAmt:VARCHAR#, 
+   			weight           = #weight:VARCHAR#, 
+            updt_usid        = 'update', 
+            updt_date        = NOW(),
+            result_code      = #resultcode:VARCHAR#, 
+            result_msg       = #resultmsg:VARCHAR#
+   </insert>
+
+
+  <!-- 돼지 권역별 경락가격 현황 -->
+    <insert id="insertApperence" parameterClass="nds.mpm.api.openApi.service.OpenapiVO" >
+     INSERT INTO openmps.if_apcexm 
+  		  (
+  		   	base_ymd, 			   					
+  		    before_ymd, 
+  		    judge_kind_cd, 
+  		    judge_kind_nm, 
+  		    skin_yn,
+  		    skin_nm, 
+  		    local_nm, 
+  		    local_code, 			   					
+  		    auct_cnt, 
+  		    auct_amt, 
+  		    diff_auct_amt, 
+			inst_usid,
+			inst_date,
+  		    result_code, 
+  		    result_msg
+  		     )
+   values (
+   			#baseYmd:VARCHAR#, 
+    	    #beforeYmd:VARCHAR#, 
+    	    #judgeKindCd:VARCHAR#, 
+            #judgeKindNm:VARCHAR#, 
+            #skinYn:VARCHAR#, 
+            #skinNm:VARCHAR#, 
+   			#localNm:VARCHAR#, 
+   			#localCode:VARCHAR#, 
+    	    #auctCnt:VARCHAR#, 
+    	    #auctAmt:VARCHAR#, 
+            #diffAuctAmt:VARCHAR#, 
+            'system', 
+			NOW(),
+            #resultcode:VARCHAR#, 
+            #resultmsg:VARCHAR#
+			)
+    ON CONFLICT (base_ymd, skin_yn, local_code)
+    DO UPDATE SET
+   			base_ymd         = #baseYmd:VARCHAR#, 
+    	    before_ymd       = #beforeYmd:VARCHAR#, 
+    	    judge_kind_cd    = #judgeKindCd:VARCHAR#, 
+            judge_kind_nm    = #judgeKindNm:VARCHAR#, 
+            skin_yn          = #skinYn:VARCHAR#, 
+            skin_nm          = #skinNm:VARCHAR#, 
+   			local_nm         = #localNm:VARCHAR#, 
+   			local_code       = #localCode:VARCHAR#, 
+    	    auct_cnt         = #auctCnt:VARCHAR#, 
+    	    auct_amt         = #auctAmt:VARCHAR#, 
+            diff_auct_amt    = #diffAuctAmt:VARCHAR#, 
+            updt_usid        = 'update', 
+            updt_date        = NOW(),
+            result_code      = #resultcode:VARCHAR#, 
+            result_msg       = #resultmsg:VARCHAR#
+   </insert>
+   
+     <!-- 로그 insert -->
+  <insert id="insertLog" parameterClass="nds.mpm.api.openApi.service.OpenapiVO" >
+     INSERT INTO openmps.if_logtxm 
+  		  (
+  		  	corp_code,
+  		  	logt_seqq,
+			offi_syst,
+			intr_usid,
+			intr_name,
+			intr_date,
+			result_code,
+			result_msg
+  		    )
+   values (
+   			'1001',
+   			nextval('log_insert'),
+            #offi_syst:VARCHAR#, 
+            #intr_usid:VARCHAR#,
+            #intr_name:VARCHAR#,
+			NOW(),
+            #resultcode:VARCHAR#, 
+            #resultmsg:VARCHAR#
+			)
+   </insert>
+   
+</sqlMap>

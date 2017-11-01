@@ -1,0 +1,224 @@
+{
+  "module": "BaroBox",
+  "options": {
+    "className": "contents_box",
+    "order": [
+      "formBox",
+      "queryBox"
+    ],
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "formBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "FormBox",
+        "order": [
+          "ui_user_code",
+          "ui_user_name",
+          "ui_user_now_pw",
+          "ui_user_prv_pw",
+          "ui_user_sub"
+        ],
+        "activation": {
+          "defaultWidget": "",
+          "method": "one-page"
+        },
+        "custom_form": {
+          "name": "User Reg",
+          "template": "<div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label>사용자코드</label><input type=\"text\"class=\"form-control ui_user_code\"value=\"\"placeholder=\"사용자코드를 입력해주세요.\"></div><div class=\"form-group\"><label>사용자명</label><input type=\"text\"class=\"form-control ui_user_name\"value=\"\"placeholder=\"사용자명을 입력해주세요.\"></div><div class=\"form-group\"><label>현비밀번호</label><input type=\"text\"class=\"form-control ui_user_now_pw\"value=\"\"placeholder=\"현재 비밀번호를 입력해주세요.\"></div><div class=\"form-group\"><label>전비밀번호</label><input type=\"text\"class=\"form-control ui_user_prv_pw\"value=\"\"placeholder=\"이전 비밀번호를 입력해주세요.\"></div></div><div class=\"col-xs-9 ui_user_sub_region\"></div></div></div>",
+          "mode": "form",
+          "items": {
+            "ui_user_code": {
+              "module": "text",
+              "label": "사용자코드",
+              "selector": ".ui_user_code",
+              "required": true
+            },
+            "ui_user_name": {
+              "module": "text",
+              "label": "사용자명",
+              "selector": ".ui_user_name",
+              "required": true
+            },
+            "ui_user_now_pw": {
+              "module": "text",
+              "label": "현비밀번호",
+              "selector": ".ui_user_now_pw",
+              "required": true
+            },
+            "ui_user_prv_pw": {
+              "module": "text",
+              "label": "전비밀번호",
+              "selector": ".ui_user_prv_pw",
+              "required": true
+            },
+            "ui_user_sub": {
+              "label": "ui_user_sub",
+              "selector": ".ui_user_sub_region",
+              "required": true
+            }
+          },
+          "data": {}
+        },
+        "ui_user_sub": {
+          "module": "FormBox",
+          "options": {
+            "className": "ui_user_sub",
+            "order": [
+              "ui_user_sub_base",
+              "ui_user_sub_address"
+            ],
+            "activation": {
+              "defaultWidget": "ui_user_sub_base",
+              "method": "show-hide",
+              "navigator": {
+                "options": {
+                  "label": {
+                    "ui_user_sub_base": "기본정보",
+                    "ui_user_sub_address": "주소정보"
+                  }
+                }
+              }
+            },
+            "custom_form": {
+              "name": "User Reg",
+              "mode": "form",
+              "items": {
+                "ui_user_sub_base": {
+                  "label": "기본정보",
+                  "required": true
+                },
+                "ui_user_sub_address": {
+                  "label": "주소",
+                  "required": true
+                }
+              },
+              "data": {}
+            },
+            "ui_user_sub_base": {
+              "module": "FormBox",
+              "options": {
+                "className": "ui_user_sub_base",
+                "order": [
+                  "ui_user_tel",
+                  "ui_user_mobile",
+                  "code_view_head",
+                  "code_view_team",
+                  "code_view_part",
+                  "ui_user_check_confirm",
+                  "ui_user_check_staff",
+                  "ui_user_check_employee",
+                  "ui_user_etc_code1",
+                  "ui_user_etc_code2",
+                  "ui_user_memo"
+                ],
+                "activation": {
+                  "defaultWidget": "",
+                  "method": "one-page"
+                },
+                "custom_form": {
+                  "name": "User Base Info",
+                  "template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label>전화번호</label><input type=\"text\"class=\"form-control ui_user_tel\"value=\"\"placeholder=\"전화번호를 입력해주세요.\"></div><div class=\"form-group\"><label>핸드폰</label><input type=\"text\"class=\"form-control ui_user_mobile\"value=\"\"placeholder=\"핸드폰번호를 입력해주세요.\"></div><div class=\"form-group\"><label>본부코드</label><span class=\"code_view_head_region\"></span></div><div class=\"form-group\"><label>팀코드</label><span class=\"code_view_team_region\"></span></div><div class=\"form-group\"><label>부서코드</label><span class=\"code_view_part_region\"></span></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"sr-only\">승인여부</label><div class=\"checkbox_box\"><div class=\"checkbox\"><label class=\"disabled\"><input type=\"checkbox\"name=\"ui_user_check_confirm\"value=\"1\"><span class=\"cr\"><i class=\"cr-icon glyphicon glyphicon-ok\"></i></span><span class=\"title\">승인여부</span></label></div></div></div><div class=\"form-group\"><label class=\"sr-only\">관리자여부</label><div class=\"checkbox_box\"><div class=\"checkbox\"><label class=\"disabled\"><input type=\"checkbox\"name=\"ui_user_check_staff\"value=\"1\"><span class=\"cr\"><i class=\"cr-icon glyphicon glyphicon-ok\"></i></span><span class=\"title\">관리자여부</span></label></div></div></div><div class=\"form-group\"><label class=\"sr-only\">직원여부</label><div class=\"checkbox_box\"><div class=\"checkbox\"><label class=\"disabled\"><input type=\"checkbox\"name=\"ui_user_check_employee\"value=\"1\"><span class=\"cr\"><i class=\"cr-icon glyphicon glyphicon-ok\"></i></span><span class=\"title\">직원여부</span></label></div></div></div><div class=\"form-group\"><label>키타코드1</label><input type=\"text\"class=\"form-control ui_user_etc_code1\"value=\"\"placeholder=\"기타코드를 입력해주세요.\"></div><div class=\"form-group\"><label>기타코드2</label><input type=\"text\"class=\"form-control ui_user_etc_code2\"value=\"\"placeholder=\"기타코드를 입력해주세요.\"></div></div><div class=\"col-xs-8\"><div class=\"form-group\"><label>비고</label><input type=\"text\"class=\"form-control ui_user_memo\"value=\"\"placeholder=\"비고를 입력해주세요.\"></div></div></div>",
+                  "mode": "form",
+                  "items": {
+                    "ui_user_tel": {
+                      "module": "text",
+                      "label": "사용자코드",
+                      "selector": ".ui_user_tel",
+                      "required": true
+                    },
+                    "ui_user_mobile": {
+                      "module": "text",
+                      "label": "사용자명",
+                      "selector": ".ui_user_mobile"
+                    },
+                    "code_view_head": {
+                      "label": "부서코드"
+                    },
+                    "code_view_team": {
+                      "label": "팀"
+                    },
+                    "code_view_part": {
+                      "label": "부서"
+                    },
+                    "ui_user_check_confirm": {
+                      "module": "checkbox",
+                      "label": "사용자코드",
+                      "selector": "[name=ui_user_check_confirm]",
+                      "required": true
+                    },
+                    "ui_user_check_staff": {
+                      "module": "checkbox",
+                      "label": "사용자명",
+                      "selector": "[name=ui_user_check_staff]",
+                      "required": true
+                    },
+                    "ui_user_check_employee": {
+                      "module": "checkbox",
+                      "label": "현비밀번호",
+                      "selector": "[name= ui_user_check_employee]",
+                      "required": true
+                    },
+                    "ui_user_etc_code1": {
+                      "module": "text",
+                      "label": "전비밀번호",
+                      "selector": ".ui_user_etc_code1",
+                      "required": true
+                    },
+                    "ui_user_etc_code2": {
+                      "module": "text",
+                      "label": "전비밀번호",
+                      "selector": ".ui_user_etc_code2",
+                      "required": true
+                    },
+                    "ui_user_memo": {
+                      "module": "text",
+                      "label": "전비밀번호",
+                      "selector": ".ui_user_memo",
+                      "required": true
+                    }
+                  },
+                  "data": {}
+                }
+              }
+            },
+            "ui_user_sub_address": {}
+          }
+        }
+      }
+    },
+    "queryBox": {
+      "module": "FormBox",
+      "options": {
+        "module": "FormBox",
+        "className": "QueryBox",
+        "order": [
+          "ui_user_query_select",
+          "ui_user_query_input"
+        ],
+        "custom_form": {
+          "mode": "form",
+          "name": "User Reg Query",
+          "template": "<div class=\"form-group form-inline\"><label>검색</label><select class=\"form-control ui_user_query_select\"><option value=\"0\">조건선택</option><option value=\"1\">코드</option><option value=\"2\">이름</option><option value=\"3\">전화번호</option><option value=\"4\">핸드폰</option><option value=\"5\">부서</option></select><input type=\"text\"class=\"form-control ui_user_query_input\"value=\"\"placeholder=\"검색 내용 입력\"></div>",
+          "items": {
+            "ui_user_query_select": {
+              "module": "text",
+              "label": "검색",
+              "selector": ".ui_user_query_select",
+              "required": true
+            },
+            "ui_user_query_input": {
+              "module": "text",
+              "label": "검색 내용 입력",
+              "selector": ".ui_user_query_input",
+              "required": true
+            }
+          },
+          "data": {}
+        }
+      }
+    }
+  }
+}

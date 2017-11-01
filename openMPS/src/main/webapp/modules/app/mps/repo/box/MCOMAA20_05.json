@@ -1,0 +1,207 @@
+{
+	"module": "WorkAreaRenderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box",
+				"order": [
+					"searchCondition",
+					"searchKeyword"
+				],
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"form-group form-inline\"><label>검색</label><select class=\"form-control  searchCondition\"><option value=\"detailCode\">코드</option><option value=\"detailName1\">코드명1</option><option value=\"detailName2\">코드명2</option></select><input type=\"text\" class=\"form-control  searchKeyword\" value=\"\"></div>",
+					"items": {
+						"searchCondition": {
+							"module": "combobox",
+							"label": "검색",
+							"selector": ".searchCondition",
+							"required": false
+						},
+						"searchKeyword": {
+							"module": "text",
+							"label": "검색 내용 입력",
+							"selector": ".searchKeyword",
+							"required": false
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "result_box",
+				"order": [
+					"baseInfo",
+					"baseItem"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"row\"><div class=\"col-xs-2  baseInfo_region\"></div><div class=\"col-xs-10 baseItem_region\"></div></div>",
+					"items": {
+						"baseInfo": {
+							"label": "baseInfo",
+							"required": true
+						},
+						"baseItem": {
+							"label": "baseItem",
+							"required": true
+						}
+					},
+					"data": {}
+				},
+				"baseInfo": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "baseInfo_box grid_box",
+						"gridId": "baseInfo",
+						"gridParams": {
+							"data": [{
+								"code": "11",
+								"name": "홍길동"
+							}],
+							"colModel": [{
+									"name": "baseCode",
+									"label": "그룹코드",
+									"width": 40,
+									"align": "center",
+									"editable": false
+								},
+								{
+									"name": "baseName",
+									"label": "그룹명",
+									"align": "center",
+									"width": 50
+								}
+							],
+							"rowNum": 30,
+							"records": 30,
+							"rownumWidth": 20,
+							"rowList": [30, 50, 100, 200, "100000:All"],
+							"viewrecords": true,
+							"rownumbers": false,
+							"toppager": false,
+							"pager": true,
+							"shrinkToFit": false,
+							"multiselect": false,
+							"editurl": "clientArray",
+							"loadonce": true,
+							"width": "auto",
+							"height": 467,
+
+							"iconSet": "fontAwesome",
+							"autoencode": true,
+							"altRows": true,
+							"altclass": "myAltRowClass",
+							"pagerRightWidth": 140,
+
+							"caption": "",
+							"navOptions": {
+								"del": false
+							},
+							"searching": {
+								"closeAfterSearch": true,
+								"closeAfterReset": true,
+								"closeOnEscape": true,
+								"searchOnEnter": true,
+								"multipleSearch": true,
+								"multipleGroup": true,
+								"showQuery": true
+							}
+							,
+							"cellEdit": false
+						}
+					}
+				},
+				"baseItem": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "baseItem_box grid_box",
+						"gridId": "baseItem",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+									"name": "detailCode",
+									"label": "코드",
+									"width": 60,
+									"align": "center",
+									"editable": false
+								},
+								{
+									"name": "detailName1",
+									"label": "코드명1",
+									"align": "center",
+									"width": 150
+								},
+								{
+									"name": "detailName2",
+									"label": "코드명2",
+									"align": "center",
+									"width": 150
+								},
+								{
+									"name": "memo",
+									"label": "비고",
+									"align": "center",
+									"width": 300
+								}
+							],
+
+							"rowNum": 30,
+							"records": 30,
+							"rownumWidth": 20,
+							"rowList": [30, 50, 100, 200, "100000:All"],
+							"viewrecords": true,
+							"rownumbers": false,
+							"toppager": false,
+							"pager": true,
+							"shrinkToFit": false,
+							"multiselect": false,
+							"editurl": "clientArray",
+							"loadonce": true,
+							"width": "auto",
+							"height": 467,
+
+							"iconSet": "fontAwesome",
+							"autoencode": true,
+							"altRows": true,
+							"altclass": "myAltRowClass",
+							"pagerRightWidth": 140,
+
+							"caption": "",
+							"navOptions": {
+								"del": false
+							},
+							"searching": {
+								"closeAfterSearch": true,
+								"closeAfterReset": true,
+								"closeOnEscape": true,
+								"searchOnEnter": true,
+								"multipleSearch": true,
+								"multipleGroup": true,
+								"showQuery": true
+							},
+							"cellEdit": false
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,240 @@
+{
+    "module": "TMCOOS70Renderer",
+    "options": {
+        "className": "contents_box",
+        "order": [
+            "queryBox",
+            "resultBox",
+            "formBox"
+        ],
+        "activation": {
+            "defaultWidget": "",
+            "method": "one-page"
+        },
+        "formBox": {
+            "module": "FormBox",
+            "options": {
+                "className": "form_box",
+                "order": [
+                    "corpCode",
+                    "corpName",
+                    "corpCodeSearch",
+                    "headCode",
+                    "headName",
+                    "headCodeSearch",
+                    "teamCode",
+                    "teamName",
+                    "teamCodeSearch",
+                    "deptCode",
+                    "deptName",
+                    "useYn",
+                    "memo"
+                ],
+                "activation": {
+                    "defaultWidget": "",
+                    "method": "one-page"
+                },
+                "custom_form": {
+                    "template": "<div class=\"row form-group-tmm equal_width\"><div class=\"col-xs-4\"><div class=\"form-group \"><label class=\"required\">회사</label><input type=\"text\" class=\"form-control corpCode\" style=\"display: none;\" value=\"\" placeholder=\"회사코드를 입력해주세요.\"><input type=\"text\" class=\"form-control corpName\" value=\"\" style=\"display: none;\" placeholder=\"회사명을 입력해주세요.\"><div class=\"corpCodeSearch_region\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label class=\"required\">본부</label><input type=\"text\" class=\"form-control headCode\" style=\"display: none;\" value=\"\" placeholder=\"본부코드를 입력해주세요.\"><input type=\"text\" class=\"form-control headName\" value=\"\" style=\"display: none;\" placeholder=\"본부명을 입력해주세요.\"><div class=\"headCodeSearch_region\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label class=\"required\">팀</label><input type=\"text\" class=\"form-control teamCode\" style=\"display: none;\" value=\"\" placeholder=\"팀코드를 입력해주세요.\"><input type=\"text\" class=\"form-control teamName\" value=\"\" style=\"display: none;\" placeholder=\"팀명을 입력해주세요.\"><div class=\"teamCodeSearch_region\"></div></div></div></div><div class=\"row form-group-tmm\"><div class=\"col-xs-4\"><div class=\"form-group \"><label class=\"required\">파트코드</label><input type=\"text\" class=\"form-control deptCode\" value=\"\" placeholder=\"파트코드를 입력해주세요.\"></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label class=\"required\">파트명</label><input type=\"text\" class=\"form-control deptName\" value=\"\" placeholder=\"파트명을 입력해주세요.\"></div></div><div class=\"col-xs-4\">&nbsp;</div></div><div class=\"row form-group-tmm\"><div class=\"col-xs-12\"><div class=\"form-group\"><label>비고</label><input type=\"text\" class=\"form-control memo\" value=\"\" placeholder=\"비고를 입력해주세요.\"></div></div></div><div class=\"row form-group-tmm\"><div class=\"col-xs-4\"><div class=\"form-group \"><label>사용여부</label><input type=\"checkbox\" name=\"useYn\" value=\"1\"></div></div></div>",
+                    "mode": "form",
+                    "items": {
+                        "corpCode": {
+                            "module": "text",
+                            "label": "회사코드",
+                            "selector": ".corpCode",
+                            "required": true
+                        },
+                        "corpName": {
+                            "module": "text",
+                            "label": "회사명",
+                            "selector": ".corpName",
+                            "required": false
+                        },
+                        "corpCodeSearch" : {"label": "회사코드검색"},
+                        "headCode": {
+                            "module": "text",
+                            "label": "본부코드",
+                            "selector": ".headCode",
+                            "required": true
+                        },
+                        "headName": {
+                            "module": "text",
+                            "label": "본부명",
+                            "selector": ".headName",
+                            "required": false
+                        },
+                        "headCodeSearch" : {"label": "본부코드검색"},
+                        "teamCode": {
+                            "module": "text",
+                            "label": "팀코드",
+                            "selector": ".teamCode",
+                            "required": true
+                        },
+                        "teamName": {
+                            "module": "text",
+                            "label": "팀명",
+                            "selector": ".teamName",
+                            "required": false
+                        },
+                        "teamCodeSearch" : {"label": "팀코드검색"},
+                        "deptCode": {
+                            "module": "text",
+                            "label": "파트코드",
+                            "selector": ".deptCode",
+                            "required": true
+                        },
+                        "deptName": {
+                            "module": "text",
+                            "label": "파트명",
+                            "selector": ".deptName",
+                            "required": true
+                        },
+                        "useYn": {
+                            "module": "checkbox",
+                            "label": "사용여부",
+                            "selector": "[name=useYn]",
+                            "required": false
+                        },
+                        "memo": {
+                            "module": "text",
+                            "label": "비고",
+                            "selector": ".memo",
+                            "required": false
+                        }
+                    },
+                    "data": {}
+                },
+                "corpCodeSearch": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "회사코드검색",
+						"required": false,
+						"codeType": "TMCOOS10",
+						"params": {},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				},
+                "headCodeSearch": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "본부코드검색",
+						"required": false,
+						"codeType": "TMCOOS50",
+						"params": {},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				},
+                "teamCodeSearch": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "팀코드검색",
+						"required": false,
+						"codeType": "TMCOOS60",
+						"params": {},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+            }
+        },
+        "queryBox": {
+            "module": "FormBox",
+            "options": {
+                "module": "FormBox",
+                "className": "query_box",
+                "order": [
+                    "searchKeyword"
+                ],
+                "custom_form": {
+                    "mode": "form",
+                    "template": "<div class=\"form-group form-inline\"><label>파트코드/명</label><input type=\"text\" class=\"form-control searchKeyword\" value=\"\" placeholder=\"파트코드/명 입력\"></div>",
+                    "items": {
+                        "searchKeyword": {
+                            "module": "text",
+                            "label": "파트코드/명",
+                            "selector": ".searchKeyword",
+                            "required": false
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "resultBox": {
+            "module": "manifest!jqGrid4-1.0.0",
+            "options": {
+                "className": "resultBox_box grid_box",
+                "gridId": "TMCOOS70_grid_1",
+                "gridParams": {
+                    "data": [],
+                    "colModel": [{
+                        "name": "corpCode",
+                        "label": "회사코드",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "corpName",
+                        "label": "회사명",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "headCode",
+                        "label": "본부코드",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "headName",
+                        "label": "본부명",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "teamCode",
+                        "label": "팀코드",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "teamName",
+                        "label": "팀명",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "deptCode",
+                        "label": "파트코드",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "deptName",
+                        "label": "파트명",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "useYn",
+                        "label": "사용여부",
+                        "template": "booleanCheckboxFa",
+                        "align": "center",
+                        "width": 100,
+						"formatter": "checkbox"
+                        }, {
+                            "name": "memo",
+                            "label": "비고",
+                            "align": "center",
+                            "width": 200
+                    }],
+                    "width": "auto",
+                    "height": "250",
+                    "iconSet": "fontAwesome",
+                    "pager": false,
+                    "cellEdit": false
+                }
+            }
+        }
+    }
+}

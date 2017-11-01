@@ -1,0 +1,168 @@
+{
+  "module": "BaroBox",
+  "options": {
+    "className": "contents_box",
+    "order": [
+      "back",
+      "kakao1",
+      "kakao2",
+      "kakao3",
+      "kakao4",
+      "kakao5",
+      "kakao6",
+      "kakao7",
+      "kakao8",
+      "kakao9",
+      "kakao10",
+      "kakao11",
+      "kakao12",
+      "kakao13",
+      "kakao14",
+      "kakao15",
+      "kakao16",
+      "kakao17",
+      "kakao18",
+      "back"
+    ],
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "back": {
+    	"module": "manifest!Button-1.0.0",
+		"options":{
+		  "label": "메인",
+		  "icons": [
+		    {
+		      "pos": "prefix",
+		      "view": true,
+		      "type": "fa",
+		      "value": "fa-paw"
+		    },
+		    {
+		      "pos": "suffix",
+		      "view": true,
+		      "type": "fa",
+		      "value": "fa-paw"
+		    }
+		  ],
+		  "button_loyout": {
+		    "style": "btn-primary",
+		    "size": "btn-lg",
+		    "align": "text-left",
+		    "sr_only": false,
+		    "block": false
+		  },
+		  "cmd": "#box/IntroHome"
+		}
+    },
+    "kakao1": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao1.jpeg width='100%'>"
+      }
+    },
+    "kakao2": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao2.jpeg width='100%'>"
+      }
+    },
+    "kakao3": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao3.jpeg width='100%'>"
+      }
+    },
+    "kakao4": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao4.jpeg width='100%'>"
+      }
+    },
+    "kakao5": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao5.jpeg width='100%'>"
+      }
+    },
+    "kakao6": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao6.jpeg width='100%'>"
+      }
+    },
+    "kakao7": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao7.jpeg width='100%'>"
+      }
+    },
+    "kakao8": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao8.jpeg width='100%'>"
+      }
+    },
+    "kakao9": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao9.jpeg width='100%'>"
+      }
+    },
+    "kakao10": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao10.jpeg width='100%'>"
+      }
+    },
+    "kakao11": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao11.jpeg width='100%'>"
+      }
+    },
+    "kakao12": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao12.jpeg width='100%'>"
+      }
+    },
+    "kakao13": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao13.jpeg width='100%'>"
+      }
+    },
+    "kakao14": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao14.jpeg width='100%'>"
+      }
+    },
+    "kakao15": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao15.jpeg width='100%'>"
+      }
+    },
+    "kakao16": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao16.jpeg width='100%'>"
+      }
+    },
+    "kakao17": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao17.jpeg width='100%'>"
+      }
+    },
+    "kakao18": {
+      "module": "manifest!DesignItem-1.0.0",
+      "options": {
+      	"html": "<img src=/app/intro/res/kakao18.jpeg width='100%'>"
+      }
+    }
+  }
+}

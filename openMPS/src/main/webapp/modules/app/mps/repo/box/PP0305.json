@@ -1,0 +1,324 @@
+{
+  "name": "생산계획 입력(PM)",
+  "module": "PP0305Renderer",
+  "options": {
+    "className": "contents_box",
+    "order": [
+      "queryBox",
+      "resultBox"
+    ],
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "customBtnBox": {
+      "module": "manifest!ButtonMulti-1.0.0",
+      "options": {
+        "className": "custom_btn",
+        "btn_item": [
+          {
+            "label": "추가",
+            "icon": {
+              "view": false,
+              "type": "",
+              "value": ""
+            },
+            "style": "btn-primary",
+            "sr_only": false,
+            "state": null,
+            "cmd": "#popup/PP0305_pop"
+          }
+        ],
+        "btn_group_layout": "btn-inline",
+        "text_align": "text-right"
+      }
+    },
+    "queryBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "query_box  form-inline",
+        "order": [
+          "plantCode",
+          "workDate",
+          "status"
+        ],
+        "activation": {
+          "method": "one-page"
+        },
+        "custom_form": {
+          "mode": "form",
+          "items": {
+            "plantCode": {
+              "selector": ".plantCode",
+              "label": "공장",
+              "required": false,
+              "module": "combobox",
+              "fetcher": {
+                "url": "<%= host %>/rest/mpm/<%= corpCode %>/pp0101/tmplatxm?prdtType=2",
+                "parser": "return UCMS.parseComboPlant(arguments[0]);"
+              }
+            },
+            "workDate": {
+              "module": "date",
+              "selector": ".workDate",
+              "label": "계획일자",
+              "required": false,
+              "format": "YYYY-MM-DD",
+              "useCurrent": true,
+              "defaultDate": true
+            },
+            "status": {
+              "selector": ".status",
+              "label": "검색조건",
+              "required": false,
+              "module": "radiobox",
+              "value": "accept",
+              "items": [
+                {
+                  "label": "접수분",
+                  "value": "accept"
+                },
+                {
+                  "label": "계획진행분",
+                  "value": "plan"
+                },
+                {
+                  "label": "계획확정분",
+                  "value": "complete"
+                }
+              ]
+            }
+          },
+          "data": {},
+          "template": null
+        }
+      }
+    },
+    "resultBox": {
+      "module": "SubContainer",
+      "options": {
+        "header": {
+          "title": {
+            "className": "contnet_header_box no_label btn_red",
+            "label": "생산계획 입력(PM)"
+          },
+          "feature": [
+            {
+              "confirm": "계획확정"
+            }
+          ]
+        },
+        "content": {
+          "module": "manifest!jqGrid4-1.0.0",
+          "options": {
+            "className": "grid_box",
+            "gridId": "PP0305_grid",
+            "gridParams": {
+              "data": [],
+              "colModel": [
+                {
+                  "name": "corpCode",
+                  "label": "회사코드",
+                  "width": 60,
+                  "align": "center",
+                  "editable": false,
+                  "hidden": true
+                },
+                {
+                  "name": "custName",
+                  "label": "거래처",
+                  "width": 170,
+                  "align": "left",
+                  "editable": false
+                },
+                {
+                  "name": "proLargeName",
+                  "label": "품목명",
+                  "width": 90,
+                  "align": "left",
+                  "editable": false
+                },
+                {
+                  "name": "proCode",
+                  "label": "제품코드",
+                  "width": 70,
+                  "align": "center",
+                  "editable": false
+                },
+                {
+                  "name": "proName",
+                  "label": "제품명",
+                  "width": 160,
+                  "align": "left",
+                  "editable": false,
+                  "summaryType": "count",
+                  "summaryTpl": "<div class=\"text-center\">합계</div>"
+                },
+                {
+                  "name": "ordrBox",
+                  "index": "ordrBox",
+                  "label": "계획대상량",
+                  "width": 70,
+                  "align": "right",
+                  "editable": false,
+                  "sorttype":"integer","formatter":"integer",
+                  "summaryType": "sum"
+                },
+                {
+                  "name": "workQty",
+                  "label": "<div class=\"editable_mark\"></div>작업지시량",
+                  "width": 70,
+                  "align": "right",
+                  "editable": true,
+                  "edittype": "text",
+                  "editoptions": {
+                    "maxlength": 12
+                  },
+                  "classes": "editable",
+                  "sorttype":"integer","formatter":"integer",
+                  "summaryType": "sum",
+                  "editrules": {
+                    "required": true,
+                    "integer": true
+                  }
+                },
+                {
+                  "name": "delvDate",
+                  "label": "출고일자",
+                  "width": 90,
+                  "align": "center",
+                  "editable": false,
+                  "sorttype": "date" , "formatter": "dateFormatter",
+                  "unformat": "dateUnformatter",
+                  "formatoptions": {
+                    "srcformat": "YYYYMMDD",
+                    "newformat": "YYYY-MM-DD"
+                  }
+                },
+                {
+                  "name": "proUnit",
+                  "label": "단위",
+                  "width": 50,
+                  "align": "center",
+                  "editable": false
+                },
+                {
+                  "name": "workSeq",
+                  "label": "<div class=\"editable_mark\"></div>순위",
+                  "width": 50,
+                  "align": "center",
+                  "editable": true,
+                  "edittype": "text",
+				  "sorttype":"integer","formatter":"integer",
+                  "editrules": {
+                    "required": true,
+                    "integer": true
+                  },
+                  "editoptions": {
+                    "maxlength": 12
+                  },
+                  "classes": "editable"
+                },
+                {
+                  "name": "memo",
+                  "label": "<div class=\"editable_mark\"></div>계획특기사항",
+                  "width": 200,
+                  "align": "left",
+                  "editable": true,
+                  "edittype": "text",
+                  "editrules": {
+                    "required": false
+                  },
+                  "editoptions": {},
+                  "classes": "editable grid_ws_normal"
+                },
+                {
+                  "name": "plantCode",
+                  "label": "공장코드",
+                  "width": 80,
+                  "align": "center",
+                  "editable": false,
+                  "hidden": true
+                },
+                {
+                  "name": "planNo",
+                  "label": "계획코드",
+                  "width": 80,
+                  "align": "center",
+                  "editable": false,
+                  "hidden": true
+                },
+                {
+                  "name": "workDate",
+                  "label": "작업일",
+                  "width": 90,
+                  "align": "center",
+                  "editable": false,
+                  "sorttype": "date" , "formatter": "dateFormatter",
+                  "unformat": "dateUnformatter",
+                  "formatoptions": {
+                    "srcformat": "YYYYMMDD",
+                    "newformat": "YYYY-MM-DD"
+                  },
+                  "hidden": true
+                },
+                {
+                  "name": "workLine",
+                  "label": "단위",
+                  "width": 60,
+                  "align": "center",
+                  "editable": false,
+                  "hidden": true
+                },
+                {
+                  "name": "ordrNo",
+                  "label": "ordrNo",
+                  "width": 80,
+                  "align": "center",
+                  "editable": false,
+                  "hidden": true
+                }
+                ,
+                {
+                  "name": "ordrCust",
+                  "label": "ordrCust",
+                  "width": 80,
+                  "align": "center",
+                  "editable": false,
+                  "hidden": true
+                }
+                ,
+                {
+                  "name": "status",
+                  "label": "status",
+                  "width": 80,
+                  "align": "center",
+                  "editable": false,
+                  "hidden": true
+                }
+              ],
+              "rowNum": "100000000",
+              "width": "auto",
+              "height": "545",
+              "cellEdit": true,
+              "cellsubmit": "clientArray",
+              "shrinkToFit": true,
+              "gridview": true,
+              "datatype": "local",
+              "multiselect": true,
+              "multiselectWidth": 20,
+              "rownumbers": false,
+              "pager": "#PP0305_grid_pager",
+              "viewrecords": true,
+              "recordpos": "left",
+              "pgbuttons": false,
+              "pginput": false,
+              "footerrow": true,
+              "userDataOnFooter": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

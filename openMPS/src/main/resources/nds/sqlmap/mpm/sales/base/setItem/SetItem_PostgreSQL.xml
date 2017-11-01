@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SetItem">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="setItemSerarchVO" type="nds.mpm.sales.base.vo.SetItemVO"/>
+	
+	<resultMap id="setItem" class="nds.mpm.sales.base.vo.SetItemVO">
+		<result property="setCode" column="set_code" columnIndex="1"/>
+		<result property="proCode" column="pro_code" columnIndex="2"/>
+		<result property="setQty" column="set_qty" columnIndex="3"/>
+		<result property="memo" column="memo" columnIndex="4"/>
+		<result property="deleYn" column="dele_yn" columnIndex="5"/>
+		<result property="mdUser" column="md_user" columnIndex="6"/>
+		<result property="mdDate" column="md_date" columnIndex="7"/>
+		<result property="crUser" column="cr_user" columnIndex="8"/>
+		<result property="crDate" column="cr_date" columnIndex="9"/>
+	</resultMap>
+	<sql id="selectWhere_fragment" >
+	  	FROM set_item
+			<isNotEmpty prepend="where" property="setCode">
+			set_code=#setCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="proCode">
+			pro_code=#proCode#
+			</isNotEmpty>
+	</sql>
+	<insert id="setItemDAO.insertSetItem_S">
+		<![CDATA[
+			INSERT INTO set_item 
+				( set_code
+				  , pro_code
+				  , set_qty
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #setCode#
+				  , #proCode#
+				  , #setQty#
+				  , #memo#
+				  , 'N'
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , TO_CHAR(now(),'yyyy-mm-dd hh24:mi:ss') )
+		]]>
+	</insert>
+	
+	<update id="setItemDAO.updateSetItem_S">
+		<![CDATA[
+			UPDATE set_item
+			SET set_code=#setCode#
+				, pro_code=#proCode#
+				, set_qty=#setQty#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=TO_CHAR(now(),'yyyy-mm-dd hh24:mi:ss')
+						WHERE set_code=#setCode#
+								AND pro_code=#proCode#
+				]]>
+	</update>
+	
+	<delete id="setItemDAO.deleteSetItem_S">
+		<![CDATA[
+			DELETE FROM set_item 
+						WHERE set_code=#setCode#
+								AND pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<select id="setItemDAO.selectSetItem_S" resultMap="setItem">
+		<![CDATA[
+			SELECT
+				set_code
+				, pro_code
+				, set_qty
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM set_item
+						WHERE set_code=#setCode#
+								AND pro_code=#proCode#
+				]]>
+	</select>
+	<select id="setItemDAO.selectSetItemList_D" parameterClass="setItemSerarchVO" resultClass="egovMap">
+			SELECT
+				set_code
+				, pro_code
+				, set_qty
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			<include refid="selectWhere_fragment"/>
+	</select>	
+	<select id="setItemDAO.selectSetItemListTotCnt_S" parameterClass="setItemSerarchVO" resultClass="int">
+			SELECT
+				count(set_code)
+			<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

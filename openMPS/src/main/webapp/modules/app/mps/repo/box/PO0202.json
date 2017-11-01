@@ -1,0 +1,1662 @@
+{
+	"name": "생돈정산",
+	"module": "PO0202Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"resultBox",
+			"formBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box form-inline",
+				"order": [
+					"facKind",
+					"facCode",
+					"startDate",
+					"endDate",
+					"btnGetDate"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"facKind": {
+							"selector": ".facKind",
+							"label": "정산구분",
+							"required": true,
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/PO001/tmcodexd",
+								"parser": "return UCMS.parseComboAll( UCMS.parseComboItems(arguments[0]) );"
+							}
+						},
+						"facCode": {
+							"selector": ".facCode",
+							"label": "정산방법",
+							"required": false,
+							"module": "combobox"
+						},
+						"startDate": {
+							"module": "date",
+							"selector": ".startDate",
+							"label": "조회시작일자",
+							"required": true,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"endDate": {
+							"module": "date",
+							"selector": ".endDate",
+							"label": "조회종료일자",
+							"required": true,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label class=\"required\">정산구분</label><div class=\"select_design facKind\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label class=\"required\">정산방법</label><div class=\"select_design facCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label class=\"required\">조회일자</label><input type=\"text\" class=\"form-control form_type_date startDate\"><span> ~ </span><input type=\"text\" class=\"form-control form_type_date endDate\"> <div class=\"btnGetDate_region\"></div></div>"
+				},
+				"btnGetDate": {
+					"module": "manifest!Button-1.0.0",
+					"options": {
+						"className": "btn_box",
+						"label": "최근일자조회",
+						"icons": [{
+							"pos": "prefix",
+							"view": false,
+							"type": "fa",
+							"value": "hide"
+						}],
+						"button_loyout": {
+							"style": "btn-primary",
+							"sr_only": false,
+							"block": false
+						},
+						"cmd": ""
+					}
+				}
+
+			}
+		},
+		"resultBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "result_box",
+				"order": [
+					"gridBox",
+					"doStartDate",
+					"doEndDate",
+					"btnPigexm"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"gridBox": {
+							"label": "정산구분"
+						},
+						"doStartDate": {
+							"module": "date",
+							"selector": ".doStartDate",
+							"label": "조회시작일자",
+							"required": true,
+							"format": "YYYY-MM-DD"
+						},
+						"doEndDate": {
+							"module": "date",
+							"selector": ".doEndDate",
+							"label": "조회종료일자",
+							"required": true,
+							"format": "YYYY-MM-DD"
+						},
+						"btnPigexm": {
+							"label": "생돈정산"
+						}
+					},
+					"data": {},
+					"template": "<div class=\"gridBox_region\"></div><div class=\"form-inline text-right\"><div class=\"form-group\"><label class=\"required\">도축일자</label><input type=\"text\" class=\"form-control form_type_date doStartDate\"><span> ~ </span> <input type=\"text\" class=\"form-control form_type_date doEndDate\"><div class=\"btnPigexm_region\" style=\"padding-left:8px\"></div></div>"
+				},
+				"gridBox": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "grid_box",
+						"gridId": "PO0202_grid_1",
+						"gridParams": {
+							"data": [],
+							"colModel": [
+								{
+									"name": "facKindname",
+									"width": 60,
+									"align": "center",
+									"editable": false,
+									"label": "구분",
+									"hidden": true
+								},
+								{
+									"name": "facKind",
+									"width": 60,
+									"align": "center",
+									"editable": false,
+									"label": "구분",
+									"edittype":"select",
+									"formatter":"select",
+									"editoptions": { "value": "0:안함;1:탕박등급제;2:고정등급제;3:신정산법" },
+									"classes":"editable"
+								},
+								{
+									"name": "facCode",
+									"width": 60,
+									"align": "center",
+									"editable": true,
+									"label": "<div class=\"editable_mark\"></div>정산코드",
+									"classes":"editable",
+									"editrules":{"number":true,"maxValue":99}
+								},
+								{
+									"name": "facName",
+									"width": 80,
+									"align": "center",
+									"editable": true,
+									"label": "<div class=\"editable_mark\"></div>정산방법",
+									"classes":"editable"
+								},
+								{
+									"name": "startDate",
+									"width": 120,
+									"align": "center",
+									"editable": true,
+									"label": "<div class=\"editable_mark\"></div>시작일자",
+									"sorttype": "date" , "formatter": "dateFormatter",
+									"unformat": "dateUnformatter",
+									"formatoptions": {
+										"srcformat": "YYYYMMDD",
+										"newformat": "YYYY-MM-DD"
+									},
+									"classes":"editable form_type_date"
+
+								},
+								{
+									"name": "endDate",
+									"width": 120,
+									"align": "center",
+									"editable": true,
+									"label": "<div class=\"editable_mark\"></div>종료일자",
+									"sorttype": "date" , "formatter": "dateFormatter",
+									"unformat": "dateUnformatter",
+									"formatoptions": {
+										"srcformat": "YYYYMMDD",
+										"newformat": "YYYY-MM-DD"
+									},
+									"classes":"editable form_type_date"
+
+								},
+								{
+							        "name": "fromDate",
+							        "label": "fromDate",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "toDate",
+							        "label": "toDate",
+							        "width": 50,
+							        "editable": false,
+							        "align": "right",
+							        "hidden": true
+							      },
+							      {
+							        "name": "compCode",
+							        "label": "compCode",
+							        "width": 50,
+							        "align": "left",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "guJiyuk",
+							        "label": "guJiyuk",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigJiyuk",
+							        "label": "pigJiyuk",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigYul",
+							        "label": "pigYul",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "guJang",
+							        "label": "guJang",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "guKg",
+							        "label": "guKg",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP02",
+							        "label": "pigP02",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP03",
+							        "label": "pigP03",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP04",
+							        "label": "pigP04",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP05",
+							        "label": "pigP05",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP06",
+							        "label": "pigP06",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP07",
+							        "label": "pigP07",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP08",
+							        "label": "pigP08",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP09",
+							        "label": "pigP09",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP10",
+							        "label": "pigP10",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP11",
+							        "label": "pigP11",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP12",
+							        "label": "pigP12",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP13",
+							        "label": "pigP13",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP14",
+							        "label": "pigP14",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP15",
+							        "label": "pigP15",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP16",
+							        "label": "pigP16",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP17",
+							        "label": "pigP17",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP18",
+							        "label": "pigP18",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP19",
+							        "label": "pigP19",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP20",
+							        "label": "pigP20",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP21",
+							        "label": "pigP21",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP22",
+							        "label": "pigP22",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP23",
+							        "label": "pigP23",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP24",
+							        "label": "pigP24",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP25",
+							        "label": "pigP25",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP26",
+							        "label": "pigP26",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP27",
+							        "label": "pigP27",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP28",
+							        "label": "pigP28",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP29",
+							        "label": "pigP29",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP30",
+							        "label": "pigP30",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP31",
+							        "label": "pigP31",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP32",
+							        "label": "pigP32",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP33",
+							        "label": "pigP33",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP34",
+							        "label": "pigP34",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP35",
+							        "label": "pigP35",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP36",
+							        "label": "pigP36",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP37",
+							        "label": "pigP37",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP38",
+							        "label": "pigP38",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP39",
+							        "label": "pigP39",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP40",
+							        "label": "pigP40",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP41",
+							        "label": "pigP41",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP42",
+							        "label": "pigP42",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP43",
+							        "label": "pigP43",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP44",
+							        "label": "pigP44",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP45",
+							        "label": "pigP45",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP46",
+							        "label": "pigP46",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP47",
+							        "label": "pigP47",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP48",
+							        "label": "pigP48",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP49",
+							        "label": "pigP49",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP50",
+							        "label": "pigP50",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP51",
+							        "label": "pigP51",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP52",
+							        "label": "pigP52",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP53",
+							        "label": "pigP53",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP54",
+							        "label": "pigP54",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP55",
+							        "label": "pigP55",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP56",
+							        "label": "pigP56",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP57",
+							        "label": "pigP57",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP58",
+							        "label": "pigP58",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP59",
+							        "label": "pigP59",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP60",
+							        "label": "pigP60",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP61",
+							        "label": "pigP61",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigP62",
+							        "label": "pigP62",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexa1",
+							        "label": "pigSexa1",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexb1",
+							        "label": "pigSexb1",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexc1",
+							        "label": "pigSexc1",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexd1",
+							        "label": "pigSexd1",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexe1",
+							        "label": "pigSexe1",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexa2",
+							        "label": "pigSexa2",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexb2",
+							        "label": "pigSexb2",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexc2",
+							        "label": "pigSexc2",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexd2",
+							        "label": "pigSexd2",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexe2",
+							        "label": "pigSexe2",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexa3",
+							        "label": "pigSexa3",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexb3",
+							        "label": "pigSexb3",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexc3",
+							        "label": "pigSexc3",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexd3",
+							        "label": "pigSexd3",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigSexe3",
+							        "label": "pigSexe3",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigBrand1",
+							        "label": "pigBrand1",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigBrand2",
+							        "label": "pigBrand2",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigBrand3",
+							        "label": "pigBrand3",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigTrans1",
+							        "label": "pigTrans1",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigTrans2",
+							        "label": "pigTrans2",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigGong1",
+							        "label": "pigGong1",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "pigGong2",
+							        "label": "pigGong2",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "addGradea",
+							        "label": "addGradea",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "addGradeb",
+							        "label": "addGradeb",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "addGradec",
+							        "label": "addGradec",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "addGradee",
+							        "label": "addGradee",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "addGen1",
+							        "label": "addGen1",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "add1From",
+							        "label": "add1From",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "add1To",
+							        "label": "add1To",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "addGen2",
+							        "label": "addGen2",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "add2From",
+							        "label": "add2From",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "add2To",
+							        "label": "add2To",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "addGen3",
+							        "label": "addGen3",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "add3From",
+							        "label": "add3From",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "add3To",
+							        "label": "add3To",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "incGen1",
+							        "label": "incGen1",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "inc1From",
+							        "label": "inc1From",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "inc1To",
+							        "label": "inc1To",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "incGen2",
+							        "label": "incGen2",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "inc2From",
+							        "label": "inc2From",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "inc2To",
+							        "label": "inc2To",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "incGen3",
+							        "label": "incGen3",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "inc3From",
+							        "label": "inc3From",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      },
+							      {
+							        "name": "inc3To",
+							        "label": "inc3To",
+							        "width": 50,
+							        "align": "right",
+							        "editable": false,
+							        "hidden": true
+							      }
+							],
+							"width": "auto",
+							"rowNum":"100000000",
+							"height": "158",
+							"cellEdit": true,
+							"shrinkToFit": true,
+							"gridview": true,
+							"datatype": "local",
+							"viewrecords": true,
+							"footerrow": false,
+							"userDataOnFooter": false,
+							"multiselect": false,
+							"multiselectWidth": 20,
+							"rownumbers": true,
+							"rownumWidth":10,
+							"cellsubmit": "clientArray",
+							"pager": "#PO0202_grid_1_pager",
+							"recordpos":"left",
+							"pgbuttons":false,
+							"pginput":false
+						}
+					}
+				},
+				"btnPigexm": {
+					"module": "manifest!Button-1.0.0",
+					"options": {
+						"className": "btn_box",
+						"label": "이전",
+						"icons": [{
+							"pos": "prefix",
+							"view": false,
+							"type": "fa",
+							"value": "hide"
+						}],
+						"button_loyout": {
+							"style": "btn-primary",
+							"sr_only": false,
+							"block": false
+						},
+						"cmd": ""
+					}
+				}
+
+			}
+		},
+
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_group_box result_box",
+				"order": [
+					"formBox1",
+					"formBox2",
+					"formBox3"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"formBox1": {
+							"label": "평균시세"
+						},
+						"formBox2": {
+							"label": "공제금액"
+						},
+						"formBox3": {
+							"label": "가산금액"
+						}
+					},
+					"data": {},
+					"template": "<div class=\"row\"><div class=\"col-xs-6\"><div class=\"formBox1_region\"></div><div class=\"formBox2_region\"></div></div><div class=\"col-xs-6 formBox3_region\"></div></div> "
+				},
+				"formBox1": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"label": "평균시세"
+							}
+						},
+						"content": {
+							"module": "FormBox",
+							"options": {
+								"className": "form_box",
+								"order": [
+									"fromDate",
+									"toDate",
+									"btnGetAvg",
+									"pigJiyuk",
+									"pigP02",
+									"pigP03",
+									"pigP04",
+									"pigSexa1",
+									"pigSexb1",
+									"pigSexc1",
+									"pigSexe1",
+									"pigSexa2",
+									"pigSexb2",
+									"pigSexc2",
+									"pigSexe2",
+									"pigSexa3",
+									"pigSexb3",
+									"pigSexc3",
+									"pigSexe3"
+								],
+								"activation": {
+									"method": "one-page"
+								},
+								"custom_form": {
+									"mode": "form",
+									"name": "API Runner Form",
+									"items": {
+
+										"fromDate": {
+											"module": "date",
+											"selector": ".fromDate",
+											"label": "기준일자 시작평균시세",
+											"required": false,
+											"format": "YYYY-MM-DD",
+											"useCurrent": true,
+											"defaultDate": true
+										},
+										"toDate": {
+											"module": "date",
+											"selector": ".toDate",
+											"label": "기준일자 끝",
+											"required": false,
+											"format": "YYYY-MM-DD",
+											"useCurrent": true,
+											"defaultDate": true
+										},
+										"btnGetAvg": {
+											"label": "평균시세가져오기"
+										},
+										"pigJiyuk": {
+											"module": "price",
+											"selector": ".pigJiyuk",
+											"label": "지육시세",
+											"required": false
+										},
+										"pigP02": {
+											"module": "number",
+											"selector": ".pigP02",
+											"label": "박피환산율_암 ",
+											"required": false
+
+										},
+										"pigP03": {
+											"module": "number",
+											"selector": ".pigP03",
+											"label": "박피환산율_수",
+											"required": false
+										},
+										"pigP04": {
+											"module": "number",
+											"selector": ".pigP04",
+											"label": "박피환산율_거",
+											"required": false
+										},
+										"pigSexa1": {
+											"module": "price",
+											"selector": ".pigSexa1",
+											"label": "평균시세-암A 1+",
+											"required": false,
+											"disable": true
+										},
+										"pigSexb1": {
+											"module": "price",
+											"selector": ".pigSexb1",
+											"label": "평균시세-암B 1",
+											"required": false,
+											"disable": true
+										},
+										"pigSexc1": {
+											"module": "price",
+											"selector": ".pigSexc1",
+											"label": "평균시세-암C 2",
+											"required": false,
+											"disable": true
+										},
+										"pigSexe1": {
+											"module": "price",
+											"selector": ".pigSexe1",
+											"label": "평균시세-암E 등외",
+											"required": false,
+											"disable": true
+										},
+										"pigSexa2": {
+											"module": "price",
+											"selector": ".pigSexa2",
+											"label": "평균시세-수A 1+",
+											"required": false,
+											"disable": true
+										},
+										"pigSexb2": {
+											"module": "price",
+											"selector": ".pigSexb2",
+											"label": "평균시세-수B 1",
+											"required": false,
+											"disable": true
+										},
+										"pigSexc2": {
+											"module": "price",
+											"selector": ".pigSexc2",
+											"label": "평균시세-수C 2",
+											"required": false,
+											"disable": true
+										},
+										"pigSexe2": {
+											"module": "price",
+											"selector": ".pigSexe2",
+											"label": "평균시세-수E 등외",
+											"required": false,
+											"disable": true
+										},
+										"pigSexa3": {
+											"module": "price",
+											"selector": ".pigSexa3",
+											"label": "평균시세-거A 1+",
+											"required": false,
+											"disable": true
+										},
+										"pigSexb3": {
+											"module": "price",
+											"selector": ".pigSexb3",
+											"label": "평균시세-거B 1",
+											"required": false,
+											"disable": true
+										},
+										"pigSexc3": {
+											"module": "price",
+											"selector": ".pigSexc3",
+											"label": "평균시세-거C 2",
+											"required": false,
+											"disable": true
+										},
+										"pigSexe3": {
+											"module": "price",
+											"selector": ".pigSexe3",
+											"label": "평균시세-거E 등외",
+											"required": false,
+											"disable": true
+										}
+									},
+									"data": {},
+									"template": "<div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label>기준일자</label><div class=\"form-inline\"><input type=\"text\" class=\"form-control form_type_date fromDate\"><span>~</span><input type=\"text\" class=\"form-control form_type_date toDate\"></div></div></div></div><div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group form_only\"><div class=\"btnGetAvg_region\"></div></div></div><div class=\"col-xs-8\"><div class=\"form-group\"><label>지육시세</label><div class=\"input-group pigJiyuk\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control text-right\"></div></div></div></div><div class=\"row\"><div class=\"col-xs-4\"><fieldset class=\"label_w1\"><legend>박피환산율</legend><div class=\"form-group\"><label>암</label><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right pigP02\"><span class=\"input-group-addon\">%</span></div></div><div class=\"form-group\"><label>수</label><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right pigP03\"><span class=\"input-group-addon\">%</span></div></div><div class=\"form-group\"><label>거</label><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right pigP04\"><span class=\"input-group-addon\">%</span></div></div></fieldset></div><div class=\"col-xs-8\"><fieldset class=\"fieldset_type1\"><legend></legend><div class=\"row row_tight\"><div class=\"col-xs-3\"><label>+1</label><div class=\"input-group pigSexa1\"><input type=\"text\" class=\"form-control text-right\" readonly=\"readonly\"></div><div class=\"input-group pigSexa2\"><input type=\"text\" class=\"form-control text-right\" readonly=\"readonly\"></div><div class=\"input-group pigSexa3\"><input type=\"text\" class=\"form-control text-right\" readonly=\"readonly\"></div></div><div class=\"col-xs-3\"><label>1</label><div class=\"input-group pigSexb1\"><input type=\"text\" class=\"form-control text-right\" readonly=\"readonly\"></div><div class=\"input-group pigSexb2\"><input type=\"text\" class=\"form-control text-right\" readonly=\"readonly\"></div><div class=\"input-group pigSexb3\"><input type=\"text\" class=\"form-control text-right\" readonly=\"readonly\"></div></div><div class=\"col-xs-3\"><label>2</label><div class=\"input-group pigSexc1\"><input type=\"text\" class=\"form-control text-right\" readonly=\"readonly\"></div><div class=\"input-group pigSexc2\"><input type=\"text\" class=\"form-control text-right\" readonly=\"readonly\"></div><div class=\"input-group pigSexc3\"><input type=\"text\" class=\"form-control text-right\" readonly=\"readonly\"></div></div><div class=\"col-xs-3\"><label>등외</label><div class=\"input-group pigSexe1\"><input type=\"text\" class=\"form-control text-right\" readonly=\"readonly\"></div><div class=\"input-group pigSexe2\"><input type=\"text\" class=\"form-control text-right\" readonly=\"readonly\"></div><div class=\"input-group pigSexe3\"><input type=\"text\" class=\"form-control text-right\" readonly=\"readonly\"></div></div></div></fieldset></div></div>"
+								},
+								"btnGetAvg": {
+									"module": "manifest!Button-1.0.0",
+									"options": {
+										"className": "btn_box",
+										"label": "평균시세가져오기",
+										"icons": [{
+											"pos": "prefix",
+											"view": false,
+											"type": "fa",
+											"value": "hide"
+										}],
+										"button_loyout": {
+											"style": "btn-primary",
+											"sr_only": false,
+											"block": true
+										},
+										"cmd": ""
+									}
+								}
+							}
+						}
+
+					}
+				},
+				"formBox2": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"label": "공제금액"
+							}
+						},
+						"content": {
+							"module": "FormBox",
+							"options": {
+								"height":"186px",
+								"className": "form_box",
+								"order": [
+									"pigP09",
+									"pigP59"
+								],
+								"activation": {
+									"method": "one-page"
+								},
+								"custom_form": {
+									"mode": "form",
+									"name": "API Runner Form",
+									"items": {
+										"pigP09": {
+											"module": "price",
+											"selector": ".pigP09",
+											"label": "등급판정수수료 ",
+											"required": false
+										},
+										"pigP59": {
+											"module": "price",
+											"selector": ".pigP59",
+											"label": "자조금",
+											"required": false
+										}
+									},
+									"data": {},
+									"template": "<div class=\"row\"><div class=\"col-xs-6 label_w7\"><div class=\"form-group\"><label>등급판정수수료 </label><div class=\"input-group pigP09\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div></div></div><div class=\"col-xs-6 label_w5\"><div class=\"form-group\"><label>자조금</label><div class=\"input-group pigP59\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div></div></div></div>"
+								}
+							}
+						}
+					}
+				},
+				"formBox3": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"label": "가산금액"
+							}
+						},
+						"content": {
+							"module": "FormBox",
+							"options": {
+								"height":"",
+								"className": "form_box",
+								"order": [
+									"addGradea",
+									"addGradeb",
+									"pigGong1",
+									"pigBrand3",
+									"addGen1",
+									"add1From",
+									"add1To",
+									"addGen2",
+									"add2From",
+									"add2To",
+									"addGen3",
+									"add3From",
+									"add3To",
+									"incGen1",
+									"inc1From",
+									"inc1To",
+									"incGen2",
+									"inc2From",
+									"inc2To",
+									"incGen3",
+									"inc3From",
+									"inc3To",
+									"pigP10",
+									"pigP11",
+									"pigP12",
+									"pigP60",
+									"pigP61",
+									"pigP62"
+								],
+								"activation": {
+									"method": "one-page"
+								},
+								"custom_form": {
+									"mode": "form",
+									"name": "API Runner Form",
+									"items": {
+
+										"addGradea": {
+											"module": "price",
+											"selector": ".addGradea",
+											"label": "1+",
+											"required": false
+										},
+										"addGradeb": {
+											"module": "price",
+											"selector": ".addGradeb",
+											"label": "1",
+											"required": false
+										},
+										"pigGong1": {
+											"module": "price",
+											"selector": ".pigGong1",
+											"label": "품질유지금외",
+											"required": false
+										},
+										"pigBrand3": {
+											"module": "price",
+											"selector": ".pigBrand3",
+											"label": "탕박시세조정금",
+											"required": false
+										},
+										"addGen1": {
+											"module": "price",
+											"selector": ".addGen1",
+											"label": "무항생가산액",
+											"required": false
+										},
+										"add1From": {
+											"module": "number",
+											"selector": ".add1From",
+											"label": "무항생합격중량_암from",
+											"required": false
+										},
+										"add1To": {
+											"module": "number",
+											"selector": ".add1To",
+											"label": "무항생합격중량_암to",
+											"required": false
+										},
+										"addGen2": {
+											"module": "price",
+											"selector": ".addGen2",
+											"label": "무항생가산액_수",
+											"required": false
+										},
+										"add2From": {
+											"module": "number",
+											"selector": ".add2From",
+											"label": "무항생합격중량_수from",
+											"required": false
+										},
+										"add2To": {
+											"module": "number",
+											"selector": ".add2To",
+											"label": "무항생합격중량_수to",
+											"required": false
+										},
+										"addGen3": {
+											"module": "price",
+											"selector": ".addGen3",
+											"label": "무항생가산액_거새",
+											"required": false
+										},
+										"add3From": {
+											"module": "number",
+											"selector": ".add3From",
+											"label": "무항생합격중량_거새from",
+											"required": false
+										},
+										"add3To": {
+											"module": "number",
+											"selector": ".add3To",
+											"label": "무항생합격중량_거세to",
+											"required": false
+										},
+										"incGen1": {
+											"module": "price",
+											"selector": ".incGen1",
+											"label": "더느림가산액_암",
+											"required": false
+										},
+										"inc1From": {
+											"module": "number",
+											"selector": ".inc1From",
+											"label": "더느림합격중량_암from",
+											"required": false
+										},
+										"inc1To": {
+											"module": "number",
+											"selector": ".inc1To",
+											"label": "더느림합격중량_암to",
+											"required": false
+										},
+										"incGen2": {
+											"module": "price",
+											"selector": ".incGen2",
+											"label": "더느림가산액_수",
+											"required": false
+										},
+										"inc2From": {
+											"module": "number",
+											"selector": ".inc2From",
+											"label": "더느림합격중량_수from",
+											"required": false
+										},
+										"inc2To": {
+											"module": "number",
+											"selector": ".inc2To",
+											"label": "더느림합격중량_수to",
+											"required": false
+										},
+										"incGen3": {
+											"module": "price",
+											"selector": ".incGen3",
+											"label": "더느림가산액_거새",
+											"required": false
+										},
+										"inc3From": {
+											"module": "number",
+											"selector": ".inc3From",
+											"label": "더느림합격중량_거새from",
+											"required": false
+										},
+										"inc3To": {
+											"module": "number",
+											"selector": ".inc3To",
+											"label": "더느림합격중량_거세to",
+											"required": false
+										},
+										"pigP10": {
+											"module": "price",
+											"selector": ".pigP10",
+											"label": "1+BP가산액",
+											"required": false
+										},
+										"pigP11": {
+											"module": "number",
+											"selector": ".pigP11",
+											"label": "1+BP합격기준from",
+											"required": false
+										},
+										"pigP12": {
+											"module": "number",
+											"selector": ".pigP12",
+											"label": "1+BP합격기준to",
+											"required": false
+										},
+										"pigP60": {
+											"module": "price",
+											"selector": ".pigP60",
+											"label": "1BP가산액",
+											"required": false
+										},
+										"pigP61": {
+											"module": "number",
+											"selector": ".pigP61",
+											"label": "1BP합격기준from",
+											"required": false
+										},
+										"pigP62": {
+											"module": "number",
+											"selector": ".pigP62",
+											"label": "1BP합격기준to",
+											"required": false
+										}
+
+									},
+									"data": {},
+									"template": "<div class=\"row\"><div class=\"col-xs-6 \"><fieldset class=\"label_w2\"><legend>등급</legend><div class=\"form-group\"><label>[1+]</label><div class=\"input-group addGradea\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div></div><div class=\"form-group\"><label>[1]</label><div class=\"input-group addGradeb\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div></div></fieldset></div><div class=\"col-xs-6 label_w7\"><div class=\"form-group\"></div><div class=\"form-group\"><label>품질유지금외</label><div class=\"input-group pigGong1\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div></div><div class=\"form-group\"><label>탕박시세조정금</label><div class=\"input-group pigBrand3\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div></div></div></div><fieldset class=\"fieldset_type2\"><legend>무항생</legend><div class=\"form-group\"><label>[암]</label><div class=\"input-group addGen1\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right add1From\"><span class=\"input-group-addon\">Kg</span></div><span>~</span><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right add1To\"><span class=\"input-group-addon\">Kg</span></div></div><div class=\"form-group\"><label>[수]</label><div class=\"input-group addGen2\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right add2From\"><span class=\"input-group-addon\">Kg</span></div><span>~</span><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right add2To\"><span class=\"input-group-addon\">Kg</span></div></div><div class=\"form-group\"><label>[거]</label><div class=\"input-group addGen3\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right add3From\"><span class=\"input-group-addon\">Kg</span></div><span>~</span><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right add3To\"><span class=\"input-group-addon\">Kg</span></div></div></fieldset><fieldset class=\"fieldset_type2\"><legend>더느림</legend><div class=\"form-group\"><label>[암]</label><div class=\"input-group incGen1\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right inc1From\"><span class=\"input-group-addon\">Kg</span></div><span>~</span><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right inc1To\"><span class=\"input-group-addon\">Kg</span></div></div><div class=\"form-group\"><label>[수]</label><div class=\"input-group incGen2\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right inc2From\"><span class=\"input-group-addon\">Kg</span></div><span>~</span><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right inc2To\"><span class=\"input-group-addon\">Kg</span></div></div><div class=\"form-group\"><label>[거]</label><div class=\"input-group incGen3\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right inc3From\"><span class=\"input-group-addon\">Kg</span></div><span>~</span><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right inc3To\"><span class=\"input-group-addon\">Kg</span></div></div></fieldset><fieldset class=\"fieldset_type2\"><legend>BP</legend><div class=\"form-group\"><label>[1+]</label><div class=\"input-group pigP10\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right pigP11\"><span class=\"input-group-addon\">Kg</span></div><span>~</span><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right pigP12\"><span class=\"input-group-addon\">Kg</span></div></div><div class=\"form-group\"><label>[1]</label><div class=\"input-group pigP60\"><input type=\"text\" class=\"form-control text-right\"><span class=\"input-group-addon\">원/두</span></div><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right pigP61\"><span class=\"input-group-addon\">Kg</span></div><span>~</span><div class=\"input-group\"><input type=\"text\" class=\"form-control text-right pigP62\"><span class=\"input-group-addon\">Kg</span></div></div></fieldset>"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+	}
+}

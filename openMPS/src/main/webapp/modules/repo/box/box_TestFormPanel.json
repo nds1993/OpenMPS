@@ -1,0 +1,191 @@
+{
+  "module": "FormBox",
+  "options": {
+    "className": "form_panel_box",
+    "order": [
+      "text2",
+      "password",
+      "name",
+      "desc",
+      "text",
+      "textarea",
+      "date",
+      "checkbox11",
+      "combobox",
+      "radiobox",
+      "price",
+      "number"
+    ],
+    "custom_form": {
+      "mode": "form",
+      "name": "Testing Form",
+      "items": {
+        "desc": {
+          "label": "Introduce",
+          "required": false
+        },
+        "name": {
+          "label": "Name",
+          "required": true
+        },
+        "text": {
+          "module": "text",
+          "label": "단문 입력",
+          "selector": ".text",
+          "required": false,
+          "max_size": 5,
+          "placeholder": "Input Input",
+          "readonly": false
+        },
+        "text2": {
+          "module": "text",
+          "label": "스태틱 텍스트",
+          "selector": ".text",
+          "required": false,
+          "max_size": 5,
+          "placeholder": "Input Input",
+          "readonly": false,
+          "static": true,
+          "value": "스태틱 텍스트가 출력됩니다. 수정 불가"
+        },
+        "textarea": {
+          "module": "textarea",
+          "label": "장문 입력",
+          "selector": ".textarea",
+          "required": false,
+          "max_size": 50,
+          "placeholder": "Input Long Long",
+          "disable": false,
+          "focus": false
+        },
+        "date": {
+          "module": "date",
+          "label": "날짜",
+          "selector": ".date",
+          "required": false,
+          "format": "YYYY-MM",
+          "value": {},
+          "defaultDate": "2002-07",
+          "readonly": false,
+          "focus": true
+        },
+        "radiobox": {
+          "module": "radiobox",
+          "label": "항목 선택",
+          "selector": ".radiobox",
+          "required": false,
+          "items": [
+            {
+              "label": "항목1",
+              "value": 1
+            },
+            {
+              "label": "항목2",
+              "value": 2
+            },
+            {
+              "label": "항목3",
+              "value": 3
+            }
+          ],
+          "value": "2",
+          "readonly": false
+        },
+        "combobox": {
+          "module": "combobox",
+          "label": "선택하세요",
+          "selector": ".combobox",
+          "required": false,
+          "items": [
+            {
+              "label": "선택해주세요",
+              "value": 0
+            },
+            {
+              "label": "항목1",
+              "value": 1
+            },
+            {
+              "label": "항목2",
+              "value": 2
+            },
+            {
+              "label": "항목3",
+              "value": 3
+            }
+          ],
+          "value": "2",
+          "disable": false
+        },
+        "price": {
+          "module": "price",
+          "label": "가격",
+          "selector": ".price",
+          "unit": {
+            "code": 1,
+            "label": "$"
+          },
+          "required": false,
+          "readonly": false
+        },
+        "number": {
+          "module": "number",
+          "label": "숫자(정수/실수)",
+          "selector": ".number",
+          "required": false,
+          "readonly": false
+        },
+        "password": {
+          "module": "password",
+          "label": "비밀번호",
+          "selector": ".password",
+          "required": true,
+          "validation": "",
+          "readonly": false,
+          "value": "xxxxx"
+        },
+        "checkbox11": {
+          "module": "checkbox",
+          "label": "항목 체크 111",
+          "selector": ".checkbox11",
+          "required": true,
+          "value": true,
+          "disable": false,
+          "labelPos": "backward"
+        }
+      },
+      "data": {
+        "price": 9235983472589342,
+        "text": "read only"
+      }
+    },
+    "name": {
+      "module": "manifest!Text-1.0.0",
+      "options": {
+        "label": "Name",
+        "required": true,
+        "max_size": 10,
+        "placeholder": "Input your name"
+      }
+    },
+    "desc": {
+      "module": "manifest!Textarea-1.0.0#widget",
+      "options": {
+        "max_size": 50,
+        "placeholder": "About me",
+        "label": "Introduce",
+        "required": false,
+        "style": {
+          "desc": "자기소개 50자 내로 입력하세요!",
+          "icon": {
+            "pos": "suffix",
+            "type": "fa",
+            "value": "fa-smile-o",
+            "view": true
+          },
+          "input_size": "input-sm"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpPlanCmD">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpPlanCmDSerarchVO" type="nds.mpm.prod.PP0302.vo.MpPlanCmDVO"/>
+	
+	<insert id="mpPlanCmDDAO.insertMpPlanCmD">
+			INSERT INTO mp_plan_cm_d 
+				( corp_code
+				  , plant_code
+				  , work_date
+				  , pro_lcode
+				  , pro_lname
+				  , f_rate_sort
+				  , pro_code
+				  , pro_name
+				  , ipsu_doo
+				  , unit_kg
+				  , work_type1
+				  , work_type2
+				  , work_type3
+				  , print_sheet
+				  , frozen_yn
+				  , jaego_qty
+				  , jaego_weig
+				  , order_qty
+				  , order_weig
+				  , ord_week_qty
+				  , ord_week_weig
+				  , wout_qty
+				  , wout_weig
+				  , ajaego_weig
+				  , bjaego_weig
+				  , san_qty
+				  , san_weig
+				  , san_dosu
+				  , work_cnt
+				  , memo
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #workDate#
+				  , #proLcode#
+				  , #proLname#
+				  , #fRateSort#
+				  , #proCode#
+				  , #proName#
+				  , #ipsuDoo#::numeric(11,1)
+				  , #unitKg#::numeric(11,2)
+				  , #workType1#
+				  , #workType2#
+				  , #workType3#
+				  , #printSheet#
+				  , #frozenYn#
+				  , #jaegoQty#::numeric(15,0)
+				  , #jaegoWeig#::numeric(11,2)
+				  , #orderQty#::numeric(15,0)
+				  , #orderWeig#::numeric(11,2)
+				  , #ordWeekQty#::numeric(15,0)
+				  , #ordWeekWeig#::numeric(11,2)
+				  , #woutQty#::numeric(15,0)
+				  , #woutWeig#::numeric(11,2)
+				  , #ajaegoWeig#::numeric(11,2)
+				  , #bjaegoWeig#::numeric(11,2)
+				  , #sanQty#::numeric(15,0)
+				  , #sanWeig#::numeric(11,2)
+				  , #sanDosu#::numeric(15,2)
+				  , #workCnt#::numeric
+				  , #memo#
+				  , 'N'
+				  , #crUser#
+				  , now() )
+			ON CONFLICT (corp_code, plant_code, work_date, pro_code)
+    		DO UPDATE SET
+				 bjaego_weig= ( #jaegoWeig#::numeric(15,2) - #orderWeig#::numeric(15,2) + ( #sanQty#::numeric(15,0) * #unitKg#::numeric(15,4) ) ) 
+				, san_dosu = #sanDosu#::numeric(15,2)
+				, san_qty=#sanQty#::numeric(15,0)
+				, san_weig=( #sanQty#::numeric(15,0) * #unitKg#::numeric(15,4) )
+				, memo=#memo#
+				, dele_yn = 'N'
+				, md_user=#mdUser#
+				, md_date=now()
+	</insert>
+	
+	<update id="mpPlanCmDDAO.updateMpPlanCmD">
+			UPDATE mp_plan_cm_d
+			SET pro_lcode=#proLcode#
+				, pro_lname=#proLname#
+				, sort1=#sort1#
+				, sort2=#sort2#
+				, pro_code=#proCode#
+				, pro_name=#proName#
+				, ipsu_doo=#ipsuDoo#
+				, unit_kg=#unitKg#
+				, work_type1=#workType1#
+				, work_type2=#workType2#
+				, work_type3=#workType3#
+				, print_sheet=#printSheet#
+				, frozen_yn=#frozenYn#
+				, jaego_qty=#jaegoQty#
+				, jaego_weig=#jaegoWeig#
+				, order_qty=#orderQty#
+				, order_weig=#orderWeig#
+				, ord_week_qty=#ordWeekQty#
+				, ord_week_weig=#ordWeekWeig#
+				, wout_qty=#woutQty#
+				, wout_weig=#woutWeig#
+				, ajaego_weig=#ajaegoWeig#
+				, bjaego_weig=#bjaegoWeig#
+				, san_qty=#sanQty#
+				, san_weig=#sanWeig#
+				, san_dosu=#sanDosu#
+				, work_cnt=#workCnt#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+				where corp_code = #corpCode#
+				and plant_code = #plantCode#
+				and work_date = #workDate#
+				and pro_code = #proCode#
+	</update>
+	<!-- 작업일계획전체 삭제 -->
+	<delete id="mpPlanCmDDAO.deleteMpPlanCmD">
+			delete from mp_plan_cm_d 
+			where corp_code = #corpCode#
+			<isNotEmpty property="plantCode">
+			and plant_code = #plantCode#
+			</isNotEmpty>
+			and work_date = #workDate#
+			<isNotEmpty property="proCode">
+			and pro_code = #proCode#
+			</isNotEmpty>
+	</delete>
+	
+	<!-- PP0302 제품추가 중복체크 -->
+	<select id="mpPlanCmDDAO.checkDupProCodeMpPlanCmD"  resultClass="int">
+	select  count(pro_code)
+	   FROM openmps.mp_plan_cm_d a
+	  WHERE    
+	        a.corp_code = #corpCode#
+	    AND a.work_date = #workDate#
+	    AND a.plant_code = #plantCode#
+	    AND a.pro_code = #proCode#
+	    AND a.dele_yn = 'N'
+	</select>
+</sqlMap>

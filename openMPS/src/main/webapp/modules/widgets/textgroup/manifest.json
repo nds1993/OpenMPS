@@ -1,0 +1,19 @@
+{
+  "name": "TextGroup",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "input.textgroup-1.0.0.js",
+  	"manager": "input.textgroup.manager-1.0.0.js"
+  },
+  "resource": {
+  	"template": "resource.html"
+  },
+  "dependencies":
+  [
+	"BaroPanelBase", "FormItemPanel", "Logger", "SPA.Platform.Helper"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  },
+  "tag":["form widget","input","text","single input text"]
+}

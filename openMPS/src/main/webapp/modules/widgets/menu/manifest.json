@@ -1,0 +1,19 @@
+{
+  "name": "Menu",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "menu-1.0.0.js",
+  	"manager": "menu.manager-1.0.0.js"
+  },
+  "resource": {
+  	"template": "resource.html"
+  },
+  "dependencies":
+  [
+	"BaroPanelBase", "Logger"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  },
+  "tag":["widget","menui","tree menu", "bar type menu"]
+}

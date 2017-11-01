@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpCustHist">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpCustHistSerarchVO" type="nds.mpm.sales.SD0101.vo.MpCustHistVO"/>
+	
+	<resultMap id="mpCustHist" class="nds.mpm.sales.SD0101.vo.MpCustHistVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="custCode" column="cust_code" columnIndex="2"/>
+		<result property="seqNo" column="seq_no" columnIndex="3"/>
+		<result property="startDate" column="start_date" columnIndex="4"/>
+		<result property="lastDate" column="last_date" columnIndex="5"/>
+		<result property="saleHead" column="sale_head" columnIndex="6"/>
+		<result property="salePart" column="sale_part" columnIndex="7"/>
+		<result property="salesman" column="salesman" columnIndex="8"/>
+		<result property="crUser" column="cr_user" columnIndex="9"/>
+		<result property="crDate" column="cr_date" columnIndex="10"/>
+		<result property="mdUser" column="md_user" columnIndex="11"/>
+		<result property="mdDate" column="md_date" columnIndex="12"/>
+	</resultMap>
+	
+	<insert id="mpCustHistDAO.insertMpCustHist" >
+		<selectKey keyProperty="seqNo" resultClass="int">
+		    select (coalesce(max(seq_no::numeric),0)+1) seqNo from mp_cust_hist where corp_code = #corpCode# and cust_code = #custCode#
+		</selectKey>
+		<![CDATA[
+			INSERT INTO mp_cust_hist 
+				( corp_code
+				  , cust_code
+				  , seq_no
+				  , start_date
+				  , last_date
+				  , part_code
+				  , salesman
+				  , cr_user
+				  , cr_date
+				  , md_user
+				  , md_date )
+			VALUES ( #corpCode#
+				  , #custCode#
+				  , #seqNo#::numeric
+				  , #startDate#
+				  , #lastDate#
+				  , #partCode#
+				  , #salesman#
+				  , #crUser#
+				  , now()
+				  , #mdUser#
+				  , #mdTime# )
+		]]>
+	</insert>
+	
+	<update id="mpCustHistDAO.updateMpCustHist">
+		<![CDATA[
+			UPDATE mp_cust_hist
+			SET start_date=#startDate#
+				, last_date=#lastDate#
+				, part_code=#partCode#
+				, salesman=#salesman#
+				, cr_user=#crUser#
+				, cr_date=#crTime#
+				, md_user=#mdUser#
+				, md_date=#mdTime#
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND seq_no=#seqNo#::numeric
+				]]>
+	</update>
+	
+	<delete id="mpCustHistDAO.deleteMpCustHist">
+		<![CDATA[
+			DELETE FROM mp_cust_hist 
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND seq_no=#seqNo#::numeric
+				]]>
+	</delete>
+	
+	<select id="mpCustHistDAO.selectMpCustHist_S" resultMap="mpCustHist">
+		<![CDATA[
+			SELECT
+				corp_code
+				, cust_code
+				, seq_no
+				, start_date
+				, last_date
+				, part_code
+				, salesman
+				, cr_user
+				, cr_date
+				, md_user
+				, md_date
+			FROM mp_cust_hist
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND seq_no=#seqNo#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM 
+			mp_cust_hist c 
+			left outer join tm_userxm d on ( c.salesman = d.user_code )
+			left outer join tm_userxm e on ( c.cr_user = e.user_code )
+			left outer join tm_teamxm tm on ( c.part_code = tm.team_code )
+		where c.corp_code = #corpCode#
+		<isNotEmpty prepend="and" property="custCode">
+		 c.cust_code = #custCode#		
+         </isNotEmpty>
+		 <isNotEmpty prepend="and" property="salesman">
+		 c.salesman = #salesman#
+         </isNotEmpty>
+	</sql>
+	<select id="mpCustHistDAO.selectMpCustHistList_D" parameterClass="mpCustHistSerarchVO" resultClass="egovMap">
+		SELECT
+				c.corp_code
+				, d.dept_code
+				, tm.team_name as dept_name 
+				, c.salesman
+				, c.cust_code
+				, c.seq_no
+				, c.start_date
+				, c.last_date
+				, d.user_name as salesman_name
+				, c.cr_date
+				, e.user_name as cr_username 
+			<include refid="selectWhere_fragment"/>
+			order by seq_no
+	</select>	
+	<select id="mpCustHistDAO.selectMpCustHistListTotCnt_S" parameterClass="mpCustHistSerarchVO" resultClass="int">
+		SELECT
+			count(*)
+			<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

@@ -1,0 +1,113 @@
+@charset "utf-8";
+
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-family: "돋움";font-size: 12px;color: #8b8b8b; 
+}
+
+/*기본탬플 이미지*/
+.tm01bg01 {background-image: url('images/mail/temple_top01.jpg'); no-repeat;}
+.tm01bg02 {background-image: url('images/mail/temple_bg01.png'); no-repeat; background-position: bottom;}
+.tm02bg01 {background-image: url('images/mail/temple_top02.jpg'); no-repeat;}
+.tm03bg01 {background-image: url('images/mail/temple_top03.jpg'); no-repeat;}
+.tm04bg01 {background-image: url('images/mail/templ04_img01.gif'); no-repeat;}
+.tm04bg02 {background-image: url('images/mail/temple_top04.jpg'); no-repeat;}
+.tm05bg01 {background-image: url('images/mail/temple_top05.jpg'); no-repeat;}
+.tm06bg01 {background-image: url('images/mail/temple_top06.jpg'); no-repeat;}
+.tm07bg01 {background-image: url('images/mail/temple_top07.jpg'); no-repeat;}
+.tm08bg01 {background-image: url('images/mail/temple_top08.jpg'); no-repeat;}
+	
+.bo {font-weight: bold;}
+.chbl {letter-spacing:-1pt;}
+.pad_5 { padding:5px;}
+.pad_l0 { padding:10px;}
+.pad_ㅣ { padding-left:10px;}
+.pad_30 { padding-left:30px;}
+.pad_bt { padding-bottom: 5px; }
+.pad_top { padding-top: 5px;}
+.pad_top8 { padding-top:8px;}
+.line01 {line-height:160%;}
+.line02 {line-height:130%;}
+
+/* 탑메뉴*/
+
+.top_bg {background-image: url('images/main/topbg.jpg');
+    background-repeat: repeat-x;
+    background-position: top;}
+
+/*  폼  */
+
+.input01 { height:24; font-family : "돋움"; font-size : 12px;
+	color : #666666; border:1px solid #bdbdbd; padding: 3px 3px 3px ;}
+.sel01 { font-family :"돋움"; font-size :12px; color :#9c9c9c;
+	border : 1px solid #d5d5d5; padding: 1px 1px 1px ;height:21px;
+	width:150px;}
+.sel02 { font-family :"돋움"; font-size :12px; color :#9c9c9c;
+	border : 1px solid #d5d5d5; padding: 1px 1px 1px ;height:21px;
+	width:60px;}	
+
+	
+/* 테이블 */
+
+#arg tr td { padding-left:12px; font-size:12px; font-family:"돋움"; color:#3c3c3c; }
+
+
+	
+/*텍스트*/
+.txt00 {font-family:  "돋움"; font-size: 12px; color: #ffffff}
+.txt01 {font-family:  "돋움"; font-size: 12px; color: #656565}
+.txt02 {font-family:  "돋움"; font-size: 12px; color: #606161;}	
+.poll { font-family:  "돋움"; font-size: 12px; color: #414141; padding: 6px 0 6px 6px;}
+.arge_txt01 {
+	font-family:  "돋움";
+	font-size: 12px; color: #3280b1; text-decoration: underline;}	
+.arge_txt02 {
+	font-family:  "돋움";
+	font-size: 12px; color: #ff5555; text-decoration: underline;}			
+		
+.txtfr {font-family:  "돋움"; font-size: 12px; color: #ff5555; vertical-align:middle;}	
+.txtfr1 {font-family:  "돋움"; font-size: 12px; color: #777777; vertical-align:middle;}		
+.txt04 {
+	font-family:  "돋움";
+	font-size: 11px;
+	color: #666666;
+	
+}	
+	
+.txt05 {
+	font-family:  "돋움";
+	font-size: 11px;
+	color: #3d5c93;
+	
+}	
+
+.txt16 {
+    font-family: "돋움";
+    font-size: 16px;
+    font-weight: bold;
+    color: #1e1e1e;
+    text-decoration: none;
+}
+
+/*링크*/
+.left_menu              { font-size:12px; letter-spacing:0px; font-family: 돋움,굴림; color: #363636; text-decoration: none;}
+.lmenu_link             { font-size:11px; letter-spacing:0px; font-family: 돋움,굴림; color: #666666; text-decoration: none;}
+.lmenu_link a:link      { font-size:11px; letter-spacing:0px; font-family: 돋움,굴림; color: #666666; text-decoration: none;}
+.lmenu_link a:visited   { font-size:11px; letter-spacing:0px; font-family: 돋움,굴림; color: #666666; text-decoration: none;}
+.lmenu_link a:hover     { font-size:11px; letter-spacing:0px; font-family: 돋움,굴림; color: #333333; text-decoration: underline;}
+
+.s1_link a:link     {font-family: "굴림"; font-size: 12px; 	color: #565656;	text-decoration: none; }
+.s1_link a:visited  {font-family: "굴림"; font-size: 12px; 	color: #565656;	text-decoration: none; }
+.s1_link a:hover    {font-family: "굴림"; font-size: 12px; 	color: #000000;	text-decoration: underline; ;}	
+	
+.s2_link a:link     {font-family: "돋움"; font-size: 11px; 	color: #333333;	text-decoration: none; }
+.s2_link a:visited  {font-family: "돋움"; font-size: 11px; 	color: #333333;	text-decoration: none; }
+.s2_link a:hover    {font-family: "돋움"; font-size: 11px; 	color: #000000;	text-decoration: underline; ;}	
+
+.tmenu_link  { font-size:12px;font-family: 돋움; color:#585858; text-decoration: none; padding-left:13px; padding-top:3px; }
+.tmenu_link a:link     { font-size:12px;font-family: 돋움; color:#585858;text-decoration: none; }
+.tmenu_link a:visited   { font-size:12px;font-family: 돋움; color:#585858; text-decoration: none; }
+.tmenu_link a:hover     { font-size:12px;font-family: 돋움; font-weight:bold;  color:#3e79bf; letter-spacing:-1px;   text-decoration: none; }

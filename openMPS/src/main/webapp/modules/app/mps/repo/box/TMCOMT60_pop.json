@@ -1,0 +1,219 @@
+{
+	"name": "주소록",
+	"module": "TMCOMT60PopupRenderer",
+	"options": {
+		"header": {
+			"title": {
+				"label": "주소록"
+			},
+			"feature": [{
+				"search": "조회"
+			}, {
+				"confirm": "선택"
+			}]
+		},
+		"content": {
+			"module": "BaroBox",
+			"options": {
+				"className": "contents_box",
+				"order": [
+					"queryBox",
+					"resultBox"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"queryBox": {
+					"module": "FormBox",
+					"options": {
+						"className": "query_box",
+						"order": [
+							"plantCode",
+							"proCode"
+						],
+						"activation": {
+							"defaultWidget": "",
+							"method": "one-page"
+						},
+						"custom_form": {
+							"template": "<div class=\"form-group\"><label>API명</label><input type=\"text\" class=\"form-control intrName\"></div>",
+							"mode": "form",
+							"items": {
+
+								"plantCode": {
+									"required": true,
+									"selector": ".plantCode",
+									"label": "공장",
+									"module": "combobox",
+									"fetcher": {
+										"url": "<%= host %>/rest/mpm/<%= corpCode %>/pp0101/tmplatxm",
+										"parser": "return UCMS.parseComboPlant(arguments[0]);"
+									}
+								},
+								"proCode": {
+									"label": "제품"
+								}
+							},
+							"data": {}
+						},
+						"proCode": {
+							"module": "manifest!CodeSearch-1.0.0",
+							"options": {
+								"label": "제품",
+								"required": false,
+								"codeType": "PP0103",
+								"params": {
+								},
+								"value": {
+									"keyword": null,
+									"result": null
+								}
+							}
+						}
+					}
+				},
+				"resultBox": {
+					"module": "FormBox",
+					"options": {
+						"className": "result_box",
+						"order": ["leftGrid", "rightGrid"],
+						"activation": {
+							"defaultWidget": "",
+							"method": "one-page"
+						},
+						"custom_form": {
+							"mode": "form",
+							"template": "<div class=\"leftGrid_region\"></div><div class=\"rightGrid_region\"></div>",
+							"items": {
+								"leftGrid": {
+									"label": "baseInfo",
+									"required": true
+								},
+								"rightGrid": {
+									"label": "baseItem",
+									"required": true
+								}
+							},
+							"data": {}
+						},
+						"leftGrid": {
+							"module": "SubContainer",
+							"options": {
+								"header": {
+									"title": {
+										"label": "그룹"
+									}
+								},
+								"content": {
+									"module": "manifest!jqGrid4-1.0.0",
+									"options": {
+										"className": "leftGrid_box grid_box gird_btn_hide",
+										"gridId": "PP0105_pop_01_grid_1",
+										"gridParams": {
+											"data": [],
+											"colModel": [
+
+												{
+													"name": "bomCode",
+													"label": "그룹코드",
+													"width": 70,
+													"align": "center",
+													"editable": false,
+													"hidden": false
+												},
+												{
+													"name": "bomVer",
+													"label": "그룹명",
+													"width": 50,
+													"align": "center",
+													"editable": false,
+													"hidden": false
+												}
+											],
+											"pager": false,
+											"width": "auto",
+											"height": "130",
+											"cellEdit": false,
+											"shrinkToFit": true,
+											"gridview": true,
+											"datatype": "local",
+											"viewrecords": true,
+											"footerrow": false,
+											"multiselect": false,
+											"multiselectWidth": 20,
+											"rownumbers": false,
+											"pager": "#PP0105_pop_01_grid_1_pager",
+											"viewrecords": true,
+											"recordpos":"left",
+											"pgbuttons":false,
+											"pginput":false
+
+										}
+									}
+								}
+							}
+						},
+						"rightGrid": {
+							"module": "SubContainer",
+							"options": {
+								"header": {
+									"title": {
+										"label": "상세"
+									}
+								},
+								"content": {
+									"module": "manifest!jqGrid4-1.0.0",
+									"options": {
+										"className": "rightGrid_box grid_box gird_btn_hide",
+										"gridId": "PP0105_pop_01_grid_2",
+										"gridParams": {
+											"data": [],
+											"colModel": [{
+													"name": "proType",
+													"label": "이름",
+													"width": 75,
+													"align": "center",
+													"editable": false,
+													"hidden": false
+												},
+												{
+													"name": "buProCode",
+													"label": "팩스번호",
+													"width": 80,
+													"align": "center",
+													"editable": false,
+													"hidden": false
+												}
+											],
+											"pager": true,
+											"width": "auto",
+											"height": "130",
+											"cellEdit": false,
+											"shrinkToFit": true,
+											"gridview": true,
+											"datatype": "local",
+											"viewrecords": true,
+											"footerrow": false,
+											"multiselect": false,
+											"multiselectWidth": 20,
+											"rownumbers": true,
+
+											"rownumbersWidth":"19",
+											"pager": "#TMCOMT60_pop_grid_2_pager",
+											"viewrecords": true,
+											"recordpos":"left",
+											"pgbuttons":false,
+											"pginput":false
+
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

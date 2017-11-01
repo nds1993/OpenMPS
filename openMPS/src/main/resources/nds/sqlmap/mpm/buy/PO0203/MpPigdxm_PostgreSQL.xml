@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PO0203MpPigdxm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="PO0203MpPigdxmSerarchVO" type="nds.mpm.buy.PO0102.vo.MpPigdxmVO"/>
+	<sql id="selectWhere_fragment" >
+	<!-- 기본 리스트 조회	-->
+	SELECT AA.GUBN,	<!-- 구분 : 개제별(1), 이상육(2)	-->
+			AA.FAC_KIND,	<!-- 돈피구분 : 탕박(1), 박피(3)	-->
+			AA.FAC_NAME,	<!-- 돈피명	-->
+			AA.BUY_TYPE,	<!-- 도축장코드	-->
+			AA.BUY_NAME,	<!-- 도축장명	-->
+			AA.BRAND_CODE,	<!-- 브랜드코드		-->
+			AA.BRAND_NAME,	<!-- 브랜드명	-->
+			AA.DOCH_DATE,	<!-- 도축일자	-->
+			AA.REP_CUST,	<!-- 대표농장	-->
+			AA.REP_NAME,	<!-- 대표농장명	-->
+			AA.CUST_CODE,	<!-- 농장거래처	-->
+			AA.CUST_NAME,	<!-- 농장거래처명	-->
+			AA.DOCH_ID,		<!-- 도체번호	-->
+			AA.GEND_1,		<!-- 암컷	-->
+			AA.GEND_2,		<!-- 숫컷	-->
+			AA.GEND_3,		<!-- 거세	-->
+			AA.PIG_WEIG3,	<!-- 등지방	-->
+			AA.PIG_WEIG2,	<!-- 지육중량	-->
+			AA.PIG_WEIG1,	<!-- 생체중량	-->
+			AA.PIG_GRADE,	<!-- 등급코드	-->
+			AA.PIG_MEAT,	<!-- 등급명	-->
+			<![CDATA[
+			CASE	WHEN AA.PIG_GRADE	= 'A'	THEN
+				CASE	WHEN	AA.PIG_WEIG2 >= COALESCE(BB.PIG_P11,0)	AND AA.PIG_WEIG2 <= COALESCE(BB.PIG_P12,0) THEN 1.0 ELSE 0.0 END
+			ELSE	0.0 END	A_BP,	
+			CASE	WHEN AA.PIG_GRADE	= 'B'	THEN
+				CASE	WHEN	AA.PIG_WEIG2 >= COALESCE(BB.PIG_P61,0)	AND AA.PIG_WEIG2 <= COALESCE(BB.PIG_P62,0) THEN 1.0 ELSE 0.0 END		
+			ELSE	0.0 END	B_BP,	
+			]]>
+			AA.AB_CLASS,	<!-- 1등급이상두수	-->
+			AA.PIG_PRIC8,	<!-- 정산액	-->
+			AA.OTH_PRIC1 - AA.OTH_PRIC2 - AA.OTH_PRIC3 - AA.OTH_PRIC4	DEDU_AMT,	<!-- 공제금액	-->
+			AA.OTH_PRIC1,	<!-- 이상육	-->
+			AA.OTH_PRIC2,	<!-- 계류사돈	-->
+			AA.OTH_PRIC3,	<!-- 도축사고	-->
+			AA.OTH_PRIC4,	<!-- 정산차액	-->
+			AA.PIG_PRIC8 - ( AA.OTH_PRIC1 - AA.OTH_PRIC2 - AA.OTH_PRIC3 - AA.OTH_PRIC4 ) AFTER_AMT,	<!-- 지급액(공제후)	-->
+			AA.PIG_PRIC7,	<!-- 등판금	-->
+			AA.PIG_PRIC8 - ( AA.OTH_PRIC1 - AA.OTH_PRIC2 - AA.OTH_PRIC3 - AA.OTH_PRIC4 ) - AA.PIG_PRIC7	ACCT_AMT,	<!-- 지급액(회계)	-->
+			AA.PIG_PRIC9,	<!-- 자조금	-->
+			AA.PIG_PRIC8 - ( AA.OTH_PRIC1 - AA.OTH_PRIC2 - AA.OTH_PRIC3 - AA.OTH_PRIC4 ) - AA.PIG_PRIC7 - AA.PIG_PRIC9 PAY_AMT	<!-- 농장지급액	-->
+	FROM
+	(
+	<!--  개체별 조회		-->
+	SELECT	'1'	GUBN,	<!-- 구분 : 개제별(1), 이상육(2)	-->
+				A.FAC_KIND,	<!-- 돈피구분 : 탕박(1), 박피(3)	-->
+				A.FAC_CODE,
+				B.CODE_NAME	FAC_NAME,	<!-- 돈피명	-->
+				A.BUY_TYPE,					<!-- 도축장코드	-->
+				C.CODE_NAME	BUY_NAME,	<!-- 도축장명	-->
+				A.BRAND_CODE,				<!-- 브랜드코드	-->	
+				D.CODE_NAME	BRAND_NAME,	<!-- 브랜드명	-->
+				A.DOCH_DATE,				<!-- 도축일자	-->
+				A.REP_CUST,					<!-- 대표농장	-->
+				F.CUST_NAME	REP_NAME,	<!-- 대표농장명	-->
+				A.CUST_CODE,				<!-- 농장거래처	-->
+				E.CUST_NAME	CUST_NAME,	<!-- 농장거래처명	-->
+				A.DOCH_ID,					<!-- 도체번호	-->
+				CASE	WHEN	A.SEX_NO	= '1' THEN 1.0 ELSE 0.0 END	GEND_1,	<!-- 암컷	-->
+				CASE	WHEN	A.SEX_NO	= '2' THEN 1.0 ELSE 0.0 END GEND_2,	<!-- 숫컷	-->
+				CASE	WHEN	A.SEX_NO	= '3' THEN 1.0 ELSE 0.0 END GEND_3,	<!-- 거세	-->
+				A.PIG_WEIG3,	<!-- 등지방	-->
+				A.PIG_WEIG2,	<!-- 지육중량	-->
+				A.PIG_WEIG1,	<!-- 생체중량	-->
+				A.PIG_GRADE,	<!-- 등급코드	-->
+				A.PIG_MEAT,		<!-- 등급명	-->
+				CASE	WHEN	A.PIG_GRADE	= 'A' THEN 1.0 ELSE
+					 CASE	WHEN A.PIG_GRADE = 'B' THEN 1.0 ELSE 0.0 END END	AB_CLASS,	<!-- 1등급이상 두수	-->
+				ROUND(A.PIG_PRIC8,0)	PIG_PRIC8,	<!-- 정산액	-->
+				0.0	OTH_PRIC1,	<!-- 이상육	-->
+				0.0	OTH_PRIC2,	<!-- 계류사돈	-->
+				0.0	OTH_PRIC3,	<!-- 도축사고	-->
+				0.0	OTH_PRIC4,	<!-- 정산차액	-->
+				ROUND(A.PIG_PRIC7,0)	PIG_PRIC7,	<!-- 등판금액	-->
+				ROUND(A.PIG_PRIC9,0)	PIG_PRIC9	
+	FROM	MP_PIGDXM A LEFT	OUTER JOIN TM_CODEXD B
+			ON 	A.FAC_KIND	= B.CODE_ID
+			AND	B.GROUP_CODE	= 'PO001'
+			LEFT OUTER JOIN TM_CODEXD C
+			ON		A.BUY_TYPE	= C.CODE_ID
+			AND	C.GROUP_CODE	= 'PP006'
+			LEFT OUTER JOIN TM_CODEXD D
+			ON		A.BRAND_CODE	= D.CODE_ID
+			AND	D.GROUP_CODE	= 'PP007'
+			LEFT	OUTER JOIN MP_CUST_INFO	E
+			ON		A.CUST_CODE	= E.CUST_CODE
+			LEFT	OUTER JOIN MP_CUST_INFO	F
+			ON		A.REP_CUST	= F.CUST_CODE		
+	WHERE	
+	 A.CORP_CODE = #corpCode#
+	<isNotEmpty property="facKind">
+	AND A.FAC_KIND = #facKind#
+	</isNotEmpty>
+	<isNotEmpty property="buyType">
+	AND A.BUY_TYPE = #buyType#
+	</isNotEmpty>
+	<isNotEmpty property="brandCode">
+	AND	A.BRAND_CODE = #brandCode#
+	</isNotEmpty>
+	<isNotEmpty property="custCode">
+	AND	A.REP_CUST = #custCode#
+	</isNotEmpty>
+	AND	A.DOCH_DATE	BETWEEN	#strtDate#	AND #lastDate#
+	<!--  개체별 조회		-->
+	UNION ALL
+	<!-- 이상육 조회		-->
+	SELECT	'2'	GUBN,	<!-- 구분 : 개제별(1), 이상육(2)	-->
+				''		FAC_KIND,	<!-- 돈피구분 : 탕박(1), 박피(3)	-->
+				''		FAC_CODE,
+				''		FAC_NAME,	<!-- 돈피명	-->
+				A.BUY_TYPE,			<!-- 도축장코드	-->
+				C.CODE_NAME	BUY_NAME,	<!-- 도축장명	-->
+				A.BRAND_CODE,				<!-- 브랜드코드	-->	
+				D.CODE_NAME	BRAND_NAME,	<!-- 브랜드명		-->	
+				A.DOCH_DATE,				<!-- 도축일자	-->
+				A.CUST_CODE	REP_CODE,	<!-- 대표농장	-->
+				F.CUST_NAME	REP_NAME,	<!-- 대표농장명	-->
+				A.CUST_CODE,				<!-- 농장거래처	-->
+				E.CUST_NAME	CUST_NAME,	<!-- 농장거래처명	-->
+				''		DOCH_ID,				<!-- 도체번호	-->
+				0.0		GEND_1,				<!-- 암컷	-->
+				0.0		GEND_2,				<!-- 숫컷	-->
+				0.0		GEND_3,				<!-- 거세	-->
+				0.0		PIG_WEIG3,			<!-- 등지방	-->
+				0.0		PIG_WEIG2,			<!-- 지육중량	-->
+				0.0		PIG_WEIG1,			<!-- 생체중량	-->
+				''		PIG_GRADE,			<!-- 등급코드	-->
+				''		PIG_MEAT,			<!-- 등급명	-->
+				0		AB_CLASS,			<!-- 1등급이상 두수	-->
+				0		PIG_PRIC8,	<!-- 정산액	-->
+				CASE	WHEN	OTH_KIND = '0' THEN ROUND(OTH_PRIC,0) ELSE 0.0 END OTH_PIRC1, 	<!-- 이상육	-->
+				CASE	WHEN	OTH_KIND = '1' THEN ROUND(OTH_PRIC,0) ELSE 0.0 END OTH_PRIC2,	<!-- 계류사돈	-->
+				CASE	WHEN	OTH_KIND = '2' THEN ROUND(OTH_PRIC,0) ELSE 0.0 END OTH_PRIC3,	<!-- 도축사고	-->
+				CASE	WHEN	OTH_KIND = '3' THEN ROUND(OTH_PRIC,0) ELSE 0.0 END OTH_PRIC4,	<!-- 정산차액	-->
+				0.0		PIG_PRIC7,	<!-- 등판금액	-->
+				0.0		PIG_PRIC9	
+	FROM	MP_PIGOXM A	LEFT OUTER JOIN TM_CODEXD C
+			ON		A.BUY_TYPE	= C.CODE_ID
+			AND	C.GROUP_CODE	= 'PP006'
+			LEFT OUTER JOIN TM_CODEXD D
+			ON		A.BRAND_CODE	= D.CODE_ID
+			AND	D.GROUP_CODE	= 'PP007'
+			LEFT	OUTER JOIN MP_CUST_INFO	E
+			ON		A.CUST_CODE	= E.CUST_CODE
+			LEFT	OUTER JOIN MP_CUST_INFO	F
+			ON		A.CUST_CODE	= F.CUST_CODE		
+	WHERE	
+	A.CORP_CODE = #corpCode#
+	<isNotEmpty property="buyType">
+	AND A.BUY_TYPE = #buyType#
+	</isNotEmpty>
+	<isNotEmpty property="brandCode">
+	AND	A.BRAND_CODE = #brandCode#
+	</isNotEmpty>
+	<isNotEmpty property="custCode">
+	AND	A.CUST_CODE = #custCode#
+	</isNotEmpty>
+	AND	A.DOCH_DATE	BETWEEN	#strtDate#	AND #lastDate#
+	<!--  이상육 조회		-->
+	) AA LEFT OUTER JOIN
+		(
+		SELECT	A.START_DATE,
+					A.END_DATE,
+					A.PIG_P11,
+					A.PIG_P12,
+					A.PIG_P61,
+					A.PIG_P62,
+					A.FAC_CODE
+		FROM	MP_PIGEXM A
+		WHERE	
+		A.CORP_CODE = #corpCode#
+		<isNotEmpty property="facKind">
+		AND A.FAC_KIND = #facKind#
+		</isNotEmpty>
+		<![CDATA[
+		AND	A.START_DATE <= #strtDate#
+		AND 	A.END_DATE	>= #lastDate#
+		]]>
+		)	BB
+		ON	AA.DOCH_DATE	BETWEEN BB.START_DATE	AND BB.END_DATE
+			AND AA.FAC_CODE = BB.FAC_CODE
+	<!-- 기본 리스트 조회 -->
+	</sql>
+	<select id="PO0203MpPigdxmDAO.selectMpPigdxmListGroupNongjang" resultClass="egovMap">
+	<!-- 전체+농장합계조회+이상육공제포함+소계(농장합계), BP율 포함	-->
+	SELECT		AAA.DOCH_DATE as doch_date,	<!-- 도축일자,	-->
+				AAA.REP_CUST as fac_cust,
+				AAA.REP_NAME as fac_cust_name,	<!-- 대표농장명	-->
+				SUM(AAA.GEND_1)	sex_no1,	<!-- 암컷	-->
+				SUM(AAA.GEND_2)	sex_no2,	<!-- 숫컷	-->
+				SUM(AAA.GEND_3)	sex_no3,	<!-- 거세	-->
+				SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3)	tot_cnt,	<!--	합계	-->
+				
+				SUM(AAA.PIG_WEIG2) as pig_weig2,
+				CASE WHEN	SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) = 0 THEN 0 ELSE
+					ROUND(SUM(AAA.PIG_WEIG2) / SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3),0)	END	pig_weig2_avg,	<!-- 평균지육중량	-->
+					
+				SUM(AAA.PIG_WEIG1) as pig_weig1,
+				CASE WHEN	SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) = 0 THEN 0 ELSE
+					ROUND(SUM(AAA.PIG_WEIG1) / SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3),0)	END	pig_weig1_avg,	<!-- 평균생체중량	-->			
+				
+				SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) as bp_cnt,
+				CASE WHEN	SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) = 0 THEN 0 ELSE			
+					ROUND(SUM(AAA.A_BP + AAA.B_BP)	/ SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) * 100,1) END	bp_per,	<!-- BP율	-->
+				
+				SUM(AAA.AB_CLASS)		pig_grade1_tot,		<!-- 1등급이상 두수	-->
+				CASE WHEN	SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) = 0 THEN 0 ELSE			
+					ROUND(SUM(AAA.AB_CLASS)	/ SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) * 100,1) 	END	pig_grade1_per,	<!-- 1등급이상 비율	-->
+				CASE WHEN	SUM(AAA.PIG_WEIG1)	= 0	THEN	0	ELSE
+					ROUND(SUM(AAA.PIG_WEIG2) / SUM(AAA.PIG_WEIG1) * 100,1)	END	per_pig_weig2,	<!-- 지육율	-->
+				
+				SUM(AAA.PIG_PRIC8)	pig_pric8,	<!-- 정산액	-->
+				SUM(AAA.DEDU_AMT)		gongjae_sum,	<!-- 공제금액	-->
+				SUM(AAA.OTH_PRIC1)	oth_kind0,	<!-- 이상육	-->
+				SUM(AAA.OTH_PRIC2)	oth_kind1,	<!-- 계류사돈	-->
+				SUM(AAA.OTH_PRIC3)	oth_kind2,	<!-- 도축사고	-->
+				SUM(AAA.OTH_PRIC4)	oth_kind3,	<!-- 정산차액	-->
+				SUM(AAA.AFTER_AMT)	jigub_sum,	<!-- 지급액(공제후)	-->
+				SUM(AAA.PIG_PRIC7)	pig_pric7,	<!-- 등판금	-->
+				SUM(AAA.ACCT_AMT)		jigub_kum,	<!-- 지급액(회계)	-->
+				SUM(AAA.PIG_PRIC9)	pig_pric9,	<!-- 자조금	-->
+				SUM(AAA.PAY_AMT)		pigPric2,	<!-- 농장지급액	-->
+				
+				AAA.BUY_TYPE,	<!-- 도축장	-->
+				AAA.BUY_NAME,	<!-- 도축장명	-->
+				AAA.BRAND_CODE,	<!-- 브랜드 코드	-->
+				AAA.BRAND_NAME,	<!-- 브랜드명		-->
+				
+				AAA.CUST_CODE,	<!-- 농장거래처	-->
+				AAA.CUST_NAME,	<!-- 농장거래처명	-->
+				
+				
+				CASE WHEN	SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) = 0 THEN 0 ELSE
+					ROUND(SUM(AAA.PIG_WEIG3) / SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3),0)	END	AVG_WEGI3	<!-- 평균등지방	-->
+				
+	FROM	
+	(
+
+	<include refid="selectWhere_fragment"/>
+		) AAA
+	WHERE	AAA.GUBN	IN ('1','2')
+	<isNotEmpty property="buyType">
+	AND	AAA.BUY_TYPE = #buyType#
+	</isNotEmpty>
+	<isNotEmpty property="brandCode">
+	AND	AAA.BRAND_CODE = #brandCode#
+	</isNotEmpty>
+	GROUP BY AAA.DOCH_DATE,	
+				AAA.BUY_TYPE,	
+				AAA.BUY_NAME,	
+				AAA.BRAND_CODE,
+				AAA.BRAND_NAME,
+				AAA.REP_CUST,	
+				AAA.REP_NAME,	
+				AAA.CUST_CODE,	
+				AAA.CUST_NAME	
+	ORDER BY AAA.REP_CUST
+	</select>
+	<select id="PO0203MpPigdxmDAO.selectMpPigdxmListGroupDoch" resultClass="egovMap">
+	<!-- 전체+개체조회+이상육공제포함+소계(농장합계), 	-->
+	SELECT		AAA.DOCH_DATE as doch_date,	<!-- 도축일자,	-->
+				AAA.REP_CUST as fac_cust,
+				AAA.REP_NAME as fac_cust_name,	<!-- 대표농장명	-->
+				AAA.DOCH_ID as doch_id,
+				SUM(AAA.GEND_1)	sex_no1,	<!-- 암컷	-->
+				SUM(AAA.GEND_2)	sex_no2,	<!-- 숫컷	-->
+				SUM(AAA.GEND_3)	sex_no3,	<!-- 거세	-->
+				SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3)	tot_cnt,	<!--	합계	-->
+				
+				SUM(AAA.PIG_WEIG2) as pig_weig2,
+				CASE WHEN	SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) = 0 THEN 0 ELSE
+					ROUND(SUM(AAA.PIG_WEIG2) / SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3),0)	END	pig_weig2_avg,	<!-- 평균지육중량	-->
+					
+				SUM(AAA.PIG_WEIG1) as pig_weig1,
+				CASE WHEN	SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) = 0 THEN 0 ELSE
+					ROUND(SUM(AAA.PIG_WEIG1) / SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3),0)	END	pig_weig1_avg,	<!-- 평균생체중량	-->			
+				
+				SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) as bp_cnt,
+				CASE WHEN	SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) = 0 THEN 0 ELSE			
+					ROUND(SUM(AAA.A_BP + AAA.B_BP)	/ SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) * 100,1) END	bp_per,	<!-- BP율	-->
+				
+				SUM(AAA.AB_CLASS)		pig_grade1_tot,		<!-- 1등급이상 두수	-->
+				CASE WHEN	SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) = 0 THEN 0 ELSE			
+					ROUND(SUM(AAA.AB_CLASS)	/ SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) * 100,1) 	END	pig_grade1_per,	<!-- 1등급이상 비율	-->
+				CASE WHEN	SUM(AAA.PIG_WEIG1)	= 0	THEN	0	ELSE
+					ROUND(SUM(AAA.PIG_WEIG2) / SUM(AAA.PIG_WEIG1) * 100,1)	END	per_pig_weig2,	<!-- 지육율	-->
+				
+				SUM(AAA.PIG_PRIC8)	pig_pric8,	<!-- 정산액	-->
+				SUM(AAA.DEDU_AMT)		gongjae_sum,	<!-- 공제금액	-->
+				SUM(AAA.OTH_PRIC1)	oth_kind0,	<!-- 이상육	-->
+				SUM(AAA.OTH_PRIC2)	oth_kind1,	<!-- 계류사돈	-->
+				SUM(AAA.OTH_PRIC3)	oth_kind2,	<!-- 도축사고	-->
+				SUM(AAA.OTH_PRIC4)	oth_kind3,	<!-- 정산차액	-->
+				SUM(AAA.AFTER_AMT)	jigub_sum,	<!-- 지급액(공제후)	-->
+				SUM(AAA.PIG_PRIC7)	pig_pric7,	<!-- 등판금	-->
+				SUM(AAA.ACCT_AMT)		jigub_kum,	<!-- 지급액(회계)	-->
+				SUM(AAA.PIG_PRIC9)	pig_pric9,	<!-- 자조금	-->
+				SUM(AAA.PAY_AMT)		pigPric2,	<!-- 농장지급액	-->
+				
+				AAA.BUY_TYPE,	<!-- 도축장	-->
+				AAA.BUY_NAME,	<!-- 도축장명	-->
+				AAA.BRAND_CODE,	<!-- 브랜드 코드	-->
+				AAA.BRAND_NAME,	<!-- 브랜드명		-->
+				
+				AAA.CUST_CODE,	<!-- 농장거래처	-->
+				AAA.CUST_NAME,	<!-- 농장거래처명	-->
+				
+				
+				CASE WHEN	SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3) = 0 THEN 0 ELSE
+					ROUND(SUM(AAA.PIG_WEIG3) / SUM(AAA.GEND_1+AAA.GEND_2+AAA.GEND_3),0)	END	AVG_WEGI3	<!-- 평균등지방	-->
+				
+	FROM	
+	(
+
+	<include refid="selectWhere_fragment"/>
+		) AAA
+	WHERE	AAA.GUBN	IN ('1','2')
+	<isNotEmpty property="buyType">
+	AND	AAA.BUY_TYPE = #buyType#
+	</isNotEmpty>
+	<isNotEmpty property="brandCode">
+	AND	AAA.BRAND_CODE = #brandCode#
+	</isNotEmpty>
+	GROUP BY AAA.DOCH_DATE,	
+				AAA.BUY_TYPE,	
+				AAA.BUY_NAME,	
+				AAA.BRAND_CODE,
+				AAA.BRAND_NAME,
+				AAA.REP_CUST,	
+				AAA.REP_NAME,	
+				AAA.CUST_CODE,	
+				AAA.CUST_NAME,
+				AAA.DOCH_ID	
+	ORDER BY AAA.REP_CUST
+	</select>	
+</sqlMap>

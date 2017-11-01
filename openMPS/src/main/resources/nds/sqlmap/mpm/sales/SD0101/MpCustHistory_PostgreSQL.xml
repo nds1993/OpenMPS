@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpCustHistory">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpCustHistorySerarchVO" type="nds.mpm.sales.SD0101.vo.MpCustHistoryVO"/>
+	
+	<resultMap id="mpCustHistory" class="nds.mpm.sales.SD0101.vo.MpCustHistoryVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="custCode" column="cust_code" columnIndex="2"/>
+		<result property="crDate" column="cr_date" columnIndex="3"/>
+		<result property="custDocument" column="cust_document" columnIndex="4"/>
+		<result property="crUser" column="cr_user" columnIndex="5"/>
+	</resultMap>
+	
+	<insert id="mpCustHistoryDAO.insertMpCustHistory">
+		<![CDATA[
+			INSERT INTO mp_cust_history 
+				( corp_code
+				  , cust_code
+				  , cr_date
+				  , cust_document
+				  , cr_user )
+			VALUES ( #corpCode#
+				  , #custCode#
+				  , now()
+				  , #custDocument#
+				  , #crUser# )
+		]]>
+	</insert>
+	
+	<update id="mpCustHistoryDAO.updateMpCustHistory">
+		<![CDATA[
+			UPDATE mp_cust_history
+			SET cr_date=#crDate#
+				, cust_document=#custDocument#
+				, cr_user=#crUser#
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND cr_date=#crDate#
+				]]>
+	</update>
+	
+	<delete id="mpCustHistoryDAO.deleteMpCustHistory">
+		<![CDATA[
+			DELETE FROM mp_cust_history 
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND cr_date=#crDate#
+				]]>
+	</delete>
+	
+	<select id="mpCustHistoryDAO.selectMpCustHistory_S" resultMap="mpCustHistory">
+		<![CDATA[
+			SELECT
+				corp_code
+				, cust_code
+				, cr_date
+				, cust_document
+				, cr_user
+			FROM mp_cust_history
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND cr_date=#crDate#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM 
+			mp_cust_history c 
+			left outer join tm_userxm d on ( c.cr_user = d.user_code )
+		where c.corp_code = #corpCode#
+		<isNotEmpty prepend="and" property="custCode">
+		 c.cust_code = #custCode#		
+         </isNotEmpty>
+	</sql>
+	<select id="mpCustHistoryDAO.selectMpCustHistoryList_D" parameterClass="mpCustHistorySerarchVO" resultClass="egovMap">
+		SELECT
+			c.cr_date
+			, d.user_name
+			, c.cust_document
+			, c.cr_user
+			, c.corp_code
+			, c.cust_code
+		<include refid="selectWhere_fragment"/>
+		order by cr_date desc	
+	</select>	
+	<select id="mpCustHistoryDAO.selectMpCustHistoryListTotCnt_S" parameterClass="mpCustHistorySerarchVO" resultClass="int">
+
+	</select>
+
+</sqlMap>

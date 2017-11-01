@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TMCOOS50">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="TMCOOS50SerarchVO" type="nds.tmm.common.TMCOOS50.vo.TMCOOS50DefaultVO"/>
+	
+	<resultMap id="TMCOOS50" class="nds.tmm.common.TMCOOS50.vo.TMCOOS50VO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="headCode" column="head_code" columnIndex="2"/>
+		<result property="headName" column="head_name" columnIndex="3"/>
+		<result property="mdDate" column="md_date" columnIndex="4"/>
+		<result property="crUser" column="cr_user" columnIndex="5"/>
+		<result property="crDate" column="cr_date" columnIndex="6"/>
+		<result property="corpName" column="corp_name" columnIndex="7"/>		
+		<result property="memo" column="memo" columnIndex="8"/>
+		<result property="useYn" column="use_yn" columnIndex="9"/>
+		<result property="deleYn" column="dele_yn" columnIndex="10"/>
+		<result property="mdUser" column="md_user" columnIndex="11"/>
+	</resultMap>
+	
+	<insert id="TMCOOS50DAO.insertTMCOOS50">
+		<![CDATA[
+			INSERT INTO tm_orguxm 
+				( corp_code
+				  , head_code
+				  , head_name
+				  , memo
+				  , use_yn
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #headCode#
+				  , #headName#
+				  , #memo#
+				  , #useYn#
+				  , 'N'
+				  , #mdUser#
+				  , NOW()
+				  , #crUser#
+				  , NOW() )
+		]]>
+	</insert>
+	
+	<update id="TMCOOS50DAO.updateTMCOOS50">
+		<![CDATA[
+			UPDATE tm_orguxm
+			SET corp_code=#corpCode#
+				, head_code=#headCode#
+				, head_name=#headName#
+				, memo=#memo#
+				, use_yn=#useYn#
+				, md_user=#mdUser#
+				, md_date= NOW()
+			WHERE corp_code=#corpCode#
+			AND head_code=#headCode#
+				]]>
+	</update>
+	
+	<delete id="TMCOOS50DAO.deleteTMCOOS50">
+		<![CDATA[
+			UPDATE tm_orguxm 
+			      SET dele_yn = 'Y'
+			WHERE corp_code=#corpCode#
+			     AND head_code=#headCode#
+		]]>
+	</delete>
+	
+	<select id="TMCOOS50DAO.selectTMCOOS50_S" resultMap="TMCOOS50">
+		<![CDATA[
+			SELECT
+				  A.corp_code
+				, A.head_code
+				, A.head_name
+				, A.memo
+				, A.use_yn
+				, A.dele_yn
+				, A.md_user
+				, A.md_date
+				, A.cr_user
+				, A.cr_date
+				, B.corp_name
+			FROM tm_orguxm A
+			INNER JOIN  tm_corpxm B ON A.corp_code = B.corp_code
+			WHERE A.corp_code=#corpCode# 
+			AND A.head_code=#headCode#
+			AND A.dele_yn = 'N'
+				]]>
+	</select>
+	
+	<sql id="selectWhere_fragment">
+		FROM tm_orguxm A
+		INNER JOIN  tm_corpxm B ON A.corp_code = B.corp_code
+		WHERE A.dele_yn = 'N'
+	  	<dynamic>
+	  		<isNotEmpty  property="corpCode">
+	     		AND A.corp_code = #corpCode#
+	   		</isNotEmpty >
+	  		<isNotEmpty  property="searchKeyword">
+	     		AND (      A.head_code like '%' || #searchKeyword# || '%'
+	    		         OR A.head_name like '%' || #searchKeyword# || '%')
+	   		</isNotEmpty >
+		 </dynamic>
+	</sql>
+	
+	<select id="TMCOOS50DAO.selectTMCOOS50List_D" parameterClass="TMCOOS50SerarchVO" resultClass="egovMap">
+		SELECT A.*
+				, B.corp_name
+		<include refid="selectWhere_fragment"/>
+		ORDER BY A.corp_code, A.head_code 
+	</select>	
+	<select id="TMCOOS50DAO.selectTMCOOS50ListTotCnt_S" parameterClass="TMCOOS50SerarchVO" resultClass="int">
+		SELECT count(A.*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	
+	<select id="TMCOOS50DAO.checkDupTMCOOS50_S" resultClass="int">
+			SELECT
+				count(head_code)
+			FROM tm_orguxm
+			WHERE corp_code=#corpCode#
+			    AND head_code=#headCode#
+			limit 1
+	</select>
+
+</sqlMap>

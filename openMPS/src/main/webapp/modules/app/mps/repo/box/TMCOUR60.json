@@ -1,0 +1,260 @@
+{
+	"name": "사용자 권한 매칭",
+	"module": "TMCOUR60Renderer",
+	"options": {
+		"order": [
+			"queryBox",
+			"resultBox"
+		],
+		"className": "contents_box",
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box form-inline",
+				"order": [
+					"searchCode"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"name": "API Runner Form",
+					"mode": "form",
+					"items": {
+						"searchCode": {
+							"label": "권한그룹",
+							"required": false
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>권한그룹</label><span class=\"searchCode_region form_only inline\"></span></div>"
+				},
+				"searchCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "권한그룹",
+						"required": true,
+						"codeType": "TMCOUR40",
+						"params": {},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "result_box",
+				"order": [
+					"groupInfo",
+					"groupUser",
+					"userInfo"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"row\"><div class=\"col-xs-2  groupInfo_region\"></div><div class=\"col-xs-5 groupUser_region trans_item_left\"></div><div class=\"col-xs-5  trans_item_right\"><div class=\"trans_btn_box\"><button class=\"btn btn_trans_right btn-primary\"><i class=\"fa fa-chevron-right\"></i></button><button class=\"btn btn_trans_right btn-primary\"><i class=\"fa fa-chevron-left\"></i></button></div><div class=\"userInfo_region\"></div></div></div>",
+					"items": {
+					},
+					"data": {}
+				},
+				"groupInfo": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"label": "권한그룹"
+							}
+						},
+						"content": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "groupInfo_box grid_box grid_btn_hide",
+								"gridId": "TMCOUR60_grid_1",
+								"gridParams": {
+									"data": [],
+									"colModel": [{
+											"name": "groupCode",
+											"label": "권한코드",
+											"width": 80,
+											"align": "center",
+											"editable": false
+										},
+										{
+											"name": "groupName",
+											"label": "권한그룹명",
+											"width": 100,
+											"align": "center",
+											"editable": false
+										}
+									],
+									"pager": false,
+									"width": "auto",
+									"height": "580",
+									"cellEdit": true,
+									"gridview": true,
+									"datatype": "local",
+									"cellEdit": true,
+									"cellsubmit": "clientArray",
+					"rowNum": "10000000",
+					"pager": "#TMCOUR60_grid_1_pager",
+					"viewrecords": true,
+					"recordpos": "left",
+					"pgbuttons": false,
+					"pginput": false
+
+								}
+							}
+						}
+					}
+				},
+				"groupUser": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"label": "그룹 사용자"
+							}
+						},
+						"content": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "groupUser_box grid_box grid_btn_hide",
+								"gridId": "TMCOUR60_grid_2",
+								"gridParams": {
+									"data": [],
+									"colModel": [{
+										"name": "userCode",
+										"label": "사용자 ID",
+										"width": 80,
+										"align": "center",
+										"editable": false
+									}, {
+										"name": "userName",
+										"label": "성명",
+										"width": 80,
+										"align": "center",
+										"editable": false
+									}, {
+										"name": "deptName",
+										"label": "부서",
+										"width": 170,
+										"align": "left",
+										"editable": false
+									}, {
+										"name": "posiName",
+										"label": "직급",
+										"width": 80,
+										"align": "center",
+										"editable": false
+									}, {
+										"name": "dutyName",
+										"label": "직무",
+										"width": 80,
+										"align": "center",
+										"editable": false
+									}],
+									"pager": false,
+									"width": "auto",
+									"height": "580",
+									"cellEdit": true,
+									"gridview": true,
+									"datatype": "local",
+									"cellEdit": true,
+									"cellsubmit": "clientArray",
+									"multiselect": true,
+									"multiselectWidth": 19,
+					"rowNum": "10000000",
+					"pager": "#TMCOUR60_grid_2_pager",
+					"viewrecords": true,
+					"recordpos": "left",
+					"pgbuttons": false,
+					"pginput": false
+
+								}
+							}
+						}
+					}
+				},
+				"userInfo": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"label": "사용자 List"
+							}
+						},
+						"content": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "userInfo_box grid_box grid_btn_hide",
+								"gridId": "TMCOUR60_grid_3",
+								"gridParams": {
+									"data": [],
+									"colModel": [{
+										"name": "userCode",
+										"label": "사용자 ID",
+										"width": 80,
+										"align": "center",
+										"editable": false
+									}, {
+										"name": "userName",
+										"label": "성명",
+										"width": 80,
+										"align": "center",
+										"editable": false
+									}, {
+										"name": "deptName",
+										"label": "부서",
+										"width": 170,
+										"align": "left",
+										"editable": false
+									}, {
+										"name": "posiName",
+										"label": "직급",
+										"width": 80,
+										"align": "center",
+										"editable": false
+									}, {
+										"name": "dutyName",
+										"label": "직무",
+										"width": 80,
+										"align": "center",
+										"editable": false
+									}],
+									"pager": false,
+									"width": "auto",
+									"height": "580",
+									"cellEdit": true,
+									"gridview": true,
+									"datatype": "local",
+									"cellEdit": true,
+									"cellsubmit": "clientArray",
+									"multiselect": true,
+									"multiselectWidth": 19,
+					"rowNum": "10000000",
+					"pager": "#TMCOUR60_grid_3_pager",
+					"viewrecords": true,
+					"recordpos": "left",
+					"pgbuttons": false,
+					"pginput": false
+
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

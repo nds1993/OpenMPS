@@ -1,0 +1,26 @@
+{
+  "module": "FormBox",
+  "options": {
+    "className": "query_box",
+    "order": [
+      "searchKeyword"
+    ],
+    "activation": {
+      "method": "one-page"
+    },
+    "custom_form": {
+      "name": "API Runner Form",
+      "mode": "form",
+      "items": {
+        "searchKeyword": {
+          "module": "text",
+          "selector": ".searchKeyword",
+          "label": "공통코드/명",
+          "required": false
+        }
+      },
+      "data": {},
+      "template": "<div class=\"form-group form-inline\"><label>공통코드/명</label><input type=\"text\" class=\"form-control searchKeyword\"></div>"
+    }
+  }
+}

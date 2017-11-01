@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="EMAIL_SqlMap" >
+
+  <!-- SMS 등록 -->
+  <insert id="EMAIL_SqlMap.sendEmail" parameterClass="nds.core.messageModule.email.service.DBEmailVO" >
+  	<selectKey resultClass="java.lang.String" keyProperty="msgSeq">
+          <![CDATA[
+            SELECT SQ_MAILQUEUE.NEXTVAL as msgSeq FROM DUAL
+          ]]>
+      </selectKey>
+	     INSERT INTO CLT_EMS_MAILQUEUE (
+							SEQ
+							, MAIL_CODE
+							, TO_EMAIL
+							, TO_NAME
+							, FROM_EMAIL
+							, FROM_NAME
+							, SUBJECT
+							, MAP_CONTENT
+	                        ) 
+	                   VALUES (
+	                   		#msgSeq# 
+	                   		, '01'
+	                   		, #msgTo:VARCHAR#
+	                   		, #msgToNm:VARCHAR#
+	                   		, #msgFrom:VARCHAR#
+	                   		, #msgFromNm:VARCHAR#
+	                   		, #msgTit:VARCHAR#
+	                   		, #msgCntn:VARCHAR#
+	                   		)
+  </insert>
+  
+</sqlMap>

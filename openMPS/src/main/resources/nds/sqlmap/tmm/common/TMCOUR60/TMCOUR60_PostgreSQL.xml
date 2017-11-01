@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TMCOUR60">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="TMCOUR60SerarchVO" type="nds.tmm.common.TMCOUR60.vo.TMCOUR60VO"/>
+	
+	<resultMap id="TMCOUR60" class="nds.tmm.common.TMCOUR60.vo.TMCOUR60VO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="groupCode" column="group_code" columnIndex="2"/>
+		<result property="userCode" column="user_code" columnIndex="3"/>
+		<result property="mdUser" column="md_user" columnIndex="4"/>
+		<result property="mdDate" column="md_date" columnIndex="5"/>
+		<result property="crUser" column="cr_user" columnIndex="6"/>
+		<result property="crDate" column="cr_date" columnIndex="7"/>
+	</resultMap>
+	
+	<insert id="TMCOUR60DAO.insertTMCOUR60">
+		<![CDATA[
+			INSERT INTO openmps.tm_grusrx 
+				( corp_code
+				  , group_code
+				  , user_code
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #groupCode#
+				  , #userCode#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , now())
+		]]>
+	</insert>
+	
+	<update id="TMCOUR60DAO.updateTMCOUR60">
+		<![CDATA[
+			UPDATE openmps.tm_grusrx
+			SET corp_code=#corpCode#
+				, group_code=#groupCode#
+				, user_code=#userCode#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND group_code=#groupCode#
+								AND user_code=#userCode#
+				]]>
+	</update>
+	
+	<delete id="TMCOUR60DAO.deleteTMCOUR60">
+		<![CDATA[
+			DELETE FROM tm_grusrx 
+						WHERE corp_code=#corpCode#
+								AND group_code=#groupCode#
+								AND user_code=#userCode#
+				]]>
+	</delete>
+	
+	<select id="TMCOUR60DAO.selectTMCOUR60_S" resultMap="TMCOUR60">
+		<![CDATA[
+			SELECT
+				corp_code
+				, group_code
+				, user_code
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM openmps.tm_grusrx
+						WHERE corp_code=#corpCode#
+								AND group_code=#groupCode#
+								AND user_code=#userCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM openmps.tm_grusrx a
+			inner join openmps.tm_userxm b on a.user_code = b.user_code
+			left outer join openmps.tm_deptxm c on b.dept_code = c.dept_code
+			left outer join openmps.tm_codexd d on ( d.group_code = '' and b.posi_code = d.code_id )
+			left outer join openmps.tm_codexd e on ( e.group_code = '' and b.duty_code = e.code_id )
+			WHERE a.corp_code=#corpCode#
+			AND a.group_code=#groupCode#
+		<dynamic>
+	         <isNotEmpty prepend="and" property="searchKeyword">
+	         </isNotEmpty>
+		 </dynamic>
+	</sql>
+	<select id="TMCOUR60DAO.selectTMCOUR60List_D" parameterClass="TMCOUR60SerarchVO" resultClass="egovMap">
+			SELECT
+				a.corp_code
+				, a.group_code
+				, a.user_code
+				, c.dept_name
+				, b.posi_code	<!-- 직위 -->
+				, d.code_name as posi_name
+				, b.duty_code	<!-- 직무 -->
+				, e.code_name as duty_name
+				, a.md_user
+				, a.md_date
+				, a.cr_user
+				, a.cr_date
+			<include refid="selectWhere_fragment"/>
+			order by a.user_code
+	</select>	
+	<select id="TMCOUR60DAO.selectTMCOUR60ListTotCnt_S" parameterClass="TMCOUR60SerarchVO" resultClass="int">
+			SELECT
+				count(*)
+			<include refid="selectWhere_fragment"/>
+	</select>
+	<select id="TMCOUR60DAO.selectTMCOUR60UserList_D" parameterClass="TMCOUR60SerarchVO" resultClass="egovMap">
+			select 
+				b.user_code
+				,b.user_name
+				, b.posi_code	<!-- 직위 -->
+				, d.code_name as posi_name
+				, b.duty_code	<!-- 직무 -->
+				, e.code_name as duty_name
+			FROM openmps.tm_userxm b
+			left outer join openmps.tm_deptxm c on b.dept_code = c.dept_code
+			left outer join openmps.tm_codexd d on ( d.group_code = '' and b.posi_code = d.code_id )
+			left outer join openmps.tm_codexd e on ( e.group_code = '' and b.duty_code = e.code_id )
+			WHERE b.dele_yn = 'N'
+			and not exists (
+					select 1 
+					from openmps.tm_grusrx 
+					where corp_code = b.corp_code
+					and group_code = #groupCode#
+					and user_code = b.user_code )
+			order by b.user_code
+	</select>	
+</sqlMap>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Global">
+	<!-- paging parameter Global include -->
+	<sql id="pagingParam_fragment">
+		<isNotEmpty property="pageSize" >
+				<isNotEqual property="pageSize" compareValue="0">
+				     LIMIT #pageSize#
+				     <isNotEqual property="startOrder" compareValue="0">
+				     OFFSET #startOrder#
+					</isNotEqual>
+				</isNotEqual>
+		</isNotEmpty>
+	</sql>
+	<sql id="authParam_fragment">
+		<isNotEqual property="pageSize" compareValue="0">
+		         LIMIT #pageSize#
+		</isNotEqual>
+		<isNotEqual property="startOrder" compareValue="0">
+		         OFFSET #startOrder#
+		</isNotEqual>
+	</sql>
+</sqlMap>

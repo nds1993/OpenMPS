@@ -1,0 +1,1753 @@
+{
+	"name": "거래처 정보",
+	"module": "SD0101Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["queryBox", "tabAreaBox"],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box form-inline form_tight",
+				"order": ["deptName", "salesmanName", "custType", "custCode","closeYn"],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "Form Builder Params",
+					"items": {
+						"closeYn": {
+							"module": "combobox",
+							"selector": ".closeYn",
+							"label": "종결구분",
+							"required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD003/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+						},
+						"deptName": {
+							"module": "combobox",
+							"selector": ".deptName",
+							"label": "영업파트",
+							"required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/TMCOOS60?headCode=100",
+								"parser": "return UCMS.parseComboSalesTeam(arguments[0]);"
+							}
+						},
+						"salesmanName": {
+							"module": "combobox",
+							"selector": ".salesmanName",
+							"label": "영업사원",
+							"required": false,
+							"fetcher": "return UCMS.parseSessionUser();"
+						},
+						"custType": {
+							"module": "combobox",
+							"selector": ".custType",
+							"label": "업체구분",
+							"required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD001/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+						},
+						"custCode": {
+							"label": "거래처"
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>영업파트</label><div class=\"select_design deptName\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>영업사원</label><div class=\"select_design salesmanName\"><span class=\"select_label\">홍길동</span><select class=\"form-control\"><option value=\"1\">홍길동</option></select></div></div><div class=\"form-group\"><label>업체구분</label><div class=\"select_design custType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>업체구분</label><div class=\"custCode_region equal_width\"></div></div><div class=\"form-group\"><label>종결구분</label><div class=\"select_design closeYn\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div>"
+				},
+				"custCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "거래처",
+						"required": false,
+						"codeType": "SD0101",
+						"params": {},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+			}
+		},
+		"tabAreaBox": {
+			"rid": "tabAreaBox",
+			"module": "BaroBox",
+			"options": {
+				"className": "tabarea_box",
+				"order": ["tab_commonview", "tab_detailview"],
+				"activation": {
+					"defaultWidget": "tab_commonview",
+					"method": "show-hide",
+					"navigator": {
+						"options": {
+							"pos": "top",
+							"closeButton": false,
+							"label": {
+								"tab_commonview": "일반현황",
+								"tab_detailview": "상세내역"
+							}
+						}
+					}
+				},
+				"tab_commonview": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "tab_commonview_box grid_box",
+						"gridId": "SD0101_grid_1",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+								"name": "deptName",
+								"label": "영업파트",
+								"width": 70,
+								"align": "center",
+								"editable": false,
+								"frozen":true
+							}, {
+								"name": "salesmanName",
+								"label": "영업사원",
+								"width": 70,
+								"align": "center",
+								"editable": false,
+								"frozen":true
+							}, {
+								"name": "corpCode",
+								"label": "회사코드",
+								"width": 100,
+								"align": "center",
+								"editable": false,
+								"hidden": true,
+								"frozen":true
+							}, {
+								"name": "custCode",
+								"label": "거래처",
+								"width": 90,
+								"align": "center",
+								"editable": false,
+								"frozen":true
+							}, {
+								"name": "custName",
+								"label": "거래처명",
+								"width": 180,
+								"align": "left",
+								"editable": false,
+								"frozen":true
+							}, {
+								"name": "delvType",
+								"label": "배송구분코드",
+								"width": 90,
+								"align": "center",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "delvTypename",
+								"label": "배송구분",
+								"width": 70,
+								"align": "center",
+								"editable": false
+							}, {
+								"name": "delvCustname",
+								"label": "배송처",
+								"width": 180,
+								"align": "left",
+								"editable": false
+							}, {
+								"name": "mainDcname",
+								"label": "주출고장",
+								"width": 70,
+								"align": "center",
+								"editable": false
+							}, {
+								"name": "receComb",
+								"label": "수금취합코드",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "receCombname",
+								"label": "취합구분",
+								"width": 70,
+								"align": "center",
+								"editable": false
+							}, {
+								"name": "receCombCust",
+								"label": "receCombCust",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "receCombCustname",
+								"label": "수금취합",
+								"width": 150,
+								"align": "left",
+								"editable": false
+							}, {
+								"name": "damEdate",
+								"label":"담보만기",
+								"width": 85,
+								"align": "center",
+								"sorttype": "date" , "formatter": "dateFormatter",
+								"unformat": "dateUnformatter",
+								"formatoptions": {
+									"srcformat": "YYYYMMDD",
+									"newformat": "YYYY-MM-DD"
+								}
+							}, {
+								"name": "mpCreditLimit",
+								"label": "여신한도",
+								"width": 90,
+								"align": "right",
+								"editable": false,
+								"sorttype": "currency" , "formatter":"currency"
+							}, {
+								"name": "oneLimit",
+								"label": "1차한도",
+								"width": 90,
+								"align": "right",
+								"editable": false,
+								"sorttype": "currency" , "formatter":"currency"
+							}, {
+								"name": "tempLimit",
+								"label": "임시한도",
+								"width": 90,
+								"align": "right",
+								"editable": false,
+								"sorttype": "currency" , "formatter": "currency",
+								"hidden":true
+							}, {
+								"name": "shortName",
+								"label": "shortName",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "owner",
+								"label": "owner",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "custType",
+								"label": "custType",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "delvZip",
+								"label": "delvZip",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "delvAddr",
+								"label": "delvAddr",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "postZip",
+								"label": "postZip",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "postAddr",
+								"label": "postAddr",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "bizNo",
+								"label": "등록번",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "juminNo",
+								"label": "juminNo",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "uptae",
+								"label": "uptae",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "jong",
+								"label": "jong",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "phone",
+								"label": "phone",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "mobile",
+								"label": "mobile",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "fax",
+								"label": "fax",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "email",
+								"label": "email",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "taxType",
+								"label": "taxType",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "closeYn",
+								"label": "closeYn",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "distType",
+								"label": "distType",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "distTypename",
+								"label": "distTypename",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "delvTime",
+								"label": "delvTime",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "limitF",
+								"label": "limitF",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "limitP",
+								"label": "limitP",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "billType",
+								"label": "billType",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "billtypename",
+								"label": "billtypename",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "priceComb",
+								"label": "priceComb",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "priceCombCust",
+								"label": "priceCombCust",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "saleComb",
+								"label": "saleComb",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "saleCombCust",
+								"label": "saleCombCust",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "bankCode",
+								"label": "bankCode",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "bankName",
+								"label": "bankName",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "acctNo",
+								"label": "acctNo",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "acctName",
+								"label": "acctName",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "priceType",
+								"label": "priceType",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "priceDay",
+								"label": "priceDay",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "creditYn",
+								"label": "creditYn",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "taxbillYn",
+								"label": "taxbillYn",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "shopNo",
+								"label": "shopNo",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "shopName",
+								"label": "shopName",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "facCust",
+								"label": "facCust",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "brandCode",
+								"label": "brandCode",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "facKind",
+								"label": "facKind",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "facCode",
+								"label": "facCode",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "transYn",
+								"label": "transYn",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "gagongYn",
+								"label": "gagongYn",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "startDate",
+								"label": "startDate",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "lastDate",
+								"label": "lastDate",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "salesmanCust",
+								"label": "salesmanCust",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "salesman",
+								"label": "salesman",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "damSdate",
+								"label": "damSdate",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}],
+							"rowNum":"100000000",
+							"width": "auto",
+							"height": "558",
+							"cellEdit": false,
+							"cellsubmit": "clientArray",
+							"shrinkToFit": false,
+							"gridview": true,
+							"datatype": "local",
+							"pager": "#SD0101_grid_1_pager",
+							"viewrecords": true,
+							"recordpos": "left",
+							"pgbuttons": false,
+							"pginput": false
+						}
+					}
+				},
+				"tab_detailview": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"className": "contnet_header_box tab_header_btn",
+								"label": "관할조직"
+							},
+							"feature": [{
+									"copy_fs": "복사"
+								},
+								{
+									"copy_food": "복사"
+								}
+							]
+						},
+						"content": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_detailview_box",
+								"order": ["formBox", "sub_tabarea_box"],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"mode": "form",
+									"items": {
+										"formBox": {
+											"label": "헤더 폼"
+										},
+										"sub_tabarea_box": {
+											"label": "상세 폼"
+										}
+									}
+								},
+								"sub_tabarea_box": {
+									"module": "BaroBox",
+									"options": {
+										"className": "tabarea_box",
+										"order": ["tab_salesinfo", "tab_organ", "tab_security", "tab_credit", "tab_farm", "tab_warehouse","tab_history"],
+										"activation": {
+											"defaultWidget": "tab_salesinfo",
+											"method": "show-hide",
+											"navigator": {
+												"options": {
+													"pos": "top",
+													"closeButton": false,
+													"label": {
+														"tab_salesinfo": "영업정보",
+														"tab_organ": "관할조직",
+														"tab_security": "담보내역",
+														"tab_credit": "한도내역",
+														"tab_farm": "농장정보",
+														"tab_warehouse": "물류정보",
+														"tab_history":"거래처이력"
+													}
+												}
+											}
+										},
+										"tab_salesinfo": {
+											"module": "FormBox",
+											"options": {
+												"height":"353px",
+												"className": "form_box tab_form_box",
+												"order": ["delvType", "delvCust", "mainDc", "distType", "shopNo", "shopName", "delvTime", "limitF", "limitP", "billType", "priceComb", "priceCombCust", "saleComb", "saleCombCust", "receComb", "receCombCust", "bankCode", "bankName", "acctNo", "acctName", "priceType", "priceDay", "creditYn", "taxbillYn"],
+												"activation": {
+													"method": "one-page"
+												},
+												"custom_form": {
+													"mode": "form",
+													"name": "Form Builder Params",
+													"items": {
+														"delvType": {
+															"module": "combobox",
+															"selector": ".delvType",
+															"label": "배송구분",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD004/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+														},
+														"delvCust": {
+															"label": "배송처",
+															"required": false
+														},
+														"mainDc": {
+															"module": "combobox",
+															"selector": ".mainDc",
+															"label": "주출고장",
+															"required": false,
+															"items" :[
+															{"label":"주출고장1","value":0},
+															{"label":"주출고장2","value":1}
+															]												},
+														"distType": {
+															"module": "combobox",
+															"selector": ".distType",
+															"label": "유통경로",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD005/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+														},
+														"shopNo": {
+															"module": "text",
+															"selector": ".shopNo",
+															"label": "매장번호",
+															"required": false
+														},
+														"shopName": {
+															"module": "text",
+															"selector": ".shopName",
+															"label": "매장명",
+															"required": false
+														},
+														"delvTime": {
+															"module": "date",
+															"selector": ".delvTime",
+															"label": "납품마감",
+															"required": false,
+															"format": "HH:MM",
+															"useCurrent": true,
+															"defaultDate": true
+														},
+														"limitF": {
+															"module": "text",
+															"selector": ".limitF",
+															"label": "냉장일수",
+															"required": false
+														},
+														"limitP": {
+															"module": "text",
+															"selector": ".limitP",
+															"label": "냉동일수",
+															"required": false
+														},
+														"billType": {
+															"module": "combobox",
+															"selector": ".billType",
+															"label": "거래명세",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD006/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+														},
+														"priceComb": {
+															"module": "combobox",
+															"selector": ".priceComb",
+															"label": "단가구분",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD021/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+														},
+														"priceCombCust": {
+															"label": "취합거래",
+															"required": false
+														},
+														"saleComb": {
+															"module": "combobox",
+															"selector": ".saleComb",
+															"label": "판매구분",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD007/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+														},
+														"saleCombCust": {
+															"label": "취합거래",
+															"required": false
+														},
+														"receComb": {
+															"module": "combobox",
+															"selector": ".receComb",
+															"label": "수금구분",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD015/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+														},
+														"receCombCust": {
+															"label": "취합거래",
+															"required": false
+														},
+														"bankCode": {
+															"module": "combobox",
+															"selector": ".bankCode",
+															"label": "은행코드",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD008/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+
+														},
+														"bankName": {
+															"module": "text",
+															"selector": ".bankName",
+															"label": "은행명",
+															"required": false
+														},
+														"acctNo": {
+															"module": "text",
+															"selector": ".acctNo",
+															"label": "계좌번호",
+															"required": false
+														},
+														"acctName": {
+															"module": "text",
+															"selector": ".acctName",
+															"label": "입금자",
+															"required": false
+														},
+														"priceType": {
+															"module": "combobox",
+															"selector": ".priceType",
+															"label": "단가유형",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD009/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+
+														},
+														"priceDay": {
+															"module": "combobox",
+															"selector": ".priceDay",
+															"label": "단가요일",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD010/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+
+														},
+														"creditYn": {
+															"module": "combobox",
+															"selector": ".creditYn",
+															"label": "여신한도",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD011/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+														},
+														"taxbillYn": {
+															"module": "combobox",
+															"selector": ".taxbillYn",
+															"label": "세금발행",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD012/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+
+														}
+													},
+													"data": {},
+													"template": "<div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label>배송구분</label><div class=\"select_design delvType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-9\"><div class=\"form-group\"><label>배송처</label><div class=\"delvCust_region\"></div></div></div></div><div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label>주출고장</label><div class=\"select_design mainDc\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>납품마감</label><input type=\"text\" class=\"form-control delvTime\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>유통경로</label><div class=\"select_design distType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>냉장일수</label><input type=\"text\" class=\"form-control limitF\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>매장번호</label><input type=\"text\" class=\"form-control shopNo\"></div><div class=\"form-group\"><label>냉동일수</label><input type=\"text\" class=\"form-control limitP\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>매장명</label><input type=\"text\" class=\"form-control shopName\"></div><div class=\"form-group\"><label>거래명세</label><div class=\"select_design billType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div><div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label>단가구분</label><div class=\"select_design priceComb\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>판매구분</label><div class=\"select_design saleComb\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>수금구분</label><div class=\"select_design receComb\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-9\"><div class=\"form-group\"><label>취합거래</label><div class=\"priceCombCust_region\"></div></div><div class=\"form-group\"><label>취합거래</label><div class=\"saleCombCust_region\"></div></div><div class=\"form-group\"><label>취합거래</label><div class=\"receCombCust_region\"></div></div></div></div><div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label>은행코드</label><div class=\"select_design bankCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>단가유형</label><div class=\"select_design priceType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>은행명</label><input type=\"text\" class=\"form-control bankName\"></div><div class=\"form-group\"><label>단가요일</label><div class=\"select_design priceDay\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>계좌번호</label><input type=\"text\" class=\"form-control acctNo\"></div><div class=\"form-group\"><label>여신한도</label><div class=\"select_design creditYn\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>입금자</label><input type=\"text\" class=\"form-control acctName\"></div><div class=\"form-group\"><label>세금발행</label><div class=\"select_design taxbillYn\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div>"
+												},
+												"delvCust": {
+													"module": "manifest!CodeSearch-1.0.0",
+													"options": {
+														"label": "배송처",
+														"required": false,
+														"codeType": "SD0101",
+														"params": {},
+														"value": {
+															"keyword": null,
+															"result": null
+														}
+													}
+												},
+												"priceCombCust": {
+
+													"module": "manifest!CodeSearch-1.0.0",
+													"options": {
+														"label": "단가구분 취합거래",
+														"required": false,
+														"codeType": "SD0101",
+														"params": {},
+														"value": {
+															"keyword": null,
+															"result": null
+														}
+													}
+												},
+												"saleCombCust": {
+													"module": "manifest!CodeSearch-1.0.0",
+													"options": {
+														"label": "판매구분 취합거래",
+														"required": false,
+														"codeType": "SD0101",
+														"params": {},
+														"value": {
+															"keyword": null,
+															"result": null
+														}
+													}
+												},
+												"receCombCust": {
+													"module": "manifest!CodeSearch-1.0.0",
+													"options": {
+														"label": "수금구분 취합거래",
+														"required": false,
+														"codeType": "SD0101",
+														"params": {},
+														"value": {
+															"keyword": null,
+															"result": null
+														}
+													}
+												}
+											}
+										},
+										"tab_organ": {
+											"module": "SubContainer",
+											"options": {
+												"header": {
+													"title": {
+														"className": "contnet_header_box tab_header_btn",
+														"label": "관할조직"
+													},
+													"feature": [{
+														"tab_organ_create": "행추가"
+													}]
+												},
+												"content": {
+													"module": "manifest!jqGrid4-1.0.0",
+													"options": {
+														"className": "organ_box grid_box mw90p",
+														"gridId": "SD0101_grid_2",
+														"gridParams": {
+															"data": [],
+															"colModel": [{
+																	"name": "seqNo",
+																	"label": "No",
+																	"width": 25,
+																	"align": "center",
+																	"fixed": true
+																},
+																{
+																	"name": "startDate",
+																	"label": "<div class=\"editable_mark\"></div>시작일자",
+																	"width": 90,
+																	"align": "center",
+																	"sorttype": "date" , "formatter": "dateFormatter",
+																	"unformat": "dateUnformatter",
+																	"formatoptions": {
+																		"srcformat": "YYYYMMDD",
+																		"newformat": "YYYY-MM-DD"
+																	},
+																	"classes": "editable",
+																	"editable": true
+																},
+																{
+																	"name": "lastDate",
+																	"label": "<div class=\"editable_mark\"></div>종료일자",
+																	"width": 90,
+																	"align": "center",
+																	"sorttype": "date" , "formatter": "dateFormatter",
+																	"unformat": "dateUnformatter",
+																	"formatoptions": {
+																		"srcformat": "YYYYMMDD",
+																		"newformat": "YYYY-MM-DD"
+																	},
+																	"classes": "editable",
+																	"editable": true
+																},
+																{
+																	"name": "partCode",
+																	"label": "<div class=\"editable_mark\"></div>영업파트",
+																	"width": 100,
+																	"align": "center",
+																	"editable": true,
+																	"edittype": "text",
+																	"editrules": {
+																		"required": false
+																	},
+																	"editoptions": {},
+																	"classes": "editable codesearch"
+																},
+																{
+																	"name": "teamCode",
+																	"label": "파트명",
+																	"width": 100,
+																	"align": "center"
+																},
+																{
+																	"name": "salesman",
+																	"label": "<div class=\"editable_mark\"></div>영업사원",
+																	"width": 60,
+																	"align": "center",
+																	"classes": "editable codesearch",
+																	"editable": true
+																},
+																{
+																	"name": "userCode",
+																	"label": "사원명",
+																	"width": 60,
+																	"align": "center",
+																	"hidden": false
+																},
+																{
+																	"name": "crUser",
+																	"label": "작성자",
+																	"width": 60,
+																	"align": "center",
+																	"hidden": true
+																},
+																{
+																	"name": "crUserName",
+																	"label": "작성자",
+																	"width": 60,
+																	"align": "center"
+																},
+																{
+																	"name": "crDate",
+																	"label": "작성일",
+																	"width": 90,
+																	"align": "center",
+																	"sorttype": "date" , "formatter": "dateFormatter",
+																	"unformat": "dateUnformatter",
+																	"formatoptions": {
+																		"srcformat": "YYYYMMDD",
+																		"newformat": "YYYY-MM-DD"
+																	}
+																}
+															],
+															"rwoNum": 100000000,
+															"width": "auto",
+															"height": "297",
+															"cellEdit": true,
+															"shrinkToFit": true,
+															"gridview": true,
+															"datatype": "local",
+															"footerrow": false,
+															"userDataOnFooter": false,
+															"multiselect": false,
+															"multiselectWidth": 20,
+															"rownumbers": false,
+															"cellsubmit": "clientArray",
+															"pager": "#SD0101_grid_2_pager",
+															"viewrecords": true,
+															"recordpos": "left",
+															"pgbuttons": false,
+															"pginput": false
+														}
+													}
+												}
+											}
+										},
+										"tab_security": {
+											"module": "SubContainer",
+											"options": {
+												"header": {
+													"title": {
+														"className": "contnet_header_box tab_header_btn",
+														"label": "담보내역"
+													},
+													"feature": [{
+														"tab_security_create": "행추가"
+													}]
+												},
+												"content": {
+													"module": "manifest!jqGrid4-1.0.0",
+													"options": {
+														"className": "organ_box grid_box",
+														"gridId": "SD0101_grid_3",
+														"gridParams": {
+															"data": [],
+															"colModel": [{
+																	"name": "damCode",
+																	"label": "담보",
+																	"width": 100,
+																	"align": "right",
+																	"editable": false,
+																	"hidden": true
+																},
+																{
+																	"name": "damCkind",
+																	"label": "담보종류코드",
+																	"width": 100,
+																	"align": "right",
+																	"editable": false,
+																	"hidden": true
+																},
+																{
+																	"name": "damNkind",
+																	"label": "담보종류",
+																	"width": 100,
+																	"align": "center",
+																	"editable": true,
+																	"edittype": "select",
+																	"editoptions": {
+																		"value":"90:기타;40:부동산;30:보증보험;20:예금;10:현금"
+																	}
+																},
+																{
+																	"name": "damPrice",
+																	"label": "담보가액",
+																	"width": 100,
+																	"align": "right",
+																	"editable": false,
+																	"sorttype": "currency","formatter": "currency"
+																},
+																{
+																	"name": "damSdate",
+																	"label": "담보설정일",
+																	"width": 90,
+																	"align": "center",
+																	"sorttype": "date" , "formatter": "dateFormatter",
+																	"unformat": "dateUnformatter",
+																	"formatoptions": {
+																		"srcformat": "YYYYMMDD",
+																		"newformat": "YYYY-MM-DD"
+																	},
+																	"editable":false
+																},
+																{
+																	"name": "damEdate",
+																	"label": "담보만기일",
+																	"width": 90,
+																	"align": "center",
+																	"sorttype": "date" , "formatter": "dateFormatter",
+																	"unformat": "dateUnformatter",
+																	"formatoptions": {
+																		"srcformat": "YYYYMMDD",
+																		"newformat": "YYYY-MM-DD"
+																	},
+																	"editable":false
+																},
+																{
+																	"name": "damHdate",
+																	"label": "담보효력일",
+																	"width": 90,
+																	"align": "center",
+																	"sorttype": "date" , "formatter": "dateFormatter",
+																	"unformat": "dateUnformatter",
+																	"formatoptions": {
+																		"srcformat": "YYYYMMDD",
+																		"newformat": "YYYY-MM-DD"
+																	},
+																	"editable":false
+																}, {
+																	"name": "damComp",
+																	"label": "가입처",
+																	"width": 160,
+																	"align": "left",
+																	"editable": false
+
+																}, {
+																	"name": "damTel",
+																	"label": "가입처전화",
+																	"width": 140,
+																	"align": "left",
+																	"editable": false
+																}, {
+																	"name": "damBuil",
+																	"label": "담보물건지",
+																	"width": 250,
+																	"align": "left",
+																	"editable": false
+																}, {
+																	"name": "damSkum",
+																	"label": "선순위금액",
+																	"width": 120,
+																	"align": "right",
+																	"editable": false,
+																	"formatter":"currency"
+																}, {
+																	"name": "damSrank",
+																	"label": "선순위",
+																	"width": 100,
+																	"align": "center",
+																	"editable": false
+																},
+																{
+																	"name": "damMemo",
+																	"label": "비고",
+																	"width": 100,
+																	"align": "right",
+																	"editable": false,
+																	"hidden": true
+																}
+
+															],
+															"rwoNum": 100000000,
+															"width": "auto",
+															"height": "297",
+															"cellEdit": true,
+															"shrinkToFit": true,
+															"gridview": true,
+															"datatype": "local",
+															"footerrow": false,
+															"userDataOnFooter": false,
+															"multiselect": false,
+															"multiselectWidth": 20,
+															"rownumbers": false,
+															"cellsubmit": "clientArray",
+															"pager": "#SD0101_grid_3_pager",
+															"viewrecords": true,
+															"recordpos": "left",
+															"pgbuttons": false,
+															"pginput": false
+														}
+													}
+												}
+											}
+										},
+										"tab_credit": {
+											"module": "SubContainer",
+											"options": {
+												"header": {
+													"title": {
+														"className": "contnet_header_box tab_header_btn",
+														"label": "한도내역"
+													},
+													"feature": [{
+														"tab_credit_create": "행추가"
+													}, {
+														"tab_credit_confirm": "한도승인"
+													}]
+												},
+												"content": {
+													"module": "manifest!jqGrid4-1.0.0",
+													"options": {
+														"className": "organ_box grid_box",
+														"gridId": "SD0101_grid_4",
+														"gridParams": {
+															"data": [],
+															"colModel": [{
+																	"name": "seqNo",
+																	"label": "No",
+																	"width": 40,
+																	"align": "center",
+																	"editable": false
+																},
+																{
+																	"name": "startDate",
+																	"label": "<div class=\"editable_mark\"></div>시작일자",
+																	"width": 90,
+																	"align": "center",
+																	"sorttype": "date" , "formatter": "dateFormatter",
+																	"unformat": "dateUnformatter",
+																	"formatoptions": {
+																		"srcformat": "YYYYMMDD",
+																		"newformat": "YYYY-MM-DD"
+																	},
+																	"editable": true,
+																	"classes":"editable"
+																},
+																{
+																	"name": "lastDate",
+																	"label": "<div class=\"editable_mark\"></div>종료일자",
+																	"width": 90,
+																	"align": "center",
+																	"sorttype": "date" , "formatter": "dateFormatter",
+																	"unformat": "dateUnformatter",
+																	"formatoptions": {
+																		"srcformat": "YYYYMMDD",
+																		"newformat": "YYYY-MM-DD"
+																	},
+																	"editable": true,
+																	"classes":"editable"
+																},
+																{
+																	"name": "baseLimit",
+																	"label": "<div class=\"editable_mark\"></div>기본한도",
+																	"width": 100,
+																	"align": "right",
+																	"editable": true,
+																	"edittype": "text",
+																	"editrules": {
+																		"required": true,
+																		"number":true
+																	},
+																	"editoptions": {},
+																	"classes": "editable",
+																	"formatter":"currency"
+																},
+																{
+																	"name": "oneLimit",
+																	"label": "<div class=\"editable_mark\"></div>1회한도",
+																	"width": 100,
+																	"align": "right",
+																	"editable": true,
+																	"edittype": "text",
+																	"editrules": {
+																		"required": true,
+																		"number":true
+																	},
+																	"editoptions": {},
+																	"classes": "editable",
+																	"formatter":"currency"
+																},
+																{
+																	"name": "crUserName",
+																	"label": "작성자",
+																	"width": 90,
+																	"align": "right",
+																	"editable": false
+																},
+																{
+																	"name": "crDate",
+																	"label": "작성일",
+																	"width": 90,
+																	"align": "center",
+																	"sorttype": "date" , "formatter": "dateFormatter",
+																	"unformat": "dateUnformatter",
+																	"formatoptions": {
+																		"srcformat": "YYYYMMDD",
+																		"newformat": "YYYY-MM-DD"
+																	}
+																}, {
+																	"name": "mdGubun",
+																	"label": "결재구분",
+																	"width": 140,
+																	"align": "left",
+																	"editable": false
+																}, {
+																	"name": "mdUser",
+																	"label": "결재자",
+																	"width": 120,
+																	"align": "left",
+																	"editable": false
+																},
+																{
+																	"name": "mdDate",
+																	"label": "결재일",
+																	"width": 90,
+																	"align": "center",
+																	"sorttype": "date" , "formatter": "dateFormatter",
+																	"unformat": "dateUnformatter",
+																	"formatoptions": {
+																		"srcformat": "YYYYMMDD",
+																		"newformat": "YYYY-MM-DD"
+																	},
+																	"editable": false
+																}
+															],
+															"rwoNum": 100000000,
+															"width": "auto",
+															"height": "297",
+															"cellEdit": true,
+															"shrinkToFit": true,
+															"gridview": true,
+															"datatype": "local",
+															"footerrow": false,
+															"userDataOnFooter": false,
+															"multiselect": true,
+															"multiselectWidth": 15,
+															"rownumbers": false,
+															"cellsubmit": "clientArray",
+															"pager": "#SD0101_grid_4_pager",
+															"viewrecords": true,
+															"recordpos": "left",
+															"pgbuttons": false,
+															"pginput": false
+														}
+													}
+												}
+											}
+										},
+										"tab_farm": {
+											"module": "FormBox",
+											"options": {
+												"height": "353px",
+												"className": "form_box tab_form_box",
+												"order": ["facCust", "brandCode", "facKind", "facCode", "receComb", "receCombCust"],
+												"activation": {
+													"method": "one-page"
+												},
+												"custom_form": {
+													"mode": "form",
+													"name": "Form Builder Params",
+													"items": {
+														"facCust": {
+															"module": "text",
+															"selector": ".facCust",
+															"label": "농장번호",
+															"required": false
+														},
+														"brandCode": {
+															"module": "combobox",
+															"selector": ".brandCode",
+															"label": "브랜드",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/PP007/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+
+														},
+														"facKind": {
+															"module": "combobox",
+															"selector": ".facKind",
+															"label": "정산구분",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD014/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+														},
+														"facCode": {
+															"module": "combobox",
+															"selector": ".facCode",
+															"label": "정산방법",
+															"required": false,
+															"items" :[
+															{"label":"정산방법","value":0},
+															{"label":"정산방법","value":1}
+															]
+														},
+														"receComb": {
+															"module": "combobox",
+															"selector": ".receComb",
+															"label": "수금구분",
+															"required": false,
+															"fetcher": {
+																"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD015/tmcodexd",
+																"parser": "return UCMS.parseComboItems(arguments[0]);"
+															}
+														},
+														"receCombCust": {
+															"label": "취합거래"
+														}
+													},
+													"data": {},
+													"template": "<div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label>농장번호</label><input type=\"text\" class=\"form-control facCust\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>브랜드</label><div class=\"select_design brandCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>정산구분</label><div class=\"select_design facKind\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>정산방법</label><div class=\"select_design facCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div><div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label>수금구분</label><div class=\"select_design receComb\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-9\"><div class=\"form-group\"><label>취합거래</label><div class=\"receCombCust_region\"></div></div></div></div>"
+												},
+												"receCombCust" : {
+													"module": "manifest!CodeSearch-1.0.0",
+													"options": {
+														"label": "취합거래",
+														"required": false,
+														"codeType": "",
+														"params": {},
+														"value": {
+															"keyword": null,
+															"result": null
+														}
+													}
+												}
+											}
+										},
+										"tab_warehouse": {
+											"module": "manifest!jqGrid4-1.0.0",
+											"options": {
+												"className": "grid_box mw50p",
+												"gridId": "SD0101_grid_5",
+												"gridParams": {
+													"data": [],
+													"colModel": [
+														{
+															"name": "saleGroup1",
+															"label": "제품군",
+															"width": 70,
+															"align": "left",
+															"editable": false
+														},
+														{
+															"name": "saleGroup2",
+															"label": "품목",
+															"width": 100,
+															"align": "left",
+															"editable": false
+														},
+														{
+															"name": "limitDay",
+															"label": "경과일수",
+															"width": 70,
+															"align": "right",
+															"editable": false
+														}
+
+													],
+													"rwoNum": 100000000,
+													"width": "auto",
+													"height": "297",
+													"cellEdit": false,
+													"shrinkToFit": true,
+													"gridview": true,
+													"datatype": "local",
+													"footerrow": false,
+													"userDataOnFooter": false,
+													"multiselect": false,
+													"multiselectWidth": 20,
+													"rownumbers": false,
+													"cellsubmit": "clientArray",
+													"pager": "#SD0101_grid_5_pager",
+													"viewrecords": true,
+													"recordpos":"left",
+													"pgbuttons":false,
+													"pginput":false
+												}
+											}
+										}
+										,
+										"tab_history" : {
+											"module": "SubContainer",
+											"options": {
+												"header": {
+													"title": {
+														"className": "contnet_header_box tab_header_btn",
+														"label": "거래처이력"
+													},
+													"feature": [{
+														"tab_history_create": "행추가"
+													},{
+														"tab_history_delete": "행삭제"
+													}]
+												},
+												"content": {
+													"module": "FormBox",
+													"options": {
+														"className": "result_box",
+														"order": ["listGrid", "detailView"],
+														"activation": {
+															"defaultWidget": "",
+															"method": "one-page"
+														},
+														"custom_form": {
+															"mode": "form",
+															"items": {
+																"listGrid": {
+																	"label": "listGrid",
+																	"required": true
+																},
+																"detailView": {
+																	"label": "거래처이력",
+																	"required": true,
+																	"selector":".detailView",
+																	"module":"textarea"
+																}
+															},
+															"data": {},
+															"template": "<div class=\"row\" style=\"margin-top:-4px\"><div class=\"col-xs-2 listGrid_region\"></div><div class=\"col-xs-10\"><table class=\"table table-bordered\"><thead><tr><th class=\"text-center\">거래처이력</th></tr></thead><tbody><tr><td><textarea class=\"form-control detailView\" style=\"height:323px\">내용</textarea></td></tr></tbody><table></div></div>"
+														},
+														"listGrid": {
+															"module": "manifest!jqGrid4-1.0.0",
+															"options": {
+																"className": "list_grid grid_btn_hide grid_box ",
+																"gridId": "SD0101_grid_6",
+																"gridParams": {
+																	"data": [],
+																	"colModel": [
+																		{
+																			"name": "crDate",
+																			"label": "등록일자",
+																			"width": 90,
+																			"align": "center",
+																			"sorttype": "date" , "formatter": "dateFormatter",
+																			"unformat": "dateUnformatter",
+																			"formatoptions": {
+																				"srcformat": "YYYYMMDD",
+																				"newformat": "YYYY-MM-DD"
+																			}
+																		},
+																		{
+																			"name": "crUser",
+																			"label": "등록자",
+																			"width": 60,
+																			"align": "center",
+																			"editable": false
+																		}],
+																	"rowNum":"100000000",
+																	"width": "auto",
+																	"height": "297",
+																	"cellEdit": false,
+																	"gridview": true,
+																	"datatype": "local",
+																	"cellsubmit": "clientArray",
+																	"pager": "#SD0101_grid_6_pager",
+																	"viewrecords": true,
+																	"recordpos":"left",
+																	"pgbuttons":false,
+																	"pginput":false
+																}
+															}
+
+														}
+													}
+												}
+											}
+										}
+
+									}
+								},
+								"formBox": {
+									"module": "FormBox",
+									"options": {
+										"className": "form_box tab_form_box",
+										"order": [ "custCode","custType","deptName", "salesmanName",   "custName", "owner", "shortName", "delvAddr","delvZip", "postAddr", "postZip",  "bizNo", "juminNo", "uptae", "jong", "phone", "mobile", "fax", "taxType", "email","closeYn"],
+										"activation": {
+											"method": "one-page"
+										},
+										"custom_form": {
+											"name": "Form Builder Params",
+											"mode": "form",
+											"template": "<div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label>거래처</label><div class=\"input-group\"><input type=\"text\" class=\"form-control custCode\"><span class=\"input-group-btn\"><button class=\"btn btn-default checkdup\" type=\"button\">중복</button></span></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>업체구분</label><div class=\"select_design custType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>영업파트</label><input type=\"text\" class=\"form-control deptName\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>영업사원</label><input type=\"text\" class=\"form-control salesmanName\"></div></div></div><div class=\"row\"><div class=\"col-xs-9\"><div class=\"form-group\"><label>거래처명</label><input type=\"text\" class=\"form-control custName\"></div><div class=\"form-group\"><label>약칭</label><input type=\"text\" class=\"form-control shortName\"></div><div class=\"form-group\"><label>배송주소</label><input type=\"text\" class=\"form-control delvAddr\"></div><div class=\"form-group\"><label>우편주소</label><input type=\"text\" class=\"form-control postAddr\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>대표자명</label><input type=\"text\" class=\"form-control owner\"></div><div class=\"form-group\"></div><div class=\"form-group\"><label>우편번호</label><input type=\"text\" class=\"form-control delvZip\"></div><div class=\"form-group\"><label>우편번호</label><input type=\"text\" class=\"form-control postZip\"></div></div></div><div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label>등록번호</label><input type=\"text\" class=\"form-control bizNo\"></div><div class=\"form-group\"><label>전화번호</label><input type=\"text\" class=\"form-control phone\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>주민번호</label><input type=\"text\" class=\"form-control juminNo\"></div><div class=\"form-group\"><label>휴대전화</label><input type=\"text\" class=\"form-control mobile\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>업태</label><input type=\"text\" class=\"form-control uptae\"></div><div class=\"form-group\"><label>팩스번호</label><input type=\"text\" class=\"form-control fax\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>종목</label><input type=\"text\" class=\"form-control jong\"></div><div class=\"form-group\"><label>과세구분</label><div class=\"select_design taxType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div><div class=\"row\"><div class=\"col-xs-6\"><div class=\"form-group\"><label>이메일</label><input type=\"text\" class=\"form-control email\"></div></div><div class=\"col-xs-6\"><div class=\"form-group\"><label>종결구분</label><div class=\"radio closeYn\"><label><input type=\"radio\" name=\"closeYn\" class=\"closeYn\" value=\"0\" checked=\"checked\">거래</label><label><input type=\"radio\" name=\"closeYn\" class=\"closeYn\" value=\"1\">종결</label></div></div></div></div>",
+											"items": {
+												"custCode": {
+													"module": "text",
+													"selector": ".custCode",
+													"label": "거래처",
+													"required": false
+												},
+												"custType": {
+													"module": "combobox",
+													"selector": ".custType",
+													"label": "업체구분",
+													"required": false,
+													"fetcher": {
+														"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD001/tmcodexd",
+														"parser": "return UCMS.parseComboItems(arguments[0]);"
+													}
+												},
+
+												"deptName": {
+													"module": "text",
+													"selector": ".deptName",
+													"label": "영업파트",
+													"required": false,
+													"disable": true
+												},
+												"salesmanName": {
+													"module": "text",
+													"selector": ".salesmanName",
+													"label": "영업사원",
+													"required": false,
+													"disable": true
+												},
+												"custName": {
+													"module": "text",
+													"selector": ".custName",
+													"label": "거래처명",
+													"required": false
+												},
+												"owner": {
+													"module": "text",
+													"selector": ".owner",
+													"label": "대표자명",
+													"required": false
+												},
+												"shortName": {
+													"module": "text",
+													"selector": ".shortName",
+													"label": "약칭",
+													"required": false
+												},
+												"delvAddr": {
+													"module": "text",
+													"selector": ".delvAddr",
+													"label": "배송주소",
+													"required": false
+												},
+												"postAddr": {
+													"module": "text",
+													"selector": ".postAddr",
+													"label": "우편주소",
+													"required": false
+												},
+												"postZip": {
+													"module": "text",
+													"selector": ".postZip",
+													"label": "우편번호",
+													"required": false
+												},
+
+												"delvZip": {
+													"module": "text",
+													"selector": ".delvZip",
+													"label": "우편번호",
+													"required": false
+												},
+												"bizNo": {
+													"module": "text",
+													"selector": ".bizNo",
+													"label": "등록번호",
+													"required": false
+												},
+												"juminNo": {
+													"module": "text",
+													"selector": ".juminNo",
+													"label": "주민번호",
+													"required": false
+												},
+												"uptae": {
+													"module": "text",
+													"selector": ".uptae",
+													"label": "업태",
+													"required": false
+												},
+												"jong": {
+													"module": "text",
+													"selector": ".jong",
+													"label": "종목",
+													"required": false
+												},
+												"phone": {
+													"module": "text",
+													"selector": ".phone",
+													"label": "전화번호",
+													"required": false
+												},
+												"mobile": {
+													"module": "text",
+													"selector": ".mobile",
+													"label": "휴대전화",
+													"required": false
+												},
+												"fax": {
+													"module": "text",
+													"selector": ".fax",
+													"label": "팩스번호",
+													"required": false
+												},
+												"taxType": {
+													"module": "combobox",
+													"selector": ".taxType",
+													"label": "과세구분",
+													"required": false,
+													"fetcher": {
+														"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD002/tmcodexd",
+														"parser": "return UCMS.parseComboItems(arguments[0]);"
+													}
+												},
+												"email": {
+													"module": "text",
+													"selector": ".email",
+													"label": "이메일",
+													"required": false
+												},
+												"closeYn": {
+													"module": "radiobox",
+													"selector": ".closeYn",
+													"label": "종결구분",
+													"required": false,
+													"value":"N",
+													"fetcher": {
+														"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD003/tmcodexd",
+														"parser": "return UCMS.parseComboItems(arguments[0]);"
+													}
+												}
+											},
+											"data": {}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

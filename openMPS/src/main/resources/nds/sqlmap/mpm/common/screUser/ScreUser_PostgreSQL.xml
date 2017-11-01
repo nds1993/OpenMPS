@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ScreUser">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="screUserSerarchVO" type="nds.mpm.common.user.vo.ScreUserDefaultVO"/>
+	<typeAlias  alias="screUserVO" type="nds.mpm.common.user.vo.ScreUserVO"/>
+	
+	<resultMap id="screUser" class="nds.mpm.common.user.vo.ScreUserVO">
+		<result property="userCode" column="user_code" columnIndex="1"/>
+		<result property="screNo" column="scre_no" columnIndex="2"/>
+		<result property="useYn" column="use_yn" columnIndex="3"/>
+		<result property="openYn" column="open_yn" columnIndex="4"/>
+		<result property="insertYn" column="insert_yn" columnIndex="5"/>
+		<result property="editYn" column="edit_yn" columnIndex="6"/>
+		<result property="delYn" column="del_yn" columnIndex="7"/>
+		<result property="excelYn" column="excel_yn" columnIndex="8"/>
+		<result property="printYn" column="print_yn" columnIndex="9"/>
+		<result property="memo" column="memo" columnIndex="10"/>
+		<result property="deleYn" column="dele_yn" columnIndex="11"/>
+		<result property="mdUser" column="md_user" columnIndex="12"/>
+		<result property="mdDate" column="md_date" columnIndex="13"/>
+		<result property="crUser" column="cr_user" columnIndex="14"/>
+		<result property="crDate" column="cr_date" columnIndex="15"/>
+	</resultMap>
+	
+	<insert id="screUserDAO.insertScreUser_S">
+		<![CDATA[
+			INSERT INTO scre_user 
+				( user_code
+				  , scre_no
+				  , use_yn
+				  , open_yn
+				  , insert_yn
+				  , edit_yn
+				  , del_yn
+				  , excel_yn
+				  , print_yn
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #userCode#
+				  , #screNo#
+				  , #useYn#
+				  , #openYn#
+				  , #insertYn#
+				  , #editYn#
+				  , #delYn#
+				  , #excelYn#
+				  , #printYn#
+				  , #memo#
+				  , 'N'
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , TO_CHAR(now(),'yyyy-mm-dd hh24:mi:ss') )
+		]]>
+	</insert>
+	
+	<update id="screUserDAO.updateScreUser_S">
+		<![CDATA[
+			UPDATE scre_user
+			SET scre_no=#screNo#
+				, use_yn=#useYn#
+				, open_yn=#openYn#
+				, insert_yn=#insertYn#
+				, edit_yn=#editYn#
+				, del_yn=#delYn#
+				, excel_yn=#excelYn#
+				, print_yn=#printYn#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=TO_CHAR(now(),'yyyy-mm-dd hh24:mi:ss')
+				WHERE user_code=#userCode#
+				AND scre_no=#screNo#
+				]]>
+	</update>
+	
+	<delete id="screUserDAO.deleteScreUser_S">
+		<![CDATA[
+			UPDATE scre_user SET dele_yn = 'Y'
+						WHERE user_code=#userCode#
+								AND scre_no=#screNo#
+				]]>
+	</delete>
+	
+	<select id="screUserDAO.selectScreUser_S" resultMap="screUser">
+		<![CDATA[
+			SELECT
+				user_code
+				, scre_no
+				, use_yn
+				, open_yn
+				, insert_yn
+				, edit_yn
+				, del_yn
+				, excel_yn
+				, print_yn
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM scre_user
+						WHERE user_code=#userCode#
+								AND scre_no=#screNo#
+				]]>
+	</select>
+	
+	<select id="screUserDAO.selectScreUserList_D" parameterClass="screUserVO" resultClass="egovMap">
+		<![CDATA[
+			SELECT *
+			FROM scre_user A, scre_info B
+		 	WHERE A.scre_no = B.scre_no
+		   		AND A.dele_yn = 'N' 
+		   		AND A.user_code=#userCode#
+		]]>
+	</select>	
+	<select id="screUserDAO.selectScreUserListTotCnt_S" parameterClass="screUserVO" resultClass="int">
+			SELECT count(*)
+			FROM scre_user A, scre_info B
+		 	WHERE A.scre_no = B.scre_no
+		   		AND A.dele_yn = 'N' 
+		   		AND A.user_code=#userCode#
+	</select>
+
+</sqlMap>

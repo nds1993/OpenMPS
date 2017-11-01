@@ -1,0 +1,235 @@
+{
+    "module": "TMCOSM30Renderer",
+    "options": {
+        "className": "contents_box",
+        "order": [
+            "queryBox",
+            "resultBox",
+            "formBox",
+            "formBox2"
+        ],
+        "activation": {
+            "defaultWidget": "",
+            "method": "one-page"
+        },
+        "formBox": {
+            "module": "FormBox",
+            "options": {
+                "order": [
+                    "servId",
+                    "servTitle",
+                    "rqstType",
+                    "servCont",
+                    "rqfnDate",
+                    "procStatus"
+                ],
+                "activation": {
+                    "defaultWidget": "",
+                    "method": "one-page"
+                },
+                "custom_form": {
+                	"name": "Form Builder Params",
+                    "template": "<div class=\"row\"><div class=\"col-xs-6\" style=\"padding: 0px;\"><div class=\"contnet_header_box\"><div class=\"contents_box\"><div class=\"page_title_region\" style=\"display: block;\"><div class=\"title_box undefined\"><h2 class=\"title_tag\"><span class=\"title \"><i class=\"fa fa-chevron-circle-right fa-fw\"></i>서비스 요청서 </span></h2><div class=\"help-block\"></div><hr class=\"line\"></div></div></div></div></div><div class=\"col-xs-6 text-right\" style=\"padding: 0px;\"><button class=\"btn btn-primary  btn_recipt\" style=\"display:none;\"><span class=\"btn_label \">접수</span></button><button class=\"btn btn-primary  btn_finish\" style=\"display:none;\"><span class=\"btn_label \">완료</span></button><button class=\"btn btn-primary  btn_reject\" style=\"display:none;\"><span class=\"btn_label \">반려</span></button></div></div><div class=\"form_box\"><div class=\"row form-group-tmm\"><div class=\"col-xs-8\"><div class=\"form-group\"><label class=\"required\">제목</label><input type=\"text\" class=\"form-control servId\" style=\"display:none;\" value=\"\" placeholder=\"\"><input type=\"text\" class=\"form-control procStatus\" style=\"display:none;\" value=\"\" placeholder=\"\"><input type=\"text\" class=\"form-control servTitle\" value=\"\" placeholder=\"\"></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">요청유형</label><div class=\"select_design rqstType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div><div class=\"row form-group-tmm\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">내용</label><textarea rows=\"10\" class=\"form-control servCont\"></textarea></div></div></div><div class=\"row form-group-tmm\"><div class=\"col-xs-4\"><div class=\"form-group\"><label>완료요구일</label><input type=\"text\" class=\"form-control form_type_date rqfnDate\" placeholder=\"\"></div></div></div></div>",
+                    "mode": "form",
+                    "items": {
+                    	"servId": {
+                            "module": "text",
+                            "label": "요청서ID",
+                            "selector": ".servId",
+                            "required": false,
+							"readonly": true
+                        },
+                    	"procStatus": {
+                            "module": "text",
+                            "label": "처리상태",
+                            "selector": ".procStatus",
+                            "required": false,
+							"readonly": true
+                        },
+                        "servTitle": {
+                            "module": "text",
+                            "label": "제목",
+                            "selector": ".servTitle",
+                            "required": true,
+							"readonly": true
+                        },
+                        "servCont": {
+                            "module": "textarea",
+                            "label": "내용",
+                            "selector": ".servCont",
+                            "required": true,
+							"readonly": true
+                        },
+                        "rqfnDate": {
+                            "module": "date",
+                            "label": "완료요구일",
+                            "selector": ".rqfnDate",
+                            "format": "YYYY-MM-DD",
+                            "required": false,
+							"readonly": true
+                        },
+                        "rqstType": {
+                            "module": "combobox",
+                            "label": "요청유형",
+                            "selector": ".rqstType",
+                            "required": true,
+							"disable": true,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/TM_SVRQTP/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "formBox2": {
+            "module": "FormBox",
+            "options": {
+                "order": [
+                    "servTitle",
+                    "rqstType",
+                    "servCont",
+                    "rqfnDate"
+                ],
+                "activation": {
+                    "defaultWidget": "",
+                    "method": "one-page"
+                },
+                "custom_form": {
+                	"name": "Form Builder Params2",
+                    "template": "<div class=\"row\"><div class=\"col-xs-6\" style=\"padding: 0px;\"><div class=\"contnet_header_box\"><div class=\"contents_box\"><div class=\"page_title_region\" style=\"display: block;\"><div class=\"title_box undefined\"><h2 class=\"title_tag\"><span class=\"title \"><i class=\"fa fa-chevron-circle-right fa-fw\"></i>서비스 처리결과</span></h2><div class=\"help-block\"></div><hr class=\"line\"></div></div></div></div></div></div><div class=\"form_box\"><div class=\"row form-group-tmm\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">처리 내역</label><textarea rows=\"10\" class=\"form-control procCont\"></textarea></div></div></div></div>",
+                    "mode": "form",
+                    "items": {
+                        "procCont": {
+                            "module": "textarea",
+                            "label": "처리내역",
+                            "selector": ".servCont",
+                            "required": true
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "queryBox": {
+            "module": "FormBox",
+            "options": {
+                "module": "FormBox",
+                "className": "query_box form-inline",
+                "order": [
+                    "strtDate",
+                    "lastDate",
+                    "searchCondition",
+                    "searchKeyword"
+                ],
+                "custom_form": {
+                	"mode": "form",
+                    "template": "<div class=\"form-group\"><label>기간</label><input type=\"text\" class=\"form-control form_type_date strtDate\" placeholder=\"\">~ <input type=\"text\" class=\"form-control form_type_date lastDate\" placeholder=\"\"></div><div class=\"form-group\"><label>검색</label><div class=\"select_design searchCondition\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div><input type=\"text\" class=\"form-control searchKeyword\" placeholder=\"\"></div>",
+                    "items": {
+                    	"searchCondition": {
+                            "selector": ".searchCondition",
+                            "label": "검색조건",
+                            "required": false,
+                            "module": "combobox",
+                            "value": "",
+							"items": [{
+									"label": "제목",
+									"value": "10"
+								},
+								{
+									"label": "내용",
+									"value": "20"
+								},
+								{
+									"label": "요청자",
+									"value": "30"
+								}
+							]
+                        },
+                        "strtDate": {
+                            "module": "date",
+                            "label": "시작일",
+                            "selector": ".strtDate",
+                            "format": "YYYY-MM-DD",
+                            "required": false
+                        },
+                        "lastDate": {
+                            "module": "date",
+                            "label": "종료일",
+                            "selector": ".lastDate",
+                            "format": "YYYY-MM-DD",
+                            "required": false
+                        },
+                        "searchKeyword": {
+                            "module": "text",
+                            "label": "검색내용",
+                            "selector": ".searchKeyword",
+                            "required": false
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "resultBox": {
+            "module": "manifest!jqGrid4-1.0.0",
+            "options": {
+                "className": "resultBox_box grid_box",
+                "gridId": "TMCOSM30_grid_1",
+                "gridParams": {
+                    "data": [],
+                    "colModel": [
+                    {
+                        "name": "procStatusName",
+                        "label": "진행상태",
+                        "align": "center",
+                        "width": 10
+                    }, {
+                       "name": "servTitle",
+                        "label": "요청제목",
+                        "align": "left",
+                        "width": 60
+                    }, {
+                        "name": "crDate2",
+                        "label": "요청일",
+                        "align": "center",
+                        "width": 10
+                    }, {
+                        "name": "rqfnDate",
+                        "label": "완료요구일",
+                        "align": "center",
+                        "width": 10
+                    }, {
+                        "name": "finishDate",
+                        "label": "처리완료일",
+                        "align": "center",
+                        "width": 10
+                    }, {
+                        "name": "servCont",
+                        "label": "요청내용",
+                        "hidden":true
+                    }, {
+                        "name": "rqstType",
+                        "label": "요청유형",
+                        "hidden":true
+                    }, {
+                        "name": "servId",
+                        "label": "요청서ID",
+                        "hidden":true
+                    }, {
+                        "name": "procStatus",
+                        "label": "처리상태코드",
+                        "hidden":true
+                    }],
+                    "width": "auto",
+                    "height": "250",
+                    "iconSet": "fontAwesome",
+                    "pager": false,
+                    "cellEdit": false
+                }
+            }
+        }
+    }
+}

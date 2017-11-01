@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TMCOCD10DETAIL">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="TMCOCD10DETAILSerarchVO" type="nds.tmm.common.TMCOCD10.vo.TMCOCD10DETAILVO"/>
+	
+	<resultMap id="TMCOCD10DETAIL" class="nds.tmm.common.TMCOCD10.vo.TMCOCD10DETAILVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="groupCode" column="group_code" columnIndex="2"/>
+		<result property="codeId" column="code_id" columnIndex="3"/>
+		<result property="codeName" column="code_name" columnIndex="4"/>
+		<result property="dfvYn" column="dfv_yn" columnIndex="5"/>
+		<result property="erpCode" column="erp_code" columnIndex="6"/>
+		<result property="useYn" column="use_yn" columnIndex="7"/>
+		<result property="sortOrder" column="sort_order" columnIndex="8"/>
+		<result property="memo" column="memo" columnIndex="9"/>
+		<result property="deleYn" column="dele_yn" columnIndex="10"/>
+		<result property="mdUser" column="md_user" columnIndex="11"/>
+		<result property="mdDate" column="md_date" columnIndex="12"/>
+		<result property="crUser" column="cr_user" columnIndex="13"/>
+		<result property="crDate" column="cr_date" columnIndex="14"/>
+		<result property="etc01" column="etc01" columnIndex="15"/>
+		<result property="etc02" column="etc02" columnIndex="16"/>
+		<result property="etc03" column="etc03" columnIndex="17"/>
+		<result property="etc04" column="etc04" columnIndex="18"/>
+		<result property="etc05" column="etc05" columnIndex="19"/>
+		<result property="etc06" column="etc06" columnIndex="20"/>
+		<result property="etc07" column="etc07" columnIndex="21"/>
+		<result property="etc08" column="etc08" columnIndex="22"/>
+		<result property="etc09" column="etc09" columnIndex="23"/>
+		<result property="etc10" column="etc10" columnIndex="24"/>
+	</resultMap>
+		<!-- paging parameter Global include -->
+	<sql id="pagingParam_fragment">
+		<isNotEqual property="pageSize" compareValue="0">
+		         LIMIT #pageSize#
+		</isNotEqual>
+		<isNotEqual property="startOrder" compareValue="0">
+		         OFFSET #startOrder#
+		</isNotEqual>
+	</sql>
+	
+	<insert id="TMCOCD10DETAILDAO.insertTMCOCD10DETAIL">
+		<![CDATA[
+			INSERT INTO openmps.tm_codexd 
+				( corp_code
+				  , group_code
+				  , code_id
+				  , code_name
+				  , dfv_yn
+				  , erp_code
+				  , use_yn
+				  , sort_order
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date
+				  , etc01
+				  , etc02
+				  , etc03
+				  , etc04
+				  , etc05
+				  , etc06
+				  , etc07
+				  , etc08
+				  , etc09
+				  , etc10 )
+			VALUES ( #corpCode#
+				  , #groupCode#
+				  , #codeId#
+				  , #codeName#
+				  , #dfvYn#
+				  , #erpCode#
+				  , #useYn#
+				  , #sortOrder#
+				  , #memo#
+				  , 'N'
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , now()
+				  , #etc01#
+				  , #etc02#
+				  , #etc03#
+				  , #etc04#
+				  , #etc05#
+				  , #etc06#
+				  , #etc07#
+				  , #etc08#
+				  , #etc09#
+				  , #etc10# )
+		]]>
+	</insert>
+	
+	<update id="TMCOCD10DETAILDAO.updateTMCOCD10DETAIL">
+		<![CDATA[
+			UPDATE openmps.tm_codexd
+			SET code_name=#codeName#
+				, dfv_yn=#dfvYn#
+				, erp_code=#erpCode#
+				, use_yn=#useYn#
+				, sort_order=#sortOrder#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+				, etc01=#etc01#
+				, etc02=#etc02#
+				, etc03=#etc03#
+				, etc04=#etc04#
+				, etc05=#etc05#
+				, etc06=#etc06#
+				, etc07=#etc07#
+				, etc08=#etc08#
+				, etc09=#etc09#
+				, etc10=#etc10#
+						WHERE corp_code=#corpCode#
+								AND group_code=#groupCode#
+								AND code_id=#codeId#
+				]]>
+	</update>
+	
+	<delete id="TMCOCD10DETAILDAO.deleteTMCOCD10DETAIL">
+		<![CDATA[
+			UPDATE openmps.tm_codexd SET dele_yn = 'Y' 
+					, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND group_code=#groupCode#
+								AND code_id=#codeId#
+				]]>
+	</delete>
+	
+	<select id="TMCOCD10DETAILDAO.selectTMCOCD10DETAIL_S" resultMap="TMCOCD10DETAIL">
+		<![CDATA[
+			SELECT
+				corp_code
+				, group_code
+				, code_id
+				, code_name
+				, dfv_yn
+				, erp_code
+				, use_yn
+				, sort_order
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+				, etc01
+				, etc02
+				, etc03
+				, etc04
+				, etc05
+				, etc06
+				, etc07
+				, etc08
+				, etc09
+				, etc10
+			FROM openmps.tm_codexd
+						WHERE corp_code=#corpCode#
+								AND group_code=#groupCode#
+								AND code_id=#codeId#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	from openmps.tm_codexd a
+		where a.corp_code = #corpCode#
+		and a.group_code = #groupCode#
+		<dynamic> 
+	         <isNotEmpty prepend="and" property="searchKeyword">
+		               ( A.code_id = #searchKeyword#
+		         		or
+		               	A.code_name like '%' || #searchKeyword# || '%' 
+		               	or
+		               	A.etc01 like '%' || #searchKeyword# || '%' 
+		               )
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="etc02">
+	         a.etc02 = #etc02#
+	         </isNotEmpty>
+		 </dynamic>
+		 and a.dele_yn = 'N'
+	</sql>
+	<select id="TMCOCD10DETAILDAO.selectTMCOCD10DETAILList_D" resultClass="egovMap">
+		SELECT
+				corp_code
+				, group_code
+				, code_id
+				, code_name
+				, code_id as code
+				, code_name as label
+				, dfv_yn
+				, erp_code
+				, use_yn
+				, sort_order
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+				, etc01
+				, etc02
+				, etc03
+				, etc04
+				, etc05
+				, etc06
+				, etc07
+				, etc08
+				, etc09
+				, etc10
+			<include refid="selectWhere_fragment"/>
+			order by sort_order
+	</select>
+	<select id="TMCOCD10DETAILDAO.selectTMCOCD10DETAILCodeList_D" resultClass="egovMap">
+		SELECT
+				corp_code
+				, group_code
+				, code_id as code
+				, code_name as label
+				, etc01
+				, etc02
+				, etc03
+			<include refid="selectWhere_fragment"/>
+			and a.use_yn = 'Y'
+			order by sort_order
+	</select>
+	<select id="TMCOCD10DETAILDAO.selectTMCOCD10DETAILSDDCList_D" resultClass="egovMap">
+		<!-- 출고창고는 WMS table -->
+			SELECT
+				biz as corp_code
+				, dc as group_code
+				, dc as code
+				, dcnm as label
+				, useyn as use_yn
+				, 1 as sort_order
+			from openmps.sd_dc
+			where useyn = 'Y'
+			<isNotEmpty property="searchKeyword">
+			and ( dc like '%' || #searchKeyword# || '%' or dcnm like '%' || #searchKeyword# || '%') 
+			</isNotEmpty>
+			order by dc
+	</select>	
+	<select id="TMCOCD10DETAILDAO.selectTMCOCD10DETAILListTotCnt_S" parameterClass="TMCOCD10DETAILSerarchVO" resultClass="int">
+		select
+				count(*)
+			<include refid="selectWhere_fragment"/> 
+	</select>
+
+</sqlMap>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    - DispatcherServlet application context for Application's web tier.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p" 
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <!--
+        - The controllers are autodetected POJOs labeled with the @Controller annotation.
+    -->
+    <context:component-scan base-package="nds">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+    
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="favorPathExtension" value="false"/>
+        <property name="favorParameter" value="true"/>
+        <property name="mediaTypes">
+			<map>
+				<entry key="html" value="text/html" />
+				<entry key="json" value="application/json" />
+				<entry key="xml"  value="application/xml" />
+	            <entry key="do"   value="text/html" /> 
+  				<entry key="voc"  value="text/html" /> 
+				<entry key="xls"  value="application/vnd.ms-excel"/>
+			</map>
+		</property>
+    </bean>    
+        
+    <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
+    	<mvc:message-converters register-defaults="true">
+    		<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+    			<property name="supportedMediaTypes" value="application/json; charset=UTF-8" />
+    		</bean>
+    	</mvc:message-converters>
+    </mvc:annotation-driven>
+
+	<mvc:resources location="/voc/" mapping="/voc/**"/>
+	<mvc:resources location="/json/" mapping="/json/**"/>
+	<mvc:resources location="/html/" mapping="/html/**"/>
+	<mvc:resources location="/ubi4/" mapping="/ubi4/**"/>
+    <!-- 
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/*.json"/> 
+			<mvc:mapping path="/**/*.do"/> 
+			<mvc:exclude-mapping path="/**/*.ns"/> 
+			<mvc:exclude-mapping path="/html/**/*"/> 
+			<mvc:exclude-mapping path="/rest/**/*"/> 
+			<mvc:exclude-mapping path="/unity/**/*"/> 
+			<mvc:exclude-mapping path="/**/portlet.do" />
+			<mvc:exclude-mapping path="/loginform.do" />
+			<mvc:exclude-mapping path="/login.do" />
+			<mvc:exclude-mapping path="/relogin.do" />
+			<mvc:exclude-mapping path="/loginprocess.do" />
+			<mvc:exclude-mapping path="/ssologin.do" />
+			<bean id="loginInterceptor" class="nds.frm.common.interceptor.LoginInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/*"/> 
+			<mvc:exclude-mapping path="/**/*.do"/> 
+			<mvc:exclude-mapping path="/**/*.json"/> 
+			<mvc:exclude-mapping path="/user/**/*"/> 
+			<mvc:exclude-mapping path="/html/**"/> 
+			<bean id="restInterceptor" class="nds.frm.common.interceptor.RestInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>  -->
+    <!--
+        - The form-based controllers within this application provide @RequestMapping 
+        - annotations at the type level for path mapping URLs and @RequestMapping 
+        - at the method level for request type mappings (e.g., GET and POST). 
+        - In contrast, ClinicController - which is not form-based - provides 
+        - @RequestMapping only at the method level for path mapping URLs.
+        -
+        - DefaultAnnotationHandlerMapping is driven by these annotations and is 
+        - enabled by default with Java 5+.
+    -->
+
+    <!--
+        - This bean processes annotated handler methods, applying Application-specific PropertyEditors
+        - for request parameter binding. It overrides the default AnnotationMethodHandlerAdapter.
+     -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    	<property name="messageConverters"> 
+            <list>
+				<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+					<property name="supportedMediaTypes">
+						<list>
+							<value>application/json; charset=UTF-8</value>
+						</list>
+					</property>
+				</bean>
+            </list>
+        </property>
+        <property name="webBindingInitializer">
+            <bean class="nds.frm.common.web.EgovBindingInitializer"/>
+        </property>
+    </bean>
+    
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+    
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="order" value="1" />      
+	    <property name="mediaTypes">
+	        <map>
+	        	<entry key="html" value="text/html" /> 
+	            <entry key="json" value="application/json" />
+				<entry key="xml"  value="application/xml" />
+	            <entry key="do"   value="text/html" /> 
+  				<entry key="voc"  value="text/html" /> 
+				<entry key="xls"  value="application/vnd.ms-excel"/>
+	        </map>
+	    </property>
+	    
+		<property name="viewResolvers"> 
+			<list> 
+				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1" /> 
+		        <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" 
+			    	p:order="2" 
+			    	p:viewClass="org.springframework.web.servlet.view.JstlView" 
+			    	p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"
+    			/>
+    		</list> 
+		</property> 
+			    
+	    <property name="defaultViews">
+	        <list>
+	            <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+	            	<property name="prefixJson" value="true" /> 
+	                <property name="objectMapper">
+	                    <bean class="org.codehaus.jackson.map.ObjectMapper" />
+	                </property>
+	            </bean>
+	        </list>
+	    </property>
+	    
+	    <property name="favorPathExtension" value="false" />
+	    <property name="favorParameter" value="true" />
+	    <property name="useNotAcceptableStatusCode" value="true" />
+    </bean>
+    <bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView" />
+    <!-- 
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="error/error500"/>
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.springframework.dao.DataAccessException">error/dataAccessFailure</prop>
+                <prop key="org.springframework.transaction.TransactionException">error/transactionFailure</prop>
+                <prop key="egovframework.rte.fdl.cmmn.exception.EgovBizException">error/bizError</prop>
+                <prop key="org.springframework.security.AccessDeniedException">error/accessDenied</prop>
+            </props>
+        </property>
+    </bean>
+	 -->
+    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1" 
+    p:viewClass="org.springframework.web.servlet.view.JstlView" 
+    p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
+
+    <!-- For Pagination Tag -->
+    <bean id="imageRenderer" class="nds.frm.common.web.EgovImgPaginationRenderer"/>
+
+    <bean id="paginationManager" class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager">
+        <property name="rendererType">
+            <map>
+                <entry key="image" value-ref="imageRenderer"/> 
+            </map>
+        </property>
+    </bean>
+	<!-- /For Pagination Tag -->
+</beans>

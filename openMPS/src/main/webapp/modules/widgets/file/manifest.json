@@ -1,0 +1,18 @@
+{
+  "name": "file",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "file.selector-1.0.0.js",
+  	"manager": "file.selector.manager-1.0.0.js"
+  },
+  "resource": {
+  	"template": "file.selector-1.0.0.html"
+  },
+  "dependencies":
+  [
+	"BaroPanelBase", "BaroProps", "Logger"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  }
+}

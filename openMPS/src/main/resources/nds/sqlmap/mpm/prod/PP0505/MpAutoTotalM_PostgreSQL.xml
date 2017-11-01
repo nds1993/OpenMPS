@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpAutoTotalM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpAutoTotalMSerarchVO" type="nds.mpm.prod.PP0505.vo.MpAutoTotalMVO"/>
+	
+	<resultMap id="mpAutoTotalM" class="nds.mpm.prod.PP0505.vo.MpAutoTotalMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="plantCode" column="plant_code" columnIndex="2"/>
+		<result property="printCode" column="print_code" columnIndex="3"/>
+		<result property="proNo" column="pro_no" columnIndex="4"/>
+		<result property="proName" column="pro_name" columnIndex="5"/>
+		<result property="weig" column="weig" columnIndex="6"/>
+		<result property="code88" column="code_88" columnIndex="7"/>
+		<result property="bunchNo" column="bunch_no" columnIndex="8"/>
+		<result property="temp1" column="temp1" columnIndex="9"/>
+		<result property="temp2" column="temp2" columnIndex="10"/>
+		<result property="temp3" column="temp3" columnIndex="11"/>
+		<result property="temp4" column="temp4" columnIndex="12"/>
+		<result property="temp5" column="temp5" columnIndex="13"/>
+		<result property="deleYn" column="dele_yn" columnIndex="14"/>
+		<result property="mdDate" column="md_date" columnIndex="15"/>
+		<result property="crDate" column="cr_date" columnIndex="16"/>
+	</resultMap>
+	
+	<insert id="mpAutoTotalMDAO.insertMpAutoTotalM_S">
+		<![CDATA[
+			INSERT INTO mp_auto_total_m 
+				( corp_code
+				  , plant_code
+				  , print_code
+				  , pro_no
+				  , pro_name
+				  , weig
+				  , code_88
+				  , bunch_no
+				  , temp1
+				  , temp2
+				  , temp3
+				  , temp4
+				  , temp5
+				  , dele_yn
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #printCode#
+				  , #proNo#
+				  , #proName#
+				  , #weig#
+				  , #code88#
+				  , #bunchNo#
+				  , #temp1#
+				  , #temp2#
+				  , #temp3#
+				  , #temp4#
+				  , #temp5#
+				  , #deleYn#
+				  , #crDate# )
+		]]>
+	</insert>
+	
+	<update id="mpAutoTotalMDAO.updateMpAutoTotalM_S">
+		<![CDATA[
+			UPDATE mp_auto_total_m
+			SET corp_code=#corpCode#
+				, plant_code=#plantCode#
+				, print_code=#printCode#
+				, pro_no=#proNo#
+				, pro_name=#proName#
+				, weig=#weig#
+				, code_88=#code88#
+				, bunch_no=#bunchNo#
+				, temp1=#temp1#
+				, temp2=#temp2#
+				, temp3=#temp3#
+				, temp4=#temp4#
+				, temp5=#temp5#
+				, dele_yn=#deleYn#
+				, md_date=#mdDate#
+				, cr_date=#crDate#
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND print_code=#printCode#
+								AND pro_name=#proName#
+				]]>
+	</update>
+	
+	<delete id="mpAutoTotalMDAO.deleteMpAutoTotalM_S">
+		<![CDATA[
+			DELETE FROM mp_auto_total_m 
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND print_code=#printCode#
+								AND pro_name=#proName#
+				]]>
+	</delete>
+	
+	<select id="mpAutoTotalMDAO.selectMpAutoTotalM_S" resultMap="mpAutoTotalM">
+		<![CDATA[
+			SELECT
+				corp_code
+				, plant_code
+				, print_code
+				, pro_no
+				, pro_name
+				, weig
+				, code_88
+				, bunch_no
+				, temp1
+				, temp2
+				, temp3
+				, temp4
+				, temp5
+				, dele_yn
+				, md_date
+				, cr_date
+			FROM mp_auto_total_m
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND print_code=#printCode#
+								AND pro_no=#proCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM (SELECT b.pro_code,
+               a.pro_name,
+               1 AS qty,
+               b.pro_weig AS wt,
+               CASE
+                  WHEN a.in_status = '1' THEN
+                   1
+                END AS in_qty
+          FROM openmps.mp_auto_total_m a left join openmps.mp_item_master_m b on (a.corp_code = b.corp_code AND a.pro_name = b.pro_name) 
+         WHERE a.dele_yn = 'N'
+           AND a.corp_code = #corpCode#
+           AND a.plant_code = #plantCode#           
+	       AND a.work_date = #strtDate#) aa
+		<dynamic> 
+		</dynamic>
+	</sql>
+	<select id="mpAutoTotalMDAO.selectMpAutoTotalMList_D" parameterClass="mpAutoTotalMSerarchVO" resultClass="egovMap">
+	select
+		pro_code,
+		pro_name,
+		work_qty,
+		work_weight,
+		(work_qty - coalesce(in_qty,0))::numeric(15,0) as gap_qty,
+		in_qty
+	from
+	(	
+		SELECT
+			max(pro_code) as pro_code, pro_name, SUM(qty) AS work_qty
+			, SUM(wt) AS work_weight
+			, SUM(in_qty) AS in_qty
+			<include refid="selectWhere_fragment"/>
+			GROUP BY pro_name
+	) aa
+			order by pro_name
+	</select>	
+	<select id="mpAutoTotalMDAO.selectMpAutoTotalMListTotCnt_S" parameterClass="mpAutoTotalMSerarchVO" resultClass="int">
+		SELECT
+			count(*)
+			<include refid="selectWhere_fragment"/>
+	</select>
+	<select id="mpAutoTotalMDAO.selectMpAutoTotalMDetail" parameterClass="mpAutoTotalMSerarchVO" resultClass="egovMap">
+		SELECT
+			a.corp_code
+			,b.pro_code as pro_no
+			, (case when a.in_status = '1' then 'Y' else 'X' end) as in_yn
+			, a.print_code
+			, a.pro_name
+			, a.rcptno
+			, a.rcptsn
+			, a.in_status
+			, a.error_msg
+		from openmps.mp_auto_total_m a, openmps.mp_item_master_m b
+		where a.corp_code = #corpCode#
+	  	and a.plant_code = #plantCode#
+	  	and a.work_date = #strtDate#
+	  	AND a.pro_name = b.pro_name
+	  	AND a.corp_code = b.corp_code
+	  	and b.dele_yn = 'N'
+	  	and b.pro_code = #proCode#
+	  	and a.dele_yn = 'N'
+	  	order by print_code
+	</select>	
+	
+	<!-- 
+		mp_closing_date
+		생산 마감체크 
+		수금월기준 prod_close <= check
+	 -->
+	<select id="mpAutoTotalMDAO.checkIpgoClosing" resultClass="int">
+		<![CDATA[
+		select count(*)
+		from openmps.mp_closing_date
+		where corp_code = #corpCode#
+		and apply_month = to_char(now(), 'YYYYMM')
+		and logi_close <= to_char(now(), 'YYYYMMDD')
+		limit 1
+		]]>
+	</select>
+</sqlMap>

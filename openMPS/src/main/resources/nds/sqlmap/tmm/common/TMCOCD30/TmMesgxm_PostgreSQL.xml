@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TmMesgxm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="tmMesgxmSerarchVO" type="nds.tmm.common.TMCOCD30.vo.TmMesgxmDefaultVO"/>
+	
+	<resultMap id="tmMesgxm" class="nds.tmm.common.TMCOCD30.vo.TmMesgxmVO">
+		<result property="mesgCode" column="mesg_code" columnIndex="1"/>
+		<result property="msgeText" column="msge_text" columnIndex="2"/>
+		<result property="codeKind" column="code_kind" columnIndex="3"/>
+		<result property="msgeGubn" column="msge_gubn" columnIndex="4"/>
+		<result property="useYn" column="use_yn" columnIndex="5"/>
+		<result property="deleYn" column="dele_yn" columnIndex="6"/>
+		<result property="mdUser" column="md_user" columnIndex="7"/>
+		<result property="mdDate" column="md_date" columnIndex="8"/>
+		<result property="crUser" column="cr_user" columnIndex="9"/>
+		<result property="crDate" column="cr_date" columnIndex="10"/>
+	</resultMap>
+	
+	<!-- paging parameter Global include -->
+	<sql id="pagingParam_fragment">
+		<isNotEqual property="pageSize" compareValue="0">
+		         LIMIT #pageSize#
+		</isNotEqual>
+		<isNotEqual property="firstIndex" compareValue="0">
+		         OFFSET #firstIndex#
+		</isNotEqual>
+	</sql>
+	
+	<insert id="tmMesgxmDAO.insertTmMesgxm">
+		<![CDATA[
+			INSERT INTO tm_mesgxm 
+				( mesg_code
+				  , msge_text
+				  , code_kind
+				  , msge_gubn
+				  , use_yn
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #mesgCode#
+				  , #msgeText#
+				  , #codeKind#
+				  , #msgeGubn#
+				  , #useYn#
+				  , #deleYn#
+				  , null
+				  , null
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="tmMesgxmDAO.updateTmMesgxm">
+		<![CDATA[
+			UPDATE tm_mesgxm
+			SET 
+				msge_text=#msgeText#
+				, code_kind=#codeKind#
+				, msge_gubn=#msgeGubn#
+				, use_yn=#useYn#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE mesg_code=#mesgCode#
+				]]>
+	</update>
+	
+	<delete id="tmMesgxmDAO.deleteTmMesgxm">
+		<![CDATA[
+			DELETE FROM tm_mesgxm 
+						WHERE mesg_code=#mesgCode#
+				]]>
+	</delete>
+	
+	<select id="tmMesgxmDAO.selectTmMesgxm_S" resultMap="tmMesgxm">
+		<![CDATA[
+			SELECT
+				mesg_code
+				, msge_text
+				, code_kind
+				, msge_gubn
+				, use_yn
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM tm_mesgxm
+						WHERE mesg_code=#mesgCode#
+				]]>
+	</select>
+	
+	<select id="tmMesgxmDAO.selectTmMesgxmList_D" parameterClass="tmMesgxmSerarchVO" resultClass="egovMap">
+		SELECT * FROM tm_mesgxm
+			<include refid="pagingParam_fragment"/>
+	</select>	
+	<select id="tmMesgxmDAO.selectTmMesgxmListTotCnt_S" parameterClass="tmMesgxmSerarchVO" resultClass="int">
+		SELECT count(*) FROM tm_mesgxm
+			<include refid="pagingParam_fragment"/>
+	</select>
+
+	<select id="tmMesgxmDAO.selectTmMesgxmKeyword" parameterClass="tmMesgxmSerarchVO" resultClass="egovMap">
+		SELECT * FROM tm_mesgxm
+		WHERE
+			mesg_code = #searchKeyword# OR msge_text like '%' || #searchKeyword# || '%'
+			<include refid="pagingParam_fragment"/>
+	</select>
+	<select id="tmMesgxmDAO.selectTmMesgxmKeywordCnt" parameterClass="tmMesgxmSerarchVO" resultClass="int">
+		SELECT count(*) FROM tm_mesgxm
+		WHERE
+			mesg_code = #searchKeyword# OR msge_text like '%' || #searchKeyword# || '%'
+			<include refid="pagingParam_fragment"/>
+	</select>
+
+</sqlMap>

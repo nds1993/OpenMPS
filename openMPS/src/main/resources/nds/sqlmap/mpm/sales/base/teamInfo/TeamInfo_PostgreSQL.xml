@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TeamInfo">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="teamInfoSerarchVO" type="nds.mpm.sales.base.vo.TeamInfoVO"/>
+	
+	<resultMap id="teamInfo" class="nds.mpm.sales.base.vo.TeamInfoVO">
+		<result property="headCode" column="head_code" columnIndex="1"/>
+		<result property="teamCode" column="team_code" columnIndex="2"/>
+		<result property="teamName" column="team_name" columnIndex="3"/>
+		<result property="memo" column="memo" columnIndex="4"/>
+		<result property="deleYn" column="dele_yn" columnIndex="5"/>
+		<result property="mdUser" column="md_user" columnIndex="6"/>
+		<result property="mdDate" column="md_date" columnIndex="7"/>
+		<result property="crUser" column="cr_user" columnIndex="8"/>
+		<result property="crDate" column="cr_date" columnIndex="9"/>
+	</resultMap>
+	
+	<insert id="teamInfoDAO.insertTeamInfo_S">
+		<![CDATA[
+			INSERT INTO team_info 
+				( head_code
+				  , team_code
+				  , team_name
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #headCode#
+				  , #teamCode#
+				  , #teamName#
+				  , #memo#
+				  , #deleYn#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , TO_CHAR(now(),'yyyy-mm-dd hh24:mi:ss') )
+		]]>
+	</insert>
+	
+	<update id="teamInfoDAO.updateTeamInfo_S">
+		<![CDATA[
+			UPDATE team_info
+			SET head_code=#headCode#
+				, team_code=#teamCode#
+				, team_name=#teamName#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=TO_CHAR(now(),'yyyy-mm-dd hh24:mi:ss')
+						WHERE head_code=#headCode#
+								AND team_code=#teamCode#
+				]]>
+	</update>
+	
+	<delete id="teamInfoDAO.deleteTeamInfo_S">
+		<![CDATA[
+			DELETE FROM team_info 
+						WHERE head_code=#headCode#
+								AND team_code=#teamCode#
+				]]>
+	</delete>
+	
+	<select id="teamInfoDAO.selectTeamInfo_S" resultMap="teamInfo">
+		<![CDATA[
+			SELECT
+				head_code
+				, team_code
+				, team_name
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM team_info
+						WHERE head_code=#headCode#
+								AND team_code=#teamCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	from team_info
+	  	WHERE head_code=#headCode#
+		<dynamic> 
+		 </dynamic>
+	</sql>
+	<select id="teamInfoDAO.selectTeamInfoList_D" parameterClass="teamInfoSerarchVO" resultClass="egovMap">
+		select
+			head_code
+			, team_code
+			, team_name
+			, memo
+			, dele_yn
+			, md_user
+			, md_date
+			, cr_user
+			, cr_date
+		<include refid="selectWhere_fragment"/>
+	</select>	
+	<select id="teamInfoDAO.selectTeamInfoListTotCnt_S" parameterClass="teamInfoSerarchVO" resultClass="int">
+		select count(*)
+			<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

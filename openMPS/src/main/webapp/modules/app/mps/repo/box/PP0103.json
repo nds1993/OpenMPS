@@ -1,0 +1,1357 @@
+{
+	"name": "제품코드등록",
+	"module": "PP0103Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"formBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"module": "FormBox",
+				"className": "query_box form-inline",
+				"order": [
+					"proCode",
+					"animalKind",
+					"proKind",
+					"prdtType"
+				],
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"form-group\"><label>제품</label><div class=\"proCode_region\"></div></div><div class=\"form-group\"><label>축종구문</label><div class=\"select_design animalKind\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>재/상품구분</label><div class=\"select_design proKind\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>가공구분</label><div class=\"select_design prdtType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div>",
+					"items": {
+						"animalKind": {
+							"module": "combobox",
+							"label": "축종구문",
+							"selector": ".animalKind",
+							"required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP005/tmcodexd",
+								"parser": "return UCMS.parseComboAll( UCMS.parseComboItems(arguments[0]) );"
+							}
+						},
+						"proKind": {
+							"module": "combobox",
+							"label": "제/상품구분",
+							"selector": ".proKind",
+							"required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP009/tmcodexd",
+								"parser": "return UCMS.parseComboAll( UCMS.parseComboItems(arguments[0]) );"
+							}
+						},
+						"prdtType": {
+							"module": "combobox",
+							"label": "가공구분",
+							"selector": ".prdtType",
+							"required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP004/tmcodexd",
+								"parser": "return UCMS.parseComboAll( UCMS.parseComboItems(arguments[0]));"
+
+							}
+						},
+						"proCode": {
+							"label": "제품코드"
+						}
+					},
+					"data": {}
+				},
+				"proCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "제품코드",
+						"required": true,
+						"codeType": "PP0103",
+						"params": {},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+			}
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"animalKind",
+					"largeCode",
+					"saleGroup1",
+					"saleGroup2",
+					"proCode",
+					"proName",
+					"proName1",
+					"frozenType",
+					"setYn",
+					"shortCode",
+					"tabArea"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-4 label_w7\"><div class=\"form-group\"><label class=\"required\">축종구분</label><div class=\"select_design animalKind\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>생산품목구분</label><div class=\"largeCode_region equal_width\"></div></div><div class=\"form-group\"><label>영업분류구분1</label><div class=\"saleGroup1_region equal_width\"></div></div><div class=\"form-group\"><label>영업분류구분2</label><div class=\"saleGroup2_region equal_width\"></div></div><div class=\"form-group\"><label class=\"required\">제품코드</label><input type=\"text\" class=\"form-control proCode\" readonly=\"readonly\"></div><div class=\"form-group\"><label class=\"required\">제품명</label><input type=\"text\" class=\"form-control proName\"></div><div class=\"form-group\"><label>제품명2</label><input type=\"text\" class=\"form-control proName1\"></div><div class=\"form-group\"><label>냉장/냉동구분</label><div class=\"select_design frozenType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"setYn\" class=\"setYn\"> 세트여부</label></div></div><div class=\"form-group\"><label>라벨단축코드</label><input type=\"text\" class=\"form-control shortCode\"></div></div><div class=\"col-xs-8 tabArea_region\"></div></div>",
+					"mode": "form",
+					"items": {
+						"animalKind": {
+							"required": true,
+							"selector": ".animalKind",
+							"label": "축종구분",
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP005/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+						},
+						"proCode": {
+							"required": false,
+							"selector": ".proCode",
+							"label": "제품코드",
+							"module": "text",
+							"disable": true
+						},
+						"proName": {
+							"required": true,
+							"selector": ".proName",
+							"label": "제품명",
+							"module": "text",
+							"placeholder": "제품명 중복 여부 체크"
+						},
+						"proName1": {
+							"required": false,
+							"selector": ".proName1",
+							"label": "제품명2",
+							"module": "text",
+							"placeholder": "경영지원에서 사용"
+						},
+						"frozenType": {
+							"required": false,
+							"selector": ".frozenType",
+							"label": "냉장/냉동구분",
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP008/tmcodexd",
+								"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+							}
+						},
+						"setYn": {
+							"required": false,
+							"selector": ".setYn",
+							"label": "세트여부체크",
+							"module": "checkbox"
+						},
+						"shortCode": {
+							"required": false,
+							"selector": ".shortCode",
+							"label": "단축코드",
+							"module": "text"
+						},
+
+						"largeCode": {
+							"label": "생산품목구분"
+						},
+						"saleGroup1": {
+							"label": "영업분류구분1"
+						},
+						"saleGroup2": {
+							"label": "영업분류구분2"
+						},
+						"tabArea": {
+							"label": "탭영역"
+						}
+					},
+					"data": {}
+				},
+				"largeCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "생산품목구분",
+						"required": false,
+						"codeType": "TMCOCD10",
+						"params": {
+							"groupCode": "MP006"
+						},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				},
+				"saleGroup1": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "영업분류구분1",
+						"required": true,
+						"codeType": "TMCOCD10",
+						"params": {
+							"groupCode": "SD024"
+						},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				},
+				"saleGroup2": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "영업분류구분2",
+						"required": true,
+						"codeType": "TMCOCD10",
+						"params": {
+							"groupCode": "SD025"
+						},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				},
+				"tabArea": {
+					"module": "FormBox",
+					"options": {
+						"className": "tabarea_box tabsub_box",
+						"height": "180px",
+						"order": [
+							"tab_baseInfo",
+							"tab_proInfo",
+							"tab_custInfo",
+							"tab_planInfo"
+						],
+						"activation": {
+							"defaultWidget": "tab_baseInfo",
+							"method": "show-hide",
+							"navigator": {
+								"options": {
+									"pos": "top",
+									"closeButton": false,
+									"label": {
+										"tab_baseInfo": "기본정보",
+										"tab_proInfo": "생산정보",
+										"tab_custInfo": "코드정보",
+										"tab_planInfo": "생산계획정보"
+									}
+								}
+							}
+						},
+						"custom_form": {
+							"items": {
+								"tab_baseInfo": {
+									"label": "기본정보"
+								},
+								"tab_proInfo": {
+									"label": "생산정보"
+								},
+								"tab_custInfo": {
+									"label": "코드정보"
+								},
+								"tab_planInfo": {
+									"label": "생산계획정보"
+								}
+							},
+							"date": {}
+						},
+						"tab_baseInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_baseInfo_box form_box",
+								"order": [
+									"prdtType",
+									"proKind",
+									"meatType",
+									"code88",
+									"brandName",
+									"stdCode",
+									"shelfLife",
+									"rTemperature",
+									"proUkind",
+									"weigType",
+									"proIpsu",
+									"proWeig",
+									"priceCalc",
+									"vatCode",
+									"weigType",
+									"memo"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-4 label_w5\"><div class=\"form-group\"><label>가공구분</label><div class=\"select_design prdtType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-4 label_w6\"><div class=\"form-group\"><label>제/상품구분</label><div class=\"select_design proKind\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-4 label_w5\"><div class=\"form-group\"><label>정육여부</label><div class=\"select_design meatType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div><div class=\"row\"><div class=\"col-xs-6 label_w5 equal_width\"><div class=\"form-group label_w5\"><label>88코드</label><div class=\"code88_region equal_width\"></div></div></div><div class=\"col-xs-6 equal_width\"><div class=\"form-group\"><label>브랜드명</label><div class=\"brandName_region\"></div></div></div></div><div class=\"row\"><div class=\"col-xs-6 equal_width label_w5\"><div class=\"form-group\"><label>표준부위</label><div class=\"stdCode_region\"></div></div></div><div class=\"col-xs-3\" style=\"padding-right:5px\"><div class=\"form-group\"><label>유통기한</label><div class=\"select_design shelfLife\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>상온온도</label><div class=\"select_design rTemperature\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div><div class=\"divider\"></div><div class=\"row\"><div class=\"col-xs-4 label_w5\"><div class=\"form-group\"><label>수량단위</label><div class=\"select_design proUkind\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>박스당입수</label><input type=\"text\" class=\"form-control proIpsu\"></div><div class=\"form-group\"><label>단위당중량</label><div class=\"input-group\"><input type=\"text\" class=\"form-control proWeig\"><span class=\"input-group-addon\">kg</span></div></div></div><div class=\"col-xs-4 label_w6\"><div class=\"form-group\"><label>중량표기형태</label><div class=\"select_design weigType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>단가적용</label><div class=\"select_design priceCalc\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>부가세코드</label><div class=\"select_design vatCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-4 label_w5\"><div class=\"form-group\"><label>메모</label></div><textarea type=\"text\" class=\"form-control memo\" style=\"height:47px\"></textarea></div></div>",
+									"mode": "form",
+									"items": {
+										"prdtType": {
+											"required": false,
+											"selector": ".prdtType",
+											"label": "가공구분",
+											"module": "combobox",
+											"fetcher": {
+												"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP004/tmcodexd",
+												"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+											}
+										},
+										"proKind": {
+											"required": false,
+											"selector": ".proKind",
+											"label": "제/상품구분",
+											"module": "combobox",
+											"fetcher": {
+												"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP009/tmcodexd",
+												"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+											}
+										},
+										"meatType": {
+											"required": false,
+											"selector": ".meatType",
+											"label": "정육여부",
+											"module": "combobox",
+											"fetcher": {
+												"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP010/tmcodexd",
+												"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+											}
+										},
+										"code88": {
+											"label": "88코드"
+										},
+										"shelfLife": {
+											"required": false,
+											"selector": ".shelfLife",
+											"label": "유통기한",
+											"module": "combobox",
+											"fetcher": {
+												"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP017/tmcodexd",
+												"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+											}
+										},
+										"rTemperature": {
+											"required": false,
+											"selector": ".rTemperature",
+											"label": "상온온도",
+											"module": "combobox",
+											"items": [{
+													"label": "0",
+													"value": 0
+												},
+												{
+													"label": "1",
+													"value": 1
+												},
+												{
+													"label": "2",
+													"value": 2
+												},
+												{
+													"label": "3",
+													"value": 3
+												},
+												{
+													"label": "4",
+													"value": 4
+												},
+												{
+													"label": "5",
+													"value": 5
+												},
+												{
+													"label": "6",
+													"value": 6
+												},
+												{
+													"label": "7",
+													"value": 7
+												},
+												{
+													"label": "8",
+													"value": 8
+												},
+												{
+													"label": "9",
+													"value": 9
+												},
+												{
+													"label": "10",
+													"value": 10
+												}
+											]
+										},
+										"proUkind": {
+											"required": false,
+											"selector": ".proUkind",
+											"label": "단위",
+											"module": "combobox",
+											"fetcher": {
+												"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP013/tmcodexd",
+												"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+											}
+										},
+										"weigType": {
+											"required": false,
+											"selector": ".weigType",
+											"label": "중량표기형태",
+											"module": "combobox",
+											"fetcher": {
+												"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP027/tmcodexd",
+												"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+											}
+										},
+										"proIpsu": {
+											"required": false,
+											"selector": ".proIpsu",
+											"label": "박스당입수",
+											"module": "number",
+											"value": 1
+										},
+										"priceCalc": {
+											"required": false,
+											"selector": ".priceCalc",
+											"label": "단가적용",
+											"module": "combobox",
+											"items": [{
+													"label": "선택",
+													"value": 0
+												},
+												{
+													"label": "수량곱하기",
+													"value": 1
+												},
+												{
+													"label": "중량곱하기",
+													"value": 2
+												}
+											]
+										},
+										"proWeig": {
+											"required": false,
+											"selector": ".proWeig",
+											"label": "단위당중량(KG)",
+											"module": "number"
+										},
+										"vatCode": {
+											"required": true,
+											"selector": ".vatCode",
+											"label": "부가세코드",
+											"module": "combobox",
+											"fetcher": {
+												"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD002/tmcodexd",
+												"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+											}
+										},
+										"memo": {
+											"required": false,
+											"selector": ".memo",
+											"label": "메모",
+											"module": "text",
+											"max_size": "200",
+											"rows": "2"
+										},
+										"brandName": {
+											"label": "브랜드명"
+										},
+										"stdCode": {
+											"label": "표준부위"
+										}
+									},
+									"data": {}
+								},
+								"brandName": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "브랜드명",
+										"required": true,
+										"codeType": "TMCOCD10",
+										"params": {
+											"groupCode": "MP020"
+										},
+										"value": {
+											"keyword": null,
+											"result": null
+										}
+									}
+								},
+								"stdCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "표준부위",
+										"required": false,
+										"codeType": "TMCOCD10",
+										"params": {
+											"groupCode": "MP019"
+										},
+										"value": {
+											"keyword": null,
+											"result": null
+										}
+									}
+								},
+								"code88": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "88코드",
+										"required": false,
+										"codeType": "TMCOCD10",
+										"params": {
+											"groupCode": "MP012",
+											"etc01": true
+										},
+										"value": {
+											"keyword": null,
+											"result": null
+										}
+									}
+								}
+							}
+						},
+						"tab_planInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_planInfo_box form_box",
+								"order": [
+									"ipsuCnt",
+									"workType1",
+									"workType2",
+									"workLine",
+									"printSheet"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-5\"><div class=\"form-group\"><label>입수두수</label><input type=\"text\" class=\"form-control ipsuCnt\"></div><div class=\"form-group\"><label>작업사양</label><div class=\"select_design workType1\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>포장방법</label><div class=\"select_design workType2\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>작업라인</label><div class=\"select_design workLine\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>출력시트</label><div class=\"select_design printSheet\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div>",
+									"mode": "form",
+									"items": {
+										"ipsuCnt": {
+											"required": false,
+											"selector": ".ipsuCnt",
+											"label": "입수두수",
+											"module": "number"
+										},
+										"workType1": {
+											"required": false,
+											"selector": ".workType1",
+											"label": "작업사양1",
+											"module": "combobox",
+											"fetcher": {
+												"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP021/tmcodexd",
+												"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+											}
+										},
+										"workType2": {
+											"required": false,
+											"selector": ".workType2",
+											"label": "작업사양2",
+											"module": "combobox",
+											"fetcher": {
+												"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP022/tmcodexd",
+												"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+											}
+										},
+										"workLine": {
+											"required": false,
+											"selector": ".workLine",
+											"label": "작업라인",
+											"module": "combobox",
+											"fetcher": {
+												"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP024/tmcodexd",
+												"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+											}
+										},
+										"printSheet": {
+											"required": false,
+											"selector": ".printSheet",
+											"label": "출력시트",
+											"module": "combobox",
+											"fetcher": {
+												"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP025/tmcodexd",
+												"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+											}
+										}
+									},
+									"data": {}
+								}
+							}
+						},
+						"tab_proInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_proInfo form_box",
+								"order": [
+									"cmRptType",
+									"safetyQty"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-5 label_w6\"><div class=\"form-group\"><label>생산일보분류</label><div class=\"select_design cmRptType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div><div class=\"divider\"></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group label_w100\"><label>부자재 안전재고량</label></div><div class=\"form-group form_only safetyQty_region\"></div></div></div>",
+									"mode": "form",
+									"items": {
+										"cmRptType": {
+											"required": false,
+											"selector": ".cmRptType",
+											"label": "생산일보분류",
+											"module": "combobox",
+											"fetcher": {
+												"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP026/tmcodexd",
+												"parser": "return UCMS.parseComboRequired(UCMS.parseComboItems(arguments[0]));"
+											}
+										},
+										"safetyQty": {
+											"label": "안전재고량"
+										}
+									},
+									"data": {}
+								},
+								"safetyQty": {
+									"module": "FormBox",
+									"options": {
+										"className": "safetyQty_box",
+										"order": [
+											"safetyStock10",
+											"safetyStock13",
+											"safetyStock14",
+											"safetyStock21",
+											"safetyStock22"
+										],
+										"activation": {
+											"defaultWidget": "",
+											"method": "one-page"
+										},
+										"custom_form": {
+											"template": "<table class=\"table table-bordered\"><thead><tr><th><span class=\"form-control-static grupPlant\">안성공장</span></th><th><span class=\"form-control-static grupPlant\">본래가공장</span></th><th><span class=\"form-control-static grupPlant\">안성PM공장</span></th><th><span class=\"form-control-static grupPlant\">호남1공장</span></th><th><span class=\"form-control-static grupPlant\">호남2공장</span></th></tr></thead><tbody><tr><td class=\"text-right\"><input type=\"text\" class=\"form-control safetyStock10\"><span>EA</sapn></td><td class=\"text-right\"><input type=\"text\" class=\"form-control safetyStock13\"><span>EA</sapn></td><td class=\"text-right\"><input type=\"text\" class=\"form-control safetyStock14\"><span>EA</sapn></td><td class=\"text-right\"><input type=\"text\" class=\"form-control safetyStock21\"><span>EA</sapn></td><td class=\"text-right\"><input type=\"text\" class=\"form-control safetyStock22\"><span>EA</sapn></td></tr></tbody></table>",
+											"mode": "form",
+											"items": {
+												"safetyStock10": {
+													"required": true,
+													"selector": ".safetyStock10",
+													"label": "안성공장",
+													"static": true,
+													"module": "number"
+												},
+												"safetyStock13": {
+													"required": true,
+													"selector": ".safetyStock13",
+													"label": "본래가공장",
+													"static": true,
+													"module": "number"
+												},
+												"safetyStock14": {
+													"required": true,
+													"selector": ".safetyStock14",
+													"label": "안성PM공장",
+													"static": true,
+													"module": "number"
+												},
+												"safetyStock21": {
+													"required": true,
+													"selector": ".safetyStock21",
+													"label": "호남1공장",
+													"static": true,
+													"module": "number"
+												},
+												"safetyStock22": {
+													"required": true,
+													"selector": ".safetyStock22",
+													"label": "호남2공장",
+													"static": true,
+													"module": "number"
+												},
+												"safetyStock31": {
+													"required": true,
+													"selector": ".safetyStock31",
+													"label": "김제공장",
+													"static": true,
+													"module": "number"
+												},
+												"safetyStock99": {
+													"required": true,
+													"selector": ".safetyStock99",
+													"label": "기타공장",
+													"static": true,
+													"module": "number"
+												}
+											},
+											"data": {}
+										}
+									}
+								}
+							}
+						},
+						"tab_custInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_custInfo_box form_box",
+								"order": [
+									"emartBar1",
+									"emartBar2",
+									"emartBar31",
+									"emartBar32",
+									"lotteCode"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-5 label_w6\"><div class=\"form-group\"><label>TC매입코드</label><div class=\"input-group\"><input type=\"text\" class=\"form-control emartBar1\"><div class=\"input-group-addon\">(2)</div></div></div><div class=\"form-group\"><label>PC매입코드</label><div class=\"input-group\"><input type=\"text\" class=\"form-control emartBar2\"><div class=\"input-group-addon\">(3)</div></div></div><div class=\"form-group\"><label>PC출하1</label><div class=\"input-group\"><input type=\"text\" class=\"form-control emartBar31\"><div class=\"input-group-addon\">(4)</div></div></div><div class=\"form-group\"><label>PC출하2</label><div class=\"input-group\"><input type=\"text\" class=\"form-control emartBar32\"><div class=\"input-group-addon\">(5)</div></div></div><div class=\"form-group\"><label>롯데코드(LS)</label><input type=\"text\" class=\"form-control lotteCode\"></div></div></div>",
+									"mode": "form",
+									"items": {
+										"emartBar1": {
+											"required": false,
+											"selector": ".emartBar1",
+											"label": "TC매입코드",
+											"module": "text",
+											"max_size": 6
+										},
+										"emartBar2": {
+											"required": false,
+											"selector": ".emartBar2",
+											"label": "PC매입코드",
+											"module": "text",
+											"max_size": 6
+										},
+										"emartBar31": {
+											"required": false,
+											"selector": ".emartBar31",
+											"label": "PC출하1",
+											"module": "text",
+											"max_size": 6
+										},
+										"emartBar32": {
+											"required": false,
+											"selector": ".emartBar32",
+											"label": "PC출하2",
+											"module": "text",
+											"max_size": 6
+										},
+										"lotteCode": {
+											"required": false,
+											"selector": ".lotteCode",
+											"label": "롯데코드(LS)",
+											"module": "text",
+											"max_size": 10
+										}
+									},
+									"data": {}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "resultBox_box grid_box",
+				"gridId": "PP0103_grid_1",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+							"name": "proCode",
+							"label": "제품코드",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false,
+							"frozen": true
+						},
+						{
+							"name": "proName",
+							"label": "제품명",
+							"width": 190,
+							"align": "left",
+							"editable": false,
+							"hidden": false,
+							"frozen": true
+						},
+						{
+							"name": "proName1",
+							"label": "제품명2",
+							"width": 150,
+							"align": "left",
+							"editable": false,
+							"hidden": false,
+							"frozen": true
+						},
+						{
+							"name": "animalKind",
+							"label": "축종구분",
+							"width": 70,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "animalKindName",
+							"label": "축종명",
+							"width": 70,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "largeCode",
+							"label": "품목코드",
+							"width": 70,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "largeCodeName",
+							"label": "품목명",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "saleGroup1",
+							"label": "<div>영업분류<br>구분1 코드</div>",
+							"width": 100,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "saleGroup1Name",
+							"label": "<div>영업분류<br>구분1 명</div>",
+							"width": 100,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "saleGroup2",
+							"label": "<div>영업분류<br>구분2 코드</div>",
+							"width": 100,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "saleGroup2Name",
+							"label": "<div>영업분류<br>구분2 명</div>",
+							"width": 100,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "frozenType",
+							"label": "<div>냉장/냉동<br>구분코드</div>",
+							"width": 70,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "frozenTypeName",
+							"label": "<div>냉장/냉동<br>구분명</div>",
+							"width": 70,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "setYn",
+							"label": "세트여부",
+							"width": 70,
+							"align": "center",
+							"editable": false,
+							"hidden": false,
+							"formatter": "checkbox"
+						},
+						{
+							"name": "prdtType",
+							"label": "<div>가공구분<br>코드</div>",
+							"width": 70,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "prdtTypeName",
+							"label": "<div>가공구분명</div>",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "proKind",
+							"label": "<div>제/상품<br>구분코드</div>",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "proKindName",
+							"label": "<div>재/상품<br>구분명</div>",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "meatType",
+							"label": "정육여부코드",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "meatTypeName",
+							"label": "정육여부명",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "code88Id",
+							"label": "88코드id",
+							"width": 70,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "code88",
+							"label": "88코드",
+							"width": 120,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "code88Etc01",
+							"label": "88코드명",
+							"width": 160,
+							"align": "left",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "brandCode",
+							"label": "브랜드코드",
+							"width": 100,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "brandName",
+							"label": "브랜드코드명",
+							"width": 120,
+							"align": "left",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "stdCode",
+							"label": "표준부위코드",
+							"width": 100,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "stdName",
+							"label": "표준부위명",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "shelfLife",
+							"label": "유통기한코드",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "shelfLifeName",
+							"label": "유통기한",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "rTemperature",
+							"label": "상온온도",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "proUkind",
+							"label": "수량단위",
+							"width": 70,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "proIpsu",
+							"label": "단위당입수",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": false,
+							"sorttype": "integer",
+							"formatter": "integer"
+						},
+						{
+							"name": "proWeig",
+							"label": "<div>단위당<br>중량(kg)</div>",
+							"width": 110,
+							"align": "right",
+							"editable": false,
+							"hidden": false,
+							"sorttype": "number",
+							"formatter": "number4"
+						},
+						{
+							"name": "priceCalc",
+							"label": "단가적용코드",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "priceCalcName",
+							"label": "단가적용명",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "vatCode",
+							"label": "부가세코드",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "vatCodeName",
+							"label": "부가세명",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "cmRptType",
+							"label": "<div>생산일보<br>분류코드</div>",
+							"width": 70,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "cmRptTypeName",
+							"label": "<div>생산일보<br>분류명</div>",
+							"width": 100,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "emartBar1",
+							"label": "TC매입코드",
+							"width": 120,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "emartBar2",
+							"label": "PC매입코드",
+							"width": 120,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "emartBar31",
+							"label": "PC출하1",
+							"width": 120,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "emartBar32",
+							"label": "PC출하2",
+							"width": 120,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "lotteCode",
+							"label": "롯데코드(LS)",
+							"width": 120,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "ipsuCnt",
+							"label": "입수두수",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": false,
+							"sorttype": "number",
+							"formatter": "number"
+						},
+						{
+							"name": "workType1",
+							"label": "<div>작업사양<br>코드</div>",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "workType1Name",
+							"label": "작업사양명",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "workType2",
+							"label": "<div>포장방법<br>코드</div>",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "workType2Name",
+							"label": "포장방법명",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "workLine",
+							"label": "<div>작업라인<br>코드</div>",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "workLineName",
+							"label": "작업라인명",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "printSheet",
+							"label": "<div>출력시트<br>코드</div>",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "printSheetName",
+							"label": "출력시트명",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "weigType",
+							"label": "<div>중량표기형태<br>코드</div>",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "weigTypeName",
+							"label": "중량표기형태명",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "safetyStock10",
+							"label": "<div>안성공장<br>부자재<br>안전재고량</div>",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": false,
+							"sorttype": "integer",
+							"formatter": "integer"
+						},
+						{
+							"name": "safetyStock13",
+							"label": "<div>본래가공장<br>부자재<br>안전재고량</div>",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": false,
+							"sorttype": "integer",
+							"formatter": "integer"
+						},
+						{
+							"name": "safetyStock14",
+							"label": "<div>안성PM공장<br>부자재<br>안전재고량</div>",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": false,
+							"sorttype": "integer",
+							"formatter": "integer"
+						},
+						{
+							"name": "safetyStock21",
+							"label": "<div>호남1공장<br>부자재<br>안전재고량</div>",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": false,
+							"sorttype": "integer",
+							"formatter": "integer"
+						},
+						{
+							"name": "safetyStock22",
+							"label": "<div>호남2공장<br>부자재<br>안전재고량</div>",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": false,
+							"sorttype": "integer",
+							"formatter": "integer"
+						},
+						{
+							"name": "safetyStock31",
+							"label": "<div>김제공장<br>부자재<br>안전재고량</div>",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": false,
+							"sorttype": "integer",
+							"formatter": "integer"
+						},
+						{
+							"name": "safetyStock99",
+							"label": "<div>기타공장<br>부자재<br>안전재고량</div>",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": false,
+							"sorttype": "integer",
+							"formatter": "integer"
+						},
+						{
+							"name": "memo",
+							"label": "메모",
+							"width": 300,
+							"align": "left",
+							"editable": false,
+							"hidden": false
+						},
+						{
+							"name": "crDate",
+							"label": "등록일시",
+							"width": 150,
+							"align": "center",
+							"sortable": false
+
+						}, {
+							"name": "crUser",
+							"label": "등록자",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						}, {
+							"name": "mdDate",
+							"label": "수정일시",
+							"width": 150,
+							"align": "center",
+							"sortable": false
+						},
+						{
+							"name": "mdUser",
+							"label": "수정자",
+							"width": 80,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "shortCode",
+							"label": "shortCode",
+							"width": 80,
+							"align": "center",
+							"hidden": true
+						},
+						{
+							"name": "cssStyle",
+							"label": "<style>#gbox_PP0103_grid_1_list .frozen-bdiv {top:48px !important}#gview_PP0103_grid_1_list .frozen-div th{height:47px}</style>",
+							"width": 150,
+							"hidden": true,
+							"align": "left",
+							"editable": false,
+							"sortable": false
+						}
+					],
+					"rowNum": "100000000",
+					"width": "auto",
+					"height": "297",
+					"cellEdit": false,
+					"shrinkToFit": true,
+					"gridview": true,
+					"datatype": "local",
+					"multiselect": false,
+					"multiselectWidth": 20,
+					"rownumbers": false,
+					"cellsubmit": "clientArray",
+					"pager": "#PP0103_grid_1_pager",
+					"viewrecords": true,
+					"recordpos": "left",
+					"pgbuttons": false,
+					"pginput": false,
+					"footerrow": false,
+					"userDataOnFooter": false
+				}
+			}
+		}
+	}
+}

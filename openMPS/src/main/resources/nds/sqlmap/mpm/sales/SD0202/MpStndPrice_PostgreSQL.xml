@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpStndPrice">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpStndPriceSerarchVO" type="nds.mpm.sales.SD0202.vo.MpStndPriceVO"/>
+	
+	<resultMap id="mpStndPrice" class="nds.mpm.sales.SD0202.vo.MpStndPriceVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="strtDate" column="strt_date" columnIndex="2"/>
+		<result property="lastDate" column="last_date" columnIndex="3"/>
+		<result property="proCode" column="pro_code" columnIndex="4"/>
+		<result property="stndPrice" column="stnd_price" columnIndex="5"/>
+		<result property="priceClass1" column="price_class1" columnIndex="6"/>
+		<result property="priceClass2" column="price_class2" columnIndex="7"/>
+		<result property="priceClass3" column="price_class3" columnIndex="8"/>
+		<result property="priceClass4" column="price_class4" columnIndex="9"/>
+		<result property="priceClass5" column="price_class5" columnIndex="10"/>
+		<result property="priceClass6" column="price_class6" columnIndex="11"/>
+		<result property="priceClass7" column="price_class7" columnIndex="12"/>
+		<result property="priceClass8" column="price_class8" columnIndex="13"/>
+		<result property="priceClass9" column="price_class9" columnIndex="14"/>
+		<result property="priceClass10" column="price_class10" columnIndex="15"/>
+		<result property="crUser" column="cr_user" columnIndex="16"/>
+		<result property="crDate" column="cr_date" columnIndex="17"/>
+		<result property="mdUser" column="md_user" columnIndex="18"/>
+		<result property="mdDate" column="md_date" columnIndex="19"/>
+	</resultMap>
+	
+	<insert id="MpStndPriceDAO.insertMpStndPrice">
+		<selectKey keyProperty="proCode" resultClass="string">
+		    select #proCode# as pro_code
+		</selectKey>
+		<![CDATA[
+			INSERT INTO mp_stnd_price 
+				( corp_code
+				  , strt_date
+				  , last_date
+				  , pro_code
+				  , stnd_price
+				  , price_class1
+				  , price_class2
+				  , price_class3
+				  , price_class4
+				  , price_class5
+				  , price_class6
+				  , price_class7
+				  , price_class8
+				  , price_class9
+				  , price_class10
+				  , cr_user
+				  , cr_date
+				  , md_user
+				  , md_date )
+			VALUES ( #corpCode#
+				  , #strtDate#
+				  , #lastDate#
+				  , #proCode#
+				  , #stndPrice#
+				  , #priceClass1#
+				  , #priceClass2#
+				  , #priceClass3#
+				  , #priceClass4#
+				  , #priceClass5#
+				  , #priceClass6#
+				  , #priceClass7#
+				  , #priceClass8#
+				  , #priceClass9#
+				  , #priceClass10#
+				  , #crUser#
+				  , now()
+				  , #mdUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="MpStndPriceDAO.updateMpStndPrice">
+		<![CDATA[
+			UPDATE mp_stnd_price
+			SET stnd_price=#stndPrice#
+				, price_class1=#priceClass1#
+				, price_class2=#priceClass2#
+				, price_class3=#priceClass3#
+				, price_class4=#priceClass4#
+				, price_class5=#priceClass5#
+				, price_class6=#priceClass6#
+				, price_class7=#priceClass7#
+				, price_class8=#priceClass8#
+				, price_class9=#priceClass9#
+				, price_class10=#priceClass10#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND pro_code=#proCode#
+				]]>
+	</update>
+	
+	<delete id="MpStndPriceDAO.deleteMpStndPrice">
+		<![CDATA[
+			DELETE FROM mp_stnd_price 
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<select id="MpStndPriceDAO.selectMpStndPrice_S" resultMap="mpStndPrice">
+		<![CDATA[
+			SELECT
+				corp_code
+				, strt_date
+				, last_date
+				, pro_code
+				, stnd_price
+				, price_class1
+				, price_class2
+				, price_class3
+				, price_class4
+				, price_class5
+				, price_class6
+				, price_class7
+				, price_class8
+				, price_class9
+				, price_class10
+				, cr_user
+				, cr_date
+				, md_user
+				, md_date
+			FROM mp_stnd_price
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND pro_code=#proCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+		<![CDATA[
+		from mp_stnd_prod a
+		left outer join mp_item_master_m m on ( a.corp_code = m.corp_code and a.pro_code = m.pro_code )
+	  	left outer join mp_stnd_price b on ( 
+			a.corp_code = b.corp_code 
+			and a.pro_code = b.pro_code 
+			and b.strt_date = #strtDate# 
+			and b.last_date = #lastDate# )
+		where	
+		a.corp_code = #corpCode#
+		]]>
+		<dynamic> 
+		</dynamic>
+	</sql>
+	<select id="MpStndPriceDAO.selectMpStndPriceList_D" parameterClass="mpStndPriceSerarchVO" resultClass="egovMap">
+		<![CDATA[
+		SELECT
+				a.corp_code
+				, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'MP006',m.large_code) as large_codename
+				, m.pro_code
+				, m.pro_name
+				, b.strt_date
+				, b.last_date
+				, ( select stnd_price from mp_stnd_price ina 
+					where ina.strt_date < #strtDate#
+					and ina.corp_code = a.corp_code
+					and ina.pro_code = a.pro_code
+					order by ina.cr_date desc limit 1 ) as before_price
+				, b.stnd_price
+				, b.price_class1
+				, b.price_class2
+				, b.price_class3
+				, b.price_class4
+				, b.price_class5
+				, b.price_class6
+				, b.price_class7
+				, b.price_class8
+				, b.price_class9
+				, b.price_class10
+				, b.cr_user
+				, b.cr_date
+				, b.md_user
+				, b.md_date
+		]]>
+		<include refid="selectWhere_fragment"/>
+		order by m.large_code, pro_code
+	</select>
+	
+	<select id="MpStndPriceDAO.selectMpStndPriceListTotCnt_S" parameterClass="mpStndPriceSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<select id="MpStndPriceDAO.selectMpStndPricePeriodList" parameterClass="mpStndPriceSerarchVO" resultClass="egovMap">
+		<![CDATA[
+		SELECT distinct
+				a.corp_code
+				, a.strt_date
+				, a.last_date
+		from mp_stnd_price a
+		where a.corp_code = #corpCode#
+		AND strt_date between #strtDate# and #lastDate#
+		]]>
+	</select>	
+	
+	<select id="MpStndPriceDAO.checkDupPeriodMpStndPriceTotCnt" resultClass="int">
+		select count(pro_code)
+		from openmps.mp_stnd_price
+		where 
+		corp_code=#corpCode#
+		and ( strt_date between #strtDate# and #strtDate#
+		  or last_date between #lastDate# and #lastDate# )
+		and pro_code=#proCode#
+	</select>
+	
+</sqlMap>

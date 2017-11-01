@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF">
+  <Appenders>
+    <Console name="console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %level - %m%n%ex%n"/>
+    </Console>
+    
+    <RollingFile name="appSizeRollingFile" fileName="D:\NDS_OSF\logs\n-osf_app.log"
+                 filePattern="D:\NDS_OSF\logs\n-osf_app.%i.%d{yyyy-MM-dd}.log">
+        <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB" /> <!-- 이 용량이 초과되면 아래 DefaultRolloverStrategy 정책만큼 넘버링 할거다. -->
+            </Policies>
+        <DefaultRolloverStrategy max="1000" fileIndex="min" /><!-- 0부터 1000개 까지만 만들거다 1000개 초과되면 파일이 더생성안된다. -->
+    </RollingFile>
+
+    <RollingFile name="sqlSizeRollingFile" fileName="D:\NDS_OSF\logs\n-osf_sql.log"
+                 filePattern="D:\NDS_OSF\logs\n-osf_sql.%i.%d{yyyy-MM-dd}.log">
+        <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB" /> <!-- 이 용량이 초과되면 아래 DefaultRolloverStrategy 정책만큼 넘버링 할거다. -->
+            </Policies>
+        <DefaultRolloverStrategy max="1000" fileIndex="min" /><!-- 0부터 1000개 까지만 만들거다 1000개 초과되면 파일이 더생성안된다. -->
+    </RollingFile>
+    
+  </Appenders>
+  <Loggers>
+       
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        
+        <Logger name="egovframework" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        
+        <Logger name="jdbc.sqltiming" level="ERROR" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        
+        
+		<Logger name="jdbc.sqlonly" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+
+        <Logger name="jdbc.audit" level="ERROR" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+
+        <Logger name="jdbc.resultsettable" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+
+        <Logger name="jdbc.connection" level="ERROR" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+
+        <Logger name="jdbc.resultset" level="ERROR" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        
+        <Logger name="nds.tmm.common.BaroappController" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+
+		
+        <Root level="DEBUG">
+            <AppenderRef ref="console" />
+        </Root>
+    </Loggers>
+</configuration>

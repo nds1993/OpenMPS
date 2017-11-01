@@ -1,0 +1,184 @@
+/**
+ * Project : Mobile Oven
+ * Copyright (c) 2016 FREECORE, Inc. All rights reserved.
+ * @author	escteam
+ *-------------------------------------------------------------
+ * 2017.05.12 앱 리소스 빌더 에 따른 폼 빌더 추 
+ */
+
+/*0512 추가 */
+.form_build_box  {}
+.form_build_box .form-group {    position: relative;
+    padding-left: 150px;}
+.form_build_box .label_box { width: 140px;
+    text-align: left !important;
+    position: absolute;
+    left: 0; min-height:34px; line-height:34px; margin-bottom:0}
+.form_build_box .control_box { text-align:left ;}
+.form_build_box label { margin-bottom:0 !important; margin-top:0 !important}
+.form_build_box .form-inline select.form-control { min-width:120px}
+.form_build_box .label_box .fa {opacity: 0.3;}
+
+/*인라인 간격*/
+.form-inline select, .form-inline input {margin-right: 5px;}
+.form-inline select:last-child, .form-inline input:last-child { margin:0}
+
+/*크기*/
+.form_build_lg * { font-size:18px !important }
+.form_build_md *  { font-size:16px }
+.form_build_sm { font-size:12px }
+.form_build_xs { font-size:10px; f }
+
+label .required { color:red}
+/*
+// form-inline : 인라인 요소로 표시 
+// form-horizontal : 수평폼 표시
+// form-only : 레이블 영역 없이 오직 control_box 만 노출
+// form-label : 레이블 영역은 존재 레이블은 없음
+*/
+/**/
+
+.form-inline .label_box, .form-inline .control_box, .form-inline .form_item_box, .form-inline .form-control, .form-inline  .help-block
+,
+.form-inline .checkbox_box
+{ display:inline; width:auto}
+.form-inline .label_box { margin-right:20px}
+.form-horizontal .label_box { width:100px ;  position: absolute ; display:table; padding-top: 7px;
+    table-layout: fixed;} 
+.form-horizontal .label_box .control-label {display:table-row;padding-top:7px}
+.form-horizontal .label_box span.title,.form-horizontal .control-label .required  { display:table-cell}
+.form-horizontal .label_box span.title{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    }
+.form-label .control_box, 
+.form-horizontal .control_box { padding-left:110px}
+.form-horizontal .control-label .required { width:10px} 
+.form-only  .label_box,.form-label .control-label  {position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;}	
+
+.label-lg {font-size:1.2em}
+
+
+.label-sm {font-size:0.9em}
+
+
+.noresize {
+  resize: none; 
+}
+
+.vresize {
+  resize: vertical; 
+}
+  
+.hresize {
+  resize: horizontal;  
+}  
+
+
+/*메니저 json 에디터*/
+.jsoneditor_box .btn { font-size:12px; padding:3px 5px}
+.jsoneditor_box .form-control { }
+.jsoneditor_box .row { min-height:42px}
+.jsoneditor_box .row .form-group { position: relative; padding-left:120px;margin-bottom:8px }
+.jsoneditor_box .row .checkbox {padding-left:120px}
+.jsoneditor_box .row .col-md-12 > label, .jsoneditor_box .row .form-group .control-label{    position: absolute;
+    width: 100px; text-align:right;
+    top: 5px; left:0}
+.jsoneditor_box .row .col-md-12 > label {left:15px;}
+.jsoneditor_box .row .col-md-12 > label + select { margin:5px 120px !important}
+.jsoneditor_box  h3 { font-size:18px; border:1px solid #ccc;border-radius:3px 3px 0 0; border-bottom:none ; margin:0; padding:10px; background-color:#fff}
+.jsoneditor_box .well-sm { border-radius:0 0 3px 3px; border:1px solid #ccc; background-color:#f9f9f9 }
+
+/*checkbox3 & radio3*/  
+
+.inline .checkbox3, .inline .radio3 {display:inline ; margin-right:20px}
+.block .checkbox3, .block .radio3 {display:block;}
+
+.radio3 label, .checkbox3 label { font-size: initial; display: inline-block;}
+.checkbox_box,.radio_box { width:100%}
+label.disabled {color:#999}
+.radio3 label span.title, .checkbox3 label span.title { magin:-1% 0}
+/*
+.radio3 label, .checkbox3 label { font-size: initial ; padding:5px 0 5px 30px !important}
+.checkbox3 label::after, .checkbox3 label::before { top:5px; bottom:5px !important}
+*/
+
+/*textmulti_box*/
+.inline > input { display:inline-block; width:auto}
+.textmulti_box  > input + input  { margin-top:5px}
+.inline > input + input { margin-top:0; margin-left:10px  } 
+
+.control_box .textmulti_box { display:block !important}
+
+/*체크박스 라디*/
+.checkbox label:after, 
+.radio label:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.checkbox .cr,
+.radio .cr {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #a9a9a9;
+    border-radius: .25em;
+    width: 1.3em;
+    height: 1.3em;
+    float: left;
+    margin-right: .5em;
+}
+
+.radio .cr {
+    border-radius: 50%;
+}
+
+.checkbox .cr .cr-icon,
+.radio .cr .cr-icon {
+    position: absolute;
+    font-size: .8em;
+    line-height: 0;
+    top: 50%;
+    left: 20%;
+}
+
+.radio .cr .cr-icon {
+    margin-left: 0.04em;
+}
+
+.checkbox label input[type="checkbox"],
+.radio label input[type="radio"] {
+    display: none;
+}
+
+.checkbox label input[type="checkbox"] + .cr > .cr-icon,
+.radio label input[type="radio"] + .cr > .cr-icon {
+    transform: scale(3) rotateZ(-20deg);
+    opacity: 0;
+    transition: all .3s ease-in;
+}
+
+.checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+.radio label input[type="radio"]:checked + .cr > .cr-icon {
+    transform: scale(1) rotateZ(0deg);
+    opacity: 1;
+}
+
+.checkbox label input[type="checkbox"]:disabled + .cr,
+.radio label input[type="radio"]:disabled + .cr {
+    opacity: .5;
+}
+.checkbox label, .radio label {padding:0}
+.inline .radio,.inline .checkbox { display:inline-block; margin-right:20px}
+
+/*멀티버튼 */
+.btn-inline button { margin-right:5px }

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpLpcixm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpLpcixmSerarchVO" type="nds.mpm.sales.base.vo.MpLpcixmVO"/>
+	
+	<resultMap id="mpLpcixm" class="nds.mpm.sales.base.vo.MpLpcixmVO">
+		<result property="lpcKind" column="lpc_kind" columnIndex="1"/>
+		<result property="lpcCode" column="lpc_code" columnIndex="2"/>
+		<result property="lpcName" column="lpc_name" columnIndex="3"/>
+		<result property="custCode" column="cust_code" columnIndex="4"/>
+		<result property="comCode" column="com_code" columnIndex="5"/>
+		<result property="comName" column="com_name" columnIndex="6"/>
+		<result property="sumaeCode" column="sumae_code" columnIndex="7"/>
+		<result property="sumaeName" column="sumae_name" columnIndex="8"/>
+		<result property="memo" column="memo" columnIndex="9"/>
+		<result property="deleYn" column="dele_yn" columnIndex="10"/>
+		<result property="mdUser" column="md_user" columnIndex="11"/>
+		<result property="mdDate" column="md_date" columnIndex="12"/>
+		<result property="crUser" column="cr_user" columnIndex="13"/>
+		<result property="crDate" column="cr_date" columnIndex="14"/>
+	</resultMap>
+	
+	<insert id="mpLpcixmDAO.insertMpLpcixm_S">
+		<![CDATA[
+			INSERT INTO MP_LPCIXM 
+				( lpc_kind
+				  , lpc_code
+				  , lpc_name
+				  , cust_code
+				  , com_code
+				  , com_name
+				  , sumae_code
+				  , sumae_name
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #lpcKind#
+				  , #lpcCode#
+				  , #lpcName#
+				  , #custCode#
+				  , #comCode#
+				  , #comName#
+				  , #sumaeCode#
+				  , #sumaeName#
+				  , #memo#
+				  , #deleYn#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , TO_CHAR(now(),'yyyy-mm-dd hh24:mi:ss') )
+		]]>
+	</insert>
+	
+	<update id="mpLpcixmDAO.updateMpLpcixm_S">
+		<![CDATA[
+			UPDATE MP_LPCIXM
+			SET lpc_kind=#lpcKind#
+				, lpc_code=#lpcCode#
+				, lpc_name=#lpcName#
+				, cust_code=#custCode#
+				, com_code=#comCode#
+				, com_name=#comName#
+				, sumae_code=#sumaeCode#
+				, sumae_name=#sumaeName#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=TO_CHAR(now(),'yyyy-mm-dd hh24:mi:ss')
+						WHERE lpc_kind=#lpcKind#
+								AND lpc_code=#lpcCode#
+				]]>
+	</update>
+	
+	<delete id="mpLpcixmDAO.deleteMpLpcixm_S">
+		<![CDATA[
+			UPDATE MP_LPCIXM SET dele_yn = 'Y' 
+						WHERE lpc_kind=#lpcKind#
+								AND lpc_code=#lpcCode#
+				]]>
+	</delete>
+	
+	<select id="mpLpcixmDAO.selectMpLpcixm_S" resultMap="mpLpcixm">
+		<![CDATA[
+			SELECT
+				lpc_kind
+				, lpc_code
+				, lpc_name
+				, cust_code
+				, com_code
+				, com_name
+				, sumae_code
+				, sumae_name
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM MP_LPCIXM
+						WHERE lpc_kind=#lpcKind#
+								AND lpc_code=#lpcCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM MP_LPC_info_m A
+		<dynamic> 
+	         
+		</dynamic>
+	</sql>
+	<select id="mpLpcixmDAO.selectMpLpcixmList_D" parameterClass="mpLpcixmSerarchVO" resultClass="egovMap">
+		SELECT * 
+			<include refid="selectWhere_fragment"/>
+			<!-- <include refid="Global.authParam_fragment"/> -->
+	</select>	
+	<select id="mpLpcixmDAO.selectMpLpcixmListTotCnt_S" parameterClass="mpLpcixmSerarchVO" resultClass="int">
+
+	</select>
+
+</sqlMap>

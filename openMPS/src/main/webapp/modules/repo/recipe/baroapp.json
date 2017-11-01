@@ -1,0 +1,265 @@
+{
+  "baroapp": {
+    "id": "recipe1",
+    "name": "레시피 샘플",
+    "desc": "바로앱을 소개합니다.",
+    "intro": "바로앱 레시피",
+    "tag": "openMPS,NDS,넷플라이,프리코어",
+    "ver": "1.1.0",
+    "owner": null
+  },
+  "skin": {
+    "id": "skin",
+    "ver": "",
+    "path": "/base/ui_base-0.3.2.css"
+  },
+  "headerRegion": {
+    "options": {
+      "label": "앱이름",
+      "icon": {
+        "pos": "prefix",
+        "view": true,
+        "type": "fa",
+        "value": "fa-paw"
+      },
+      "pos": "relative",
+      "label_align": "text-left",
+      "text_color": "text-primary"
+    },
+    "module": "manifest!Header-1.0.0#widget"
+  },
+  "menubarRegion": {
+    "options": {
+      "label": "고객메뉴",
+      "defaultMenu": "main_menu",
+      "menus": [
+        {
+          "id": "main_menu",
+          "label": "du",
+          "items": [
+            {
+              "label": "영업",
+              "type": "submenu",
+              "value": "sales_menu"
+            },
+            {
+              "icon": {
+                "pos": "",
+                "view": true,
+                "type": "fa",
+                "value": "fa-paw"
+              },
+              "label": "생산",
+              "type": "cmd",
+              "value": "#hom3"
+            }
+          ]
+        },
+        {
+          "id": "sales_menu",
+          "label": "영업",
+          "items": [
+            {
+              "icon": {
+                "pos": "",
+                "view": true,
+                "type": "fa",
+                "value": "fa-paw"
+              },
+              "label": "자료입력",
+              "type": "submenu",
+              "value": "sales_sub_mene"
+            },
+            {
+              "icon": {
+                "pos": "",
+                "view": true,
+                "type": "fa",
+                "value": "fa-paw"
+              },
+              "label": "현황관리",
+              "type": "cmd",
+              "value": "#hom3"
+            },
+            {
+              "icon": {
+                "pos": "",
+                "view": true,
+                "type": "fa",
+                "value": "fa-paw"
+              },
+              "label": "가격관리",
+              "type": "cmd",
+              "value": "#hom3"
+            },
+            {
+              "icon": {
+                "pos": "",
+                "view": true,
+                "type": "fa",
+                "value": "fa-paw"
+              },
+              "label": "추정손익",
+              "type": "cmd",
+              "value": "#hom3"
+            },
+            {
+              "icon": {
+                "pos": "",
+                "view": true,
+                "type": "fa",
+                "value": "fa-paw"
+              },
+              "label": "주간판가",
+              "type": "cmd",
+              "value": "#hom3"
+            },
+            {
+              "icon": {
+                "pos": "",
+                "view": true,
+                "type": "fa",
+                "value": "fa-paw"
+              },
+              "label": "바코드출력",
+              "type": "cmd",
+              "value": "#hom3"
+            },
+            {
+              "type": "divider",
+              "value": "#hom3"
+            },
+            {
+              "icon": {
+                "pos": "",
+                "view": true,
+                "type": "fa",
+                "value": "fa-paw"
+              },
+              "label": "DM 라벨",
+              "type": "cmd",
+              "value": "#hom3"
+            }
+          ]
+        },
+        {
+          "id": "sales_sub_mene",
+          "label": "영업",
+          "items": [
+            {
+              "icon": {
+                "pos": "",
+                "view": true,
+                "type": "fa",
+                "value": "fa-paw"
+              },
+              "label": "주문입력",
+              "type": "cmd",
+              "value": "#"
+            },
+            {
+              "icon": {
+                "pos": "",
+                "view": true,
+                "type": "fa",
+                "value": "fa-paw"
+              },
+              "label": "주문배정",
+              "type": "cmd",
+              "value": "#hom3"
+            },
+            {
+              "type": "divider",
+              "value": "#hom3"
+            },
+            {
+              "icon": {
+                "pos": "",
+                "view": true,
+                "type": "fa",
+                "value": "fa-paw"
+              },
+              "label": "한도이력관리",
+              "type": "cmd",
+              "value": "#hom3"
+            }
+          ]
+        }
+      ],
+      "menu_layout": {
+        "size": "lg",
+        "align": "text-left",
+        "type": "treeview"
+      }
+    },
+    "module": "manifest!Menu-1.0.0#widget"
+  },
+  "contentsRegion": {
+    "defaultBox": "HomePanel",
+    "items": [
+      "HomePanel"
+    ]
+  },
+  "DesignItem-1.0.0": {
+    "module": "",
+    "options": ""
+  },
+  "HomePanel": {
+    "module": "BaroBox",
+    "options": {
+      "className": "contents_box",
+      "order": [
+        "cover",
+        "icon_menu"
+      ],
+      "activation": {
+        "defaultWidget": "",
+        "method": "one-page"
+      },
+      "cover": {
+        "module": "manifest!cover-0.8.1#widget",
+        "options": {
+          "items": [
+            {
+              "link": "#home",
+              "bg_path": "http://resource.moven.net/themes/base/asset/bg/img_640_025.jpg",
+              "caption": "나를 표현해 보자!"
+            }
+          ],
+          "type": "simple"
+        }
+      },
+      "icon_menu": {
+        "module": "manifest!iconmenu-0.8.1#widget",
+        "options": {
+          "items": [
+            {
+              "box_id": "introMenu",
+              "onclick": "switching",
+              "caption": "About Me",
+              "icon_font": "fa-coffee"
+            },
+            {
+              "box_id": "photoMenu",
+              "onclick": "switching",
+              "caption": "Portfolio",
+              "icon_font": "fa-camera-retro"
+            },
+            {
+              "box_id": "careerMenu",
+              "onclick": "switching",
+              "caption": "Career",
+              "icon_font": "fa-pencil-square"
+            },
+            {
+              "box_id": "contactMenu",
+              "onclick": "switching",
+              "caption": "Contact Me",
+              "icon_font": "fa-at"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

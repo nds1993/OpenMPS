@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpPlanSetupM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpPlanSetupMSerarchVO" type="nds.mpm.prod.PP0301.vo.MpPlanSetupMVO"/>
+	
+	<resultMap id="mpPlanSetupM" class="nds.mpm.prod.PP0301.vo.MpPlanSetupMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="plantCode" column="plant_code" columnIndex="2"/>
+		<result property="proLcode" column="pro_lcode" columnIndex="3"/>
+		<result property="rateType" column="rate_type" columnIndex="4"/>
+		<result property="rateQty" column="rate_qty" columnIndex="5"/>
+		<result property="mdUser" column="md_user" columnIndex="6"/>
+		<result property="mdDate" column="md_date" columnIndex="7"/>
+		<result property="crUser" column="cr_user" columnIndex="8"/>
+		<result property="crDate" column="cr_date" columnIndex="9"/>
+	</resultMap>
+	
+	<insert id="mpPlanSetupMDAO.insertMpPlanSetupM">
+			INSERT INTO openmps.mp_plan_setup_m 
+				( corp_code
+				  , plant_code
+				  , pro_lcode
+				  , rate_type
+				  , rate_qty
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #proLcode#
+				  , #rateType#
+				  , coalesce((select etc01::numeric from openmps.tm_codexd where corp_code = #corpCode# and group_code = 'PP003' and code_id = #rateType# limit 1),0)
+				  , #crUser#
+				  , now()
+				  )
+			ON CONFLICT (corp_code, plant_code, pro_lcode)
+    		DO UPDATE SET
+				  rate_type= #rateType#
+				, rate_qty=coalesce((select etc01::numeric from openmps.tm_codexd where corp_code = #corpCode# and group_code = 'PP003' and code_id = #rateType# limit 1),0)
+				, md_user=#crUser#
+				, md_date=now()
+	</insert>
+	
+	<update id="mpPlanSetupMDAO.updateMpPlanSetupM">
+		<![CDATA[
+			UPDATE openmps.mp_plan_setup_m
+			SET rate_type=#rateType#
+				, rate_qty=coalesce((select etc01::numeric from openmps.tm_codexd where corp_code = #corpCode# and group_code = 'PP003' and code_id = #rateType# limit 1),0)
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND pro_lcode=#proLcode#
+				]]>
+	</update>
+	
+	<delete id="mpPlanSetupMDAO.deleteMpPlanSetupM">
+		<![CDATA[
+			DELETE FROM openmps.mp_plan_setup_m 
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND pro_lcode=#proLcode#
+				]]>
+	</delete>
+	
+	<select id="mpPlanSetupMDAO.selectMpPlanSetupM_S" resultMap="mpPlanSetupM">
+		<![CDATA[
+			SELECT
+				corp_code
+				, plant_code
+				, pro_lcode
+				, rate_type
+				, rate_qty
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM openmps.mp_plan_setup_m
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND pro_lcode=#proLcode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+		from
+		(
+			select
+			a.corp_code
+			,a.code_id
+			,a.code_name
+			,b.plant_code
+			,b.plant_name
+			from tm_codexd a
+			left outer join tm_platxm b  on (1=1)
+			where 
+			a.corp_code = #corpCode#
+			and b.corp_code =  #corpCode#
+			and a.group_code = 'MP006'
+			and a.use_yn = 'Y' and a.dele_yn = 'N'
+			and a.etc02 = '1'
+			and b.prdt_type = '1'
+			and b.use_yn = 'Y' and b.dele_yn = 'N'
+		) aa
+		left outer join mp_plan_setup_m bb on (
+		aa.corp_code = bb.corp_code 
+		and aa.plant_code = bb.plant_code
+		and aa.code_id = bb.pro_lcode
+		)
+	</sql>
+	<select id="mpPlanSetupMDAO.selectMpPlanSetupMList_D" parameterClass="mpPlanSetupMSerarchVO" resultClass="egovMap">
+		select 
+		aa.corp_code
+		,aa.code_id as pro_lcode
+		,aa.code_name as pro_lcodename
+		,aa.plant_code
+		,aa.plant_name
+		,(case when bb.rate_type = '0' then null else bb.rate_type end) rate_type
+		,openmps."FN_GET_TMCODEXDNM"(aa.corp_code,'PP003',bb.rate_type)  as work_plan
+		<include refid="selectWhere_fragment"/>
+		order by aa.code_id,aa.plant_code
+	</select>	
+	<select id="mpPlanSetupMDAO.selectMpPlanSetupMListTotCnt_S" parameterClass="mpPlanSetupMSerarchVO" resultClass="int">
+		SELECT
+				count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

@@ -1,0 +1,163 @@
+{
+	"name": "거래처 제품",
+	"module": "SD0102Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box form-inline",
+				"order": [
+					"custCode"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"name": "API Runner Form",
+					"mode": "form",
+					"items": {
+						"custCode": {
+							"label": "거래처",
+							"required": true
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>거래처</label><div class=\"custCode_region\"></div>"
+				},
+				"custCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "거래처",
+						"required": true,
+						"value": {},
+						"codeType": "SD0101",
+						"params": {
+						},
+						"value": {
+						"keyword": null,
+						"result": null
+						}
+					}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "grid_box",
+				"gridId": "SD0102_grid_1",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+						"name": "custProCode",
+						"label": "<div class=\"editable_mark\"></div>상대제품",
+						"width": 150,
+						"align": "left",
+						"editable": true
+					}, {
+						"name": "custProName",
+						"label": "<div class=\"editable_mark\"></div>상대제품명",
+						"width": 200,
+						"align": "left",
+						"editable": true
+					}, {
+						"name": "seqNo",
+						"label": "<div class=\"editable_mark\"></div>우선순서",
+						"width": 50,
+						"align": "center",
+						"editable": true,
+						"formatter":"integer",
+						"editrules":{"integer":true}
+					}, {
+						"name": "proCode",
+						"label": "<div class=\"editable_mark\"></div>제품코드",
+						"width": 50,
+						"align": "center",
+						"editable": true,
+						"classes": "editable codesearch"
+					}, {
+						"name": "proUkind",
+						"label": "<div class=\"editable_mark\"></div>상대제품단위",
+						"width": 60,
+						"align": "center",
+						"editable": true
+					}, {
+						"name": "changeRate",
+						"label": "<div class=\"editable_mark\"></div>환산율",
+						"width": 36,
+						"align": "right",
+						"editable": true
+					}, {
+						"name": "proName",
+						"label": "제품명",
+						"width": 200,
+						"align": "left"
+					}, {
+						"name": "corpCode",
+						"label": "corpCode",
+						"width": 50,
+						"align": "right",
+						"editable": false,
+						"hidden": true
+					}, {
+						"name": "custCode",
+						"label": "custCode",
+						"width": 50,
+						"align": "right",
+						"editable": false,
+						"hidden": true
+					}, {
+						"name": "crUser",
+						"label": "crUser",
+						"width": 50,
+						"align": "left",
+						"editable": false,
+						"hidden": true
+					}, {
+						"name": "crDate",
+						"label": "crDate",
+						"width": 50,
+						"align": "right",
+						"editable": false,
+						"hidden": true
+					}, {
+						"name": "mdUser",
+						"label": "mdUser",
+						"width": 50,
+						"align": "left",
+						"editable": false,
+						"hidden": true
+					}, {
+						"name": "mdDate",
+						"label": "mdDate",
+						"width": 50,
+						"align": "left",
+						"editable": false,
+						"hidden": true
+					}],
+					"rowNum":"100000000",
+					"width": "auto",
+					"height": "597",
+					"cellEdit": true,
+					"cellsubmit": "clientArray",
+					"gridview": true,
+					"datatype": "local",
+					"pager": "#SD0102_grid_1_pager",
+					"viewrecords": true,
+					"recordpos": "left",
+					"pgbuttons": false,
+					"pginput": false
+				}
+			}
+		}
+	}
+}

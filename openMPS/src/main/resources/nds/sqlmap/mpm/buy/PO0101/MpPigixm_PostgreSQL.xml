@@ -1,0 +1,931 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpPigixm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpPigixmSerarchVO" type="nds.mpm.buy.PO0101.vo.MpPigixmVO"/>
+	
+	<resultMap id="mpPigixm" class="nds.mpm.buy.PO0101.vo.MpPigixmVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="jiyukDate" column="jiyuk_date" columnIndex="2"/>
+		<result property="APrice1" column="a_price1" columnIndex="3"/>
+		<result property="ADosu1" column="a_dosu1" columnIndex="4"/>
+		<result property="APrice2" column="a_price2" columnIndex="5"/>
+		<result property="ADosu2" column="a_dosu2" columnIndex="6"/>
+		<result property="APrice3" column="a_price3" columnIndex="7"/>
+		<result property="ADosu3" column="a_dosu3" columnIndex="8"/>
+		<result property="BPrice1" column="b_price1" columnIndex="9"/>
+		<result property="BDosu1" column="b_dosu1" columnIndex="10"/>
+		<result property="BPrice2" column="b_price2" columnIndex="11"/>
+		<result property="BDosu2" column="b_dosu2" columnIndex="12"/>
+		<result property="BPrice3" column="b_price3" columnIndex="13"/>
+		<result property="BDosu3" column="b_dosu3" columnIndex="14"/>
+		<result property="CPrice1" column="c_price1" columnIndex="15"/>
+		<result property="CDosu1" column="c_dosu1" columnIndex="16"/>
+		<result property="CPrice2" column="c_price2" columnIndex="17"/>
+		<result property="CDosu2" column="c_dosu2" columnIndex="18"/>
+		<result property="CPrice3" column="c_price3" columnIndex="19"/>
+		<result property="CDosu3" column="c_dosu3" columnIndex="20"/>
+		<result property="DPrice1" column="d_price1" columnIndex="21"/>
+		<result property="DDosu1" column="d_dosu1" columnIndex="22"/>
+		<result property="DPrice2" column="d_price2" columnIndex="23"/>
+		<result property="DDosu2" column="d_dosu2" columnIndex="24"/>
+		<result property="DPrice3" column="d_price3" columnIndex="25"/>
+		<result property="DDosu3" column="d_dosu3" columnIndex="26"/>
+		<result property="ATotPrice1" column="a_tot_price1" columnIndex="27"/>
+		<result property="a1Price1" column="a1_price1" columnIndex="28"/>
+		<result property="a1Dosu1" column="a1_dosu1" columnIndex="29"/>
+		<result property="a1Price2" column="a1_price2" columnIndex="30"/>
+		<result property="a1Dosu2" column="a1_dosu2" columnIndex="31"/>
+		<result property="a1Price3" column="a1_price3" columnIndex="32"/>
+		<result property="a1Dosu3" column="a1_dosu3" columnIndex="33"/>
+		<result property="b1Price1" column="b1_price1" columnIndex="34"/>
+		<result property="b1Dosu1" column="b1_dosu1" columnIndex="35"/>
+		<result property="b1Price2" column="b1_price2" columnIndex="36"/>
+		<result property="b1Dosu2" column="b1_dosu2" columnIndex="37"/>
+		<result property="b1Price3" column="b1_price3" columnIndex="38"/>
+		<result property="b1Dosu3" column="b1_dosu3" columnIndex="39"/>
+		<result property="c1Price1" column="c1_price1" columnIndex="40"/>
+		<result property="c1Dosu1" column="c1_dosu1" columnIndex="41"/>
+		<result property="c1Price2" column="c1_price2" columnIndex="42"/>
+		<result property="c1Dosu2" column="c1_dosu2" columnIndex="43"/>
+		<result property="c1Price3" column="c1_price3" columnIndex="44"/>
+		<result property="c1Dosu3" column="c1_dosu3" columnIndex="45"/>
+		<result property="d1Price1" column="d1_price1" columnIndex="46"/>
+		<result property="d1Dosu1" column="d1_dosu1" columnIndex="47"/>
+		<result property="d1Price2" column="d1_price2" columnIndex="48"/>
+		<result property="d1Dosu2" column="d1_dosu2" columnIndex="49"/>
+		<result property="d1Price3" column="d1_price3" columnIndex="50"/>
+		<result property="d1Dosu3" column="d1_dosu3" columnIndex="51"/>
+		<result property="a1TotPrice1" column="a1_tot_price1" columnIndex="52"/>
+		<result property="memo" column="memo" columnIndex="53"/>
+		<result property="deleYn" column="dele_yn" columnIndex="54"/>
+		<result property="mdUser" column="md_user" columnIndex="55"/>
+		<result property="mdDate" column="md_date" columnIndex="56"/>
+		<result property="crUser" column="cr_user" columnIndex="57"/>
+		<result property="crDate" column="cr_date" columnIndex="58"/>
+	</resultMap>
+	<!-- 
+		박피 
+	 -->
+	<insert id="MpPigixmDAO.insertSkinMpPigixm">
+		<![CDATA[
+			INSERT INTO openmps.mp_pigixm 
+				( corp_code
+				  , jiyuk_date
+				  , a_price1
+				  , a_dosu1
+				  , a_price2
+				  , a_dosu2
+				  , a_price3
+				  , a_dosu3
+				  , b_price1
+				  , b_dosu1
+				  , b_price2
+				  , b_dosu2
+				  , b_price3
+				  , b_dosu3
+				  , c_price1
+				  , c_dosu1
+				  , c_price2
+				  , c_dosu2
+				  , c_price3
+				  , c_dosu3
+				  , d_price1
+				  , d_dosu1
+				  , d_price2
+				  , d_dosu2
+				  , d_price3
+				  , d_dosu3
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #jiyukDate#
+				  , #aPrice1#::numeric
+				  , #aDosu1#::numeric
+				  , #aPrice2#::numeric
+				  , #aDosu2#::numeric
+				  , #aPrice3#::numeric
+				  , #aDosu3#::numeric
+				  , #bPrice1#::numeric
+				  , #bDosu1#::numeric
+				  , #bPrice2#::numeric
+				  , #bDosu2#::numeric
+				  , #bPrice3#::numeric
+				  , #bDosu3#::numeric
+				  , #cPrice1#::numeric
+				  , #cDosu1#::numeric
+				  , #cPrice2#::numeric
+				  , #cDosu2#::numeric
+				  , #cPrice3#::numeric
+				  , #cDosu3#::numeric
+				  , #dPrice1#::numeric
+				  , #dDosu1#::numeric
+				  , #dPrice2#::numeric
+				  , #dDosu2#::numeric
+				  , #dPrice3#::numeric
+				  , #dDosu3#::numeric
+				  , #memo#
+				  , 'N'
+				  , #mdUser#
+				  , now()
+				  , #crUser#
+				  , now() )
+			ON CONFLICT (corp_code, jiyuk_date)
+    		DO UPDATE SET
+    			a_price1=#aPrice1#::numeric
+				, a_dosu1=#aDosu1#::numeric
+				, a_price2=#aPrice2#::numeric
+				, a_dosu2=#aDosu2#::numeric
+				, a_price3=#aPrice3#::numeric
+				, a_dosu3=#aDosu3#::numeric
+				, b_price1=#bPrice1#::numeric
+				, b_dosu1=#bDosu1#::numeric
+				, b_price2=#bPrice2#::numeric
+				, b_dosu2=#bDosu2#::numeric
+				, b_price3=#bPrice3#::numeric
+				, b_dosu3=#bDosu3#::numeric
+				, c_price1=#cPrice1#::numeric
+				, c_dosu1=#cDosu1#::numeric
+				, c_price2=#cPrice2#::numeric
+				, c_dosu2=#cDosu2#::numeric
+				, c_price3=#cPrice3#::numeric
+				, c_dosu3=#cDosu3#::numeric
+				, d_price1=#dPrice1#::numeric
+				, d_dosu1=#dDosu1#::numeric
+				, d_price2=#dPrice2#::numeric
+				, d_dosu2=#dDosu2#::numeric
+				, d_price3=#dPrice3#::numeric
+				, d_dosu3=#dDosu3#::numeric
+				, a_tot_price1=#aTotPrice1#::numeric
+				, dele_yn='N'
+		]]>
+	</insert>
+	<!-- 
+		탕박
+	 -->
+	<insert id="MpPigixmDAO.insertMpNonSkinPigixm">
+		<![CDATA[
+			INSERT INTO openmps.mp_pigixm 
+				( corp_code
+				  , jiyuk_date
+				  , a1_price1
+				  , a1_dosu1
+				  , a1_price2
+				  , a1_dosu2
+				  , a1_price3
+				  , a1_dosu3
+				  , b1_price1
+				  , b1_dosu1
+				  , b1_price2
+				  , b1_dosu2
+				  , b1_price3
+				  , b1_dosu3
+				  , c1_price1
+				  , c1_dosu1
+				  , c1_price2
+				  , c1_dosu2
+				  , c1_price3
+				  , c1_dosu3
+				  , d1_price1
+				  , d1_dosu1
+				  , d1_price2
+				  , d1_dosu2
+				  , d1_price3
+				  , d1_dosu3
+				  , a1_tot_price1
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date
+				  
+				  , a_price1
+				  , a_dosu1
+				  , a_price2
+				  , a_dosu2
+				  , a_price3
+				  , a_dosu3
+				  , b_price1
+				  , b_dosu1
+				  , b_price2
+				  , b_dosu2
+				  , b_price3
+				  , b_dosu3
+				  , c_price1
+				  , c_dosu1
+				  , c_price2
+				  , c_dosu2
+				  , c_price3
+				  , c_dosu3
+				  , d_price1
+				  , d_dosu1
+				  , d_price2
+				  , d_dosu2
+				  , d_price3
+				  , d_dosu3 )
+			VALUES ( #corpCode#
+				  , #jiyukDate#
+				  , #a1Price1#::numeric
+				  , #a1Dosu1#::numeric
+				  , #a1Price2#::numeric
+				  , #a1Dosu2#::numeric
+				  , #a1Price3#::numeric
+				  , #a1Dosu3#::numeric
+				  , #b1Price1#::numeric
+				  , #b1Dosu1#::numeric
+				  , #b1Price2#::numeric
+				  , #b1Dosu2#::numeric
+				  , #b1Price3#::numeric
+				  , #b1Dosu3#::numeric
+				  , #c1Price1#::numeric
+				  , #c1Dosu1#::numeric
+				  , #c1Price2#::numeric
+				  , #c1Dosu2#::numeric
+				  , #c1Price3#::numeric
+				  , #c1Dosu3#::numeric
+				  , #d1Price1#::numeric
+				  , #d1Dosu1#::numeric
+				  , #d1Price2#::numeric
+				  , #d1Dosu2#::numeric
+				  , #d1Price3#::numeric
+				  , #d1Dosu3#::numeric
+				  , #a1TotPrice1#::numeric
+				  , #memo#
+				  , 'N'
+				  , #mdUser#
+				  , now()
+				  , #crUser#
+				  , now()
+				  
+				  , #aPrice1#::numeric
+				  , #aDosu1#::numeric
+				  , #aPrice2#::numeric
+				  , #aDosu2#::numeric
+				  , #aPrice3#::numeric
+				  , #aDosu3#::numeric
+				  , #bPrice1#::numeric
+				  , #bDosu1#::numeric
+				  , #bPrice2#::numeric
+				  , #bDosu2#::numeric
+				  , #bPrice3#::numeric
+				  , #bDosu3#::numeric
+				  , #cPrice1#::numeric
+				  , #cDosu1#::numeric
+				  , #cPrice2#::numeric
+				  , #cDosu2#::numeric
+				  , #cPrice3#::numeric
+				  , #cDosu3#::numeric
+				  , #dPrice1#::numeric
+				  , #dDosu1#::numeric
+				  , #dPrice2#::numeric
+				  , #dDosu2#::numeric
+				  , #dPrice3#::numeric
+				  , #dDosu3#::numeric )
+			ON CONFLICT (corp_code, jiyuk_date)
+    		DO UPDATE SET
+    			a1_price1=#a1Price1#::numeric
+				, a1_dosu1=#a1Dosu1#::numeric
+				, a1_price2=#a1Price2#::numeric
+				, a1_dosu2=#a1Dosu2#::numeric
+				, a1_price3=#a1Price3#::numeric
+				, a1_dosu3=#a1Dosu3#::numeric
+				, b1_price1=#b1Price1#::numeric
+				, b1_dosu1=#b1Dosu1#::numeric
+				, b1_price2=#b1Price2#::numeric
+				, b1_dosu2=#b1Dosu2#::numeric
+				, b1_price3=#b1Price3#::numeric
+				, b1_dosu3=#b1Dosu3#::numeric
+				, c1_price1=#c1Price1#::numeric
+				, c1_dosu1=#c1Dosu1#::numeric
+				, c1_price2=#c1Price2#::numeric
+				, c1_dosu2=#c1Dosu2#::numeric
+				, c1_price3=#c1Price3#::numeric
+				, c1_dosu3=#c1Dosu3#::numeric
+				, d1_price1=#d1Price1#::numeric
+				, d1_dosu1=#d1Dosu1#::numeric
+				, d1_price2=#d1Price2#::numeric
+				, d1_dosu2=#d1Dosu2#::numeric
+				, d1_price3=#d1Price3#::numeric
+				, d1_dosu3=#d1Dosu3#::numeric
+				, a1_tot_price1=#a1TotPrice1#::numeric
+				, dele_yn='N'
+				
+				, a_price1=#aPrice1#::numeric
+				, a_dosu1=#aDosu1#::numeric
+				, a_price2=#aPrice2#::numeric
+				, a_dosu2=#aDosu2#::numeric
+				, a_price3=#aPrice3#::numeric
+				, a_dosu3=#aDosu3#::numeric
+				, b_price1=#bPrice1#::numeric
+				, b_dosu1=#bDosu1#::numeric
+				, b_price2=#bPrice2#::numeric
+				, b_dosu2=#bDosu2#::numeric
+				, b_price3=#bPrice3#::numeric
+				, b_dosu3=#bDosu3#::numeric
+				, c_price1=#cPrice1#::numeric
+				, c_dosu1=#cDosu1#::numeric
+				, c_price2=#cPrice2#::numeric
+				, c_dosu2=#cDosu2#::numeric
+				, c_price3=#cPrice3#::numeric
+				, c_dosu3=#cDosu3#::numeric
+				, d_price1=#dPrice1#::numeric
+				, d_dosu1=#dDosu1#::numeric
+				, d_price2=#dPrice2#::numeric
+				, d_dosu2=#dDosu2#::numeric
+				, d_price3=#dPrice3#::numeric
+				, d_dosu3=#dDosu3#::numeric
+		]]>
+	</insert>
+	
+	<update id="MpPigixmDAO.updateMpPigixm_S">
+		<![CDATA[
+			UPDATE openmps.mp_pigixm
+			SET  a_price1=#APrice1#::numeric
+				, a_dosu1=#ADosu1#::numeric
+				, a_price2=#APrice2#::numeric
+				, a_dosu2=#ADosu2#::numeric
+				, a_price3=#APrice3#::numeric
+				, a_dosu3=#ADosu3#::numeric
+				, b_price1=#BPrice1#::numeric
+				, b_dosu1=#BDosu1#::numeric
+				, b_price2=#BPrice2#::numeric
+				, b_dosu2=#BDosu2#::numeric
+				, b_price3=#BPrice3#::numeric
+				, b_dosu3=#BDosu3#::numeric
+				, c_price1=#CPrice1#::numeric
+				, c_dosu1=#CDosu1#::numeric
+				, c_price2=#CPrice2#::numeric
+				, c_dosu2=#CDosu2#::numeric
+				, c_price3=#CPrice3#::numeric
+				, c_dosu3=#CDosu3#::numeric
+				, d_price1=#DPrice1#::numeric
+				, d_dosu1=#DDosu1#::numeric
+				, d_price2=#DPrice2#::numeric
+				, d_dosu2=#DDosu2#::numeric
+				, d_price3=#DPrice3#::numeric
+				, d_dosu3=#DDosu3#::numeric
+				, a_tot_price1=#ATotPrice1#::numeric
+				, a1_price1=#a1Price1#::numeric
+				, a1_dosu1=#a1Dosu1#::numeric
+				, a1_price2=#a1Price2#::numeric
+				, a1_dosu2=#a1Dosu2#::numeric
+				, a1_price3=#a1Price3#::numeric
+				, a1_dosu3=#a1Dosu3#::numeric
+				, b1_price1=#b1Price1#::numeric
+				, b1_dosu1=#b1Dosu1#::numeric
+				, b1_price2=#b1Price2#::numeric
+				, b1_dosu2=#b1Dosu2#::numeric
+				, b1_price3=#b1Price3#::numeric
+				, b1_dosu3=#b1Dosu3#::numeric
+				, c1_price1=#c1Price1#::numeric
+				, c1_dosu1=#c1Dosu1#::numeric
+				, c1_price2=#c1Price2#::numeric
+				, c1_dosu2=#c1Dosu2#::numeric
+				, c1_price3=#c1Price3#::numeric
+				, c1_dosu3=#c1Dosu3#::numeric
+				, d1_price1=#d1Price1#::numeric
+				, d1_dosu1=#d1Dosu1#::numeric
+				, d1_price2=#d1Price2#::numeric
+				, d1_dosu2=#d1Dosu2#::numeric
+				, d1_price3=#d1Price3#::numeric
+				, d1_dosu3=#d1Dosu3#::numeric
+				, a1_tot_price1=#a1TotPrice1#::numeric
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND jiyuk_date=#jiyukDate#
+				]]>
+	</update>
+	
+	<delete id="MpPigixmDAO.deleteMpPigixm">
+		<![CDATA[
+			update openmps.mp_pigixm set dele_yn = 'Y'
+						, md_user=#mdUser#
+						, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND jiyuk_date=#jiyukDate#
+				]]>
+	</delete>
+	
+	<select id="MpPigixmDAO.selectMpPigixm_S" resultMap="mpPigixm">
+		<![CDATA[
+			SELECT
+				corp_code
+				, jiyuk_date
+				, a_price1
+				, a_dosu1
+				, a_price2
+				, a_dosu2
+				, a_price3
+				, a_dosu3
+				, b_price1
+				, b_dosu1
+				, b_price2
+				, b_dosu2
+				, b_price3
+				, b_dosu3
+				, c_price1
+				, c_dosu1
+				, c_price2
+				, c_dosu2
+				, c_price3
+				, c_dosu3
+				, d_price1
+				, d_dosu1
+				, d_price2
+				, d_dosu2
+				, d_price3
+				, d_dosu3
+				, a_tot_price1
+				, a1_price1
+				, a1_dosu1
+				, a1_price2
+				, a1_dosu2
+				, a1_price3
+				, a1_dosu3
+				, b1_price1
+				, b1_dosu1
+				, b1_price2
+				, b1_dosu2
+				, b1_price3
+				, b1_dosu3
+				, c1_price1
+				, c1_dosu1
+				, c1_price2
+				, c1_dosu2
+				, c1_price3
+				, c1_dosu3
+				, d1_price1
+				, d1_dosu1
+				, d1_price2
+				, d1_dosu2
+				, d1_price3
+				, d1_dosu3
+				, a1_tot_price1
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM openmps.mp_pigixm
+			WHERE corp_code=#corpCode#
+			AND jiyuk_date=#jiyukDate#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+		FROM openmps.mp_pigixm
+		WHERE corp_code=#corpCode#
+		AND jiyuk_date between #strtDate# and #lastDate#
+		and dele_yn = 'N'
+	</sql>
+	<!-- 
+		지육시세 mp_pigixm
+		박피
+	 -->
+	<select id="MpPigixmDAO.selectMpPigixmSkinList_D" parameterClass="mpPigixmSerarchVO" resultClass="egovMap">
+		SELECT
+				jiyuk_date::varchar
+				
+				<!-- 박피 -->
+				, a_price1::varchar <!-- 박암1+  -->
+				, b_price1::varchar <!-- 박암1  -->
+				, c_price1::varchar <!-- 박암2  -->
+				, d_price1::varchar <!-- 박암등외  -->
+				
+				, d_price2::varchar <!-- 박수등외  -->
+				
+				, a_price3::varchar <!-- 박거1+  -->
+				, b_price3::varchar <!-- 박거1  -->
+				, c_price3::varchar <!-- 박거2  -->
+				, d_price3::varchar <!-- 박거등외  -->
+				
+				, a_tot_price1 <!-- 전체시세  -->
+				
+				, a_dosu1
+				, b_dosu1
+				, c_dosu1
+				, d_dosu1
+				
+				, d_dosu2
+				
+				, a_dosu3
+				, b_dosu3
+				, c_dosu3
+				, d_dosu3
+				
+				<!-- 탕박 -->
+				, a1_price1::varchar as a1_price1 <!--탕암1+  -->
+				, b1_price1::varchar as b1_price1 <!-- 탕암1  -->
+				, c1_price1::varchar as c1_price1 <!-- 탕암2  -->
+				, d1_price1::varchar as d1_price1 <!-- 탕암등외  -->
+				
+				, d1_price2::varchar as d1_price2 <!-- 탕수등외  -->
+				
+				, a1_price3::varchar as a1_price3 <!-- 탕거1+  -->
+				, b1_price3::varchar as b1_price3 <!-- 탕거1  -->
+				, c1_price3::varchar as c1_price3 <!-- 탕거2  -->
+				, d1_price3::varchar as d1_price3 <!-- 탕거등외  -->
+				
+				, a1_tot_price1  as a1_tot_price1<!-- 전체시세  -->
+				
+				, a1_dosu1 as a1_dosu1
+				, b1_dosu1 as b1_dosu1
+				, c1_dosu1 as c1_dosu1
+				, d1_dosu1 as d1_dosu1
+				
+				, d1_dosu2 as d1_dosu2
+				
+				, a1_dosu3 as a1_dosu3
+				, b1_dosu3 as b1_dosu3
+				, c1_dosu3 as c1_dosu3
+				, d1_dosu3 as d1_dosu3
+				
+				, memo
+		<include refid="selectWhere_fragment"/>
+		order by jiyuk_date
+	</select>	
+	<select id="MpPigixmDAO.selectMpPigixmListTotCnt_S" parameterClass="mpPigixmSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<!-- 
+		지육시세 mp_pigixm
+		탕박
+	 -->
+	<select id="MpPigixmDAO.selectMpPigixmNonSkinList_D" parameterClass="mpPigixmSerarchVO" resultClass="egovMap">
+		SELECT
+				jiyuk_date
+				
+				<!-- 탕박 -->
+				, a1_price1::varchar as a1_price1 <!--탕암1+  -->
+				, b1_price1::varchar as b1_price1 <!-- 탕암1  -->
+				, c1_price1::varchar as c1_price1 <!-- 탕암2  -->
+				, d1_price1::varchar as d1_price1 <!-- 탕암등외  -->
+				
+				, d1_price2::varchar as d1_price2 <!-- 탕수등외  -->
+				
+				, a1_price3::varchar as a1_price3 <!-- 탕거1+  -->
+				, b1_price3::varchar as b1_price3 <!-- 탕거1  -->
+				, c1_price3::varchar as c1_price3 <!-- 탕거2  -->
+				, d1_price3::varchar as d1_price3 <!-- 탕거등외  -->
+				
+				, a1_tot_price1  as a1_tot_price1<!-- 전체시세  -->
+				
+				, a1_dosu1 as a1_dosu1
+				, b1_dosu1 as b1_dosu1
+				, c1_dosu1 as c1_dosu1
+				, d1_dosu1 as d1_dosu1
+				
+				, d1_dosu2 as d1_dosu2
+				
+				, a1_dosu3 as a1_dosu3
+				, b1_dosu3 as b1_dosu3
+				, c1_dosu3 as c1_dosu3
+				, d1_dosu3 as d1_dosu3
+				
+				<!-- 박피 -->
+				, a_price1::varchar <!-- 박암1+  -->
+				, b_price1::varchar <!-- 박암1  -->
+				, c_price1::varchar <!-- 박암2  -->
+				, d_price1::varchar <!-- 박암등외  -->
+				
+				, d_price2::varchar <!-- 박수등외  -->
+				
+				, a_price3::varchar <!-- 박거1+  -->
+				, b_price3::varchar <!-- 박거1  -->
+				, c_price3::varchar <!-- 박거2  -->
+				, d_price3::varchar <!-- 박거등외  -->
+				
+				, a_tot_price1 <!-- 전체시세  -->
+				
+				, a_dosu1
+				, b_dosu1
+				, c_dosu1
+				, d_dosu1
+				
+				, d_dosu2
+				
+				, a_dosu3
+				, b_dosu3
+				, c_dosu3
+				, d_dosu3
+				
+				, memo
+		<include refid="selectWhere_fragment"/>
+		order by jiyuk_date
+	</select>	
+	<!-- 
+	
+		지육시세 I/F if_piggxm
+	
+		박피 : skinyn = 'N'
+		탕박 : skinyn = 'Y'
+	 -->
+	<sql id="selectWhere_IfPiggxmfragment">
+	from
+	(
+		select
+		a.start_ymd as jiyuk_date
+		, sum(case when  judge_sex_cd='025001' and grade_cd='029068' then cast(coalesce(nullif(c_tot_amt,''), '0') as numeric) else 0 end )
+			as a_price1 <!-- 박암1+  -->
+		, sum(case when  judge_sex_cd='025001' and grade_cd='029068' then cast(coalesce(nullif(c_tot_cnt,''), '0') as numeric) else 0 end )
+			as a_dosu1
+		, sum(case when  judge_sex_cd='025001' and grade_cd='029069' then cast(coalesce(nullif(c_tot_amt,''), '0') as numeric) else 0 end )
+			as b_price1 <!-- 박암1  -->
+		, sum(case when  judge_sex_cd='025001' and grade_cd='029069' then cast(coalesce(nullif(c_tot_cnt,''), '0') as numeric) else 0 end )
+			as b_dosu1
+		, sum(case when  judge_sex_cd='025001' and grade_cd='029070' then cast(coalesce(nullif(c_tot_amt,''), '0') as numeric) else 0 end )
+			as c_price1 <!-- 박암2  -->
+		, sum(case when  judge_sex_cd='025001' and grade_cd='029070' then cast(coalesce(nullif(c_tot_cnt,''), '0') as numeric) else 0 end )
+			as c_dosu1
+		, sum(case when  judge_sex_cd='025001' and grade_cd='029076' then cast(coalesce(nullif(c_tot_amt,''), '0') as numeric) else 0 end )
+			as d_price1 <!-- 박암등외  -->
+		, sum(case when  judge_sex_cd='025001' and grade_cd='029076' then cast(coalesce(nullif(c_tot_cnt,''), '0') as numeric) else 0 end )
+			as d_dosu1
+		, sum(case when  judge_sex_cd='025002' and grade_cd='029068' then cast(coalesce(nullif(c_tot_amt,''), '0') as numeric) else 0 end )
+			as a_price2 <!-- 박수1+  -->
+		, sum(case when  judge_sex_cd='025002' and grade_cd='029068' then cast(coalesce(nullif(c_tot_cnt,''), '0') as numeric) else 0 end )
+			as a_dosu2
+		, sum(case when  judge_sex_cd='025002' and grade_cd='029069' then cast(coalesce(nullif(c_tot_amt,''), '0') as numeric) else 0 end )
+			as b_price2 <!-- 박수1  -->
+		, sum(case when  judge_sex_cd='025002' and grade_cd='029069' then cast(coalesce(nullif(c_tot_cnt,''), '0') as numeric) else 0 end )
+			as b_dosu2
+		, sum(case when  judge_sex_cd='025002' and grade_cd='029070' then cast(coalesce(nullif(c_tot_amt,''), '0') as numeric) else 0 end )
+			as c_price2 <!-- 박수2  -->
+		, sum(case when  judge_sex_cd='025002' and grade_cd='029070' then cast(coalesce(nullif(c_tot_cnt,''), '0') as numeric) else 0 end )
+			as c_dosu2
+		, sum(case when  judge_sex_cd='025002' and grade_cd='029076' then cast(coalesce(nullif(c_tot_amt,''), '0') as numeric) else 0 end )
+			as d_price2 <!-- 박수등외  -->
+		, sum(case when  judge_sex_cd='025002' and grade_cd='029076' then cast(coalesce(nullif(c_tot_cnt,''), '0') as numeric) else 0 end )
+			as d_dosu2
+		, sum(case when  judge_sex_cd='025003' and grade_cd='029068' then cast(coalesce(nullif(c_tot_amt,''), '0') as numeric) else 0 end )
+			as a_price3 <!-- 박거1+  -->
+		, sum(case when  judge_sex_cd='025003' and grade_cd='029068' then cast(coalesce(nullif(c_tot_cnt,''), '0') as numeric) else 0 end )
+			as a_dosu3
+		, sum(case when  judge_sex_cd='025003' and grade_cd='029069' then cast(coalesce(nullif(c_tot_amt,''), '0') as numeric) else 0 end )
+			as b_price3 <!-- 박거1  -->
+		, sum(case when  judge_sex_cd='025003' and grade_cd='029069' then cast(coalesce(nullif(c_tot_cnt,''), '0') as numeric) else 0 end )
+			as b_dosu3
+		, sum(case when  judge_sex_cd='025003' and grade_cd='029070' then cast(coalesce(nullif(c_tot_amt,''), '0') as numeric) else 0 end )
+			as c_price3 <!-- 박거2  -->
+		, sum(case when  judge_sex_cd='025003' and grade_cd='029070' then cast(coalesce(nullif(c_tot_cnt,''), '0') as numeric) else 0 end )
+			as c_dosu3
+		, sum(case when  judge_sex_cd='025003' and grade_cd='029076' then cast(coalesce(nullif(c_tot_amt,''), '0') as numeric) else 0 end )
+			as d_price3 <!-- 박거등외  -->
+		, sum(case when  judge_sex_cd='025003' and grade_cd='029076' then cast(coalesce(nullif(c_tot_cnt,''), '0') as numeric) else 0 end )
+			as d_dosu3
+		
+		, sum(case when  judge_sex_cd='025001' and grade_cd='029080' then cast(coalesce(nullif(c_tot_amt,''), '0') as numeric) else 0 end )
+			as a_tot_price1 <!-- 전체시세  -->
+	<![CDATA[	
+		FROM openmps.if_piggxm a
+		WHERE start_ymd >= #strtDate#
+  		and end_ymd <= #lastDate#
+  		and skin_yn = #skinyn#
+  		group by start_ymd
+  	]]>
+  	) aa
+	</sql>
+	<select id="MpPigixmDAO.selectIfPiggxmList_D" parameterClass="mpPigixmSerarchVO" resultClass="egovMap">
+		SELECT
+			jiyuk_date, 
+			a1_price1, b1_price1, c1_price1, d1_price1, d1_price2, a1_price3, b1_price3, c1_price3, d1_price3, a1_tot_price1, a_price1, b_price1, c_price1, d_price1, d_price2, a_price3, b_price3, c_price3, d_price3, a_tot_price1, 
+			a1_dosu1, b1_dosu1, c1_dosu1, d1_dosu1, d1_dosu2, a1_dosu3, b1_dosu3, c1_dosu3, d1_dosu3, a_dosu1, b_dosu1, c_dosu1, d_dosu1, d_dosu2, a_dosu3, b_dosu3, c_dosu3, d_dosu3
+		FROM
+		(
+			SELECT
+				start_ymd as jiyuk_date,
+				sum(case when  judge_sex_cd='025001' and grade_cd='029068' and skin_yn = 'N' then N_PRICE else 0 end )	as a_price1    , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029068' and skin_yn = 'N' then N_CNT else 0 end ) 	as a_dosu1   , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029069' and skin_yn = 'N' then N_PRICE else 0 end )	as b_price1    , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029069' and skin_yn = 'N' then N_CNT else 0 end ) 	as b_dosu1   , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029070' and skin_yn = 'N' then N_PRICE else 0 end ) 	as c_price1    , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029070' and skin_yn = 'N' then N_CNT else 0 end ) 	as c_dosu1   , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029076' and skin_yn = 'N' then N_PRICE else 0 end ) 	as d_price1    , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029076' and skin_yn = 'N' then N_CNT else 0 end ) 	as d_dosu1   , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029068' and skin_yn = 'N' then N_PRICE else 0 end ) 	as a_price2    , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029068' and skin_yn = 'N' then N_CNT else 0 end ) 	as a_dosu2   , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029069' and skin_yn = 'N' then N_PRICE else 0 end ) 	as b_price2    , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029069' and skin_yn = 'N' then N_CNT else 0 end ) 	as b_dosu2   , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029070' and skin_yn = 'N' then N_PRICE else 0 end ) 	as c_price2    , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029070' and skin_yn = 'N' then N_CNT else 0 end ) 	as c_dosu2   , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029076' and skin_yn = 'N' then N_PRICE else 0 end ) 	as d_price2    , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029076' and skin_yn = 'N' then N_CNT else 0 end ) 	as d_dosu2   , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029068' and skin_yn = 'N' then N_PRICE else 0 end ) 	as a_price3    , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029068' and skin_yn = 'N' then N_CNT else 0 end ) 	as a_dosu3   , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029069' and skin_yn = 'N' then N_PRICE else 0 end ) 	as b_price3    , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029069' and skin_yn = 'N' then N_CNT else 0 end ) 	as b_dosu3   , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029070' and skin_yn = 'N' then N_PRICE else 0 end ) 	as c_price3    , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029070' and skin_yn = 'N' then N_CNT else 0 end ) 	as c_dosu3   , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029076' and skin_yn = 'N' then N_PRICE else 0 end ) 	as d_price3    , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029076' and skin_yn = 'N' then N_CNT else 0 end ) 	as d_dosu3      , 
+				sum(case when  judge_sex_cd=''       and grade_cd='029080' and skin_yn = 'N' then N_PRICE else 0 end )	   a_tot_price1,
+				sum(case when  judge_sex_cd='025001' and grade_cd='029068' and skin_yn = 'Y' then Y_PRICE else 0 end )	as a1_price1    , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029068' and skin_yn = 'Y' then Y_CNT else 0 end ) 	as a1_dosu1   , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029069' and skin_yn = 'Y' then Y_PRICE else 0 end )	as b1_price1    , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029069' and skin_yn = 'Y' then Y_CNT else 0 end ) 	as b1_dosu1   , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029070' and skin_yn = 'Y' then Y_PRICE else 0 end ) 	as c1_price1    , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029070' and skin_yn = 'Y' then Y_CNT else 0 end ) 	as c1_dosu1   , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029076' and skin_yn = 'Y' then Y_PRICE else 0 end ) 	as d1_price1    , 
+				sum(case when  judge_sex_cd='025001' and grade_cd='029076' and skin_yn = 'Y' then Y_CNT else 0 end ) 	as d1_dosu1   , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029068' and skin_yn = 'Y' then Y_PRICE else 0 end ) 	as a1_price2    , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029068' and skin_yn = 'Y' then Y_CNT else 0 end ) 	as a1_dosu2   , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029069' and skin_yn = 'Y' then Y_PRICE else 0 end ) 	as b1_price2    , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029069' and skin_yn = 'Y' then Y_CNT else 0 end ) 	as b1_dosu2   , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029070' and skin_yn = 'Y' then Y_PRICE else 0 end ) 	as c1_price2    , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029070' and skin_yn = 'Y' then Y_CNT else 0 end ) 	as c1_dosu2   , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029076' and skin_yn = 'Y' then Y_PRICE else 0 end ) 	as d1_price2    , 
+				sum(case when  judge_sex_cd='025002' and grade_cd='029076' and skin_yn = 'Y' then Y_CNT else 0 end ) 	as d1_dosu2   , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029068' and skin_yn = 'Y' then Y_PRICE else 0 end ) 	as a1_price3    , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029068' and skin_yn = 'Y' then Y_CNT else 0 end ) 	as a1_dosu3   , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029069' and skin_yn = 'Y' then Y_PRICE else 0 end ) 	as b1_price3    , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029069' and skin_yn = 'Y' then Y_CNT else 0 end ) 	as b1_dosu3   , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029070' and skin_yn = 'Y' then Y_PRICE else 0 end ) 	as c1_price3    , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029070' and skin_yn = 'Y' then Y_CNT else 0 end ) 	as c1_dosu3   , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029076' and skin_yn = 'Y' then Y_PRICE else 0 end ) 	as d1_price3    , 
+				sum(case when  judge_sex_cd='025003' and grade_cd='029076' and skin_yn = 'Y' then Y_CNT else 0 end ) 	as d1_dosu3      , 
+				sum(case when  judge_sex_cd=''       and grade_cd='029080' and skin_yn = 'Y' then Y_PRICE else 0 end )	   a1_tot_price1	
+			FROM	
+			(
+				SELECT
+					AA.grade_typE,
+					AA.start_ymd,
+					AA.end_ymd,
+					AA.grade_cd,
+					AA.grade_nm,
+					AA.skin_yn,
+					AA.skin_nm,
+					AA.judge_sex_cd,
+					AA.judge_sex_nm,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE1 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE1 = 0 THEN 0 
+					ELSE 1 END	CNT_1,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE2 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE2 = 0 THEN 0 
+					ELSE 1 END	CNT_2,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE3 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE3 = 0 THEN 0 
+					ELSE 1 END	CNT_3,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE4 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE4 = 0 THEN 0 
+					ELSE 1 END	CNT_4,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE5 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE5 = 0 THEN 0 
+					ELSE 1 END	CNT_5,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE6 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE6 = 0 THEN 0 
+					ELSE 1 END	CNT_6,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE7 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE7 = 0 THEN 0 
+					ELSE 1 END	CNT_7,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE8 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE8 = 0 THEN 0 
+					ELSE 1 END	CNT_8,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE9 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE9 = 0 THEN 0 
+					ELSE 1 END	CNT_9,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE10 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE10 = 0 THEN 0 
+					ELSE 1 END	CNT_10,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE11 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE11 = 0 THEN 0 
+					ELSE 1 END	CNT_11,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE12 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE12 = 0 THEN 0 
+					ELSE 1 END	CNT_12,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE13 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE13 = 0 THEN 0 
+					ELSE 1 END	CNT_13,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE14 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE14 = 0 THEN 0 
+					ELSE 1 END	CNT_14,
+					CASE	WHEN SKIN_YN = 'Y' AND PRICE15 = 0 THEN 0 
+						WHEN SKIN_YN = 'N' AND PRICE15 = 0 THEN 0 
+					ELSE 1 END	CNT_15,
+					AA.N_PRICE,	<!--  박피시세 -->
+					AA.N_CNT,	<!-- 박피두수 -->
+					AA.Y_PRICE,	<!-- 탕박시세 -->
+					AA.Y_CNT <!-- 탕박두수 -->	
+				FROM
+				(	
+					SELECT
+						grade_typE,
+						start_ymd,
+						end_ymd,
+						grade_cd,
+						grade_nm,
+						skin_yn,
+						skin_nm,
+						judge_sex_cd,
+						judge_sex_nm,
+						cast(coalesce(nullif(c_0101_amt,''), '0') as numeric)	PRICE1,	<!-- 가격(농협서울) -->	                                              
+						cast(coalesce(nullif(c_0320_amt,''), '0') as numeric)	PRICE2,	<!-- 가격(openMPS)	-->                                                        
+						cast(coalesce(nullif(c_0302_amt,''), '0') as numeric)	PRICE3,	<!-- 가격(협신식품) -->                                              
+						cast(coalesce(nullif(c_1301_amt,''), '0') as numeric)	PRICE4,	<!-- 가격(삼성식품) -->                                           
+						cast(coalesce(nullif(c_0323_amt,''), '0') as numeric)	PRICE5,	<!-- 가격(농협부천) -->                                           
+						cast(coalesce(nullif(c_0513_amt,''), '0') as numeric)	PRICE6,	<!-- 가격(농협음성) -->                                           
+						cast(coalesce(nullif(c_1005_amt,''), '0') as numeric)	PRICE7,	<!-- 가격(김해축공) -->                                           
+						cast(coalesce(nullif(c_0202_amt,''), '0') as numeric)	PRICE8,	<!-- 가격(부경축공) -->                                           
+						cast(coalesce(nullif(c_0201_amt,''), '0') as numeric)	PRICE9,	<!-- 가격(동원산업) -->                                           
+						cast(coalesce(nullif(c_1201_amt,''), '0') as numeric)	PRICE10, <!-- 가격(신흥산업) -->                                           
+						cast(coalesce(nullif(c_0905_amt,''), '0') as numeric)	PRICE11,	 <!-- 가격(농협고령) -->                                           
+						cast(coalesce(nullif(c_0714_amt,''), '0') as numeric)	PRICE12,	 <!-- 가격(익산) -->                                                     
+						cast(coalesce(nullif(c_0809_amt,''), '0') as numeric)	PRICE13, <!-- 가격(농협나주) -->                                           
+						cast(coalesce(nullif(c_1401_amt,''), '0') as numeric)	PRICE14,	 <!-- 가격(삼호축산) -->                                           
+						cast(coalesce(nullif(c_1101_amt,''), '0') as numeric)	PRICE15,	 <!-- 가격(제주축협) -->                                           
+						cast(coalesce(nullif(c_tot_amt,''), '0') as numeric)	N_PRICE,	 <!-- 가격(전체) -->
+						cast(coalesce(nullif(c_tot_cnt,''), '0') as numeric)	N_CNT,	 <!-- 두수(전체) -->	
+						cast(coalesce(nullif(c_1101e_tot_amt,''), '0') as numeric)	Y_PRICE, <!-- 가격(제주제외전체) -->
+						cast(coalesce(nullif(c_1101e_tot_cnt,''), '0') as numeric)	Y_CNT	 <!-- 가격(제주제외전체)	 -->
+					FROM	IF_PIGGXM A
+					WHERE	A.START_YMD	= A.END_YMD
+					AND	A.START_YMD	BETWEEN #strtDate# AND #lastDate#
+					AND	A.JUDGE_SEX_CD	IN ('025001','025002','025003','')
+					AND	A.GRADE_CD	IN ('029068','029069','029070','029076','029080')
+				)	AA 
+			) AAA
+			WHERE	AAA.CNT_1 + AAA.CNT_2 + AAA.CNT_3 + AAA.CNT_4 + AAA.CNT_5 + AAA.CNT_6
+				+ AAA.CNT_7 + AAA.CNT_8 + AAA.CNT_9 + AAA.CNT_10 + AAA.CNT_11 + AAA.CNT_12
+				+ AAA.CNT_13 + AAA.CNT_14 + AAA.CNT_15 >= 6
+			GROUP BY START_YMD
+		)	AAAA
+		ORDER BY JIYUK_DATE DESC
+	</select>
+	<select id="MpPigixmDAO.selectIfSkinPiggxmList_D" parameterClass="mpPigixmSerarchVO" resultClass="egovMap">
+		SELECT
+			jiyuk_date
+			
+			, a_price1 <!-- 박암1+  -->
+			, b_price1 <!-- 박암1  -->
+			, c_price1 <!-- 박암2  -->
+			, d_price1 <!-- 박암등외  -->
+			
+			, d_price2 <!-- 박수등외  -->
+			
+			, a_price3 <!-- 박거1+  -->
+			, b_price3 <!-- 박거1  -->
+			, c_price3 <!-- 박거2  -->
+			, d_price3 <!-- 박거등외  -->
+			
+			, a_tot_price1 <!-- 전체시세  -->
+			
+			, a_dosu1
+			, b_dosu1
+			, c_dosu1
+			, d_dosu1
+			
+			, d_dosu2
+			
+			, a_dosu3
+			, b_dosu3
+			, c_dosu3
+			, d_dosu3
+		<include refid="selectWhere_IfPiggxmfragment"/>
+		order by jiyuk_date
+	</select>	
+	<select id="MpPigixmDAO.selectIfNonSkinPiggxmList_D" parameterClass="mpPigixmSerarchVO" resultClass="egovMap">
+		SELECT
+			jiyuk_date
+			
+			, a_price1 as a1_price1 <!--탕암1+  -->
+			, b_price1 as b1_price1 <!-- 탕암1  -->
+			, c_price1 as c1_price1 <!-- 탕암2  -->
+			, d_price1 as d1_price1 <!-- 탕암등외  -->
+			
+			, d_price2 as d1_price2 <!-- 탕수등외  -->
+			
+			, a_price3 as a1_price3 <!-- 탕거1+  -->
+			, b_price3 as b1_price3 <!-- 탕거1  -->
+			, c_price3 as c1_price3 <!-- 탕거2  -->
+			, d_price3 as d1_price3 <!-- 탕거등외  -->
+			
+			, a_tot_price1  as a1_tot_price1<!-- 전체시세  -->
+			
+			, a_dosu1 as a1_dosu1
+			, b_dosu1 as b1_dosu1
+			, c_dosu1 as c1_dosu1
+			, d_dosu1 as d1_dosu1
+			
+			, d_dosu2 as d1_dosu2
+			
+			, a_dosu3 as a1_dosu3
+			, b_dosu3 as b1_dosu3
+			, c_dosu3 as c1_dosu3
+			, d_dosu3 as d1_dosu3
+		<include refid="selectWhere_IfPiggxmfragment"/>
+		order by jiyuk_date
+	</select>
+	<select id="MpPigixmDAO.selectIfPiggxmListTotCnt_S" parameterClass="mpPigixmSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_IfPiggxmfragment"/>
+	</select>
+</sqlMap>

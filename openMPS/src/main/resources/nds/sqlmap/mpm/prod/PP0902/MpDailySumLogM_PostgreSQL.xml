@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpDailySumLogM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpDailySumLogMSerarchVO" type="nds.mpm.prod.PP0902.vo.MpDailySumLogMVO"/>
+	
+	<resultMap id="mpDailySumLogM" class="nds.mpm.prod.PP0902.vo.MpDailySumLogMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="plantCode" column="plant_code" columnIndex="2"/>
+		<result property="cmPmType" column="cm_pm_type" columnIndex="3"/>
+		<result property="batchJobDate" column="batch_job_date" columnIndex="4"/>
+		<result property="batchJobSeq" column="batch_job_seq" columnIndex="5"/>
+		<result property="fromDate" column="from_date" columnIndex="6"/>
+		<result property="toDate" column="to_date" columnIndex="7"/>
+		<result property="fromTime" column="from_time" columnIndex="8"/>
+		<result property="toTime" column="to_time" columnIndex="9"/>
+		<result property="resultType" column="result_type" columnIndex="10"/>
+		<result property="resultMsg" column="result_msg" columnIndex="11"/>
+		<result property="deleYn" column="dele_yn" columnIndex="12"/>
+		<result property="mdUser" column="md_user" columnIndex="13"/>
+		<result property="mdDate" column="md_date" columnIndex="14"/>
+		<result property="crUser" column="cr_user" columnIndex="15"/>
+		<result property="crDate" column="cr_date" columnIndex="16"/>
+	</resultMap>
+	
+	<insert id="mpDailySumLogMDAO.insertMpDailySumLogM_S">
+		<![CDATA[
+			INSERT INTO mp_daily_sum_log_m 
+				( corp_code
+				  , plant_code
+				  , cm_pm_type
+				  , batch_job_date
+				  , batch_job_seq
+				  , from_date
+				  , to_date
+				  , from_time
+				  , to_time
+				  , result_type
+				  , result_msg
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #cmPmType#
+				  , #batchJobDate#
+				  , #batchJobSeq#
+				  , #fromDate#
+				  , #toDate#
+				  , #fromTime#
+				  , #toTime#
+				  , #resultType#
+				  , #resultMsg#
+				  , 'N'
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="mpDailySumLogMDAO.updateMpDailySumLogM_S">
+		<![CDATA[
+			UPDATE mp_daily_sum_log_m
+			SET corp_code=#corpCode#
+				, plant_code=#plantCode#
+				, cm_pm_type=#cmPmType#
+				, batch_job_date=#batchJobDate#
+				, batch_job_seq=#batchJobSeq#
+				, from_date=#fromDate#
+				, to_date=#toDate#
+				, from_time=#fromTime#
+				, to_time=#toTime#
+				, result_type=#resultType#
+				, result_msg=#resultMsg#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND cm_pm_type=#cmPmType#
+								AND batch_job_date=#batchJobDate#
+								AND batch_job_seq=#batchJobSeq#
+				]]>
+	</update>
+	
+	<delete id="mpDailySumLogMDAO.deleteMpDailySumLogM_S">
+		<![CDATA[
+			DELETE FROM mp_daily_sum_log_m 
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND cm_pm_type=#cmPmType#
+								AND batch_job_date=#batchJobDate#
+								AND batch_job_seq=#batchJobSeq#
+				]]>
+	</delete>
+	
+	<select id="mpDailySumLogMDAO.selectMpDailySumLogM_S" resultMap="mpDailySumLogM">
+		<![CDATA[
+			SELECT
+				corp_code
+				, plant_code
+				, cm_pm_type
+				, batch_job_date
+				, batch_job_seq
+				, from_date
+				, to_date
+				, from_time
+				, to_time
+				, result_type
+				, result_msg
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM mp_daily_sum_log_m
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND cm_pm_type=#cmPmType#
+								AND batch_job_date=#batchJobDate#
+								AND batch_job_seq=#batchJobSeq#
+				]]>
+	</select>
+	
+	<select id="mpDailySumLogMDAO.selectMpDailySumLogMList_D" parameterClass="mpDailySumLogMSerarchVO" resultClass="egovMap">
+		select corp_code
+		, '안성1' as plant_name
+		, a.from_date
+		, a.to_date
+		, a.from_time as from_to_time
+		, a.result_msg
+		, '기준정보 오류 : 제품코드 10080.000.000' as error_msg
+		from openmps.mp_daily_sum_log_m a
+		where corp_code = #corpCode#
+		and plant_code = #plantCode#
+		and dele_yn='N'
+	</select>	
+	<select id="mpDailySumLogMDAO.selectMpDailySumLogMListTotCnt_S" parameterClass="mpDailySumLogMSerarchVO" resultClass="int">
+
+	</select>
+
+</sqlMap>

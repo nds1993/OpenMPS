@@ -1,0 +1,445 @@
+{
+	"name": "수율기초등록",
+	"module": "PP0201Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["queryBox", "formBox", "resultBox"],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": ["strtDate", "lastDate", "grupPlant"],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "Form Builder Params",
+					"items": {
+						"strtDate": {
+							"module": "date",
+							"selector": ".strtDate",
+							"label": "strtDate",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"locale": "ko",
+							"useCurrent": true,
+							"defaultDate": true,
+							"tabindex":"0"
+						},
+						"lastDate": {
+							"module": "date",
+							"selector": ".lastDate",
+							"label": "lastDate",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"locale": "ko",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"grupPlant": {
+							"module": "combobox",
+							"selector": ".grupPlant",
+							"label": "공장그룹",
+							"required": false,
+							"fetcher": {
+							"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP002/tmcodexd",
+							"parser": "return UCMS.parseComboAll(UCMS.parseComboItems(arguments[0]));"
+
+							}
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>시작일자</label><input type=\"text\" class=\"form-control form_type_date strtDate\" tabindex=\"9\"> ~ <input type=\"text\" class=\"form-control form_type_date lastDate\"></div><div class=\"form-group\"><label>공장그룹</label><div class=\"select_design grupPlant\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div>"
+				}
+			}
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"grupPlant",
+					"workDate",
+					"suyulDusu",
+					"dusu1Yn",
+					"dusu2Yn",
+					"dusu3Yn",
+					"dusu1",
+					"dusu2",
+					"dusu3",
+					"suyulWei1",
+					"suyulWei2",
+					"jiyukDusu",
+
+					"docheQty1",
+					"docheQty2",
+					"docheQty3",
+					"memo"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "Form Builder Params",
+					"items": {
+						"grupPlant": {
+							"module": "combobox",
+							"selector": ".grupPlant",
+							"label": "공장그룹",
+							"required": true,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP002/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+						},
+						"workDate": {
+							"module": "date",
+							"selector": ".workDate",
+							"label": "생산일자",
+							"required": true,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"suyulDusu": {
+							"module": "number",
+							"selector": ".suyulDusu",
+							"label": "가공두수",
+							"required": true
+						},
+						"suyulWei1": {
+							"module": "number",
+							"selector": ".suyulWei1",
+							"label": "생체중량",
+							"required": true
+						},
+						"suyulWei2": {
+							"module": "number",
+							"selector": ".suyulWei2",
+							"label": "지육중량",
+							"required": true
+						},
+						"jiyukDusu": {
+							"module": "number",
+							"selector": ".jiyukDusu",
+							"label": "6분체",
+							"required": false
+						},
+						"dusu1": {
+							"module": "number",
+							"selector": ".dusu1",
+							"label": "제1공장",
+							"required": false
+						},
+						"dusu2": {
+							"module": "number",
+							"selector": ".dusu2",
+							"label": "제2공장",
+							"required": false
+						},
+						"dusu3": {
+							"module": "number",
+							"selector": ".dusu3",
+							"label": "제3공장",
+							"required": false
+						},
+						"dusu1Yn": {
+							"module": "checkbox",
+							"selector": ".dusu1Yn",
+							"label": "제1공장 선택",
+							"required": false
+						},
+						"dusu2Yn": {
+							"module": "checkbox",
+							"selector": ".dusu2Yn",
+							"label": "제2공장 선택",
+							"required": false
+						},
+						"dusu3Yn": {
+							"module": "checkbox",
+							"selector": ".dusu3Yn",
+							"label": "제3공장 선택",
+							"required": false
+						},
+						"docheQty1": {
+							"module": "number",
+							"selector": ".docheQty1",
+							"label": "암퇘지",
+							"required": false
+						},
+						"docheQty2": {
+							"module": "number",
+							"selector": ".docheQty2",
+							"label": "1등급",
+							"required": false
+						},
+						"docheQty3": {
+							"module": "number",
+							"selector": ".docheQty3",
+							"label": "더느림",
+							"required": false
+						},
+
+						"memo": {
+							"module": "text",
+							"selector": ".memo",
+							"label": "비고",
+							"required": false
+						}
+					},
+					"data": {},
+					"template": "<div class=\"row\"><div class=\"col-xs-9\"><div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">공장그룹</label><div class=\"select_design grupPlant\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label class=\"required\">생체중량</label><input type=\"text\" class=\"form-control suyulWei1  text-right\"></div><div class=\"form-group\"></div><div class=\"form-group\"><label>암퇘지</label><input type=\"text\" class=\"form-control docheQty1 text-right\"></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">생산일자</label><input type=\"text\" class=\"form-control form_type_date workDate\"></div><div class=\"form-group\"><label class=\"required\">지육중량</label><input type=\"text\" class=\"form-control suyulWei2 text-right\"></div><div class=\"form-group\"></div><div class=\"form-group\"><label>1등급</label><input type=\"text\" class=\"form-control docheQty2 text-right\"></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">가공두수</label><input type=\"text\" class=\"form-control suyulDusu text-right\"><div style=\"position:absolute;right:-23px;top:4px;\"><i class=\"fa fa-chevron-right\"></i></div></div><div class=\"form-group\"><label>6분체</label><input type=\"text\" class=\"form-control jiyukDusu text-right\"></div><div class=\"form-group\"></div><div class=\"form-group\"><label>더느림</label><input type=\"text\" class=\"form-control docheQty3 text-right\"></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label>비고</label><input type=\"text\" class=\"form-control memo\" maxlength=\"100\"></div></div></div></div><div class=\"col-xs-3\"><table style=\"margin:0\" class=\"table table-bordered table-condensed formbox_inner_table\"><col width=\"50\"><col width=\"50\"><col width=\"50\"><col width=\"50\"><thead><tr><th>공장</th><th>제1공장</th><th>제2공장</th><th>제3공장</th></tr></thead><tbody><tr><th>두수배분</th><td><input type=\"text\" class=\"form-control text-center dusu1\"></td><td><input type=\"text\" class=\"form-control text-center dusu2\"></td><td><input type=\"text\" class=\"form-control text-center dusu3\"></td></tr></tbody></table></div></div>"
+				}
+			}
+		},
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "resultBox_box grid_box",
+				"gridId": "PP0201_grid_1",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+							"name": "corpCode",
+							"label": "회사코드",
+							"width": 50,
+							"align": "right",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "seq",
+							"label": "순차번호",
+							"width": 50,
+							"align": "right",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "workDate",
+							"index": "workDate",
+							"label": "생산일자",
+							"width": 70,
+							"align": "center",
+							"editable": false,
+							"hidden": false,
+							"sorttype": "date" , 
+							"formatter": "dateFormatter",
+							"unformat": "dateUnformatter",
+							"formatoptions": {
+								"srcformat": "YYYYMMDD",
+								"newformat": "YYYY-MM-DD"
+							}
+						},
+						{
+							"name": "grupPlant",
+							"index": "grupPlant",
+							"label": "공장그룹코드",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "grupPlantname",
+							"index": "grupPlantname",
+							"label": "공장그룹",
+							"width": 80,
+							"align": "center",
+							"editable": false,
+							"hidden": false,
+							"summaryType":"count",
+							"summaryTpl":"합계"
+						},
+
+						{
+							"name": "suyulDusu",
+							"index": "suyulDusu",
+							"label": "가공두수",
+							"width": 70,
+							"align": "right",
+							"editable": false,
+							"sorttype":"integer","formatter":"integer",
+							"hidden": false,
+							"summaryType":"sum"
+						},
+						{
+							"name": "suyulWei1",
+							"index": "suyulWei1",
+							"label": "생체중량",
+							"width": 70,
+							"align": "right",
+							"editable": false,
+							"sorttype":"integer","formatter":"integer",
+							"hidden": false,
+							"summaryType":"sum"
+						},
+						{
+							"name": "suyulWei2",
+							"index": "suyulWei2",
+							"label": "지육중량",
+							"width": 70,
+							"align": "right",
+							"editable": false,
+							"sorttype":"integer","formatter":"integer",
+							"hidden": false,
+							"summaryType":"sum"
+						},
+						{
+							"name": "jiyukDusu",
+							"index": "jiyukDusu",
+							"label": "6분체",
+							"width": 50,
+							"align": "right",
+							"editable": false,
+							"sorttype":"integer","formatter":"integer",
+							"hidden": false,
+							"summaryType":"sum"
+						},
+						{
+							"name": "dusu1",
+							"label": "제1공장",
+							"width": 50,
+							"align": "right",
+							"editable": false,
+							"sorttype":"integer","formatter":"integer",
+							"hidden": false
+						},
+						{
+							"name": "dusu2",
+							"label": "제2공장",
+							"width": 50,
+							"align": "right",
+							"editable": false,
+							"sorttype":"integer","formatter":"integer",
+							"hidden": false
+						},
+						{
+							"name": "dusu3",
+							"label": "제3공장",
+							"width": 50,
+							"align": "right",
+							"editable": false,
+							"sorttype":"integer","formatter":"integer",
+							"hidden": false
+						},
+						{
+							"name": "docheQty1",
+							"label": "암퇘지",
+							"width": 50,
+							"align": "right",
+							"editable": false,
+							"sorttype":"integer","formatter":"integer",
+							"hidden": false
+						},
+						{
+							"name": "docheQty2",
+							"label": "1등급",
+							"width": 50,
+							"align": "right",
+							"editable": false,
+							"sorttype":"integer","formatter":"integer",
+							"hidden": false
+						},
+						{
+							"name": "docheQty3",
+							"label": "더느림",
+							"width": 50,
+							"align": "right",
+							"editable": false,
+							"sorttype":"integer","formatter":"integer",
+							"hidden": false
+						},
+						{
+							"name": "memo",
+							"label": "비고",
+							"width": 220,
+							"align": "left",
+							"editable": false,
+							"hidden": false,
+							"classes": "grid_ws_normal"
+						},
+						{
+							"name": "deleYn",
+							"label": "삭제유무",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "mdUser",
+							"label": "변경자",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "mdDate",
+							"label": "변경일자",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "crUser",
+							"label": "생성자",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "crDate",
+							"label": "생성일",
+							"width": 80,
+							"align": "right",
+							"editable": false,
+							"hidden": true
+						}
+					],
+					"rowNum":"100000000",
+					"width": "auto",
+					"height": "395",
+					"cellEdit": false,
+					"shrinkToFit":false,
+					"gridview": true,
+					"datatype": "local",
+					"multiselect": false,
+					"multiselectWidth": 20,
+					"rownumbers": false,
+					"cellsubmit": "clientArray",
+					"pager": "#PP0201_grid_1_pager",
+					"viewrecords": true,
+					"recordpos":"left",
+					"pgbuttons":false,
+					"pginput":false,
+					"footerrow": true,
+					"userDataOnFooter": true
+				},
+				"setGroupHeaders": {
+					"useColSpanStyle": true,
+					"groupHeaders": [{
+							"startColumnName": "suyulDusu",
+							"numberOfColumns": 7,
+							"titleText": "<div class=\"text-center\">수율 기초 정보</div>"
+						},
+						{
+							"startColumnName": "docheQty1",
+							"numberOfColumns": 3,
+							"titleText": "<div class=\"text-center\">원료별 가공두수</div>"
+						}
+					]
+				}
+			}
+		}
+	}
+}

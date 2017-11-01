@@ -1,0 +1,159 @@
+{
+  "name": "API 로그관리",
+  "module": "TMCOMT40Renderer",
+  "options": {
+    "className": "contents_box",
+    "order": [
+      "queryBox",
+      "resultBox"
+    ],
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "queryBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "query_box  form-inline",
+        "order": [
+          "frstDate",
+          "lastDate",
+          "intrName"
+        ],
+        "activation": {
+          "method": "one-page"
+        },
+        "custom_form": {
+          "name": "API Runner Form",
+          "mode": "form",
+          "items": {
+            "frstDate": {
+              "module": "date",
+              "selector": ".frstDate",
+              "label": "frstDate",
+              "required": false,
+              "format": "YYYY-MM-DD",
+              "locale": "ko",
+              "useCurrent": true,
+              "defaultDate": true
+            },
+            "lastDate": {
+              "module": "date",
+              "selector": ".lastDate",
+              "label": "lastDate",
+              "required": false,
+              "format": "YYYY-MM-DD",
+              "locale": "ko",
+              "useCurrent": true,
+              "defaultDate": true
+            },
+            "intrName": {
+              "module": "text",
+              "selector": ".intrName",
+              "label": "API명",
+              "required": false
+            }
+          },
+          "data": {},
+          "template": "<div class=\"form-group\"><label>조회일자</label><input type=\"text\" class=\"form-control form_type_date frstDate\" placeholder=\"\">~ <input type=\"text\" class=\"form-control form_type_date lastDate\" placeholder=\"\"></div><div class=\"form-group\"><label>API명</label><input type=\"text\" class=\"form-control intrName\"></div>"
+        }
+      }
+    },
+    "resultBox": {
+	  "module": "manifest!jqGrid4-1.0.0",
+	  "options": {
+		"className": "resultBox_box grid_box",
+		"gridId": "TMCOMT40_grid_1",
+		"gridParams": {
+		  "data": [
+		  
+		  ],
+		  "colModel": [
+		  {
+		  	"name": "logtSeqq",
+			"label": "일련번호",
+		  	"width": 40,
+		  	"align": "center",
+			"editoption": {
+			  "required": true
+			},
+			"edittype": "text",
+			"editable": false
+		  }, {
+		  	"name": "offiSyst",
+			"label": "대상시스템명",
+		  	"width": 60,
+		  	"align": "center",
+			"editoption": {
+			  "required": true
+			},
+			"edittype": "text",
+			"editable": false
+		  }, {
+		  	"name": "intrUsid",
+			"label": "API코드",
+		  	"width": 70,
+		  	"align": "center",
+			"editoption": {
+			  "required": true
+			},
+			"edittype": "text",
+			"editable": false
+		  }, {
+		  	"name": "intrName",
+			"label": "API명",
+		  	"width": 100,
+		  	"align": "center",
+			"editoption": {
+			  "required": true
+			},
+			"edittype": "text",
+			"editable": false
+		  }, {
+		  	"name": "resultCode",
+			"label": "결과코드",
+		  	"width": 50,
+		  	"align": "center",
+			"editoption": {
+			  "required": true
+			},
+			"edittype": "text",
+			"editable": false
+		  }, {
+		  	"name": "resultMsg",
+			"label": "결과코드명",
+		  	"width": 200,
+		  	"align": "center",
+			"editoption": {
+			  "required": true
+			},
+			"edittype": "text",
+			"editable": false
+		  }, {
+	          "name": "intrDate",
+	 		  "label": "연계날짜",
+	          "width": 80,
+	          "align": "center",
+	          "editoption": {
+	          "required": true
+              },
+              "type": "date",
+              "format": "YYYY-MM-DD",
+              "editable": false
+             }
+          ],
+          "width": "auto",
+          "height": 512,
+          "gridview": true,
+          "datatype": "local",
+		  "pager": "#TMCOMT40_grid_1_pager",
+		  "viewrecords": true,
+		  "recordpos":"left",
+		  "pgbuttons":false,
+		  "pginput":false,
+          "cellEdit": false
+		}
+	  }
+	}
+  }
+}

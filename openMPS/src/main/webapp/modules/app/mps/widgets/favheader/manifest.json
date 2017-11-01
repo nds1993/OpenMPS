@@ -1,0 +1,17 @@
+{
+  "name": "FavHeader",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "FavHeader-1.0.0.js"
+  },
+  "resource": {
+  	"template": "resource.html"
+  },
+  "dependencies": [
+	"BaroPanelBase", "Logger", "SPA.Platform.Helper"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  },
+  "tag":["openmps","nds"]
+}

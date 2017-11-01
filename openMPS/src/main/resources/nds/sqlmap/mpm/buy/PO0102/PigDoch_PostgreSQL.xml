@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PigDoch">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="pigDochSerarchVO" type="nds.mpm.buy.PO0102.vo.PigDochVO"/>
+	
+	<resultMap id="pigDoch" class="nds.mpm.buy.PO0102.vo.PigDochVO">
+		<result property="dochCode" column="doch_code" columnIndex="1"/>
+		<result property="ipgoDate" column="ipgo_date" columnIndex="2"/>
+		<result property="dochDate" column="doch_date" columnIndex="3"/>
+		<result property="dochId" column="doch_id" columnIndex="4"/>
+		<result property="custCode" column="cust_code" columnIndex="5"/>
+		<result property="comCode" column="com_code" columnIndex="6"/>
+		<result property="suCode" column="su_code" columnIndex="7"/>
+		<result property="nongCode" column="nong_code" columnIndex="8"/>
+		<result property="facKind" column="fac_kind" columnIndex="9"/>
+		<result property="facCode" column="fac_code" columnIndex="10"/>
+		<result property="pigGrade" column="pig_grade" columnIndex="11"/>
+		<result property="sexNo" column="sex_no" columnIndex="12"/>
+		<result property="sexName" column="sex_name" columnIndex="13"/>
+		<result property="pumNo" column="pum_no" columnIndex="14"/>
+		<result property="pumName" column="pum_name" columnIndex="15"/>
+		<result property="pigMeat" column="pig_meat" columnIndex="16"/>
+		<result property="pigGu1" column="pig_gu1" columnIndex="17"/>
+		<result property="pigGu2" column="pig_gu2" columnIndex="18"/>
+		<result property="pigWeig1" column="pig_weig1" columnIndex="19"/>
+		<result property="pigWeig2" column="pig_weig2" columnIndex="20"/>
+		<result property="pigWeig3" column="pig_weig3" columnIndex="21"/>
+		<result property="pigWeig4" column="pig_weig4" columnIndex="22"/>
+		<result property="pigWeig5" column="pig_weig5" columnIndex="23"/>
+		<result property="pigWeig6" column="pig_weig6" columnIndex="24"/>
+		<result property="pigPan1" column="pig_pan1" columnIndex="25"/>
+		<result property="pigPan2" column="pig_pan2" columnIndex="26"/>
+		<result property="pigPan3" column="pig_pan3" columnIndex="27"/>
+		<result property="pigPan4" column="pig_pan4" columnIndex="28"/>
+		<result property="pigPan5" column="pig_pan5" columnIndex="29"/>
+		<result property="pigPan6" column="pig_pan6" columnIndex="30"/>
+		<result property="pigPric1" column="pig_pric1" columnIndex="31"/>
+		<result property="pigPric2" column="pig_pric2" columnIndex="32"/>
+		<result property="pigPric3" column="pig_pric3" columnIndex="33"/>
+		<result property="pigPric4" column="pig_pric4" columnIndex="34"/>
+		<result property="pigPric5" column="pig_pric5" columnIndex="35"/>
+		<result property="pigPric6" column="pig_pric6" columnIndex="36"/>
+		<result property="pigPric7" column="pig_pric7" columnIndex="37"/>
+		<result property="pigPric8" column="pig_pric8" columnIndex="38"/>
+		<result property="pigPric9" column="pig_pric9" columnIndex="39"/>
+		<result property="parkPiyul" column="park_piyul" columnIndex="40"/>
+		<result property="carNo" column="car_no" columnIndex="41"/>
+		<result property="brandYn" column="brand_yn" columnIndex="42"/>
+		<result property="transYn" column="trans_yn" columnIndex="43"/>
+		<result property="pigBrpric1" column="pig_brpric1" columnIndex="44"/>
+		<result property="pigTrpric1" column="pig_trpric1" columnIndex="45"/>
+		<result property="pigAspric1" column="pig_aspric1" columnIndex="46"/>
+		<result property="memo" column="memo" columnIndex="47"/>
+		<result property="deleYn" column="dele_yn" columnIndex="48"/>
+		<result property="mdUser" column="md_user" columnIndex="49"/>
+		<result property="mdDate" column="md_date" columnIndex="50"/>
+		<result property="crUser" column="cr_user" columnIndex="51"/>
+		<result property="crDate" column="cr_date" columnIndex="52"/>
+	</resultMap>
+	
+	<insert id="pigDochDAO.insertPigDoch_S">
+		<![CDATA[
+			INSERT INTO openmps.mp_pigdxm 
+				( doch_code
+				  , ipgo_date
+				  , doch_date
+				  , doch_id
+				  , cust_code
+				  , com_code
+				  , su_code
+				  , nong_code
+				  , fac_kind
+				  , fac_code
+				  , pig_grade
+				  , sex_no
+				  , sex_name
+				  , pum_no
+				  , pum_name
+				  , pig_meat
+				  , pig_gu1
+				  , pig_gu2
+				  , pig_weig1
+				  , pig_weig2
+				  , pig_weig3
+				  , pig_weig4
+				  , pig_weig5
+				  , pig_weig6
+				  , pig_pan1
+				  , pig_pan2
+				  , pig_pan3
+				  , pig_pan4
+				  , pig_pan5
+				  , pig_pan6
+				  , pig_pric1
+				  , pig_pric2
+				  , pig_pric3
+				  , pig_pric4
+				  , pig_pric5
+				  , pig_pric6
+				  , pig_pric7
+				  , pig_pric8
+				  , pig_pric9
+				  , park_piyul
+				  , car_no
+				  , brand_yn
+				  , trans_yn
+				  , pig_brpric1
+				  , pig_trpric1
+				  , pig_aspric1
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #dochCode#
+				  , #ipgoDate#
+				  , #dochDate#
+				  , #dochId#
+				  , #custCode#
+				  , #comCode#
+				  , #suCode#
+				  , #nongCode#
+				  , #facKind#
+				  , #facCode#
+				  , #pigGrade#
+				  , #sexNo#
+				  , #sexName#
+				  , #pumNo#
+				  , #pumName#
+				  , #pigMeat#
+				  , #pigGu1#
+				  , #pigGu2#
+				  , #pigWeig1#
+				  , #pigWeig2#
+				  , #pigWeig3#
+				  , #pigWeig4#
+				  , #pigWeig5#
+				  , #pigWeig6#
+				  , #pigPan1#
+				  , #pigPan2#
+				  , #pigPan3#
+				  , #pigPan4#
+				  , #pigPan5#
+				  , #pigPan6#
+				  , #pigPric1#
+				  , #pigPric2#
+				  , #pigPric3#
+				  , #pigPric4#
+				  , #pigPric5#
+				  , #pigPric6#
+				  , #pigPric7#
+				  , #pigPric8#
+				  , #pigPric9#
+				  , #parkPiyul#
+				  , #carNo#
+				  , #brandYn#
+				  , #transYn#
+				  , #pigBrpric1#
+				  , #pigTrpric1#
+				  , #pigAspric1#
+				  , #memo#
+				  , #deleYn#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , #crDate# )
+		]]>
+	</insert>
+	
+	<update id="pigDochDAO.updatePigDoch_S">
+		<![CDATA[
+			UPDATE openmps.mp_pigdxm
+			SET doch_code=#dochCode#
+				, ipgo_date=#ipgoDate#
+				, doch_date=#dochDate#
+				, doch_id=#dochId#
+				, cust_code=#custCode#
+				, com_code=#comCode#
+				, su_code=#suCode#
+				, nong_code=#nongCode#
+				, fac_kind=#facKind#
+				, fac_code=#facCode#
+				, pig_grade=#pigGrade#
+				, sex_no=#sexNo#
+				, sex_name=#sexName#
+				, pum_no=#pumNo#
+				, pum_name=#pumName#
+				, pig_meat=#pigMeat#
+				, pig_gu1=#pigGu1#
+				, pig_gu2=#pigGu2#
+				, pig_weig1=#pigWeig1#
+				, pig_weig2=#pigWeig2#
+				, pig_weig3=#pigWeig3#
+				, pig_weig4=#pigWeig4#
+				, pig_weig5=#pigWeig5#
+				, pig_weig6=#pigWeig6#
+				, pig_pan1=#pigPan1#
+				, pig_pan2=#pigPan2#
+				, pig_pan3=#pigPan3#
+				, pig_pan4=#pigPan4#
+				, pig_pan5=#pigPan5#
+				, pig_pan6=#pigPan6#
+				, pig_pric1=#pigPric1#
+				, pig_pric2=#pigPric2#
+				, pig_pric3=#pigPric3#
+				, pig_pric4=#pigPric4#
+				, pig_pric5=#pigPric5#
+				, pig_pric6=#pigPric6#
+				, pig_pric7=#pigPric7#
+				, pig_pric8=#pigPric8#
+				, pig_pric9=#pigPric9#
+				, park_piyul=#parkPiyul#
+				, car_no=#carNo#
+				, brand_yn=#brandYn#
+				, trans_yn=#transYn#
+				, pig_brpric1=#pigBrpric1#
+				, pig_trpric1=#pigTrpric1#
+				, pig_aspric1=#pigAspric1#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+			]]>
+	</update>
+	
+	<delete id="pigDochDAO.deletePigDoch_S">
+		<![CDATA[
+			]]>
+	</delete>
+	
+	<select id="pigDochDAO.selectPigDoch_S" resultMap="pigDoch">
+		<![CDATA[
+			SELECT
+				doch_code
+				, ipgo_date
+				, doch_date
+				, doch_id
+				, cust_code
+				, com_code
+				, su_code
+				, nong_code
+				, fac_kind
+				, fac_code
+				, pig_grade
+				, sex_no
+				, sex_name
+				, pum_no
+				, pum_name
+				, pig_meat
+				, pig_gu1
+				, pig_gu2
+				, pig_weig1
+				, pig_weig2
+				, pig_weig3
+				, pig_weig4
+				, pig_weig5
+				, pig_weig6
+				, pig_pan1
+				, pig_pan2
+				, pig_pan3
+				, pig_pan4
+				, pig_pan5
+				, pig_pan6
+				, pig_pric1
+				, pig_pric2
+				, pig_pric3
+				, pig_pric4
+				, pig_pric5
+				, pig_pric6
+				, pig_pric7
+				, pig_pric8
+				, pig_pric9
+				, park_piyul
+				, car_no
+				, brand_yn
+				, trans_yn
+				, pig_brpric1
+				, pig_trpric1
+				, pig_aspric1
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM openmps.mp_pigdxm
+			]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	from openmps.mp_pigdxm a
+	  	where a.corp_code = #corpCode#
+	  	and a.doch_date = #dochDate#
+		<dynamic> 
+		</dynamic>
+	</sql>
+	<select id="pigDochDAO.selectPigDochList_D" parameterClass="pigDochSerarchVO" resultClass="egovMap">
+			SELECT
+				doch_code
+				, doch_date
+				,'' buy_type
+				,'' buy_typename
+				, car_no
+				, cr_date
+				, '' cr_datemonth
+				, '' cr_dateday
+				, doch_id
+				, pig_gu1
+				, pig_gu2
+				, sex_no
+				, sex_name
+				, pig_weig1
+				, pig_weig2
+				, pig_weig3
+				, pig_meat
+				, pig_grade
+				, '' fac_cust
+				, '' fac_custname
+				, fac_kind
+				
+				, fac_code
+				, '' fac_codename
+				, cust_code
+				, '' cust_codename
+				,'' his_no
+				
+				, brand_yn
+				, trans_yn
+				
+				, pig_pric1
+				, pig_pric2
+				, pig_pric3
+				, pig_pric4
+				, pig_pric7
+				, pig_pric8
+				, pig_pric9
+				, pig_brpric1
+				, pig_trpric1
+				, pig_aspric1
+				, park_piyul
+				
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				
+		<include refid="selectWhere_fragment"/>
+		limit 10
+	</select>	
+	<select id="pigDochDAO.selectPigDochListTotCnt_S" parameterClass="pigDochSerarchVO" resultClass="int">
+			select 
+				10
+	</select>
+	<select id="pigDochDAO.selectPigDochIdSum" parameterClass="pigDochSerarchVO" resultClass="egovMap">
+		SELECT
+				doch_date
+				, car_no
+				, count(doch_id) as dochid_dosu
+				, cust_code
+				, '' cust_codename
+		from
+		(	
+			select 	
+				doch_date
+				, car_no
+				, doch_id
+				, cust_code
+				, fac_kind
+			<include refid="selectWhere_fragment"/>
+			limit 10
+		) ina
+		group by doch_date
+				, cust_code
+				, car_no
+				, fac_kind
+	</select>
+</sqlMap>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TMCOOS60">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="TMCOOS60SerarchVO" type="nds.tmm.common.TMCOOS60.vo.TMCOOS60DefaultVO"/>
+	
+	<resultMap id="TMCOOS60" class="nds.tmm.common.TMCOOS60.vo.TMCOOS60VO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="headCode" column="head_code" columnIndex="2"/>
+		<result property="teamCode" column="team_code" columnIndex="3"/>
+		<result property="teamName" column="team_name" columnIndex="4"/>		
+		<result property="crUser" column="cr_user" columnIndex="5"/>
+		<result property="crDate" column="cr_date" columnIndex="6"/>
+		<result property="headName" column="head_name" columnIndex="7"/>
+		<result property="useYn" column="use_yn" columnIndex="8"/>
+		<result property="memo" column="memo" columnIndex="9"/>
+		<result property="corpName" column="corp_name" columnIndex="10"/>
+		<result property="mdUser" column="md_user" columnIndex="11"/>
+		<result property="mdDate" column="md_date" columnIndex="12"/>
+	</resultMap>
+	
+	<insert id="TMCOOS60DAO.insertTMCOOS60">
+		<![CDATA[
+			INSERT INTO tm_teamxm 
+				( corp_code
+				  , head_code
+				  , team_code
+				  , team_name
+				  , use_yn
+				  , memo
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #headCode#
+				  , #teamCode#
+				  , #teamName#
+				  , #useYn#
+				  , #memo#
+				  , #mdUser#
+				  , NOW()
+				  , #crUser#
+				  , NOW() )
+		]]>
+	</insert>
+	
+	<update id="TMCOOS60DAO.updateTMCOOS60">
+		<![CDATA[
+			UPDATE tm_teamxm
+			SET corp_code=#corpCode#
+				, head_code=#headCode#
+				, team_code=#teamCode#
+				, team_name=#teamName#
+				, use_yn=#useYn#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=NOW()
+			WHERE corp_code=#corpCode#
+			AND head_code=#headCode#
+			AND team_code=#teamCode#
+				]]>
+	</update>
+
+	<insert id="TMCOOS60DAO.insertLogTMCOOS60">
+		<![CDATA[
+INSERT INTO tm_teamch (idx,
+                       corp_code,
+                       team_code,
+                       team_name,
+                       head_code,
+                       memo,
+                       flag,
+                       cr_user,
+                       cr_date,
+                       use_yn) 
+select (select COALESCE(max(idx), 0) + 1 from tm_teamch),
+       corp_code,
+       team_code,
+       team_name,
+       head_code,
+       memo,
+       'D',
+       #crUser#,
+       NOW(),
+       use_yn
+from   tm_teamxm
+where  corp_code=#corpCode#
+and    head_code=#headCode#
+and    team_code=#teamCode#
+		]]>
+	</insert>
+	
+	<delete id="TMCOOS60DAO.deleteTMCOOS60">
+		<![CDATA[
+delete 
+from   tm_teamxm
+where  corp_code=#corpCode#
+and    head_code=#headCode#
+and    team_code=#teamCode#
+				]]>
+	</delete>
+	
+	<select id="TMCOOS60DAO.selectTMCOOS60_S" resultMap="TMCOOS60">
+		<![CDATA[
+			SELECT
+				  A.corp_code
+				, A.head_code
+				, A.team_code
+				, A.team_name
+				, A.use_yn
+				, A.memo
+				, A.md_user
+				, A.md_date
+				, A.cr_user
+				, A.cr_date
+				, B.head_name
+				, C.corp_name				
+			FROM tm_teamxm A
+			INNER JOIN  tm_orguxm B ON A.corp_code = B.corp_code AND A.head_code = B.head_code 
+			INNER JOIN  tm_corpxm C ON A.corp_code = C.corp_code
+			WHERE A.corp_code=#corpCode#
+			AND A.head_code=#headCode#
+			AND A.team_code=#teamCode#
+				]]>
+	</select>
+	
+	<sql id="selectWhere_fragment">
+		FROM tm_teamxm A
+		INNER JOIN  tm_orguxm B ON A.corp_code = B.corp_code AND A.head_code = B.head_code 
+		INNER JOIN  tm_corpxm C ON A.corp_code = C.corp_code
+		WHERE 1=1
+	  	<dynamic>
+	  		<isNotEmpty  property="corpCode">
+	     		AND A.corp_code = #corpCode#
+	   		</isNotEmpty >
+	  		<isNotEmpty  property="headCode">
+	     		AND A.head_code = #headCode#
+	   		</isNotEmpty >
+			 <isNotEmpty  property="searchKeyword">
+	     		AND (      A.team_code like '%' || #searchKeyword# || '%'
+	    		         OR A.team_name like '%' || #searchKeyword# || '%')
+	   		</isNotEmpty >
+		 </dynamic>
+	</sql>	
+	
+	<select id="TMCOOS60DAO.selectTMCOOS60List_D" parameterClass="TMCOOS60SerarchVO" resultClass="egovMap">
+		SELECT A.*
+				, B.head_name
+				, C.corp_name
+		<include refid="selectWhere_fragment"/>
+		ORDER BY A.corp_code, A.head_code, A.team_code 
+	</select>	
+	<select id="TMCOOS60DAO.selectTMCOOS60ListTotCnt_S" parameterClass="TMCOOS60SerarchVO" resultClass="int">
+		SELECT count(A.*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

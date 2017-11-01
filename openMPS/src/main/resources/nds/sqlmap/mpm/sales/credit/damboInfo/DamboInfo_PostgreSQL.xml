@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DamboInfo">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="damboInfoSerarchVO" type="nds.mpm.sales.credit.vo.DamboInfoDefaultVO"/>
+	
+	<resultMap id="damboInfo" class="nds.mpm.sales.credit.vo.DamboInfoVO">
+		<result property="damCode" column="dam_code" columnIndex="1"/>
+		<result property="custCode" column="cust_code" columnIndex="2"/>
+		<result property="damDate" column="dam_date" columnIndex="3"/>
+		<result property="damCkind" column="dam_ckind" columnIndex="4"/>
+		<result property="damNkind" column="dam_nkind" columnIndex="5"/>
+		<result property="damPrice" column="dam_price" columnIndex="6"/>
+		<result property="damList" column="dam_list" columnIndex="7"/>
+		<result property="damSdate" column="dam_sdate" columnIndex="8"/>
+		<result property="damEdate" column="dam_edate" columnIndex="9"/>
+		<result property="damHdate" column="dam_hdate" columnIndex="10"/>
+		<result property="damComp" column="dam_comp" columnIndex="11"/>
+		<result property="damTel" column="dam_tel" columnIndex="12"/>
+		<result property="damBuil" column="dam_buil" columnIndex="13"/>
+		<result property="damSrank" column="dam_srank" columnIndex="14"/>
+		<result property="damSkum" column="dam_skum" columnIndex="15"/>
+		<result property="damMemo" column="dam_memo" columnIndex="16"/>
+		<result property="memo" column="memo" columnIndex="17"/>
+		<result property="deleYn" column="dele_yn" columnIndex="18"/>
+		<result property="mdUser" column="md_user" columnIndex="19"/>
+		<result property="mdDate" column="md_date" columnIndex="20"/>
+		<result property="crUser" column="cr_user" columnIndex="21"/>
+		<result property="crDate" column="cr_date" columnIndex="22"/>
+		<result property="custInfo.custName" column="cust_name" columnIndex="23"/>
+	</resultMap>
+	
+	<insert id="damboInfoDAO.insertDamboInfo_S">
+		<![CDATA[
+			INSERT INTO dambo_info 
+				( dam_code
+				  , cust_code
+				  , dam_date
+				  , dam_ckind
+				  , dam_nkind
+				  , dam_price
+				  , dam_list
+				  , dam_sdate
+				  , dam_edate
+				  , dam_hdate
+				  , dam_comp
+				  , dam_tel
+				  , dam_buil
+				  , dam_srank
+				  , dam_skum
+				  , dam_memo
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #damCode#
+				  , #custCode#
+				  , #damDate#
+				  , #damCkind#
+				  , #damNkind#
+				  , #damPrice#
+				  , #damList#
+				  , #damSdate#
+				  , #damEdate#
+				  , #damHdate#
+				  , #damComp#
+				  , #damTel#
+				  , #damBuil#
+				  , #damSrank#
+				  , #damSkum#
+				  , #damMemo#
+				  , #memo#
+				  , #deleYn#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , #crDate# )
+		]]>
+	</insert>
+	
+	<update id="damboInfoDAO.updateDamboInfo_S">
+		<![CDATA[
+			UPDATE dambo_info
+			SET dam_code=#damCode#
+				, cust_code=#custCode#
+				, dam_date=#damDate#
+				, dam_ckind=#damCkind#
+				, dam_nkind=#damNkind#
+				, dam_price=#damPrice#
+				, dam_list=#damList#
+				, dam_sdate=#damSdate#
+				, dam_edate=#damEdate#
+				, dam_hdate=#damHdate#
+				, dam_comp=#damComp#
+				, dam_tel=#damTel#
+				, dam_buil=#damBuil#
+				, dam_srank=#damSrank#
+				, dam_skum=#damSkum#
+				, dam_memo=#damMemo#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+						WHERE dam_code=#damCode#
+				]]>
+	</update>
+	
+	<delete id="damboInfoDAO.deleteDamboInfo_S">
+		<![CDATA[
+			UPDATE dambo_info SET dele_yn = 'Y'
+						WHERE dam_code=#damCode#
+				]]>
+	</delete>
+	
+	<select id="damboInfoDAO.selectDamboInfo_S" resultMap="damboInfo">
+		<![CDATA[
+			SELECT
+				dam_code
+				, cust_code
+				, dam_date
+				, dam_ckind
+				, dam_nkind
+				, dam_price
+				, dam_list
+				, dam_sdate
+				, dam_edate
+				, dam_hdate
+				, dam_comp
+				, dam_tel
+				, dam_buil
+				, dam_srank
+				, dam_skum
+				, dam_memo
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM dambo_info
+						WHERE dam_code=#damCode#
+				]]>
+	</select>
+	
+	<select id="damboInfoDAO.selectDamboInfoList_D" parameterClass="damboInfoSerarchVO" resultClass="egovMap">
+		<![CDATA[
+			SELECT A.*, B.CUST_NAME 
+			  FROM DAMBO_INFO A, CUST_INFO B
+			 WHERE A.CUST_CODE = B.CUST_CODE
+			   AND A.DELE_YN = 'N'
+			   AND A.DAM_DATE  BETWEEN #beginDate# AND #endDate#
+		]]>
+	</select>	
+	<select id="damboInfoDAO.selectDamboInfoListTotCnt_S" parameterClass="damboInfoSerarchVO" resultClass="int">
+		<![CDATA[
+			SELECT count(A.*) 
+			  FROM DAMBO_INFO A, CUST_INFO B
+			 WHERE A.CUST_CODE = B.CUST_CODE
+			   AND A.DELE_YN = 'N'
+			   AND A.DAM_DATE  BETWEEN #beginDate# AND #endDate#
+		]]>
+	</select>
+
+</sqlMap>

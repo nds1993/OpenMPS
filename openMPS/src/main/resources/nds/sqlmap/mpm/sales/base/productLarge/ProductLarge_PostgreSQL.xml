@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProductLarge">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="productLargeSerarchVO" type="nds.mpm.sales.base.vo.ProductLargeDefaultVO"/>
+	
+	<resultMap id="productLarge" class="nds.mpm.sales.base.vo.ProductLargeVO">
+		<result property="proLcode" column="pro_lcode" columnIndex="1"/>
+		<result property="proLname" column="pro_lname" columnIndex="2"/>
+		<result property="shortKey" column="short_key" columnIndex="3"/>
+		<result property="memo" column="memo" columnIndex="4"/>
+		<result property="deleYn" column="dele_yn" columnIndex="5"/>
+		<result property="mdUser" column="md_user" columnIndex="6"/>
+		<result property="mdDate" column="md_date" columnIndex="7"/>
+		<result property="crUser" column="cr_user" columnIndex="8"/>
+		<result property="crDate" column="cr_date" columnIndex="9"/>
+	</resultMap>
+	
+	<insert id="productLargeDAO.insertProductLarge_S">
+		<![CDATA[
+			INSERT INTO product_large 
+				( pro_lcode
+				  , pro_lname
+				  , short_key
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #proLcode#
+				  , #proLname#
+				  , #shortKey#
+				  , #memo#
+				  , #deleYn#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , #crDate# )
+		]]>
+	</insert>
+	
+	<update id="productLargeDAO.updateProductLarge_S">
+		<![CDATA[
+			UPDATE product_large
+			SET pro_lcode=#proLcode#
+				, pro_lname=#proLname#
+				, short_key=#shortKey#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+						WHERE pro_lcode=#proLcode#
+				]]>
+	</update>
+	
+	<delete id="productLargeDAO.deleteProductLarge_S">
+		<![CDATA[
+			DELETE FROM product_large 
+						WHERE pro_lcode=#proLcode#
+				]]>
+	</delete>
+	
+	<select id="productLargeDAO.selectProductLarge_S" resultMap="productLarge">
+		<![CDATA[
+			SELECT
+				pro_lcode
+				, pro_lname
+				, short_key
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM product_large
+						WHERE pro_lcode=#proLcode#
+				]]>
+	</select>
+	
+	<select id="productLargeDAO.selectProductLargeList_D" parameterClass="productLargeSerarchVO" resultClass="egovMap">
+		<![CDATA[
+			SELECT
+				pro_lcode
+				, pro_lname
+				, short_key
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM product_large
+	]]>
+	</select>	
+	<select id="productLargeDAO.selectProductLargeListTotCnt_S" parameterClass="productLargeSerarchVO" resultClass="int">
+
+	</select>
+
+</sqlMap>

@@ -1,0 +1,19 @@
+{
+  "name": "ButtonMulti",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "buttonmulti-1.0.0.js",
+  	"manager": "buttonmulti.manager-1.0.0.js"
+  },
+  "resource": {
+  	"template": "resource.html"
+  },
+  "dependencies":
+  [
+	"BaroPanelBase", "Logger"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  },
+  "tag":["widget","button","multi","button group"]
+}

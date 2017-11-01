@@ -1,0 +1,101 @@
+body{scrollbar-3dlight-color:#B4B4B4;
+	scrollbar-arrow-color:#333333;
+	scrollbar-base-color:#EEEEEE;
+	scrollbar-darkshadow-color:#FFFFFF;
+	scrollbar-face-color:#eeeeee;
+	scrollbar-highlight-color:#FFFFFF;
+	scrollbar-shadow-color:#B4B4B4;
+}
+
+a, td, input, textarea, select,font { font-family:Verdana,굴림,굴림체; font-size:9pt; letter-spacing:-1px; }
+
+.sttop01 {font-size:9pt;font-family: Verdana,굴림;  letter-spacing:-1px; text-decoration: none;}
+.sttop02 {font-size:8pt;font-family: 돋움,굴림;  letter-spacing:-1px; text-decoration: none;}
+.contdiv {padding:0; SCROLLBAR-FACE-COLOR: #ffffff; SCROLLBAR-HIGHLIGHT-COLOR: #cecece; OVERFLOW: auto; SCROLLBAR-SHADOW-COLOR: #cecece; SCROLLBAR-3DLIGHT-COLOR: #f8f8f8; SCROLLBAR-ARROW-COLOR: #b6b6b6; SCROLLBAR-TRACK-COLOR: #f8f8f8; SCROLLBAR-DARKSHADOW-COLOR: #f8f8f8}
+.contentdivx {padding:0; SCROLLBAR-FACE-COLOR: #ffffff; SCROLLBAR-HIGHLIGHT-COLOR: #cecece; OVERFLOW: auto; SCROLLBAR-SHADOW-COLOR: #cecece; SCROLLBAR-3DLIGHT-COLOR: #f8f8f8; SCROLLBAR-ARROW-COLOR: #b6b6b6; SCROLLBAR-TRACK-COLOR: #f8f8f8; SCROLLBAR-DARKSHADOW-COLOR: #f8f8f8}
+
+.swfuploadbtn {	display: block;	width: 71px;	height: 25px;	padding: 6 0 0 12px;	color: 535353;	font-size:9pt;font-family: Verdana,굴림;  letter-spacing:-1px; text-decoration: none;}
+.browsebtn { background: url('../images/upload/bg01.gif') no-repeat 0 0; }
+.uploadbtn { background: url('../images/upload/bg01.gif') no-repeat 0 0;	}
+#uploadbttn {	display: block;	}
+
+.progressBar {	font-size:7pt;font-family: Verdana,굴림;  letter-spacing:-1px;	width: 120px;	height: 4px;	background-color: #CCC; text-align:center;}
+.fileUploading { background: #fee727; }
+.uploadCompleted { background: #d2fa7c; }
+.uploadCancelled { background: #f77c7c; }
+.uploadCompleted .cancelbtn, .uploadCancelled .cancelbtn {	display: none;	}
+.SWFUploadFileItem {	display: block;	width: 250px;	float: left;	background: #eaefea;	margin: 0 10px 10px 0;padding: 5px;	font-size:9pt;font-family: Verdana,굴림;  letter-spacing:-1px; text-decoration: none;}
+#uploadbttn {	display: none;	}
+.bttn01 {font-size:9pt;font-family: Verdana,굴림;  letter-spacing:-1px; width:71; height:25; color:636363; border-style:none; padding-top:3px; background: url('../images/upload/bg01.gif') no-repeat center center}
+.close_bttn01 {font-size:9pt;font-family: Verdana,굴림;  letter-spacing:-1px; width:71; height:25; color:636363; border-style:none; padding-top:3px; cursor:pointer; background: url('../images/upload/bg01.gif') no-repeat center center}
+.intxt03 {font-size:9pt;font-family: Verdana,굴림;  letter-spacing:-1px; border:0 none #FFFFFF; color: #474747; width:99%; background: parent.color;}
+.intxt04 {font-size:9pt;font-family: Verdana,굴림;  letter-spacing:-1px; border:1px solid #CDCDCD; color: FFFFFF; background-color: 0A246A;width:99%;}
+.intxt05 {font-size:9pt;font-family: Verdana,굴림;  letter-spacing:-1px; border:1px solid #7CC576; height:21px; color: #474747; padding:3 3 1 3;}
+.intxt06 {font-size:9pt;font-family: Verdana,굴림;  letter-spacing:-1px; border:1px solid #CDCDCD; height:21px; color: #474747; padding:3 3 1 3; background: #fafafa;}
+
+a:link.ilist {  font-size:9pt;font-family: Verdana,굴림;  letter-spacing:-1px;color: #535353;  text-decoration: none;}
+a:visited.ilist { font-size:9pt; font-family: Verdana,굴림;  letter-spacing:-1px;color: #535353;  text-decoration: none;}
+a:hover.ilist {  font-size:9pt; font-family: Verdana,굴림; letter-spacing:-1px; color: #282828;  text-decoration: none;}
+.ilist {  font-size:9pt; font-family: Verdana,굴림; letter-spacing:-1px; color: #535353;  text-decoration: none;}
+TR.H	{ background-color: #FFFFE8}
+
+
+/* -----------------------------------------------
+	www.swfupload.org
+	Description: Common Screen Stylesheet for SWFUpload Demos
+	Updated on:  May 1, 2008
+----------------------------------------------- */
+
+
+/* ----------------------------------------------- 
+	GLOBAL RESET 
+   ----------------------------------------------- */
+
+/* remember to define focus styles! */
+
+   
+
+#content { width: 680px;}
+#content { margin: 20px 90px; }
+
+legend {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+div.fieldset {
+	border:  1px solid #afe14c;
+	margin:  0;
+	padding: 0;
+}
+div.fieldset span.legend {
+	position: relative;
+	background-color: #FFF;
+	padding: 3px;
+	top: -30px;
+	font: 700 14px Arial, Helvetica, sans-serif;
+	color: #73b304;
+}
+
+div.flash {
+	width: 100%;
+	margin: 0;
+	border-color: #808080;
+
+	-moz-border-radius-topleft : 5px;
+	-webkit-border-top-left-radius : 5px;
+    -moz-border-radius-topright : 5px;
+    -webkit-border-top-right-radius : 5px;
+    -moz-border-radius-bottomleft : 5px;
+    -webkit-border-bottom-left-radius : 5px;
+    -moz-border-radius-bottomright : 5px;
+    -webkit-border-bottom-right-radius : 5px;
+
+}

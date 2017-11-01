@@ -1,0 +1,21 @@
+{
+  "name": "cover",
+  "version": "0.8.1",
+  "startup": {
+  	"widget": "cover-0.8.1.js",
+  	"manager": "cover.manager-0.8.1.js"
+  },
+  "resource": {
+  	"template": "cover-0.8.1.html"
+  },
+  "dependencies":
+  [
+	"BaroPanelBase",
+	"BaroProps",
+	"./cover_list-0.8.1.js",
+	"Logger"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  }
+}

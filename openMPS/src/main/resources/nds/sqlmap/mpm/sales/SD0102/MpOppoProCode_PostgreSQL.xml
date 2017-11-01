@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpOppoProCode">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpOppoProCodeSerarchVO" type="nds.mpm.sales.SD0102.vo.MpOppoProCodeVO"/>
+	
+	<resultMap id="mpOppoProCode" class="nds.mpm.sales.SD0102.vo.MpOppoProCodeVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="custCode" column="cust_code" columnIndex="2"/>
+		<result property="custProCode" column="cust_pro_code" columnIndex="3"/>
+		<result property="seqNo" column="seq_no" columnIndex="4"/>
+		<result property="custProName" column="cust_pro_name" columnIndex="5"/>
+		<result property="proCode" column="pro_code" columnIndex="6"/>
+		<result property="proUkind" column="pro_ukind" columnIndex="7"/>
+		<result property="changeRate" column="change_rate" columnIndex="8"/>
+		<result property="crUser" column="cr_user" columnIndex="9"/>
+		<result property="crDate" column="cr_date" columnIndex="10"/>
+		<result property="mdUser" column="md_user" columnIndex="11"/>
+		<result property="mdDate" column="md_date" columnIndex="12"/>
+	</resultMap>
+	
+	<insert id="MpOppoProCodeDAO.insertMpOppoProCode">
+		<![CDATA[
+			INSERT INTO openmps.mp_cust_pro_code 
+				( corp_code
+				  , cust_code
+				  , cust_pro_code
+				  , seq_no
+				  , cust_pro_name
+				  , pro_code
+				  , pro_ukind
+				  , change_rate
+				  , cr_user
+				  , cr_date
+				  , md_user
+				  , md_date )
+			VALUES ( #corpCode#
+				  , #custCode#
+				  , #custProCode#
+				  , #seqNo#
+				  , #custProName#
+				  , #proCode#
+				  , #proUkind#
+				  , #changeRate#::numeric(11,5)
+				  , #crUser#
+				  , now()
+				  , #mdUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="MpOppoProCodeDAO.updateMpOppoProCode">
+		<![CDATA[
+			UPDATE openmps.mp_cust_pro_code
+			SET 
+				seq_no=#seqNo#
+				, pro_ukind=#proUkind#
+				, change_rate=#changeRate#::numeric(11,5)
+				, cust_pro_name=#custProName#
+				, pro_code=#proCode#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND cust_pro_code=#custProCode#
+				]]>
+	</update>
+	
+	<delete id="MpOppoProCodeDAO.deleteMpOppoProCode">
+		<![CDATA[
+			DELETE FROM openmps.mp_cust_pro_code 
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND cust_pro_code=#custProCode#
+								AND seq_no=#seqNo#
+								AND cust_pro_name=#custProName#
+				]]>
+	</delete>
+	<!-- 
+		
+		거래처 상대제품 검색및 제품정보조회.
+	
+	 -->
+	<select id="MpOppoProCodeDAO.selectMpOppoProCode_S" parameterClass="egovMap" resultMap="mpOppoProCode">
+			SELECT
+				a.corp_code
+				, a.cust_code
+				, a.cust_pro_code
+				, a.seq_no
+				, a.cust_pro_name
+				, a.pro_code
+				, b.pro_ukind
+				, coalesce(a.change_rate,0) change_rate
+				, b.pro_name
+				, a.cr_user
+				, a.cr_date
+				, a.md_user
+				, a.md_date
+				, b.large_code
+				, b.pro_weig
+				, b.vat_code
+				, b.sale_group1
+				, b.sale_group2
+			FROM openmps.mp_cust_pro_code a
+			left outer join openmps.mp_item_master_m b on (a.corp_code = b.corp_code and a.pro_code = b.pro_code )
+			WHERE a.corp_code=#corpCode#
+			and a.cust_code=#custCode#
+			and a.cust_pro_code=#custProCode#
+			<isNotEmpty property="proCode">
+			and a.pro_code=#proCode#
+			</isNotEmpty>
+			order by seq_no 
+			limit 1
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM 
+			openmps.mp_cust_pro_code c
+		where 
+			corp_code = #corpCode#
+		<dynamic> 
+			 <isNotEmpty property="custCode">
+			 and c.cust_code = #custCode#	
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="MpOppoProCodeDAO.selectMpOppoProCodeList_D" parameterClass="mpOppoProCodeSerarchVO" resultClass="egovMap">
+		SELECT
+				corp_code
+				, cust_code
+				, cust_pro_code
+				, seq_no
+				, cust_pro_name
+				, pro_code
+				, pro_ukind
+				, change_rate
+				, openmps."FN_GET_PROCODENM"(#corpCode#,pro_code) as pro_name
+		<include refid="selectWhere_fragment"/>
+		order by pro_code, seq_no
+	</select>	
+	<select id="MpOppoProCodeDAO.selectMpOppoProCodeListTotCnt_S" parameterClass="mpOppoProCodeSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

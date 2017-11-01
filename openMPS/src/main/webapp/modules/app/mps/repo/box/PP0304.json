@@ -1,0 +1,283 @@
+{
+	"name": "주문 입력(PM)",
+	"module": "PP0304Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["queryBox", "resultBox"],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": ["plantCode", "strtDate","lastDate", "ordr_status"],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"items": {
+						"plantCode": {
+							"selector": ".plantCode",
+							"label": "공장",
+							"required": true,
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/mpm/<%= corpCode %>/pp0101/tmplatxm?prdtType=2",
+								"parser": "return UCMS.parseComboPlant(arguments[0]);"
+							}
+						},
+						"strtDate": {
+							"module": "date",
+							"selector": ".strtDate",
+							"label": "출고일자시작",
+							"required": true,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"lastDate": {
+							"module": "date",
+							"selector": ".lastDate",
+							"label": "출고일자끝",
+							"required": true,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+
+						"ordr_status": {
+							"selector": ".status",
+							"label": "검색조건",
+							"required": true,
+							"module": "radiobox",
+							"value": "naccept",
+							"items": [{
+									"label": "미접수(주문)",
+									"value": "naccept"
+								},
+								{
+									"label": "접수(계획)",
+									"value": "accept"
+								}
+							]
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label class=\"required\">공장</label><div class=\"select_design plantCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label class=\"required\">출고일자</label><input type=\"text\" class=\"form-control form_type_date strtDate\"> ~ <input type=\"text\" class=\"form-control form_type_date lastDate\"></div><div class=\"form-group\"><label class=\"required\">검색조건</label><div class=\"radio status\"><label><input type=\"radio\" name=\"ordr_status\" value=\"naccept\" checked=\"checked\">미접수(주문)</label><label><input type=\"radio\" name=\"ordr_status\" value=\"accept\">접수(계획)</label></div></div>"
+				}
+			}
+		},
+		"resultBox": {
+			"module": "SubContainer",
+			"options": {
+				"header": {
+					"title": {
+						"className": "contnet_header_box no_label btn_red",
+						"label": "주문 입력(PM)"
+					},
+					"feature": [{
+						"request": "접수"
+					}, {
+						"cancel": "취소"
+					}]
+				},
+				"content": {
+					"remark":{		"data": [{
+													"ordrNo": "201701010101",
+													"custName": "하남돼지집",
+													"proLcode": "01",
+													"largeProName": "갈매기살",
+													"largeProCode": "openMPS",
+													"proCode": "10001",
+													"proName": "갈매기(더느림)-F",
+													"ordrCnt": 15,
+													"ordrWeigt": 45,
+													"delvDate": "20170701",
+													"confirm": "Y",
+													"ordrMemo": "특이사항없음"
+												}]},
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "grid_box",
+						"gridId": "PP0304_grid_1",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+									"name": "ordrCust",
+									"label": "거래처코드",
+									"width": 60,
+									"align": "center",
+									"editable": false,
+									"hidden": true
+								},
+								{
+									"name": "ordrNum",
+									"label": "주문번호",
+									"width": 90,
+									"align": "center",
+									"editable": false
+								},
+								{
+									"name": "ordrSeq",
+									"label": "주문항순",
+									"width": 60,
+									"align": "center",
+									"editable": false
+								}, {
+									"name": "largeCode",
+									"label": "품목코드",
+									"width": 60,
+									"align": "center",
+									"editable": false,
+									"hidden": true
+
+								},
+								{
+									"name": "ordrCustname",
+									"label": "거래처명",
+									"width": 160,
+									"align": "left",
+									"editable": false,
+									"hidden": false
+								},
+
+								{
+									"name": "proLargeName",
+									"label": "품목명",
+									"width": 70,
+									"align": "left",
+									"editable":false
+								},
+
+								{
+									"name": "largeProCode",
+									"label": "제품분류",
+									"width": 70,
+									"align": "center",
+									"editable": false,
+									"hidden": true
+								}, {
+									"name": "proCode",
+									"label": "제품코드",
+									"width": 60,
+									"align": "center",
+									"editable": false
+								}, {
+									"name": "proName",
+									"label": "제품명",
+									"width": 150,
+									"align": "left",
+									"editable": false,
+									"summaryType":"count",
+									"summaryTpl":"합계"
+								}, {
+									"name": "ordrBox",
+									"label": "주문수량",
+									"width": 60,
+									"align": "right",
+									"editable": false,
+									"sorttype":"integer","formatter":"integer",
+									"summaryType":"sum"
+								}, {
+									"name": "proUkind",
+									"label": "단위",
+									"width": 50,
+									"align": "center",
+									"editable": false,
+									"hidden":true
+								},
+								{
+									"name": "ordrWeight",
+									"label": "주문중량",
+									"width": 60,
+									"align": "right",
+									"editable": false,
+									"sorttype":"number","formatter":"number"
+								}, {
+									"name": "delvDate",
+									"label": "출고일자",
+									"width": 80,
+									"align": "center",
+									"editable": false,
+									"sorttype": "date" , "formatter": "dateFormatter",
+									"unformat": "dateUnformatter",
+									"formatoptions": {
+										"srcformat": "YYYYMMDD",
+										"newformat": "YYYY-MM-DD"
+									}
+								}, {
+									"name": "pmAcceptYn",
+									"label": "접수",
+									"width": 35,
+									"align": "center",
+									"editable": false,
+									"hidden":true,
+									"formatter": "checkbox"
+								}, {
+									"name": "ordrMemo",
+									"label": "주문특기사항",
+									"width": 100,
+									"align": "left",
+									"editable": false,
+									"classes":"grid_ws_normal"
+								},{
+									"name": "planNo",
+									"label": "planNo",
+									"width": 60,
+									"align": "center",
+									"editable": false,
+									"hidden": true
+								},
+								{
+									"name": "ordrNo",
+									"label": "ordrNo",
+									"width": 90,
+									"align": "center",
+									"hidden": true
+								}
+								,
+								{
+									"name": "ordrSeq",
+									"label": "ordrSeq",
+									"width": 90,
+									"align": "center",
+									"hidden": true
+								}
+								,
+								{
+									"name": "status",
+									"label": "status",
+									"width": 90,
+									"align": "center",
+									"hidden": true
+								}
+							],
+							"rowNum":"100000000",
+							"width": "auto",
+							"height": "545",
+							"cellEdit": false,
+							"shrinkToFit": true,
+							"gridview": true,
+							"datatype": "local",
+							"footerrow": false,
+							"userDataOnFooter": false,
+							"multiselect": true,
+							"multiselectWidth": 15,
+							"rownumbers": false,
+							"pager": "#PP0304_grid_1_pager",
+							"viewrecords": true,
+							"recordpos":"left",
+							"pgbuttons":false,
+							"pginput":false,
+							"footerrow": true,
+							"userDataOnFooter": true
+						}
+					}
+				}
+			}
+		}
+	}
+}

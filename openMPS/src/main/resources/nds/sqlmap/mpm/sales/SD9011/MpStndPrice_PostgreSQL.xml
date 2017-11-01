@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD9011MpStndPrice">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SearchCommonVO" type="nds.mpm.common.vo.SearchCommonVO"/>
+	
+	<select id="SD9011mpStndPriceDAO.selectMpStndPriceList_D" parameterClass="SearchCommonVO" resultClass="egovMap">
+		<![CDATA[
+		SELECT A.SALESMAN AS SALES_MAN
+		      ,B.CUST_CODE AS CUST_CODE
+		      ,B.CUST_NAME AS CUST_NAME
+		      ,B.PRICE_TYPE AS PRICE_TYPE
+		FROM   MP_SALESMAN_CUST A LEFT OUTER JOIN MP_CUST_INFO B ON A.CORP_CODE = B.CORP_CODE AND A.SALESMAN_CUST = B.CUST_CODE
+		WHERE  A.CORP_CODE = #corpCode#
+		AND    A.SALESMAN = #salesman#
+		ORDER BY B.CUST_NAME
+		]]>
+	</select>	
+	
+	<select id="SD9011mpStndPriceDAO.selectProdMpStndPriceList_D" parameterClass="SearchCommonVO" resultClass="egovMap">
+		<![CDATA[
+		SELECT  A.CORP_CODE AS CORP_CODE
+			   ,A.SALESMAN AS SALES_MAN
+			   ,A.SALESMAN_CUST AS CUST_CODE
+			   ,"FN_GET_CUSTCODENM"(A.CORP_CODE,A.SALESMAN_CUST) AS CUST_NAME
+			   ,A.SALESMAN_PROD AS PRO_CODE
+			   ,"FN_GET_PROCODENM"(A.CORP_CODE,A.SALESMAN_PROD) AS PRO_NAME
+			   ,(SELECT O_RES_PRICE FROM "FN_GET_CUSTPROD_PRICE"(A.CORP_CODE,#strtDate#,A.SALESMAN_CUST,A.SALESMAN_PROD)) AS PRO_PRICE
+			   ,(SELECT O_RES_PRICE_TYPE FROM "FN_GET_CUSTPROD_PRICE"(A.CORP_CODE,#strtDate#,A.SALESMAN_CUST,A.SALESMAN_PROD)) AS PRO_PRICE_TYPE
+			   ,#strtDate# AS STRT_DATE
+		FROM   MP_CUST_PRO A
+		WHERE  A.CORP_CODE = #corpCode#
+		AND    A.SALESMAN = #salesman#
+		AND    A.SALESMAN_CUST = #custCode#
+		ORDER BY A.SALESMAN_PROD
+		]]>
+	</select>
+</sqlMap>

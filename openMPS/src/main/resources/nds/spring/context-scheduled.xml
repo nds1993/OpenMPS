@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xml
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- 첫 번째	 초	 0~59
+		 두 번째	 분	 0~60
+		 세 번째	 시	 0~23
+		 네 번째	 일	 
+		 다섯 번째	 월	 
+		 여섯 번째	 명령어	 실행할 명령을 한줄로 쓴다.
+		 
+		 PP0901 부자재출고처리 batch job time 매일 오후 23:50분에 Batch Job 수행
+  -->
+		<!--
+		<bean id="mpReqOutMDAO" class="nds.mpm.prod.PP0901.service.MpReqOutMDAO"/>
+ 
+		  <bean name="myJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean"
+		        p:jobClass="nds.mpm.prod.PP0901.service.MpReqOutMJobService"
+		        p:durability="true">
+		        
+		        <property name="jobDataAsMap">
+		            <map>
+		                <entry key="mpReqOutMDAO">
+		                	<ref bean="mpReqOutMDAO"/>
+		                </entry>
+		            </map>
+		        </property>
+		  </bean>
+		
+		  <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"
+		        p:jobDetail-ref="myJob"
+		        p:startDelay="1000"
+		        p:cronExpression="0/5 * * * * ?" />
+		
+		  <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		    <property name="triggers">
+		      <list>
+		        <ref bean="cronTrigger" />
+		      </list>
+		    </property>
+		</bean>	
+		 -->
+</beans>	

@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpDiscPrice">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpDiscPriceSerarchVO" type="nds.mpm.sales.SD0205.vo.MpDiscPriceVO"/>
+	
+	<resultMap id="mpDiscPrice" class="nds.mpm.sales.SD0205.vo.MpDiscPriceVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="strtDate" column="strt_date" columnIndex="2"/>
+		<result property="lastDate" column="last_date" columnIndex="3"/>
+		<result property="custCode" column="cust_code" columnIndex="4"/>
+		<result property="proCode" column="pro_code" columnIndex="5"/>
+		<result property="discPrice" column="disc_price" columnIndex="6"/>
+		<result property="salePrice" column="sale_price" columnIndex="7"/>
+		<result property="weekAgo3" column="week_ago_3" columnIndex="8"/>
+		<result property="weekAgo2" column="week_ago_2" columnIndex="9"/>
+		<result property="weekAgo1" column="week_ago_1" columnIndex="10"/>
+		<result property="targetBox" column="target_box" columnIndex="11"/>
+		<result property="mdUser" column="md_user" columnIndex="12"/>
+		<result property="mdDate" column="md_date" columnIndex="13"/>
+		<result property="crUser" column="cr_user" columnIndex="14"/>
+		<result property="crDate" column="cr_date" columnIndex="15"/>
+	</resultMap>
+	
+	<insert id="MpDiscPriceDAO.insertMpDiscPrice">
+		<selectKey keyProperty="proCode" resultClass="string">
+		    select #proCode# as pro_code
+		</selectKey>
+		<![CDATA[
+			INSERT INTO openmps.mp_disc_price 
+				( corp_code
+				  , strt_date
+				  , last_date
+				  , cust_code
+				  , pro_code
+				  , disc_price
+				  , sale_price
+				  , week_ago_3
+				  , week_ago_2
+				  , week_ago_1
+				  , target_box
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #strtDate#
+				  , #lastDate#
+				  , #custCode#
+				  , #proCode#
+				  , #discPrice#::numeric
+				  , #salePrice#::numeric
+				  , #weekAgo3#::numeric
+				  , #weekAgo2#::numeric
+				  , #weekAgo1#::numeric
+				  , #targetBox#::numeric
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , now() )
+			ON CONFLICT (corp_code, strt_date, last_date, cust_code, pro_code)
+    		DO UPDATE SET
+    		 	disc_price=#discPrice#::numeric
+				, target_box=#targetBox#::numeric
+				, md_user=#mdUser#
+				, md_date=now()
+				
+		]]>
+	</insert>
+	
+	<update id="MpDiscPriceDAO.updateMpDiscPrice">
+		<![CDATA[
+			UPDATE openmps.mp_disc_price
+			SET disc_price=#discPrice#::numeric
+				, target_box=#targetBox#::numeric
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND cust_code=#custCode#
+								AND pro_code=#proCode#
+				]]>
+	</update>
+	<update id="MpDiscPriceDAO.updateMpDiscPriceAppro">
+		<![CDATA[
+			UPDATE openmps.mp_disc_price
+			set	appro_request=#approRequest#
+				, appro_yn=#approYn#
+				, appro_memo=#approMemo#
+				, part_code=#partCode#
+				, part_appro=#partAppro#
+				, part_date=#partDate#
+				, head_code=#headCode#
+				, head_appro=#headAppro#
+				, head_date=#headDate#
+				, ceo_appro=#ceoAppro#
+				, ceo_date=#ceoDate#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND cust_code=#custCode#
+								AND pro_code=#proCode#
+				]]>
+	</update>
+	<delete id="MpDiscPriceDAO.deleteMpDiscPrice">
+		<![CDATA[
+			DELETE FROM openmps.mp_disc_price 
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND cust_code=#custCode#
+								AND pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<select id="MpDiscPriceDAO.selectMpDiscPrice_S" resultMap="mpDiscPrice">
+		<![CDATA[
+			SELECT
+				corp_code
+				, strt_date
+				, last_date
+				, cust_code
+				, pro_code
+				, disc_price
+				, sale_price
+				, week_ago_3
+				, week_ago_2
+				, week_ago_1
+				, target_box
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM openmps.mp_disc_price
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND cust_code=#custCode#
+								AND pro_code=#proCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+		<![CDATA[
+	  	FROM 
+	  		openmps.mp_salesman_cust a 
+			left outer join openmps.mp_disc_price b on (
+	  			a.corp_code = b.corp_code
+	  			and a.salesman_cust = b.cust_code
+	  			and b.strt_date >= #strtDate#
+	  			and b.last_date <= #lastDate#
+	  			)
+	  		left outer join openmps.mp_disc_price_title h on (
+	  			a.corp_code = h.corp_code
+	  			and a.salesman_cust = b.cust_code
+	  			and b.strt_date = h.strt_date
+	  			and b.last_date = h.last_date
+	  			)
+		where a.corp_code = #corpCode#
+		and a.salesman = #salesman#	
+		]]>
+		<dynamic>
+	         <isNotEmpty prepend="and" property="salesman">
+			 a.salesman = #salesman#
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="MpDiscPriceDAO.selectMpDiscPriceList_M" parameterClass="mpDiscPriceSerarchVO" resultClass="egovMap">
+		SELECT distinct
+				a.corp_code
+				,a.salesman_cust
+				, openmps."FN_GET_CUSTCODENM"(a.corp_code, a.salesman_cust) as salesman_custname
+				, b.strt_date
+				, b.last_date
+				, b.cust_code
+				, b.pro_code
+				, b.disc_price
+				, b.sale_price
+				, h.salesman
+				, h.appro_request
+				, h.appro_yn
+				, case 
+				 	when h.appro_yn = 'X' then -1
+					when h.appro_yn = 'Y' and h.ceo_date is not null then 4
+					when h.appro_yn = 'Y' and h.head_date is not null then 3
+					when h.appro_yn = 'Y' and h.part_date is not null then 2
+					when h.appro_yn is null and h.appro_request is not null then 1
+					when h.appro_yn is null and b.disc_price is not null then 0
+					else null end
+				 as last_appro
+		<include refid="selectWhere_fragment"/>
+	</select>	
+	<select id="MpDiscPriceDAO.selectMpDiscPriceListTotCnt_S" parameterClass="mpDiscPriceSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<sql id="selectWhere_fragmentDetail">
+		<![CDATA[
+	  	FROM 
+	  		openmps.mp_cust_pro cpro
+			left outer join openmps.mp_disc_price_title tt on (
+				cpro.corp_code = tt.corp_code 
+				and cpro.salesman_cust = tt.cust_code
+				and tt.strt_date = #strtDate#
+				and tt.last_date = #lastDate# )      
+			left outer join openmps.mp_disc_price discp on (
+	  			tt.corp_code = discp.corp_code 
+	  			and tt.cust_code = discp.cust_code 
+	  			and tt.strt_date = discp.strt_date 
+	  			and tt.last_date = discp.last_date 
+	  			and cpro.salesman_prod = discp.pro_code 
+	  			and tt.strt_date = #strtDate#
+				and tt.last_date = #lastDate#
+  			)
+  			left outer join openmps.mp_stnd_price stnd  on 
+				(cpro.corp_code=stnd.corp_code and stnd.pro_code=cpro.salesman_prod
+				and stnd.strt_date = (select max(strt_date) from openmps.mp_stnd_price 
+					where corp_code = stnd.corp_code and pro_code=stnd.pro_code and strt_date <= #strtDate# and last_date >= #lastDate# ) ) 
+	  		left outer join openmps.mp_cust_pri_class cls  on (cpro.corp_code=cls.corp_code and cls.pro_code=cpro.salesman_prod)
+	  		left outer join (
+		  		select
+		  		h1.corp_code
+			  	,h1.cust_code
+				,h1.pro_code
+				,sum(h1.sale_box) as ordr_box
+				from 
+				openmps.mp_cust_record h1 
+				  where h1.cust_code = #custCode#
+				  and h1.sale_date::date between date_trunc('week', #strtDate#::date-7)::date  
+				  and date_trunc('week', #strtDate#::date-7)::date+6
+				  group by h1.corp_code, h1.cust_code,h1.pro_code 
+			  ) week1ordr on (cpro.corp_code = week1ordr.corp_code
+			  				  and cpro.salesman_prod = week1ordr.pro_code)
+			left outer join (
+			  select
+		  		h1.corp_code
+			  	,h1.cust_code
+				,h1.pro_code
+				,sum(h1.sale_box) as ordr_box
+				from 
+				openmps.mp_cust_record h1 
+				  where h1.cust_code = #custCode#
+				  and h1.sale_date::date between date_trunc('week', #strtDate#::date-14)::date  
+				  and date_trunc('week', #strtDate#::date-14)::date+6
+				  group by h1.corp_code, h1.cust_code,h1.pro_code 
+			 ) week2ordr  on (cpro.corp_code = week2ordr.corp_code
+			  				  and cpro.salesman_prod = week2ordr.pro_code)
+			left outer join (
+			  select
+		  		h1.corp_code
+			  	,h1.cust_code
+				,h1.pro_code
+				,sum(h1.sale_box) as ordr_box
+				from 
+				openmps.mp_cust_record h1 
+				  where h1.cust_code = #custCode#
+				  and h1.sale_date::date between date_trunc('week', #strtDate#::date-21)::date  
+				  and date_trunc('week', #strtDate#::date-21)::date+6
+				  group by h1.corp_code, h1.cust_code,h1.pro_code 
+			) week3ordr on (cpro.corp_code = week3ordr.corp_code
+			  				  and cpro.salesman_prod = week3ordr.pro_code)
+			left outer join (
+			  select
+		  		h1.corp_code
+			  	,h1.cust_code
+				,h1.pro_code
+				,sum(h1.sale_box) as ordr_box
+				from 
+				openmps.mp_cust_record h1 
+				  where h1.cust_code = #custCode#
+				  and h1.sale_date between #strtDate# and #lastDate#
+				  group by h1.corp_code, h1.cust_code,h1.pro_code 
+			) curweekordr on (cpro.corp_code = curweekordr.corp_code
+			  				  and cpro.salesman_prod = curweekordr.pro_code)
+		where cpro.corp_code = #corpCode#
+		and cpro.salesman_cust = #custCode#	
+		]]>
+		<isEqual property="searchCondition" compareValue="saved" >
+		and tt.strt_date = #strtDate#
+		and tt.last_date = #lastDate#
+		</isEqual>
+		<isNotEmpty property="salesman" >
+			<isNotEqual property="salesman" compareValue="ALL">
+			and cpro.salesman = #salesman#	
+			</isNotEqual>
+		</isNotEmpty>
+	</sql>
+	<select id="MpDiscPriceDAO.selectMpDiscPriceDetailList" parameterClass="mpDiscPriceSerarchVO" resultClass="egovMap">
+	select	
+		cust_code
+		,pro_code
+		,pro_name
+		,disc_price
+		,week_ago_0
+		,week_ago_3
+		,week_ago_2
+		,week_ago_1
+		,target_box
+		,salesman
+		,strt_date
+		,last_date
+		,0 stnd_price
+	from
+	(	
+		SELECT
+				cpro.salesman_cust as cust_code     
+				, cpro.salesman_prod  as pro_code   
+				, openmps."FN_GET_PROCODENM"(cpro.corp_code, cpro.salesman_prod) as pro_name     
+			 	, discp.disc_price     
+			 	, coalesce( curweekordr.ordr_box, 0) week_ago_0
+			 	, ( case when discp.week_ago_3 is not null then discp.week_ago_3
+			 		else week3ordr.ordr_box end ) week_ago_3
+				, ( case when discp.week_ago_2 is not null then discp.week_ago_2
+			 		else week2ordr.ordr_box end ) week_ago_2
+				, ( case when discp.week_ago_1 is not null then discp.week_ago_1
+			 		else week1ordr.ordr_box end ) week_ago_1
+				, discp.target_box
+				, tt.salesman
+				
+				, ( case 
+					when cls.price_class = '1' then stnd.price_class1
+					when cls.price_class = '2' then stnd.price_class2
+					when cls.price_class = '3' then stnd.price_class3
+					when cls.price_class = '4' then stnd.price_class4
+					when cls.price_class = '5' then stnd.price_class5
+					when cls.price_class = '6' then stnd.price_class6
+					when cls.price_class = '7' then stnd.price_class7
+					when cls.price_class = '8' then stnd.price_class8
+					when cls.price_class = '9' then stnd.price_class9
+					when cls.price_class = '10' then stnd.price_class10
+					else 0 end )  stnd_price     
+				
+				, #strtDate# strt_date
+				, #lastDate# last_date
+			<include refid="selectWhere_fragmentDetail"/>
+		) aa
+		order by pro_code, pro_name
+	</select>
+	<select id="MpDiscPriceDAO.selectMpDiscPriceDetailListTotCnt" parameterClass="mpDiscPriceSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragmentDetail"/>
+	</select>
+	
+	<select id="MpDiscPriceDAO.selectMpDiscPriceOldList" resultClass="egovMap">
+		SELECT *
+		from openmps.mp_disc_price
+		where corp_code=#corpCode#
+		and strt_date=#oldStrtDate#
+		and last_date=#oldLastDate#
+		and cust_code=#custCode#
+	</select>
+	
+	<delete id="MpDiscPriceDAO.deleteMpDiscOldPrice">
+		<![CDATA[
+			DELETE FROM openmps.mp_disc_price 
+						WHERE corp_code=#corpCode#
+								AND strt_date=#oldStrtDate#
+								AND last_date=#oldLastDate#
+								AND cust_code=#custCode#
+				]]>
+	</delete>
+</sqlMap>

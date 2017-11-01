@@ -1,0 +1,19 @@
+{
+  "name": "jqGrid",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "jqgrid-1.0.0.js",
+  	"manager": "jqgrid.manager-1.0.0.js"
+  },
+  "resource": {
+  	"template": "resource.html"
+  },
+  "dependencies":
+  [
+	"Logger",
+	"BaroPanelBase"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  }
+}

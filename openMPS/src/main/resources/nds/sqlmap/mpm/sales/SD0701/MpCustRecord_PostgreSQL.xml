@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD0701MpCustRecord">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SD0701mpCustRecordSerarchVO" type="nds.mpm.sales.SD0604.vo.MpCustRecordVO"/>
+	
+	<select id="SD0701mpCustRecordDAO.selectMpCustRecordList_D" parameterClass="SD0701mpCustRecordSerarchVO" resultClass="egovMap">
+
+	</select>	
+	<select id="SD0701mpCustRecordDAO.selectChartMpCustRecordList" parameterClass="SD0701mpCustRecordSerarchVO" resultClass="egovMap">
+
+	</select>	
+</sqlMap>

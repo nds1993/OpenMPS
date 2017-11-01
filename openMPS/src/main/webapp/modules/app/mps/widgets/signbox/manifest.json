@@ -1,0 +1,19 @@
+{
+  "name": "SignBox",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "sign-1.0.0.js"
+  },
+  "resource": {
+  	"template": "resource.html",
+  	"nls": "/nls/label.js"
+  },
+  "dependencies":
+  [
+	"BaroPanelBase", "Logger", "SPA.Platform.Helper"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  },
+  "tag":["openmps","nds"]
+}

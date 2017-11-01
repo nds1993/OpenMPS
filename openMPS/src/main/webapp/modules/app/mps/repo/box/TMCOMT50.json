@@ -1,0 +1,158 @@
+{
+  "module": "TMCOMT50Renderer",
+  "options": {
+    "className": "contents_box",
+    "order": [
+      "queryBox",
+      "resultBox"
+    ],
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "queryBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "query_box  form-inline",
+        "order": [
+          "frstDate",
+          "lastDate",
+          "msgType"
+        ],
+        "activation": {
+          "method": "one-page"
+        },
+        "custom_form": {
+          "name": "API Runner Form",
+          "mode": "form",
+          "items": {
+            "frstDate": {
+              "module": "date",
+              "selector": ".frstDate",
+              "label": "frstDate",
+              "required": false,
+              "format": "YYYY-MM-DD",
+              "locale": "ko",
+              "useCurrent": true,
+              "defaultDate": true
+            },
+            "lastDate": {
+              "module": "date",
+              "selector": ".lastDate",
+              "label": "lastDate",
+              "required": false,
+              "format": "YYYY-MM-DD",
+              "locale": "ko",
+              "useCurrent": true,
+              "defaultDate": true
+            },
+            "msgType": {
+              "selector": ".msgType",
+              "label": "서비스",
+              "required": false,
+              "module": "combobox",
+              "items": [{"label":"SMS","value":0},{"label":"FAX","value":2}]
+            }
+          },
+          "data": {},
+          "template": "<div class=\"form-group\"><label>조회일자</label><input type=\"text\" class=\"form-control form_type_date frstDate\" placeholder=\"\">~ <input type=\"text\" class=\"form-control form_type_date lastDate\" placeholder=\"\"></div><div class=\"form-group\"><label>서비스구분</label><div class=\"select_design msgType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div>"
+        }
+      }
+    },
+    "resultBox": {
+	  "module": "manifest!jqGrid4-1.0.0",
+	  "options": {
+		"className": "logtInfo_box grid_box",
+		"gridId": "TMCOMT50_grid_1",
+		"gridParams": {
+		  "data": [
+
+		  ],
+		  "colModel": [{
+		  	"name": "umid",
+			"label": "메시지 ID",
+		  	"width": 170,
+		  	"align": "center",
+			"editoption": {
+			  "required": true
+			},
+			"edittype": "text",
+			"editable": false
+		  }, {
+		  	"name": "msgType",
+			"label": "서비스",
+		  	"width": 60,
+		  	"align": "center",
+			"editoption": {
+			  "required": true
+			},
+			"edittype": "text",
+			"editable": false
+		  }, {
+		  	"name": "subject",
+			"label": "제목",
+		  	"width": 150,
+		  	"align": "center",
+			"editoption": {
+			  "required": true
+			},
+			"edittype": "text",
+			"editable": false
+		  }, {
+		  	"name": "destPhone",
+			"label": "수신번호",
+		  	"width": 80,
+		  	"align": "center",
+			"editoption": {
+			  "required": true
+			},
+			"edittype": "text",
+			"editable": false
+		  }, {
+		  	"name": "requestTime",
+			"label": "요청/예약시간",
+		  	"width": 120,
+		  	"align": "center",
+			"editoption": {
+			  "required": true
+			},
+			"edittype": "text",
+			"editable": false
+		  }, {
+		  	"name": "sendTime",
+			"label": "발송/완료시간",
+		  	"width": 120,
+		  	"align": "center",
+			"editoption": {
+			  "required": true
+			},
+			"edittype": "text",
+			"editable": false
+		  }, {
+	          "name": "status",
+			  "label": "상태",
+	          "width": 80,
+	          "align": "center",
+	          "editoption": {
+	          "required": true
+              },
+              "type": "date",
+              "format": "YYYY-MM-DD",
+              "editable": false
+          	}
+          ],
+          "width": "auto",
+          "height": 512,
+          "gridview": true,
+          "datatype": "local",
+		  "pager": "#TMCOMT50_grid_1_pager",
+		  "viewrecords": true,
+		  "recordpos":"left",
+		  "pgbuttons":false,
+		  "pginput":false,
+          "cellEdit": false
+		}
+	  }
+	}
+  }
+}

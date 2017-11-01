@@ -1,0 +1,1144 @@
+{
+	"module": "WorkAreaRenderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"formBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"animalKind",
+					"largeCode",
+					"smallCode",
+					"proCode",
+					"proName",
+					"shortCode",
+					"frozenYn",
+					"cartonNo",
+					"tabArea"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"text-primary required\">축종구분</label><select class=\"form-control animalKind\"><option value=\"0\">축종구분선택</option><option value=\"1\">돼지</option><option value=\"2\">한우</option><option value=\"3\">수입우</option><option value=\"4\">육우</option><option value=\"5\">계육</option></select></div><div class=\"form-group\"><label class=\"text-primary\">품목</label><div class=\"largeCode_region\"></div></div><div class=\"form-group\"><label class=\"text-primary\">세분류</label><input type=\"text\" class=\"form-control smallCode\" value=\"\" ></div><div class=\"form-group\"><label>재품코드</label><input type=\"text\" class=\"form-control proCode\" value=\"\"></div><div class=\"form-group\"><label>제품명</label><input type=\"text\" class=\"form-control proName\" value=\"\"></div><div class=\"form-group\"><label>단축코드</label><input type=\"text\" class=\"form-control shortCode\" value=\"\"></div><div class=\"form-group\"><label>냉장</label><input type=\"text\" class=\"form-control frozenYn\" value=\"\"></div><div class=\"form-group\"><label>CARTO No.</label><input type=\"text\" class=\"form-control cartonNo\" value=\"\"></div></div><div class=\"col-xs-8 tabArea_region\"></div></div>",
+					"mode": "form",
+					"items": {
+						"animalKind": {
+							"module": "combobox",
+							"label": "축종구분",
+							"selector": ".animalKind",
+							"required": true
+						},
+						"largeCode": {
+							"label": "품목",
+							"required": false
+						},
+						"smallCode": {
+							"module": "text",
+							"label": "세분류",
+							"selector": ".smallCode",
+							"required": false
+						},
+						"proCode": {
+							"module": "text",
+							"label": "제품코드",
+							"selector": ".proCode",
+							"required": false
+						},
+						"proName": {
+							"module": "text",
+							"label": "제품명",
+							"selector": ".proName",
+							"required": false
+						},
+						"shortCode": {
+							"module": "text",
+							"label": "단축코드",
+							"selector": ".shortCode",
+							"required": false
+						},
+						"frozenYn": {
+							"module": "text",
+							"label": "냉장",
+							"selector": ".proCode",
+							"required": false
+						},
+						"cartonNo": {
+							"module": "text",
+							"label": "냉장",
+							"selector": ".cartonNo",
+							"required": false
+						},
+						"tabArea": {
+							"label": "tabArea",
+							"required": false
+						}
+					},
+					"data": {}
+				},
+				"largeCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "코드 검색 위젯",
+						"required": false
+					}
+				},
+				"tabArea": {
+					"module": "FormBox",
+					"options": {
+						"className": "tabarea_box",
+						"order": [
+							"tab_baseInfo",
+							"tab_addInfo",
+							"tab_etcInfo",
+							"tab_newInfo",
+							"tab_planInfo",
+							"tab_yieldInfo",
+							"tab_bomInfo",
+							"tab_custInfo"
+						],
+						"activation": {
+							"defaultWidget": "tab_baseInfo",
+							"method": "show-hide",
+							"navigator": {
+								"options": {
+									"pos": "top",
+									"closeButton": false,
+									"label": {
+										"tab_baseInfo": "기본정보",
+										"tab_addInfo": "추가정보",
+										"tab_etcInfo": "기타정보",
+										"tab_newInfo": "신규정보",
+										"tab_planInfo": "생산게획서",
+										"tab_yieldInfo": "생산수율표",
+										"tab_bomInfo": "BOM",
+										"tab_custInfo": "상대코드"
+									}
+								}
+							}
+						},
+						"custom_form": {
+							"mode": "form",
+							"items": {
+								"tab_baseInfo": {
+									"label": "기본정보",
+									"required": false
+								},
+								"tab_addInfo": {
+									"label": "추가정보",
+									"required": false
+								},
+								"tab_etcInfo": {
+									"label": "기타정보",
+									"required": false
+								},
+								"tab_newInfo": {
+									"label": "신규정보",
+									"required": false
+								},
+								"tab_planInfo": {
+									"label": "생산게획서",
+									"required": false
+								},
+								"tab_yieldInfo": {
+									"label": "생산수율표",
+									"required": false
+								},
+								"tab_bomInfo": {
+									"label": "BOM",
+									"required": false
+								},
+								"tab_custInfo": {
+									"label": "상대코드",
+									"required": false
+								}
+							},
+							"data": {}
+						},
+						"tab_baseInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_baseInfo_box",
+								"order": [
+									"proKind",
+									"proUkind",
+									"proUnit",
+									"barcode",
+									"proWeig",
+									"proEa",
+									"proIpsu",
+									"proBong",
+									"proBox",
+									"topYn",
+									"localProduct",
+									"topCode",
+									"dooConv",
+									"originDesc",
+									"do1",
+									"meatYn",
+									"unitYn",
+									"shortYn",
+									"shortWeig",
+									"gitaInt1"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label>구분</label><select class=\"form-control proKind\"><option value=\"0\">구분선택</option><option value=\"1\">제품</option><option value=\"2\">상품</option><option value=\"3\">서비스</option><option value=\"4\">급식</option></select></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>안성바코드</label><input type=\"text\" class=\"form-control barcode\" value=\"\"></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>88 코드</label><input type=\"text\" class=\"form-control do1\" value=\"\"></div></div></div><div class=\"row\"><div class=\"col-xs-8\"><div class=\"form-group\"><label>단위</label><select class=\"form-control proUkind\"><option value=\"0\">단위선택</option><option value=\"1\">박스</option><option value=\"2\">Kg</option><option value=\"3\">봉</option><option value=\"4\">팩</option><option value=\"5\">장</option><option value=\"6\">기타</option></select><div class=\"row\"><div class=\"col-xs-6\"><div class=\"form-group\"><label>입출고단위</label><input type=\"text\" class=\"form-control proUnit\" value=\"\"></div><div class=\"form-group\"><label>단위당중량</label><div class=\"input-group\"><input type=\"text\" class=\"form-control proWeig\"><span class=\"input-group-addon\">g</span></div></div><div class=\"form-group\"><label>품목별입수</label><input type=\"text\" class=\"form-control proEa\" value=\"\"></div></div><div class=\"col-xs-6\"><div class=\"form-group\"><label>단위당입수</label><div class=\"input-group\"><input type=\"text\" class=\"form-control proIpsu\"><span class=\"input-group-addon\">개</span></div></div><div class=\"form-group\"><label>박스당봉팩</label><div class=\"input-group\"><input type=\"text\" class=\"form-control proBong\"><span class=\"input-group-addon\">봉/팩</span></div></div><div class=\"form-group\"><label>박스당중량</label><div class=\"input-group\"><input type=\"text\" class=\"form-control proBox\"><span class=\"input-group-addon\">g</span></div></div></div></div></div><div class=\"row\"><div class=\"col-xs-6\"><div class=\"form-group\"><label>정육여부</label><select class=\"form-control meatYn\"><option value=\"0\">정육여부선택</option><option value=\"1\">일반</option><option value=\"2\">정육</option><option value=\"3\">부산물</option><option value=\"4\">기타</option></select></div></div><div class=\"col-xs-6\"><div class=\"form-group form_w90\"><label><div class=\"checkbox_box\"><div class=\"checkbox \"><label><input type=\"checkbox\" name=\"shortYn\" value=\"1\"><span class=\"title\">미달중량</span></label></div></div></label><div class=\"input-group\"><input type=\"text\" class=\"form-control shortWeig\"><span class=\"input-group-addon\">Kg</span></div></div></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>단가적용</label><select class=\"form-control unitYn\"><option value=\"0\">단가적용선택</option><option value=\"1\">수량곱하기</option><option value=\"2\">중량곱하기</option></select></div><div class=\"form-group\"><label>두환산</label><input type=\"text\" class=\"form-control dooConv\" value=\"\"></div><div class=\"form-group\"><label>원산지</label><input type=\"text\" class=\"form-control originDesc\" value=\"\"></div><div class=\"form-group\"><label>최상위제품</label><div class=\"topCode_region\"></div></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group form_only form-inline text-right\"><div class=\"checkbox_box\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"topYn\" value=\"1\"><span class=\"title\">최상위 여부</span></label><label><input type=\"checkbox\" name=\"localProduct\" value=\"1\"><span class=\"title\">바코드발행 숨기기</span></label><label><input type=\"checkbox\" name=\"gitaInt1\" value=\"1\"><span class=\"title\">수출용</span></label></div></div></div></div></div>",
+									"mode": "form",
+									"items": {
+										"proKind": {
+											"module": "combobox",
+											"label": "구분",
+											"selector": ".proKind",
+											"required": false
+										},
+										"proUkind": {
+											"module": "combobox",
+											"label": "단위",
+											"selector": ".proUkind",
+											"required": false
+										},
+										"proUnit": {
+											"module": "text",
+											"label": "입출고단위",
+											"selector": ".proUnit",
+											"required": false
+										},
+										"barcode": {
+											"module": "text",
+											"label": "안성바코드",
+											"selector": ".barcode",
+											"required": false
+										},
+										"proWeig": {
+											"module": "text",
+											"label": "단위당중량",
+											"selector": ".proWeig",
+											"required": false
+										},
+										"proEa": {
+											"module": "text",
+											"label": " 품목별입수",
+											"selector": ".proEa",
+											"required": false
+										},
+										"proIpsu": {
+											"module": "text",
+											"label": "단위당입수",
+											"selector": ".proIpsu",
+											"required": false
+										},
+										"proBong": {
+											"module": "text",
+											"label": "박스당봉팩",
+											"selector": ".proBong",
+											"required": false
+										},
+										"proBox": {
+											"module": "text",
+											"label": "박스당중량",
+											"selector": ".proBox",
+											"required": false
+										},
+										"topYn": {
+											"module": "checkbox",
+											"label": "최상위여부",
+											"selector": "[name=topYn]",
+											"required": false
+										},
+										"localProduct": {
+											"module": "checkbox",
+											"label": "바코드발행숨기기",
+											"selector": "[name=localProduct]",
+											"required": false
+										},
+										"topCode": {
+											"label": "최상위제품",
+											"required": false
+										},
+										"dooConv": {
+											"module": "text",
+											"label": "두환산",
+											"selector": ".dooConv",
+											"required": false
+										},
+										"originDesc": {
+											"module": "text",
+											"label": "원산지",
+											"selector": ".originDesc",
+											"required": false
+										},
+										"do1": {
+											"module": "text",
+											"label": "88코드",
+											"selector": ".do1",
+											"required": false
+										},
+										"meatYn": {
+											"module": "combobox",
+											"label": "정육여부",
+											"selector": ".meatYn",
+											"required": false
+										},
+										"unitYn": {
+											"module": "combobox",
+											"label": "단가적용",
+											"selector": ".unitYn",
+											"required": false
+										},
+										"shortYn": {
+											"module": "checkbox",
+											"label": "미달여부",
+											"selector": "[name=shortYn]",
+											"required": false
+										},
+										"shortWeig": {
+											"module": "text",
+											"label": "미달중량",
+											"selector": ".shortWeig",
+											"required": false
+										},
+										"gitaInt1": {
+											"module": "checkbox",
+											"label": "수출용",
+											"selector": "[name=gitaInt1]",
+											"required": false
+										}
+									},
+									"data": {}
+								},
+								"topCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "최상위제품",
+										"required": false
+									}
+								}
+							}
+						},
+						"tab_addInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_addInfo_box",
+								"order": [
+									"headCode",
+									"teamCode",
+									"deptCode",
+									"proMeal1",
+									"proMeal2",
+									"proMeal3",
+									"proMeal4",
+									"partName",
+									"vatYn",
+									"frozenYn",
+									"setYn",
+									"myungYn",
+									"localProduct",
+									"shelfLife",
+									"memo",
+									"do2",
+									"classCode"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label>본부코드</label><div class=\"headCode_region\"></div></div><div class=\"form-group\"><label>팀코드</label><div class=\"teamCode_region\"></div></div><div class=\"form-group\"><label>부서코드</label><div class=\"deptCode_region\"></div></div><div class=\"form-group form_only\"><div class=\"checkbox_box\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"vatYn\" value=\"1\"><span class=\"title\">부가세적용</span></label><label><input type=\"checkbox\" name=\"frozenYn\" value=\"1\"><span class=\"title\">냉동여부</span></label></div></div></div><div class=\"form-group form_only\"><div class=\"checkbox_box\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"setYn\" value=\"1\"><span class=\"title\">세트여부</span></label><label><input type=\"checkbox\" name=\"localProduct\" value=\"1\"><span class=\"title\">국내산출력</span></label></div></div></div><div class=\"form-group form_only\"><div class=\"checkbox_box\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"myungYn\" value=\"1\"><span class=\"title\">거래명세표 대분류 출력</span></label></div></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>포장재질</label><input type=\"text\" class=\"form-control proMeal4\" value=\"\"></div><div class=\"form-group\"><label>등급</label><input type=\"text\" class=\"form-control classCode\" value=\"\"></div><div class=\"form-group\"><label>부위</label><input type=\"text\" class=\"form-control partName\" value=\"\"></div><div class=\"form-group\"><label>성분</label><input type=\"text\" class=\"form-control proMeal1\" value=\"\"></div><div class=\"form-group\"><label>원산지</label><input type=\"text\" class=\"form-control proMeal2\" value=\"\"></div><div class=\"form-group\"><label>축산물가공</label><input type=\"text\" class=\"form-control proMeal3\" value=\"\"></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>상온온도</label><input type=\"text\" class=\"form-control do2\" value=\"\"><div class=\"help-block\">0 ~ 10 숫자를 입력</div></div><div class=\"form-group\"><label>유통기한</label><select class=\"form-control shelfLife\"><option value=\"0\">없음</option><option value=\"1\">10일</option><option value=\"2\">20일</option><option value=\"3\">30일</option><option value=\"4\">45일</option><option value=\"5\">24개월</option><option value=\"6\">12개월</option><option value=\"7\">22개월</option></select></div><div class=\"form-group\"><label>비고</label><textarea class=\"form-control memo text3line\" value=\"\"></textarea></div></div></div>",
+									"mode": "form",
+									"items": {
+										"headCode": {
+											"label": "본부코드",
+											"required": false
+										},
+										"teamCode": {
+											"label": "팀코드",
+											"required": false
+										},
+										"deptCode": {
+											"label": "부서코드",
+											"required": false
+										},
+										"proMeal1": {
+											"module": "text",
+											"label": "성분",
+											"selector": ".proMeal1",
+											"required": false
+										},
+										"proMeal2": {
+											"module": "text",
+											"label": "원산지",
+											"selector": ".proMeal2",
+											"required": false
+										},
+										"proMeal3": {
+											"module": "text",
+											"label": "축산물가공",
+											"selector": ".proMeal3",
+											"required": false
+										},
+										"proMeal4": {
+											"module": "text",
+											"label": "포장재질",
+											"selector": ".proMeal4",
+											"required": false
+										},
+										"partName": {
+											"module": "text",
+											"label": "부위",
+											"selector": ".partName",
+											"required": false
+										},
+										"vatYn": {
+											"module": "checkbox",
+											"label": "부가세적용",
+											"selector": "[name=vatYn]",
+											"required": false
+										},
+										"frozenYn": {
+											"module": "checkbox",
+											"label": "냉동여부",
+											"selector": "[name=frozenYn]",
+											"required": false
+										},
+										"setYn": {
+											"module": "checkbox",
+											"label": "세트여부",
+											"selector": "[name=setYn]",
+											"required": false
+										},
+										"myungYn": {
+											"module": "checkbox",
+											"label": "거래명세표대분류출력",
+											"selector": "[name=myungYn]",
+											"required": false
+										},
+										"localProduct": {
+											"module": "checkbox",
+											"label": "국내산출력",
+											"selector": "[name=localProduct]",
+											"required": false
+										},
+										"shelfLife": {
+											"module": "combobox",
+											"label": "유통기한",
+											"selector": ".shelfLife",
+											"required": false
+										},
+										"memo": {
+											"module": "textarea",
+											"label": "메모",
+											"selector": ".memo",
+											"required": false
+										},
+										"do2": {
+											"module": "text",
+											"label": "상온온도",
+											"selector": ".do2",
+											"required": false
+										},
+										"classCode": {
+											"module": "text",
+											"label": "등급",
+											"selector": ".classCode",
+											"required": false
+										}
+									},
+									"data": {}
+								},
+								"headCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "본부코드",
+										"required": false
+									}
+								},
+								"teamCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "팀코드",
+										"required": false
+									}
+								},
+								"deptCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "부서코드",
+										"required": false
+									}
+								}
+							}
+						},
+						"tab_etcInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_etcInfo_box",
+								"order": [
+									"emartBar1",
+									"emartBar2",
+									"emartBar31",
+									"emartBar3",
+									"proMeal5",
+									"proMeal6",
+									"gitaCode3"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-6\"><div class=\"form-group form_w90\"><label>TC 매입코드</label><div class=\"input-group\"><input type=\"text\" class=\"form-control emartBar1\"><span class=\"input-group-addon\"><b class=\"text-danger\">[2]</b></span></div></div><div class=\"form-group form_w90\"><label>TC 매임코드</label><div class=\"input-group\"><input type=\"text\" class=\"form-control emartBar2\"><span class=\"input-group-addon\"><b class=\"text-danger\">[3]</b></span></div></div><div class=\"form-group form-empty\"></div><div class=\"form-group form_w90\"><label>이마트브랜드</label><input type=\"text\" class=\"form-control proMeal5\"></div><div class=\"form-group form_w90\"><label>이마트제품명</label><input type=\"text\" class=\"form-control proMeal6\"></div><div class=\"form-group form_w90\"><label>롯데코드(LS)</label><input type=\"text\" class=\"form-control gitaCode3\"></div></div><div class=\"col-xs-6\"><div class=\"form-group\"><label>PC 출하 1</label><div class=\"input-group\"><input type=\"text\" class=\"form-control emartBar31\"><span class=\"input-group-addon\"><b class=\"text-danger\">[5]</b></span></div></div><div class=\"form-group\"><label>PC 출하 2</label><div class=\"input-group\"><input type=\"text\" class=\"form-control emartBar3\"><span class=\"input-group-addon\"><b class=\"text-danger\">[5]</b></span></div></div></div></div>",
+									"mode": "form",
+									"items": {
+										"emartBar1": {
+											"module": "text",
+											"label": "tc매입",
+											"selector": ".emartBar1",
+											"required": false
+										},
+										"emartBar2": {
+											"module": "text",
+											"label": "pc매입",
+											"selector": ".emartBar2",
+											"required": false
+										},
+										"emartBar31": {
+											"module": "text",
+											"label": "PC출하1",
+											"selector": ".emartBar31",
+											"required": false
+										},
+										"emartBar3": {
+											"module": "text",
+											"label": "PC출하2",
+											"selector": ".emartBar3",
+											"required": false
+										},
+										"proMeal5": {
+											"module": "text",
+											"label": "이마트브랜드",
+											"selector": ".proMeal5",
+											"required": false
+										},
+										"proMeal6": {
+											"module": "text",
+											"label": "이마트제품명",
+											"selector": ".proMeal6",
+											"required": false
+										},
+										"gitaCode3": {
+											"module": "text",
+											"label": "롯데코드",
+											"selector": ".gitaCode3",
+											"required": false
+										}
+									},
+									"data": {}
+								}
+							}
+						},
+						"tab_newInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_newInfo_box",
+								"order": [
+									"sooyulCode1",
+									"partName",
+									"suhyupCode",
+									"suhyupName",
+									"classCode"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-5\"><div class=\"form-group\"><label class=\"text-primary\">표준부위</label><div class=\"sooyulCode1_region\"></div></div><div class=\"form-group\"><label>브랜드명</label><input type=\"text\" class=\"form-control partName\"></div><div class=\"form-group\"><label>부위명</label><input type=\"text\" class=\"form-control suhyupCode\"><span class=\"help-block\"><span class=\"text-primary\">(영업 - 에브리데이 직납 제품코드)</span></span></div><div class=\"form-group\"><label>부위순서</label><input type=\"text\" class=\"form-control suhyupName\"><span class=\"help-block\"><span class=\"text-primary\">(영업 - 에브리데이 제품코드)</span></span></div><div class=\"form-group\"><label>스팩순서</label><input type=\"text\" class=\"form-control classCode\"></div></div></div>",
+									"mode": "form",
+									"items": {
+										"sooyulCode1": {
+											"label": "표준부위",
+											"required": false
+										},
+										"partName": {
+											"module": "text",
+											"label": "브랜드명",
+											"selector": ".partName",
+											"required": false
+										},
+										"suhyupCode": {
+											"module": "text",
+											"label": "부위순서",
+											"selector": ".suhyupCode",
+											"required": false
+										},
+										"suhyupName": {
+											"module": "text",
+											"label": "부위명",
+											"selector": ".suhyupName",
+											"required": false
+										},
+										"classCode": {
+											"module": "text",
+											"label": "스펙순서",
+											"selector": ".classCode",
+											"required": false
+										}
+									},
+									"data": {}
+								},
+								"sooyulCode1": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "표준부위",
+										"required": true
+									}
+								}
+							}
+						},
+						"tab_planInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_planInfo_box",
+								"order": [
+									"gitaInt1",
+									"sooyulCode2",
+									"sooyulGita2",
+									"sooyulCode3",
+									"sooyulGita3",
+									"gitaCode3"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-5\"><div class=\"form-group\"><label class=\"text-primary\">입수두수</label><input type=\"text\" class=\"form-control gitaInt1\"></div><div class=\"form-group\"><label>작업사양1</label><select class=\"form-control sooyulCode2\"><option value=\"0\">작업사양1 선택</option><option value=\"1\">0mm</option><option value=\"1\">1mm</option></select></div><div class=\"form-group\"><label>작업사양2</label><select class=\"form-control sooyulGita2\"><option value=\"0\">작업사양2 선택</option><option value=\"1\">진공</option><option value=\"1\">PE</option></select></div><div class=\"form-group\"><label>작업사양3</label><select class=\"form-control sooyulCode3\"><option value=\"0\">작업사양3 선택</option><option value=\"1\">더느림</option><option value=\"1\">임금님표</option></select></div><div class=\"form-group\"><label>작업Line</label><select class=\"form-control sooyulGita3\"><option value=\"0\">작업Line 선택</option><option value=\"a\">A</option><option value=\"b\">B</option><option value=\"c\">C</option></select></div><div class=\"form-group\"><label>출력시트</label><select class=\"form-control gitaCode3\"><option value=\"0\">출력시트 선택</option><option value=\"a\">앞다리</option><option value=\"b\">몸통</option><option value=\"c\">뒷다리</option></select></div></div></div>",
+									"mode": "form",
+									"items": {
+										"gitaInt1": {
+											"module": "text",
+											"label": "입수두수",
+											"selector": ".gitaInt1",
+											"required": false
+										},
+										"sooyulCode2": {
+											"module": "combobox",
+											"label": "작업사양1",
+											"selector": ".sooyulCode2",
+											"required": false
+										},
+										"sooyulGita2": {
+											"module": "combobox",
+											"label": "작업사양2",
+											"selector": ".sooyulGita2",
+											"required": false
+										},
+										"sooyulCode3": {
+											"module": "combobox",
+											"label": "작업사양3",
+											"selector": ".sooyulCode3",
+											"required": false
+										},
+										"sooyulGita3": {
+											"module": "combobox",
+											"label": "작업라인",
+											"selector": ".sooyulGita3",
+											"required": false
+										},
+										"gitaCode3": {
+											"module": "text",
+											"label": "출력시트",
+											"selector": ".gitaCode3",
+											"required": false
+										}
+									},
+									"data": {}
+								}
+							}
+						},
+						"tab_yieldInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_yieldInfo_box",
+								"order": [
+									"sooyulCode1",
+									"sooyulGita2",
+									"gitaCh1",
+									"gitaCh2",
+									"gitaCh3"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-5\"><div class=\"form-group\"><label>수율대분류</label><div class=\"sooyulCode1_region\"></div><span class=\"help-block\"><span class=\"text-danger\">* 영업전산에만 해당됩니다.</span></span></div><div class=\"form-group form_only\"><div class=\"checkbox_box\"><div class=\"checkbox \"><label><input type=\"checkbox\" name=\"sooyulGita2\" value=\"1\"><span class=\"title\">생산수율표 보이기</span></label></div></div></div><fieldset><legend>라벨 발행 공장별 Lock 설정</legend><div class=\"form-group form_only\"><div class=\"checkbox_box\"><div class=\"checkbox \"><label><input type=\"checkbox\" name=\"gitaCh1\" value=\"1\"><span class=\"title\">안성</span></label><label><input type=\"checkbox\" name=\"gitaCh2\" value=\"1\"><span class=\"title\">호남</span></label><label><input type=\"checkbox\" name=\"gitaCh3\" value=\"1\"><span class=\"title\">부광</span></label></div></div></div></fieldset></div></div>",
+									"mode": "form",
+									"items": {
+										"sooyulCode1": {
+											"label": "수율대분류",
+											"required": false
+										},
+										"sooyulGita2": {
+											"module": "checkbox",
+											"label": "생산수율표보이기",
+											"selector": "[name=sooyulGita2]",
+											"required": false
+										},
+										"gitaCh1": {
+											"module": "checkbox",
+											"label": "안성라벨발생여부",
+											"selector": "[name=gitaCh1]",
+											"required": false
+										},
+										"gitaCh2": {
+											"module": "checkbox",
+											"label": "호남라벨발생여부",
+											"selector": "[name=gitaCh2]",
+											"required": false
+										},
+										"gitaCh3": {
+											"module": "checkbox",
+											"label": "부광라벨발생여부",
+											"selector": "[name=gitaCh3]",
+											"required": false
+										}
+									},
+									"data": {}
+								},
+								"sooyulCode1": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "수율대분류",
+										"required": true
+									}
+								}
+							}
+						},
+						"tab_bomInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_bomInfo_box",
+								"order": [
+									"bomCode",
+									"bomName",
+									"bomQty",
+									"bomSafe",
+									"bomUnit",
+									"bomClient"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-5\"><div class=\"form-group\"><label>부자재번호</label><input type=\"text\" class=\"form-control bomCode\"></div><div class=\"form-group\"><label>부자재명</label><input type=\"text\" class=\"form-control bomName\"></div><div class=\"form-group\"><label>소요량</label><input type=\"text\" class=\"form-control bomQty\"></div><div class=\"form-group\"><label>안전재고량</label><input type=\"text\" class=\"form-control bomSafe\"></div><div class=\"form-group\"><label>단위</label><select class=\"form-control bomUnit\"><option>단위선택</option><option value=\"ea\">EA</option><option value=\"box\">BOX</option></select></div><div class=\"form-group\"><label>매입처</label><input type=\"text\" class=\"form-control bomClient\"></div></div></div>",
+									"mode": "form",
+									"items": {
+										"bomCode": {
+											"module": "text",
+											"label": "부자재번호",
+											"selector": ".bomCode",
+											"required": false
+										},
+										"bomName": {
+											"module": "text",
+											"label": "부자재명",
+											"selector": ".bomName",
+											"required": false
+										},
+										"bomQty": {
+											"module": "text",
+											"label": "소요량",
+											"selector": ".bomQty",
+											"required": false
+										},
+										"bomSafe": {
+											"module": "text",
+											"label": "안전재고량",
+											"selector": ".bomSafe",
+											"required": false
+										},
+										"bomUnit": {
+											"module": "combobox",
+											"label": "단위",
+											"selector": ".bomUnit",
+											"required": false
+										},
+										"bomClient": {
+											"module": "text",
+											"label": "거래처",
+											"selector": ".bomClient",
+											"required": false
+										}
+									},
+									"data": {}
+								}
+							}
+						},
+						"tab_custInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_custInfo_box",
+								"order": [
+									"custCode",
+									"custName",
+									"custCode2",
+									"proName"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-5\"><div class=\"form-group\"><label>거래처코드</label><input type=\"text\" class=\"form-control custCode\"></div><div class=\"form-group\"><label>거래처명</label><input type=\"text\" class=\"form-control custName\"></div><div class=\"form-group\"><label>상대코드</label><input type=\"text\" class=\"form-control custCode2\"></div><div class=\"form-group\"><label>제품명</label><textarea class=\"form-control proName\"></textarea></div></div></div>",
+									"mode": "form",
+									"items": {
+										"custCode": {
+											"module": "text",
+											"label": "거래처코드",
+											"selector": ".custCode",
+											"required": false
+										},
+										"custName": {
+											"module": "text",
+											"label": "거래처명",
+											"selector": ".custName",
+											"required": false
+										},
+										"custCode2": {
+											"module": "text",
+											"label": "상대코드",
+											"selector": ".custCode2",
+											"required": false
+										},
+										"proName": {
+											"module": "textarea",
+											"label": "제품명",
+											"selector": ".proName",
+											"required": false
+										}
+									},
+									"data": {}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"module": "FormBox",
+				"className": "query_box",
+				"order": [
+					"searchCondition",
+					"searchKeyword",
+					"searchCondition2",
+					"searchCondition3"
+				],
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"form-group form-inline\"><label>검색</label><select class=\"form-control searchCondition\"><option value=\"proCode\">코드</option><option value=\"proName\">제품명</option><option value=\"shortCode\">단축코드</option></select><input type=\"text\" class=\"form-control searchKeyword\" value=\"\"><label>축종</label><select class=\"form-control searchCondition2\"><option>전체</option><option value=\"돼지\">돼지</option><option value=\"한우\">한우</option><option value=\"수입우\">수입우</option><option value=\"육우\">육우</option><option value=\"계육\">계육</option></select><label>구분</label><select class=\"form-control searchCondition3\"><option>전체</option><option value=\"1\">제품</option><option value=\"2\">상품</option><option value=\"3\">서비스</option><option value=\"4\">급식</option></select></div>",
+					"items": {
+						"searchCondition": {
+							"module": "combobox",
+							"label": "검색",
+							"selector": ".searchCondition",
+							"required": false
+						},
+						"searchKeyword": {
+							"module": "text",
+							"label": "검색 내용 입력",
+							"selector": ".searchKeyword",
+							"required": true
+						},
+
+						"searchCondition2": {
+							"module": "combobox",
+							"label": "축종",
+							"selector": ".searchCondition2",
+							"required": false
+						},
+						"searchCondition3": {
+							"module": "combobox",
+							"label": "구분",
+							"selector": ".searchCondition3",
+							"required": false
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "result_box grid_box",
+				"gridId": "productinfo",
+				"gridParams": {
+					"data": [{}],
+					"colModel": [{
+							"name": "animalKind",
+							"label": "축종",
+							"align": "left",
+							"width": "60"
+						},
+						{
+							"name": "largeCode",
+							"label": "품목",
+							"align": "left",
+							"width": "60"
+						},
+						{
+							"name": "proLname",
+							"label": "품목명",
+							"align": "left",
+							"width": "80"
+						},
+						{
+							"name": "proCode",
+							"label": "코드",
+							"align": "left",
+							"width": "80"
+
+						},
+						{
+							"name": "proName",
+							"label": "제품명",
+							"align": "left",
+							"width": "200"
+						},
+						{
+							"name": "shortCode",
+							"label": "단축코드",
+							"align": "left",
+							"width": "80"
+						},
+						{
+							"name": "frozenYn",
+							"label": "냉장",
+							"align": "left",
+							"width": "60"
+						},
+						{
+							"name": "emartBar1",
+							"label": "TC매입코드",
+							"align": "left",
+							"width": "110"
+						},
+						{
+							"name": "emartBar2",
+							"label": "PC매입코드",
+							"align": "left",
+							"width": "110"
+						},
+						{
+							"name": "emartBar3",
+							"label": "PC 출하 2",
+							"align": "left",
+							"width": "110"
+						},
+						{
+							"name": "emartBar31",
+							"label": "PC 출하 1",
+							"align": "left",
+							"width": "110"
+						},
+						{
+							"name": "cartonNo",
+							"label": "CARTO No.",
+							"align": "left",
+							"width": "100"
+						},
+						{
+							"name": "teamCode",
+							"label": "팀코드",
+							"align": "left",
+							"width": "80"
+						},
+						{
+							"name": "proKind",
+							"label": "구분",
+							"align": "left",
+							"width": "80"
+						},
+						{
+							"name": "proUkind",
+							"label": "단위",
+							"align": "left",
+							"width": "80"
+						},
+						{
+							"name": "barcode",
+							"label": "안성바코드",
+							"align": "left",
+							"width": "80"
+						},
+						{
+							"name": "do1",
+							"label": "88코드",
+							"align": "left",
+							"width": "100"
+						},
+						{
+							"name": "proUnit",
+							"label": "입출고단위",
+							"align": "left",
+							"width": "80"
+						},
+						{
+							"name": "proWeig ",
+							"label": "단위당중량",
+							"align": "right",
+							"width": "80"
+						},
+						{
+							"name": "proEa",
+							"label": "품목별입수",
+							"align": "right",
+							"width": "80"
+						},
+						{
+							"name": "proIpsu",
+							"label": "단위당입수",
+							"align": "right",
+							"width": "80"
+						},
+						{
+							"name": "proBong",
+							"label": "박스당봉팩",
+							"align": "right",
+							"width": "80"
+						},
+						{
+							"name": "proBox",
+							"label": "박스당중량",
+							"align": "right",
+							"width": "80"
+						},
+						{
+							"name": "meatYn",
+							"label": "정육",
+							"align": "left",
+							"width": "80"
+						},
+						{
+							"name": "unitYn",
+							"label": "단가적용",
+							"align": "left",
+							"width": "80"
+						},
+						{
+							"name": "topCode",
+							"label": "최상위코드",
+							"align": "left",
+							"width": "100"
+						},
+						{
+							"name": "topName",
+							"label": "최상위제품",
+							"align": "left",
+							"width": "100"
+						},
+						{
+							"name": "dooConv",
+							"label": "두환산",
+							"align": "right",
+							"width": "80"
+						},
+						{
+							"name": "originDesc",
+							"label": "원산지",
+							"align": "left",
+							"width": "80"
+						},
+						{
+							"name": "vatYn",
+							"label": "부가세",
+							"align": "left",
+							"width": "80"
+						},
+						{
+							"name": "frozenYn",
+							"label": "냉동여부",
+							"template": "booleanCheckboxFa",
+							"align": "center",
+							"width": "80"
+						},
+						{
+							"name": "setYn",
+							"label": "세트",
+							"template": "booleanCheckboxFa",
+							"align": "center",
+							"width": "80"
+						},
+						{
+							"name": "proMeal4",
+							"label": "포장재질",
+							"align": "left",
+							"width": "100"
+						},
+						{
+							"name": "do2",
+							"label": "상온온도",
+							"align": "right",
+							"width": "100"
+						}
+					],
+					"rowNum": 30,
+					"records": 30,
+					"rownumWidth": 20,
+					"rowList": [30, 50, 100, 200, "100000:All"],
+					"viewrecords": true,
+					"rownumbers": false,
+					"toppager": false,
+					"pager": true,
+					"shrinkToFit": false,
+					"multiselect": false,
+					"editurl": "clientArray",
+					"loadonce": true,
+					"width": "auto",
+					"height": 200,
+
+					"iconSet": "fontAwesome",
+					"autoencode": true,
+					"altRows": true,
+					"altclass": "myAltRowClass",
+					"pagerRightWidth": 140,
+
+					"caption": "",
+					"navOptions": {
+						"del": false
+					},
+					"searching": {
+						"closeAfterSearch": true,
+						"closeAfterReset": true,
+						"closeOnEscape": true,
+						"searchOnEnter": true,
+						"multipleSearch": true,
+						"multipleGroup": true,
+						"showQuery": true
+					},
+					"cellEdit": false
+				}
+			}
+		}
+	}
+}

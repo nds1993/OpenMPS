@@ -1,0 +1,316 @@
+{
+	"module": "WorkAreaRenderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"formBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"userCode",
+					"userName",
+					"phone",
+					"mobile",
+					"deptCode"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">코드</label><input type=\"text\" class=\"form-control userCode\" value=\"\"></div><div class=\"form-group\"><label>전화번호</label><input type=\"text\" class=\"form-control phone\" value=\"\"></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">이름 </label><input type=\"text\" class=\"form-control userName\" value=\"\"></div><div class=\"form-group\"><label>휴대폰번호</label><input type=\"text\" class=\"form-control mobile\" value=\"\"></div></div><div class=\"col-xs-4\"><div class=\"form-group form_empty\"></div><div class=\"form-group\"><label>부서코드</label><input type=\"text\" class=\"form-control deptCode\"></div></div></div>",
+					"mode": "form",
+					"items": {
+						"userCode": {
+							"module": "text",
+							"label": "코드",
+							"selector": ".userCode",
+							"required": true
+						},
+						"userName": {
+							"module": "text",
+							"label": "이름",
+							"selector": ".userName",
+							"required": true
+						},
+						"phone": {
+							"module": "text",
+							"label": "전화번호",
+							"selector": ".phone",
+							"required": false
+						},
+						"mobile": {
+							"module": "text",
+							"label": "휴대폰번호",
+							"selector": ".mobile",
+							"required": false
+						},
+						"deptCode": {
+							"module": "text",
+							"label": "부서코드",
+							"selector": ".deptCode",
+							"required": false
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box",
+				"order": [
+					"searchCondition",
+					"searchKeyword"
+				],
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"form-group form-inline\"><label>검색</label><select class=\"form-control searchCondition\"><option>조건검색</option><option value=\"userCode\">코드</option><option value=\"userName\">이름</option><option value=\"deptCode\">부서</option></select><input type=\"text\" class=\"form-control searchKeyword\" value=\"\"></div>",
+					"items": {
+						"searchCondition": {
+							"module": "combobox",
+							"label": "검색",
+							"selector": ".searchCondition",
+							"required": false
+						},
+						"searchKeyword": {
+							"module": "text",
+							"label": "검색 내용 입력",
+							"selector": ".searchKeyword",
+							"required": false
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "result_box",
+				"order": [
+					"userinfo",
+					"screuser"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"row\"><div class=\"col-xs-3 userinfo_region\"></div><div class=\"col-xs-9 screuser_region\"></div></div>",
+					"items": {
+						"code_box": {
+							"label": "code_box",
+							"required": true
+						},
+						"code_detail_box": {
+							"label": "code_box_detail",
+							"required": true
+						}
+					},
+					"data": {}
+				},
+				"userinfo": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "userinfo_box grid_box",
+						"gridId": "userinfo",
+						"gridParams": {
+							"data": [{
+								"code": "11",
+								"name": "홍길동"
+							}],
+							"colModel": [{
+									"name": "userCode",
+									"label": "코드",
+									"width": 70,
+									"align": "center",
+									"editable": false
+								},
+								{
+									"name": "userName",
+									"label": "이름",
+									"align": "center",
+									"width": 150
+								}
+							],
+							"rowNum": 30,
+							"records": 30,
+							"rownumWidth": 20,
+							"rowList": [30, 50, 100, 200, "100000:All"],
+							"viewrecords": true,
+							"rownumbers": false,
+							"toppager": false,
+							"pager": true,
+							"shrinkToFit": false,
+							"multiselect": false,
+							"editurl": "clientArray",
+							"loadonce": true,
+							"width": "auto",
+							"height": 379,
+
+							"iconSet": "fontAwesome",
+							"autoencode": true,
+							"altRows": true,
+							"altclass": "myAltRowClass",
+							"pagerRightWidth": 140,
+
+							"caption": "",
+							"navOptions": {
+								"del": false
+							},
+							"searching": {
+								"closeAfterSearch": true,
+								"closeAfterReset": true,
+								"closeOnEscape": true,
+								"searchOnEnter": true,
+								"multipleSearch": true,
+								"multipleGroup": true,
+								"showQuery": true
+							},
+							"cellEdit": false
+						}
+					}
+				},
+				"screuser": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "screuser_box grid_box",
+						"gridId": "screuser",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+									"name": "screGubun",
+									"label": "분류",
+									"width": 60,
+									"align": "center",
+									"editable": false
+								},
+								{
+									"name": "screNo",
+									"label": "코드",
+									"align": "center",
+									"width": 150
+								},
+								{
+									"name": "screName",
+									"label": "이름",
+									"align": "center",
+									"width": 150
+								},
+								{
+									"name": "useYn",
+									"label": "사용",
+									"template": "booleanCheckboxFa",
+									"align": "center",
+									"width": 40
+								},
+								{
+									"name": "openYn",
+									"label": "읽기",
+									"template": "booleanCheckboxFa",
+									"align": "center",
+									"width": 40
+								},
+								{
+									"name": "insertYn",
+									"label": "신규",
+									"template": "booleanCheckboxFa",
+									"align": "center",
+									"width": 40
+								},
+								{
+									"name": "editYn",
+									"label": "수정",
+									"template": "booleanCheckboxFa",
+									"align": "center",
+									"width": 40
+								},
+								{
+									"name": "delYn",
+									"label": "삭제",
+									"template": "booleanCheckboxFa",
+									"align": "center",
+									"width": 40
+								},
+								{
+									"name": "excelYn",
+									"label": "엑셀",
+									"template": "booleanCheckboxFa",
+									"align": "center",
+									"width": 40
+								},
+								{
+									"name": "printYn",
+									"label": "출력",
+									"template": "booleanCheckboxFa",
+									"align": "center",
+									"width": 40
+								}
+							],
+							"rowNum": 30,
+							"records": 30,
+							"rownumWidth": 20,
+							"rowList": [30, 50, 100, 200, "100000:All"],
+							"viewrecords": true,
+							"rownumbers": false,
+							"toppager": false,
+							"pager": true,
+							"shrinkToFit": false,
+							"multiselect": false,
+							"editurl": "clientArray",
+							"loadonce": true,
+							"width": "auto",
+							"height": 379,
+
+							"iconSet": "fontAwesome",
+							"autoencode": true,
+							"altRows": true,
+							"altclass": "myAltRowClass",
+							"pagerRightWidth": 140,
+
+							"caption": "",
+							"navOptions": {
+								"del": false
+							},
+							"searching": {
+								"closeAfterSearch": true,
+								"closeAfterReset": true,
+								"closeOnEscape": true,
+								"searchOnEnter": true,
+								"multipleSearch": true,
+								"multipleGroup": true,
+								"showQuery": true
+							},
+							"useColSpanStyle": false,
+							"groupHeaders": [{
+									"numberOfColumns": 2,
+									"titleText": "화면",
+									"startColumnName": "category"
+								},
+								{
+									"numberOfColumns": 7,
+									"titleText": "권한",
+									"startColumnName": "use"
+								}
+							],
+							"cellEdit": false
+						}
+					}
+				}
+			}
+		}
+	}
+}

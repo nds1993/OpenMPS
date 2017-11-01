@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD0602mpOrderDDAO">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<resultMap id="SD0602_1" class="nds.mpm.sales.SD0602.vo.SD0602MpOrderDVO">		
+		<result property="delvDate" 	column="DELV_DATE" 		columnIndex="1"/>
+		<result property="partCode" 	column="PART_CODE" 		columnIndex="2"/>
+		<result property="salesMan" 	column="SALESMAN" 		columnIndex="3"/>
+		<result property="ordrCust" 	column="ORDR_CUST" 		columnIndex="4"/>
+		<result property="custName"  	column="CUST_NAME" 		columnIndex="5"/>
+		<result property="saleGroup2" 	column="SALE_GROUP2" 	columnIndex="6"/>
+		<result property="proCode" 		column="PRO_CODE" 		columnIndex="7"/>
+		<result property="proName" 		column="PRO_NAME" 		columnIndex="8"/>
+		<result property="delvBox" 		column="DELV_BOX" 		columnIndex="9"/>
+		<result property="delvWeight" 	column="DELV_WEIGHT"	columnIndex="10"/>
+		<result property="unitPrice" 	column="UNIT_PRICE" 	columnIndex="11"/>
+		<result property="delvAmt" 		column="DELV_AMT" 		columnIndex="12"/>
+		<result property="delvVat" 		column="DELV_VAT" 		columnIndex="13"/>
+		<result property="delvTot" 		column="DELV_TOT" 		columnIndex="14"/>
+		<result property="distType" 	column="DIST_TYPE" 		columnIndex="15"/>
+		<result property="salecombCust" column="SALE_COMB_CUST" columnIndex="16"/>
+	</resultMap>
+	
+	<resultMap id="SD0602_2" class="nds.mpm.sales.SD0602.vo.SD0602MpOrderDVO">		
+		<result property="partCode" 	column="PART_CODE" 		columnIndex="1"/>
+		<result property="salesMan" 	column="SALESMAN" 		columnIndex="2"/>
+		<result property="ordrCust" 	column="ORDR_CUST" 		columnIndex="3"/>
+		<result property="custName"  	column="CUST_NAME" 		columnIndex="4"/>		
+		<result property="delvBox" 		column="DELV_BOX" 		columnIndex="5"/>
+		<result property="delvWeight" 	column="DELV_WEIGHT"	columnIndex="6"/>
+		<result property="unitPrice" 	column="UNIT_PRICE" 	columnIndex="7"/>
+		<result property="delvAmt" 		column="DELV_AMT" 		columnIndex="8"/>
+		<result property="delvVat" 		column="DELV_VAT" 		columnIndex="9"/>
+		<result property="delvTot" 		column="DELV_TOT" 		columnIndex="10"/>
+		<result property="distType" 	column="DIST_TYPE" 		columnIndex="11"/>
+		<result property="salecombCust" column="SALE_COMB_CUST" columnIndex="12"/>
+	</resultMap>
+	
+	<resultMap id="SD0602_3" class="nds.mpm.sales.SD0602.vo.SD0602MpOrderDVO">		
+		<result property="saleGroup2" 	column="SALE_GROUP2" 	columnIndex="1"/>
+		<result property="proCode" 		column="PRO_CODE" 		columnIndex="2"/>
+		<result property="proName" 		column="PRO_NAME" 		columnIndex="3"/>
+		<result property="delvBox" 		column="DELV_BOX" 		columnIndex="4"/>
+		<result property="delvWeight" 	column="DELV_WEIGHT"	columnIndex="5"/>
+		<result property="unitPrice" 	column="UNIT_PRICE" 	columnIndex="6"/>
+		<result property="delvAmt" 		column="DELV_AMT" 		columnIndex="7"/>
+		<result property="delvVat" 		column="DELV_VAT" 		columnIndex="8"/>
+		<result property="delvTot" 		column="DELV_TOT" 		columnIndex="9"/>		
+		<result property="partCode" 	column="PART_CODE" 		columnIndex="10"/>
+		<result property="salesMan" 	column="SALESMAN" 		columnIndex="11"/>		
+	</resultMap>
+	
+	<resultMap id="SD0602_4" class="nds.mpm.sales.SD0602.vo.SD0602MpOrderDVO">
+		<result property="partCode" 	column="PART_CODE" 		columnIndex="1"/>
+		<result property="salesMan" 	column="SALESMAN" 		columnIndex="2"/>
+		<result property="ordrCust" 	column="ORDR_CUST" 		columnIndex="3"/>
+		<result property="custName"  	column="CUST_NAME" 		columnIndex="4"/>
+		<result property="saleGroup2" 	column="SALE_GROUP2" 	columnIndex="5"/>
+		<result property="proCode" 		column="PRO_CODE" 		columnIndex="6"/>
+		<result property="proName" 		column="PRO_NAME" 		columnIndex="7"/>
+		<result property="delvBox" 		column="DELV_BOX" 		columnIndex="8"/>
+		<result property="delvWeight" 	column="DELV_WEIGHT"	columnIndex="9"/>
+		<result property="unitPrice" 	column="UNIT_PRICE" 	columnIndex="10"/>
+		<result property="delvAmt" 		column="DELV_AMT" 		columnIndex="11"/>
+		<result property="delvVat" 		column="DELV_VAT" 		columnIndex="12"/>
+		<result property="delvTot" 		column="DELV_TOT" 		columnIndex="13"/>
+		<result property="distType" 	column="DIST_TYPE" 		columnIndex="14"/>
+		<result property="salecombCust" column="SALE_COMB_CUST" columnIndex="15"/>
+	</resultMap>
+	
+	<resultMap id="SD0602_5" class="nds.mpm.sales.SD0602.vo.SD0602MpOrderDVO">
+		<result property="saleGroup2" 	column="SALE_GROUP2" 	columnIndex="1"/>
+		<result property="proCode" 		column="PRO_CODE" 		columnIndex="2"/>
+		<result property="proName" 		column="PRO_NAME" 		columnIndex="3"/>
+		<result property="ordrCust" 	column="ORDR_CUST" 		columnIndex="4"/>
+		<result property="custName"  	column="CUST_NAME" 		columnIndex="5"/>		
+		<result property="delvBox" 		column="DELV_BOX" 		columnIndex="6"/>
+		<result property="delvWeight" 	column="DELV_WEIGHT"	columnIndex="7"/>
+		<result property="unitPrice" 	column="UNIT_PRICE" 	columnIndex="8"/>
+		<result property="delvAmt" 		column="DELV_AMT" 		columnIndex="9"/>
+		<result property="delvVat" 		column="DELV_VAT" 		columnIndex="10"/>
+		<result property="delvTot" 		column="DELV_TOT" 		columnIndex="11"/>
+		<result property="partCode" 	column="PART_CODE" 		columnIndex="12"/>
+		<result property="salesMan" 	column="SALESMAN" 		columnIndex="13"/>
+		<result property="distType" 	column="DIST_TYPE" 		columnIndex="14"/>
+		<result property="salecombCust" column="SALE_COMB_CUST" columnIndex="15"/>
+	</resultMap>
+	
+	<select id="SD0602mpOrderDDAO.selectSD0602MpOrderList_1" resultMap="SD0602_1">
+	
+		SELECT	S1.DELV_DATE,												
+				S5.PART_CODE,												
+				S5.SALESMAN,												
+				S1.ORDR_CUST,												
+				S3.CUST_NAME,												
+				(
+				SELECT	CODE_NAME 
+				FROM 	TM_CODEXD 
+				WHERE 	CORP_CODE	= '1001' 
+				AND 	GROUP_CODE 	= 'SD025' 
+				AND 	CODE_ID = S4.SALE_GROUP2)			SALE_GROUP2,						
+				S2.PRO_CODE,													
+				S4.PRO_NAME,													
+				SUM(S2.DELV_BOX)							DELV_BOX,	
+				SUM(S2.DELV_WEIGHT)							DELV_WEIGHT,	
+				S2.UNIT_PRICE,													
+				SUM(S2.DELV_AMT)							DELV_AMT,		
+				SUM(S2.DELV_VAT)							DELV_VAT,		
+				SUM(S2.DELV_AMT) + SUM(S2.DELV_VAT)			DELV_TOT,		
+				(
+				SELECT	CODE_NAME 
+				FROM 	TM_CODEXD 
+				WHERE 	CORP_CODE	= '1001' 
+				AND 	GROUP_CODE 	= 'SD005' 
+				AND 	CODE_ID = S3.DIST_TYPE)				DIST_TYPE,					
+				(
+				SELECT 	CUST_NAME 
+				FROM 	MP_CUST_INFO 
+				WHERE 	CORP_CODE	= '1001' 
+				AND 	CUST_CODE = S3.SALE_COMB_CUST) 		SALE_COMB_CUST		
+		FROM	MP_ORDER_H			S1,
+				MP_ORDER_D			S2,			
+				MP_CUST_INFO		S3,								
+				MP_ITEM_MASTER_M	S4,									
+				(
+				SELECT	S1.CUST_CODE,
+						S3.DEPT_CODE	PART_CODE,						
+						S3.USER_CODE,
+						S3.USER_NAME	SALESMAN
+				FROM	MP_CUST_HIST 		S1,
+						MP_SALESMAN_CUST 	S2,
+						TM_USERXM			S3
+				WHERE	S1.CORP_CODE	= '1001'
+				AND		S1.CORP_CODE	= S2.CORP_CODE
+				AND		S1.CORP_CODE	= S3.CORP_CODE
+				AND		S1.CUST_CODE	= S2.SALESMAN_CUST		
+				AND		S1.SALESMAN		= S2.SALESMAN
+				AND		S1.SALESMAN		= S3.USER_CODE		
+				AND		S1.START_DATE	<![CDATA[<]]>=	#lastDate#
+				AND		S1.LAST_DATE	<![CDATA[>]]>=	#lastDate#
+				)S5
+		WHERE	S1.CORP_CODE	= '1001'
+		AND		S1.CORP_CODE	= S2.CORP_CODE
+		AND		S1.CORP_CODE	= S3.CORP_CODE
+		AND		S1.CORP_CODE	= S4.CORP_CODE
+		AND		S1.DELV_DATE	= S2.DELV_DATE
+		AND		S1.ORDR_NO		= S2.ORDR_NO
+		AND		S1.ORDR_CUST	= S3.CUST_CODE
+		AND		S1.ORDR_CUST	= S5.CUST_CODE
+		AND		S2.PRO_CODE		= S4.PRO_CODE
+		AND		S1.STATUS		!= 'D'					
+		AND		S1.IF_STATUS	= '1'						
+		AND		S1.DELV_DATE	BETWEEN #strtDate# AND #lastDate#
+		<isNotEmpty prepend="and" property="chgoGubnList">
+             <iterate prepend="S1.ORDR_TYPE in" property="chgoGubnList" open="(" close=")" conjunction="," >
+             	#chgoGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="partGubnList">
+             <iterate prepend="S5.PART_CODE in" property="partGubnList" open="(" close=")" conjunction="," >
+             	#partGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="manGubnList">
+             <iterate prepend="S5.USER_CODE in" property="manGubnList" open="(" close=")" conjunction="," >
+             	#manGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="prodGubnList">
+             <iterate prepend="S2.PRO_CODE in" property="prodGubnList" open="(" close=")" conjunction="," >
+             	#prodGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custGubnList">
+             <iterate prepend="S1.ORDR_CUST in" property="custGubnList" open="(" close=")" conjunction="," >
+             	#custGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		GROUP
+		BY			S1.DELV_DATE,
+					S5.PART_CODE,	
+					S5.SALESMAN,	
+					S1.ORDR_CUST,				
+					S3.CUST_NAME,		
+					S4.SALE_GROUP2,					
+					S2.PRO_CODE,
+					S4.PRO_NAME,
+					S2.UNIT_PRICE,	
+					S3.DIST_TYPE,
+					S3.SALE_COMB_CUST
+		ORDER
+		BY			1, 2, 3, 4, 6, 7		
+		
+	</select>	
+	
+	<select id="SD0602mpOrderDDAO.selectSD0602MpOrderList_2" resultMap="SD0602_2">
+	
+		SELECT	S5.PART_CODE,												
+				S5.SALESMAN,												
+				S1.ORDR_CUST,												
+				S3.CUST_NAME,									
+				SUM(S2.DELV_BOX)							DELV_BOX,	
+				SUM(S2.DELV_WEIGHT)							DELV_WEIGHT,	
+				S2.UNIT_PRICE,													
+				SUM(S2.DELV_AMT)							DELV_AMT,		
+				SUM(S2.DELV_VAT)							DELV_VAT,		
+				SUM(S2.DELV_AMT) + SUM(S2.DELV_VAT)			DELV_TOT,		
+				(
+				SELECT	CODE_NAME 
+				FROM 	TM_CODEXD 
+				WHERE 	CORP_CODE	= '1001' 
+				AND 	GROUP_CODE 	= 'SD005' 
+				AND 	CODE_ID = S3.DIST_TYPE)				DIST_TYPE,					
+				(
+				SELECT 	CUST_NAME 
+				FROM 	MP_CUST_INFO 
+				WHERE 	CORP_CODE	= '1001' 
+				AND 	CUST_CODE = S3.SALE_COMB_CUST) 		SALE_COMB_CUST	
+		FROM	MP_ORDER_H			S1,
+				MP_ORDER_D			S2,			
+				MP_CUST_INFO		S3,								
+				MP_ITEM_MASTER_M	S4,									
+				(
+				SELECT	S1.CUST_CODE,
+						S3.DEPT_CODE	PART_CODE,						
+						S3.USER_CODE,
+						S3.USER_NAME	SALESMAN
+				FROM	MP_CUST_HIST 		S1,
+						MP_SALESMAN_CUST 	S2,
+						TM_USERXM			S3
+				WHERE	S1.CORP_CODE	= '1001'
+				AND		S1.CORP_CODE	= S2.CORP_CODE
+				AND		S1.CORP_CODE	= S3.CORP_CODE
+				AND		S1.CUST_CODE	= S2.SALESMAN_CUST		
+				AND		S1.SALESMAN		= S2.SALESMAN
+				AND		S1.SALESMAN		= S3.USER_CODE		
+				AND		S1.START_DATE	<![CDATA[<]]>=	#lastDate#
+				AND		S1.LAST_DATE	<![CDATA[>]]>=	#lastDate#
+				)S5
+		WHERE	S1.CORP_CODE	= '1001'
+		AND		S1.CORP_CODE	= S2.CORP_CODE
+		AND		S1.CORP_CODE	= S3.CORP_CODE
+		AND		S1.CORP_CODE	= S4.CORP_CODE
+		AND		S1.DELV_DATE	= S2.DELV_DATE
+		AND		S1.ORDR_NO		= S2.ORDR_NO
+		AND		S1.ORDR_CUST	= S3.CUST_CODE
+		AND		S1.ORDR_CUST	= S5.CUST_CODE
+		AND		S2.PRO_CODE		= S4.PRO_CODE
+		AND		S1.STATUS		!= 'D'					
+		AND		S1.IF_STATUS	= '1'						
+		AND		S1.DELV_DATE	BETWEEN #strtDate# AND #lastDate#
+		<isNotEmpty prepend="and" property="chgoGubnList">
+             <iterate prepend="S1.ORDR_TYPE in" property="chgoGubnList" open="(" close=")" conjunction="," >
+             	#chgoGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="partGubnList">
+             <iterate prepend="S5.PART_CODE in" property="partGubnList" open="(" close=")" conjunction="," >
+             	#partGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="manGubnList">
+             <iterate prepend="S5.USER_CODE in" property="manGubnList" open="(" close=")" conjunction="," >
+             	#manGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="prodGubnList">
+             <iterate prepend="S2.PRO_CODE in" property="prodGubnList" open="(" close=")" conjunction="," >
+             	#prodGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custGubnList">
+             <iterate prepend="S1.ORDR_CUST in" property="custGubnList" open="(" close=")" conjunction="," >
+             	#custGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		GROUP
+		BY			S5.PART_CODE,	
+					S5.SALESMAN,	
+					S1.ORDR_CUST,				
+					S3.CUST_NAME,		
+					S2.UNIT_PRICE,	
+					S3.DIST_TYPE,
+					S3.SALE_COMB_CUST
+		ORDER
+		BY			1, 2, 3
+		
+	</select>	
+	
+	<select id="SD0602mpOrderDDAO.selectSD0602MpOrderList_3" resultMap="SD0602_3">
+	
+		SELECT	(
+				SELECT	CODE_NAME 
+				FROM 	TM_CODEXD 
+				WHERE 	CORP_CODE	= '1001' 
+				AND 	GROUP_CODE 	= 'SD025' 
+				AND 	CODE_ID = S4.SALE_GROUP2)			SALE_GROUP2,						
+				S2.PRO_CODE,													
+				S4.PRO_NAME,													
+				SUM(S2.DELV_BOX)							DELV_BOX,	
+				SUM(S2.DELV_WEIGHT)							DELV_WEIGHT,	
+				S2.UNIT_PRICE,													
+				SUM(S2.DELV_AMT)							DELV_AMT,		
+				SUM(S2.DELV_VAT)							DELV_VAT,		
+				SUM(S2.DELV_AMT) + SUM(S2.DELV_VAT)			DELV_TOT,		
+				S5.PART_CODE,												
+				S5.SALESMAN
+		FROM	MP_ORDER_H			S1,
+				MP_ORDER_D			S2,			
+				MP_CUST_INFO		S3,								
+				MP_ITEM_MASTER_M	S4,									
+				(
+				SELECT	S1.CUST_CODE,
+						S3.DEPT_CODE	PART_CODE,						
+						S3.USER_CODE,
+						S3.USER_NAME	SALESMAN
+				FROM	MP_CUST_HIST 		S1,
+						MP_SALESMAN_CUST 	S2,
+						TM_USERXM			S3
+				WHERE	S1.CORP_CODE	= '1001'
+				AND		S1.CORP_CODE	= S2.CORP_CODE
+				AND		S1.CORP_CODE	= S3.CORP_CODE
+				AND		S1.CUST_CODE	= S2.SALESMAN_CUST		
+				AND		S1.SALESMAN		= S2.SALESMAN
+				AND		S1.SALESMAN		= S3.USER_CODE		
+				AND		S1.START_DATE	<![CDATA[<]]>=	#lastDate#
+				AND		S1.LAST_DATE	<![CDATA[>]]>=	#lastDate#
+				)S5
+		WHERE	S1.CORP_CODE	= '1001'
+		AND		S1.CORP_CODE	= S2.CORP_CODE
+		AND		S1.CORP_CODE	= S3.CORP_CODE
+		AND		S1.CORP_CODE	= S4.CORP_CODE
+		AND		S1.DELV_DATE	= S2.DELV_DATE
+		AND		S1.ORDR_NO		= S2.ORDR_NO
+		AND		S1.ORDR_CUST	= S3.CUST_CODE
+		AND		S1.ORDR_CUST	= S5.CUST_CODE
+		AND		S2.PRO_CODE		= S4.PRO_CODE
+		AND		S1.STATUS		!= 'D'					
+		AND		S1.IF_STATUS	= '1'						
+		AND		S1.DELV_DATE	BETWEEN #strtDate# AND #lastDate#
+		<isNotEmpty prepend="and" property="chgoGubnList">
+             <iterate prepend="S1.ORDR_TYPE in" property="chgoGubnList" open="(" close=")" conjunction="," >
+             	#chgoGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="partGubnList">
+             <iterate prepend="S5.PART_CODE in" property="partGubnList" open="(" close=")" conjunction="," >
+             	#partGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="manGubnList">
+             <iterate prepend="S5.USER_CODE in" property="manGubnList" open="(" close=")" conjunction="," >
+             	#manGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="prodGubnList">
+             <iterate prepend="S2.PRO_CODE in" property="prodGubnList" open="(" close=")" conjunction="," >
+             	#prodGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custGubnList">
+             <iterate prepend="S1.ORDR_CUST in" property="custGubnList" open="(" close=")" conjunction="," >
+             	#custGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		GROUP
+		BY			S4.SALE_GROUP2,					
+					S2.PRO_CODE,
+					S4.PRO_NAME,
+					S2.UNIT_PRICE,			
+					S5.PART_CODE,	
+					S5.SALESMAN
+		ORDER
+		BY			1, 2	
+		
+	</select>	
+	
+	<select id="SD0602mpOrderDDAO.selectSD0602MpOrderList_4" resultMap="SD0602_4">
+	
+		SELECT	S5.PART_CODE,												
+				S5.SALESMAN,												
+				S1.ORDR_CUST,												
+				S3.CUST_NAME,												
+				(
+				SELECT	CODE_NAME 
+				FROM 	TM_CODEXD 
+				WHERE 	CORP_CODE	= '1001' 
+				AND 	GROUP_CODE 	= 'SD025' 
+				AND 	CODE_ID = S4.SALE_GROUP2)			SALE_GROUP2,						
+				S2.PRO_CODE,													
+				S4.PRO_NAME,													
+				SUM(S2.DELV_BOX)							DELV_BOX,	
+				SUM(S2.DELV_WEIGHT)							DELV_WEIGHT,	
+				S2.UNIT_PRICE,													
+				SUM(S2.DELV_AMT)							DELV_AMT,		
+				SUM(S2.DELV_VAT)							DELV_VAT,		
+				SUM(S2.DELV_AMT) + SUM(S2.DELV_VAT)			DELV_TOT,		
+				(
+				SELECT	CODE_NAME 
+				FROM 	TM_CODEXD 
+				WHERE 	CORP_CODE	= '1001' 
+				AND 	GROUP_CODE 	= 'SD005' 
+				AND 	CODE_ID = S3.DIST_TYPE)				DIST_TYPE,					
+				(
+				SELECT 	CUST_NAME 
+				FROM 	MP_CUST_INFO 
+				WHERE 	CORP_CODE	= '1001' 
+				AND 	CUST_CODE = S3.SALE_COMB_CUST) 		SALE_COMB_CUST		
+		FROM	MP_ORDER_H			S1,
+				MP_ORDER_D			S2,			
+				MP_CUST_INFO		S3,								
+				MP_ITEM_MASTER_M	S4,									
+				(
+				SELECT	S1.CUST_CODE,
+						S3.DEPT_CODE	PART_CODE,						
+						S3.USER_CODE,
+						S3.USER_NAME	SALESMAN
+				FROM	MP_CUST_HIST 		S1,
+						MP_SALESMAN_CUST 	S2,
+						TM_USERXM			S3
+				WHERE	S1.CORP_CODE	= '1001'
+				AND		S1.CORP_CODE	= S2.CORP_CODE
+				AND		S1.CORP_CODE	= S3.CORP_CODE
+				AND		S1.CUST_CODE	= S2.SALESMAN_CUST		
+				AND		S1.SALESMAN		= S2.SALESMAN
+				AND		S1.SALESMAN		= S3.USER_CODE		
+				AND		S1.START_DATE	<![CDATA[<]]>=	#lastDate#
+				AND		S1.LAST_DATE	<![CDATA[>]]>=	#lastDate#
+				)S5
+		WHERE	S1.CORP_CODE	= '1001'
+		AND		S1.CORP_CODE	= S2.CORP_CODE
+		AND		S1.CORP_CODE	= S3.CORP_CODE
+		AND		S1.CORP_CODE	= S4.CORP_CODE
+		AND		S1.DELV_DATE	= S2.DELV_DATE
+		AND		S1.ORDR_NO		= S2.ORDR_NO
+		AND		S1.ORDR_CUST	= S3.CUST_CODE
+		AND		S1.ORDR_CUST	= S5.CUST_CODE
+		AND		S2.PRO_CODE		= S4.PRO_CODE
+		AND		S1.STATUS		!= 'D'					
+		AND		S1.IF_STATUS	= '1'						
+		AND		S1.DELV_DATE	BETWEEN #strtDate# AND #lastDate#
+		<isNotEmpty prepend="and" property="chgoGubnList">
+             <iterate prepend="S1.ORDR_TYPE in" property="chgoGubnList" open="(" close=")" conjunction="," >
+             	#chgoGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="partGubnList">
+             <iterate prepend="S5.PART_CODE in" property="partGubnList" open="(" close=")" conjunction="," >
+             	#partGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="manGubnList">
+             <iterate prepend="S5.USER_CODE in" property="manGubnList" open="(" close=")" conjunction="," >
+             	#manGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="prodGubnList">
+             <iterate prepend="S2.PRO_CODE in" property="prodGubnList" open="(" close=")" conjunction="," >
+             	#prodGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custGubnList">
+             <iterate prepend="S1.ORDR_CUST in" property="custGubnList" open="(" close=")" conjunction="," >
+             	#custGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		GROUP
+		BY			S5.PART_CODE,	
+					S5.SALESMAN,	
+					S1.ORDR_CUST,				
+					S3.CUST_NAME,		
+					S4.SALE_GROUP2,					
+					S2.PRO_CODE,
+					S4.PRO_NAME,
+					S2.UNIT_PRICE,	
+					S3.DIST_TYPE,
+					S3.SALE_COMB_CUST
+		ORDER
+		BY			1, 2, 3, 5, 6	
+		
+	</select>	
+	
+	<select id="SD0602mpOrderDDAO.selectSD0602MpOrderList_5" resultMap="SD0602_5">
+	
+		SELECT	(
+				SELECT	CODE_NAME 
+				FROM 	TM_CODEXD 
+				WHERE 	CORP_CODE	= '1001' 
+				AND 	GROUP_CODE 	= 'SD025' 
+				AND 	CODE_ID = S4.SALE_GROUP2)			SALE_GROUP2,						
+				S2.PRO_CODE,													
+				S4.PRO_NAME,													
+				S1.ORDR_CUST,												
+				S3.CUST_NAME,									
+				SUM(S2.DELV_BOX)							DELV_BOX,	
+				SUM(S2.DELV_WEIGHT)							DELV_WEIGHT,	
+				S2.UNIT_PRICE,													
+				SUM(S2.DELV_AMT)							DELV_AMT,		
+				SUM(S2.DELV_VAT)							DELV_VAT,		
+				SUM(S2.DELV_AMT) + SUM(S2.DELV_VAT)			DELV_TOT,	
+				S5.PART_CODE,												
+				S5.SALESMAN,	
+				(
+				SELECT	CODE_NAME 
+				FROM 	TM_CODEXD 
+				WHERE 	CORP_CODE	= '1001' 
+				AND 	GROUP_CODE 	= 'SD005' 
+				AND 	CODE_ID = S3.DIST_TYPE)				DIST_TYPE,					
+				(
+				SELECT 	CUST_NAME 
+				FROM 	MP_CUST_INFO 
+				WHERE 	CORP_CODE	= '1001' 
+				AND 	CUST_CODE = S3.SALE_COMB_CUST) 		SALE_COMB_CUST		
+		FROM	MP_ORDER_H			S1,
+				MP_ORDER_D			S2,			
+				MP_CUST_INFO		S3,								
+				MP_ITEM_MASTER_M	S4,									
+				(
+				SELECT	S1.CUST_CODE,
+						S3.DEPT_CODE	PART_CODE,						
+						S3.USER_CODE,
+						S3.USER_NAME	SALESMAN
+				FROM	MP_CUST_HIST 		S1,
+						MP_SALESMAN_CUST 	S2,
+						TM_USERXM			S3
+				WHERE	S1.CORP_CODE	= '1001'
+				AND		S1.CORP_CODE	= S2.CORP_CODE
+				AND		S1.CORP_CODE	= S3.CORP_CODE
+				AND		S1.CUST_CODE	= S2.SALESMAN_CUST		
+				AND		S1.SALESMAN		= S2.SALESMAN
+				AND		S1.SALESMAN		= S3.USER_CODE		
+				AND		S1.START_DATE	<![CDATA[<]]>=	#lastDate#
+				AND		S1.LAST_DATE	<![CDATA[>]]>=	#lastDate#
+				)S5
+		WHERE	S1.CORP_CODE	= '1001'
+		AND		S1.CORP_CODE	= S2.CORP_CODE
+		AND		S1.CORP_CODE	= S3.CORP_CODE
+		AND		S1.CORP_CODE	= S4.CORP_CODE
+		AND		S1.DELV_DATE	= S2.DELV_DATE
+		AND		S1.ORDR_NO		= S2.ORDR_NO
+		AND		S1.ORDR_CUST	= S3.CUST_CODE
+		AND		S1.ORDR_CUST	= S5.CUST_CODE
+		AND		S2.PRO_CODE		= S4.PRO_CODE
+		AND		S1.STATUS		!= 'D'					
+		AND		S1.IF_STATUS	= '1'						
+		AND		S1.DELV_DATE	BETWEEN #strtDate# AND #lastDate#
+		<isNotEmpty prepend="and" property="chgoGubnList">
+             <iterate prepend="S1.ORDR_TYPE in" property="chgoGubnList" open="(" close=")" conjunction="," >
+             	#chgoGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="partGubnList">
+             <iterate prepend="S5.PART_CODE in" property="partGubnList" open="(" close=")" conjunction="," >
+             	#partGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="manGubnList">
+             <iterate prepend="S5.USER_CODE in" property="manGubnList" open="(" close=")" conjunction="," >
+             	#manGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="prodGubnList">
+             <iterate prepend="S2.PRO_CODE in" property="prodGubnList" open="(" close=")" conjunction="," >
+             	#prodGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custGubnList">
+             <iterate prepend="S1.ORDR_CUST in" property="custGubnList" open="(" close=")" conjunction="," >
+             	#custGubnList[]#
+             </iterate>
+		</isNotEmpty>
+		GROUP
+		BY			S1.DELV_DATE,
+					S5.PART_CODE,	
+					S5.SALESMAN,	
+					S1.ORDR_CUST,				
+					S3.CUST_NAME,		
+					S4.SALE_GROUP2,					
+					S2.PRO_CODE,
+					S4.PRO_NAME,
+					S2.UNIT_PRICE,	
+					S3.DIST_TYPE,
+					S3.SALE_COMB_CUST
+		ORDER
+		BY			1, 2, 4	
+		
+	</select>
+
+</sqlMap>

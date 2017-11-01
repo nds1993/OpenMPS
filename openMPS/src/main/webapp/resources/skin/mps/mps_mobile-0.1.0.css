@@ -1,0 +1,537 @@
+@charset "utf-8";
+/**
+ * Project : MPS
+ * Copyright (c) 2016 FREECORE, Inc. All rights reserved.
+ * @author	escteam
+ back : #F2F2F2
+ hover bg : #DBE6F1
+ border : #dfdfdf
+ color : #000
+ font:12px
+
+ *------------------------------------------------------------
+/* ---- CSS Base ---- */
+html, body { overflow:hidden; }
+html { }
+body { background-color: #fff; font-family: '돋움', 'Dotum', '맑은 고딕', 'Malgun Gothic', '나눔 고딕',Helvetica,sans-serif!important; font-size: 14px; color: #000 }
+h1,h2,h3,h4,h5 { font-size: 14px }
+.result_box .col-xs-1, .result_box .col-xs-10, .result_box .col-xs-11, .result_box .col-xs-2, .result_box .col-xs-3, .result_box .col-xs-4, .result_box .col-xs-5, .result_box .col-xs-6, .result_box .col-xs-7, .result_box .col-xs-8, .result_box .col-xs-9, .multi_box .col-xs-1, .multi_box .col-xs-10, .multi_box .col-xs-11, .multi_box .col-xs-2, .multi_box .col-xs-3, .multi_box .col-xs-4, .multi_box .col-xs-5, .multi_box .col-xs-6, .multi_box .col-xs-7, .multi_box .col-xs-8, .multi_box .col-xs-9 { padding: 0 3px }
+/* jqGrid & grid_box */
+.grid_box { overflow: auto; border-top: 1px solid #dfdfdf; border-bottom: 1px solid #dfdfdf; background: #F2F2F2; position: relative; margin-top: 8px }
+.ui-jqgrid-htable tr th:last-child, .ui-jqgrid-btable tr td:last-child { border-right: 0 none !important }
+.ui-state-hover { background: #DBE6F1 }
+.ui-jqgrid .ui-jqgrid-htable th { border: 1px solid #dfdfdf; color: #000; font-size: 14px; lien-height: 1.05em; background: #F2F2F2; padding-top: 5px !important; padding-bottom: 5px !important; }
+.ui-jqgrid td.gridcell, .ui-jqgrid th { font-size: 14px !important; color: #000 !important; min-height: 45px !important; vertical-align: middle !important; }
+.ui-jqgrid, .ui-jqgrid-view, .ui-state-default, .ui-jqgrid-htable, .ui-jqgrid-bdiv, .ui-state-default, .ui-jqgrid-btable, .ui-jqgrid-htable, .ui-jqgrid, .ui-jqgrid-view, .ui-jqgrid-hdiv, .ui-jqgrid-bdiv, .ui-jqgrid-hbox, .ui-jqgrid .ui-jqgrid-htable, .ui-jqgrid .ui-jqgrid-btable { min-width: 100% !important; }
+.ui-jqgrid table { border: 1px solid #dfdfdf; background: #fff }
+table.ui-search-table { background: none; }
+.ui-search-input input[type=text] { padding: 2px !important; }
+.ui-jqgrid-bdiv { border-top: 1px solid #dfdfdf; border-bottom: none }
+.ui-search-input input.ui-widget-content { border: 1px solid #dfdfdf }
+.ui-jqgrid { height: 100% !important; left: 0; top: 0; }
+.ui-jqgrid tr.jqfoot>td, .ui-jqgrid tr.jqgroup>td, .ui-jqgrid tr.jqgrow>td, .ui-jqgrid tr.ui-subgrid>td, .ui-jqgrid tr.ui-subtblcell>td { font-size:14px; height: 45px !important }
+.ui-jqgrid>.ui-jqgrid-pager { border-top: 1px solid #dfdfdf !important }
+.ui-jqgrid td { font-size:14px;
+    overflow: visible !important;
+    white-space: inherit !important;
+    padding: 2px !important;}
+.checkbox, .radio {     font-weight: bold;
+    margin: 0;
+    padding: 6px 0; height: 44px; line-height: 44px; text-align: center; padding-top: 4px}
+tr th:first-child, tr td:first-child {border-left: none}
+tr th:last-child, tr td:last-child {border-left: none}
+.jqgfirstrow td { margin:0 ;padding:0 !important }
+.ui-jqgrid .ui-jqgrid-labels th.ui-th-column {height:45px; font-weight:100}
+.btn, .form-control { border-radius: 0; }
+.form_table_box.form_only>.form-group { padding-left: 0px }
+.form_table_box .form_only fieldset>.form-group { padding-left: 0px }
+.form_table_box .form_only.form-group { padding-left: 0px }
+/* form 영역
+.form-control { border-color: #D5D5D5; padding: 0 6px; min-height: 19px; line-height: 19px }
+.form-group, .form-inline .form-group { margin-bottom: 8px; position: relative; min-height: 21px; padding-left: 70px; }
+.form_item_box { padding-left: 0; }
+.form-group>label { position: absolute; left: 0; top: 3px; width: 70px; margin-right: 8px; padding-left: 8px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; font-weight: bold; vertical-align: middle; }
+.help-block { font-size: 12px; min-height: 22px; }
+.form_w110.form-group { padding-left: 110px }
+.form_w110.form-group>label { width: 110px }
+.form_w90.form-group { padding-left: 90px }
+.form_w90.form-group>label { width: 90px }
+.form_w40.form-group { padding-left: 40px }
+.form_w40.form-group>label { width: 40px }
+.form_w110>.form-group { padding-left: 110px }
+.form_w110>.form-group>label { width: 110px }
+.form_w90>.form-group { padding-left: 90px }
+.form_w90>.form-group>label { width: 90px }
+.form_w40>.form-group { padding-left: 40px }
+.form_w40>.form-group>label { width: 40px }
+.form_only>.form-group { padding-left: 0px }
+.form_w110 fieldset>.form-group { padding-left: 110px }
+.form_w110 fieldset>.form-group>label { width: 110px }
+.form_w90 fieldset>.form-group { padding-left: 90px }
+.form_w90 fieldset>.form-group>label { width: 90px }
+.form_w40 fieldset>.form-group { padding-left: 40px }
+.form_w40 fieldset>.form-group>label { width: 40px }
+.form_only fieldset>.form-group { padding-left: 0px }
+.form_only.form-group { padding-left: 0px }
+.input-group-addon { font-size: 12px }
+.form-group>.row { margin-top: 8px; margin-bottom: -8px }
+.multi_box>.row { margin-top: 8px; margin-bottom: 8px }
+.form-group>label.required:before, query_box .form-group label { content: "*"; color: red; width: 10px; position: absolute; left: -1px; top: -2px; font-size: 1.2em; }
+fieldset { padding: 0px; margin: 0; border: 1px solid silver; margin-bottom: 4px; padding-right: 10px; padding-bottom: 4px; }
+legend { font-size: 12px; font-weight: 300; border: none; padding: 0 5px; width: auto; margin-bottom: 0px; margin-left: 5px; height: 21px; line-height: 21px; }
+fieldset .form-group { margin-bottom: 4px; }
+.input-group-btn .btn { height: 21px; line-height: 12px; padding: 0 5px; }
+.btn-inline button { margin-right: 5px }
+.input-group-addon { border-radius: 0; padding: 0 6px; }
+.form-group>.helf-block { height: 21px; line-height: 21px; margin-bottom: 8px; color: #999 }
+.form-inline .label_box, .form-inline .control_box, .form-inline .form_item_box, .form-inline .form-control, .form-inline .help-block, .form-inline .checkbox_box { display: inline; width: auto }
+.form-inline .label_box { margin-right: 20px }
+.form-horizontal .label_box { width: 100px; position: absolute; display: table; padding-top: 7px; table-layout: fixed; }
+.form-horizontal .label_box .control-label { display: table-row; padding-top: 7px }
+.form-horizontal .label_box span.title, .form-horizontal .control-label .required { display: table-cell }
+.form-horizontal .label_box span.title { white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+.form-label .control_box, .form-horizontal .control_box { padding-left: 110px }
+.form-horizontal .control-label .required { width: 10px }
+.form_only .label_box, .form-label .control-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+.label-lg { font-size: 1.2em }
+.label-sm { font-size: 0.9em }
+.noresize { resize: none; }
+.vresize { resize: vertical; }
+.hresize { resize: horizontal; }
+*/
+/*인라인 간격
+.form-inline select, .form-inline input { margin-right: 5px; }
+.form-inline select:last-child, .form-inline input:last-child { margin: 0 }
+
+/* Selects
+
+*/
+/* 화면 영역 정의 */
+.select_design select.form-control { height: 32px; border: none; box-shadow: none; opacity: 0; z-index: 2; position: relative; }
+.select_design > .select_label { display: block;
+    height: 34px;
+    width: 100%;
+    padding: 0 30px 0 7px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: absolute;
+    line-height: 34px;
+    top: 50%;
+    margin-top: -17px; text-align:center}
+.select_design:after { content: "▾"; color: #7E7E7E; position: absolute; right: 10px; top: 50%; width: 12px; height: 18px; line-height: 18px; background: #fff; margin-top: -9px; font-size: 1.2em; text-align: center; }
+.select_design { display: inline-block; border: 1px solid #dfdfdf; width: 100%; height: auto; background: #fff; position: relative; margin: 0  }
+.form-inline .select_design { width: auto }
+.form-inline .select_design + .form-control { margin-left: 5px }
+select.select_multipe { height: 40px }
+/*form_box*/
+.form_box { position: relative; border: 1px solid #D2D2D2; padding: 8px 20px 0px 20px; margin: 25px 0 8px 0 }
+.form_box:before { content: "상세정보"; display: block; position: absolute; top: -18px; left: 17px; font-weight: bold; color: #888 }
+.form_box:after { content: "\f138"; position: absolute; left: 0px; top: 0px; color: #756c6a; text-shadow: 0 0 1px rgba(0,0,0,0.3); background: #e0dede; width: 12px; height: 12px; border-radius: 14px; position: absolute; top: -17px; left: 0px; display: inline-block; font: normal normal normal 14px/1 FontAwesome; font-size: 13px; text-rendering: auto; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/*query_box*/
+
+
+.query_box { position: relative; border: 1px solid #93C7EA; background-color: #EDF5FB; padding: 10px 20px 2px 20px; margin: 0 0 8px 0 }
+.query_box .form-inline { padding-left: 0 }
+.query_box .form-inline label { position: static; width: auto; display: inline; }
+.form_table_box { margin-bottom:15px
+}
+.form_table_box .form-group {
+margin-bottom: 0px;
+border-top: 1px solid #dfdfdf;
+padding: 0 ;
+position: relative;
+padding-left: 110px;
+min-height: 45px
+}
+.form-control[disabled].form_text, .form-control[readonly].form_text, fieldset[disabled] .form-control.form_text { background:none}
+.form_table_box .form-control { text-align: center ; border: none; box-shadow: none; height: 44px; line-height: 44px; background: none; padding: 6px 5px}
+.form_table_box .form-group:first-child {  border-top: 1px solid #dfdfdf;}
+.form_table_box .row + .form-group {  border-top: 1px solid #dfdfdf;}
+.form_table_box .form-group:last-child {  border-bottom: 1px solid #dfdfdf;}
+
+.form_table_box .form-group>label {  position: absolute;
+    left: 0;
+    top: 0px;
+    width: 110px;
+    bottom: 0px;
+    right: 0px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 44px;
+    background: #F2F2F2;
+    display: block;
+    margin: 0; border-right:1px solid #dfdfdf; font-weight:100}
+.form_table_box .sub_header {margin-bottom: 5px}
+.form_table_box .sub_header > div[class*="col"] { padding: 0 2px}
+.form_table_box .sub_header > div[class*="col"] .form-control { padding: 3px;
+    background-color: transparent;
+    text-align: center;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    color: #000;
+    border-radius: 0;
+}
+/* 헤더 영역 */
+.gnbarea_region { position: relative; z-index: 5}
+.login_box .headerarea_region .hide { display:block !important;     z-index: 2;}
+.mobileheader_box {  z-index:1; text-align: center;position: fixed; background: #fff; border-bottom: 1px solid #DFDFDF; height: 45px; left: 0; top: 0; line-height: 45px; font-family: '맑은 고딕', 'Malgun Gothic';width: 100%; letter-spacing: -1px }
+.login_box .mobileheader_box h1 {    float: none;
+    width: 135px;
+    display: block;
+    margin: auto;}
+.system_title { margin: 0; padding: 0; height: 45px; float: left; }
+.system_title .logo { background-image: url(img/logo.png); width: 128px; height: 45px; display: block; float: left; margin-top: -1px; }
+.mobileheader_box .system_title .logo,.gnbarea_header .system_title .logo  {     background-image: url(img/favicon.png);
+    width: 25px;
+    height: 25px;
+    display: block;
+    float: left;
+    background-size: cover;
+    margin: 10px;
+    border-radius: 5px;}
+.mobileheader_box .system_title  small,.gnbarea_header .system_title small{ font-size: 14px; color: #232323; display: inline-block; float: left; height: 45px; line-height: 45px; font-weight: bold}
+.gnbarea_header .system_title small{ color: #dfdfdf; }
+.page_title_region  {     display: block;
+    position: fixed;
+    top: 0;
+    width: 150px;
+    text-align: center;
+    left: 50%;
+    margin-left: -75px;
+    background: #fff;
+    z-index: 1;
+}
+.page_title_region  .title_box .title_tag {     line-height: 45px;
+    height: 44px;
+    padding: 0;
+    margin: auto;
+    /* position: absolute; */
+    /* z-index: 2; */
+    width: 150px;
+    text-align: center;
+}
+.page_title_region .fa {display: none}
+.header_left_btn {position: fixed;
+    left: 0;
+    z-index: 1;
+    top: -1px;
+    height: 45px;
+    width: 45px; background: #fff; line-height: 45px
+}
+.header_left_btn .btn {    font-size: 20px;}
+
+/* GNB 영역 */
+
+.gnbarea_box {
+	 position: fixed;
+    background: #fff;
+    border-right: 1px solid #ebebeb;
+    height: 100%;
+    width: 230px;
+    right: -230px;
+    top: 0px;
+    z-index: 2;
+    padding: 14px;background: #333;
+	border-left:1px solid #111;
+	box-shadow:none
+}
+/* 메뉴영역 */
+.gnbarea_bg {    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0,0,0,0.5);
+	display: none;
+	opacity: 0;
+	z-index:1
+}
+.gnbarea_header {
+	position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 45px;
+    border-bottom: 1px solid #222;}
+.gnbarea_header .gnbarea_btn { width: 45px; height: 45px; text-align: center; border-left: 1px solid #222; position: absolute;right: 0; top: 0}
+.gnbarea_header .gnbarea_btn .fa { font-size: 24px; height: 32px; line-height: 32px; color:#eee}
+.menuarea_region { position: absolute; overflow-y: auto; top: 99px; bottom: 40px;     margin: auto -15px;
+    width: 100%;overflow-x: hidden; }
+.menu_btn_box { position: fixed; bottom: 5px; text-align: center; }
+.menu_btn_box .btn { padding: 2px 24px; border-radius: 5px; }
+.user_box {     font-weight: bold;
+    text-align: center;
+    color: #fff;
+    margin: 30px -14px 0 -15px;
+    background: #222;
+    padding: 8px; }
+.user_box .dept_name { }
+.user_box .fa { color: #dfdfdf; font-weight: lighter; }
+.menu_slide_box, .btn_back_box {     position: fixed;
+    right: 0px;
+    top: 0px;
+    /* margin-top: -72px; */
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    line-height: 45px;}
+.btn_back_box { right:auto;left:0}
+.menu_slide_box .btn, .btn_back_box .btn { outline: none; box-shadow: none;  }
+.menu_slide_box .btn .fa, .btn_back_box .btn .fa { font-size: 20px; }
+.menu_item_label { top: 0; position: relative;}
+.menu_item_label .anchor {     position: absolute;
+    left: 186px;
+    top: 4px;
+    width: 30px;
+    height: 30px;
+    color: #aaa;}
+.menu_item_label .anchor:before { content: "\f105"}
+.menu_box {    padding-top: 3px;
+    padding-left: 1px;}
+
+.menu_item {   border-bottom: 1px solid #000;
+    border-top: 1px solid #555;
+    padding: 9px;
+    color: #eee;}
+
+
+.menu_item_label:link, .menu_item_label:visited { background: none; color:#eee }
+.menu_item_label:hover, .menu_item_label:active { background: none; color:#FF9957 }
+.btn_group_box {    padding-bottom: 15px;}
+.btn_group_box .fa { display: none}
+.btn_group_box .btn:first-child { float: left}
+/*workarea*/
+
+.mainframe_box { margin-top: 45px; padding: 15px}
+.workarea_region {}
+.workarea_box { padding: 15px; position: relative; width: 100%; }
+
+.title_box .title_tag { padding-top: 12px; margin: 0; position: relative; padding-left: 30px; z-index: 2}
+.title_box .line, .title_box .help-block { display: none }
+
+
+input+textarea { margin-top: 3px }
+
+textarea.form-control { resize: none; height: 45px }
+textarea.text3line { height: 79px }
+textarea.text4line { height: 108px }
+.inline>input { display: inline-block; width: auto }
+.textmulti_box>input+input { margin-top: 5px }
+.inline>input+input { margin-top: 0; margin-left: 10px }
+.control_box .textmulti_box { display: block !important }
+/* content_page */
+
+/* 로그인 페이지 */
+
+.login_box { background: #fff; min-width: 370px; min-height: 480px; width: 100%; height: 100% }
+.login_in_box { width: 370px; height: 480px; margin: auto; border:2px solid #fff ; padding: 60px 0 30px 0; position: absolute; top: 50%; margin-top: -240px; margin-left: -185px; left: 50%; background: #fff; }
+.login_in_box .system_title { float: none ; background-image: url(img/login_logo.png);width:188px ;height: 73px; margin: auto; border}
+.l_field { width: 234px; margin: 50px auto 0 auto;  }
+.l_field li { border-bottom: 1px solid #ccc; }
+.login_in_box .input-group * { border: none; outline: none; background: none; height: 51px; font-size: 16px; line-height: 50px }
+.login_in_box .input-group img {
+    width: 21px;
+    height: 21px;
+    margin-left: -10px;
+    margin-top: -14px;
+}
+.login_in_box .input-group { width: 100% }
+.login_in_box .input-group .input-group-addon { position: absolute; z-index: 4; left: 11px;width:17px; background-repeat: no-repeat; background-position: center; }
+.login_in_box .icon_user { background-image: url(img/icon_user.png);}
+.login_in_box .icon_pw { background-image: url(img/icon_pw.png)}
+
+.login_in_box .input-group .form-control { font-size: 16px; line-height: 50px; height: 51px; padding-left: 36px; box-shadow: none }
+.login_in_box .label_none { padding-left: 0 }
+.login_in_box .select_design select.form-control { height: 40px; line-height: 40px; }
+.login_in_box .select_design .select_label { font-size: 14px; }
+.login_in_box .checkbox_box { font-size: 14px; margin: -5px 0 15px 0; }
+.login_in_box .btn_go_login {     background-image: url(img/icon_login.png);
+    background-repeat: no-repeat;
+    background-position: center right 10px;
+    border-radius: 20px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 36px;
+    padding: 1px;
+    margin: 55px 0 25px 0;
+    background-color: #00B973;
+    color: #fff;
+    font-weight: bold;}
+.login_in_box .btn_go_login:link,.login_in_box .btn_go_login:visited {background-color: #00B973}
+.login_in_box .btn_go_login:active,.login_in_box .btn_go_login:hover {background-color: #00a862}
+.login_in_box .copyright:after {     content: "COPYRIGHT © 2017 openMPS ALL RIGHT RESERVED";
+    display: block;
+    color: #7F7F7F;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    font-size: 10px; }
+.login_in_box .checkbox_box { padding-left: 10px}
+.login_in_box .checkbox {text-align: left}
+.form-group .btn { height: 21px; padding-top: 0; line-height: 21px; padding-bottom: 0; }
+/* 부드트스랩 그리드 변경*/
+
+.row { margin: 0 }
+.row>div[class*="col"]:first-child, .row>div.contents_box>div[class*="col"]:first-child { padding-left: 0px }
+.row>div[class*="col"]:last-child, .row>div.contents_box>div[class*="col"]:last-child { padding-right: 0px }
+.col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 { padding: 0 20px }
+.col-xs-12 { padding: 0 }
+.row .trans_item_left { padding-right: 30px }
+.row .trans_item_right { padding-left: 30px; position: relative; }
+.row .trans_btn_box { position: absolute; left: -18px; top: 50%; margin-top: -18px; width: 35px; }
+.row .trans_btn_box button+button { margin-top: 10px; }
+
+.navigator_region .menu_tab { left: 230px }
+
+
+.modal_box .alert_box {  width: 300px; }
+
+
+.btn_box { margin:20px 0 ; text-align: center;}
+
+.panel-default>.panel-heading { background-color: #F2F2F2 ; color:#000;border-top: 1px solid #DFDFDF;border-color: #DFDFDF}
+.panel, .panel-heading,.panel>.list-group:last-child .list-group-item:last-child, .panel>.panel-collapse>.list-group:last-child .list-group-item:last-child  {border-radius: 0;     border-bottom: 1px solid #DFDFDF;
+}
+.btn-link .fa {color:#000}
+.header_left_btn .btn, .menu_slide_box .btn { padding :6px 7px }
+.panel { border:none; box-shadow:none}
+.panel-body, .list-group-item {
+    padding: 12px 15px;
+    margin-bottom: 0px;
+    background-color: #fff;
+    border: none;
+    border-bottom: 1px solid #DFDFDF;
+	height: 45px;
+}
+.fa.pull-right {
+    margin-left: .3em;
+    font-size: 1.8em;
+    margin-top: -4px;
+}
+
+.btn-primary {
+height: 45px; min-width: 110px ;
+color: #000;
+background-color: #fff;
+border-color: #dfdfdf;
+}
+.btn-primary:link, .btn-primary:visited { background-color: #fff; color: #000;border-color: #aaa;}
+.btn-primary:hover, .btn-primary:active,.btn-primary:focus  { background-color: #DBE6F1;color: #000;border-color: #aaa;}
+
+.btn_row { position: relative;}
+.btn_row .btn-primary {min-width: 85px; padding-left:0; padding-right:0}
+.btn_sms {background-color: #FFFED1;border-color: #dfdfdf;}
+/*dropbox*/
+.dropbox {}
+.dropbox.active .dropbox_item {     display: block;
+    border-bottom: 1px solid #dfdfdf;
+    background: #FFFED1;
+    color: #CA1C25;}
+.dropbox.active .dropbox_item:last-child { border: none}
+.dropbox.active .dropbox_item[selected] { display: block; background: #DBE6F1; padding-right: 0px;}
+.dropbox.active .dropbox_item[selected]:before { display: none}
+.dropbox_item {min-height: 44px; text-align: center;
+    line-height: 44px;
+    padding: 0;
+    display: none;white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+.dropbox_item[selected]{  background:#fff;  display: block; padding-right: 24px;}
+.dropbox_item[selected]:before { display: block;
+    content: "\f107";
+    font: normal normal normal 14px/1 FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 44px;
+    line-height: 44px;
+    font-size: 25px;
+    position: absolute;
+    right: 5px;
+    top: 0;
+ }
+ .dropbox_item:hover { background: #E9ECEF !important }
+
+.table_row + .table_row {border-top:1px solid #dfdfdf;}
+ .table_row { display: table-row;min-height: 44px}
+ .table_row:link, .table_row:visited { background: none; }
+ .table_sub_row > .table_cell { position: absolute; width: 100%;}
+ .table_row:hover {background: #DBE6F1}
+.table_row:active { background:#E9ECEF}
+ .table_row.selected { background: #FEEADC}
+ .table_tbody {display:table-row-group;}
+ .table_cell {display: table-cell }
+.resizing_box { border-top:1px solid #dfdfdf;border-bottom: 1px solid #dfdfdf; overflow: scroll;}
+.resizing_box .table {margin: 0}
+.table {margin-bottom: 0}
+.table>thead>tr>th {text-align: center; border-top:1px solid #dfdfdf !important; border-bottom: none; background: #F2F2F2;vertical-align: middle;}
+table.table th,table.table td,table.table .table_cell  { border-right:1px solid #dfdfdf; height: 44px; vertical-align: middle;}
+table.table th:last-child,table.table td:last-child,table.table .table_cell:last-child { border-right:none}
+.table_subgroup table.table { background: #FFFED1; color: #CA1C25}
+table.table .editorble input[type=text],
+table.table .editorble  input[type=textatea],
+table.table .editorble  input[type=password] { background: #FFFED1;background: rgba(255,255,170,0.7); }
+.table_subgroup >.table_cell >.form_table_box { margin: -1px 0; background: #fff}
+table.table tr.active { background: #FFFED1 }
+table.table td.table_combobox { border-right:0px }
+/* 위젯 */
+
+.code_search_box .input-group-btn { padding: 0 2px 0 3px }
+.form_table_box input.form_type_date { background-image: url(color/images/btn_CalDrop_N.png); background-position: right 8px center; background-repeat: no-repeat; display: block; padding-right: 25px }
+.form_table_box input.form_type_date[disabled] { background-image: url(color/images/btn_CalDrop_D.png); }
+.form_table_box .no_border { border: none}
+.form_table_box .no_border label { border: none; background: none;}
+.form_table_box .no_border label input[type=text],
+.form_table_box .no_border label input[type=textatea],
+.form_table_box .no_border label input[type=password] { padding:0}
+.form_table_box .input-group { width: 100%}
+.form-control-static { line-height: 1em;    display: block;
+    min-height: auto;
+    height: auto;
+    padding: 0 5px;}
+.form-group .form-control-static { height: 24px; line-height: 24px; padding-top: 10px}
+/* floating*/
+.floating_region .modal_box > .contents_box {  border: 1px solid #AFAFAF;
+    background: #fff;
+    max-width: 90%;
+    min-width: 90%;
+    border-radius: 0px;
+    margin: 25px auto;
+    padding: 15px 15px;
+    width: 90%; }
+.floating_title_box {
+	    background: #3196DC;
+	    color: #fff;
+	    margin: -15px -15px 15px -15px;
+	    height: 45px;
+	    line-height: 45px;
+	    padding-left: 18px;
+	    position: relative;
+	}
+.floating_title_box .btn_floating_close {
+	position: absolute;
+    right: 0px;
+    top: 0;
+    text-decoration: none;
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    font-size: 20px;
+    padding: 5px 12px;
+    margin: 0;
+    font-weight: lighter;
+    color: #fff;
+    height: 45px;
+    /* line-height: 45px; */
+}
+.color_minus {color:red}
+.mt45 {margin-top:45px !important}
+.btn-inline .btn { float: none !important}
+.btn-inline .btn+.btn {margin-left:15px}
+.foucs,:focus { outline: none; box-shadow: none;}
+.ml0 { margin-left: 0 !important}
+.mt10 { margin-top: 10px}

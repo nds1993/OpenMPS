@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpDailySumM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpDailySumMSerarchVO" type="nds.mpm.prod.PP0902.vo.MpDailySumMVO"/>
+	
+	<resultMap id="mpDailySumM" class="nds.mpm.prod.PP0902.vo.MpDailySumMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="plantCode" column="plant_code" columnIndex="2"/>
+		<result property="workDate" column="work_date" columnIndex="3"/>
+		<result property="cmPmType" column="cm_pm_type" columnIndex="4"/>
+		<result property="proCode" column="pro_code" columnIndex="5"/>
+		<result property="lpcCode" column="lpc_code" columnIndex="6"/>
+		<result property="qtyType" column="qty_type" columnIndex="7"/>
+		<result property="qty" column="qty" columnIndex="8"/>
+		<result property="unit" column="unit" columnIndex="9"/>
+		<result property="weightQty" column="weight_qty" columnIndex="10"/>
+		<result property="avrgWeightQty" column="avrg_weight_qty" columnIndex="11"/>
+		<result property="weightUnit" column="weight_unit" columnIndex="12"/>
+		<result property="dusu" column="dusu" columnIndex="13"/>
+		<result property="rate" column="rate" columnIndex="14"/>
+		<result property="largeCode" column="large_code" columnIndex="15"/>
+		<result property="deleYn" column="dele_yn" columnIndex="16"/>
+		<result property="mdUser" column="md_user" columnIndex="17"/>
+		<result property="mdDate" column="md_date" columnIndex="18"/>
+		<result property="crUser" column="cr_user" columnIndex="19"/>
+		<result property="crDate" column="cr_date" columnIndex="20"/>
+	</resultMap>
+	
+	<insert id="mpDailySumMDAO.insertMpDailySumM_S">
+		<![CDATA[
+			INSERT INTO mp_daily_sum_m 
+				( corp_code
+				  , plant_code
+				  , work_date
+				  , cm_pm_type
+				  , pro_code
+				  , lpc_code
+				  , qty_type
+				  , qty
+				  , unit
+				  , weight_qty
+				  , avrg_weight_qty
+				  , weight_unit
+				  , dusu
+				  , rate
+				  , large_code
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #workDate#
+				  , #cmPmType#
+				  , #proCode#
+				  , #lpcCode#
+				  , #qtyType#
+				  , #qty#
+				  , #unit#
+				  , #weightQty#
+				  , #avrgWeightQty#
+				  , #weightUnit#
+				  , #dusu#
+				  , #rate#
+				  , #largeCode#
+				  , 'Y'
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="mpDailySumMDAO.updateMpDailySumM_S">
+		<![CDATA[
+			UPDATE mp_daily_sum_m
+			SET	
+				qty=#qty#
+				, unit=#unit#
+				, weight_qty=#weightQty#
+				, avrg_weight_qty=#avrgWeightQty#
+				, weight_unit=#weightUnit#
+				, dusu=#dusu#
+				, rate=#rate#
+				, large_code=#largeCode#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND work_date=#workDate#
+								AND cm_pm_type=#cmPmType#
+								AND pro_code=#proCode#
+								AND lpc_code=#lpcCode#
+								AND qty_type=#qtyType#
+				]]>
+	</update>
+	
+	<delete id="mpDailySumMDAO.deleteMpDailySumM_S">
+		<![CDATA[
+			update mp_daily_sum_m set dele_yn='Y'
+						, md_user=#mdUser#
+						, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND work_date=#workDate#
+				]]>
+	</delete>
+	
+	<delete id="mpDailySumMDAO.deleteClearMpDailySumM_S">
+		<![CDATA[
+			DELETE FROM mp_daily_sum_m 
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND work_date=#workDate#
+				]]>
+	</delete>
+	
+	<select id="mpDailySumMDAO.selectMpDailySumM_S" resultMap="mpDailySumM">
+		<![CDATA[
+			SELECT
+				corp_code
+				, plant_code
+				, work_date
+				, cm_pm_type
+				, pro_code
+				, lpc_code
+				, qty_type
+				, qty
+				, unit
+				, weight_qty
+				, avrg_weight_qty
+				, weight_unit
+				, dusu
+				, rate
+				, large_code
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM mp_daily_sum_m
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND work_date=#workDate#
+								AND cm_pm_type=#cmPmType#
+								AND pro_code=#proCode#
+								AND lpc_code=#lpcCode#
+								AND qty_type=#qtyType#
+				]]>
+	</select>
+	
+	<select id="mpDailySumMDAO.selectMpDailySumMList_D" parameterClass="mpDailySumMSerarchVO" resultClass="egovMap">
+
+	</select>	
+	<select id="mpDailySumMDAO.selectMpDailySumMListTotCnt_S" parameterClass="mpDailySumMSerarchVO" resultClass="int">
+
+	</select>
+
+</sqlMap>

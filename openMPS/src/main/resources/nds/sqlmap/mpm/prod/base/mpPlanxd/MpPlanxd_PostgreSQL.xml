@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpPlanxd">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpPlanxdSerarchVO" type="nds.mpm.prod.base.vo.MpPlanxdVO"/>
+	
+	<resultMap id="mpPlanxd" class="nds.mpm.prod.base.vo.MpPlanxdVO">
+		<result property="workDate" column="work_date" columnIndex="1"/>
+		<result property="houseCode" column="house_code" columnIndex="2"/>
+		<result property="proLcode" column="pro_lcode" columnIndex="3"/>
+		<result property="proLname" column="pro_lname" columnIndex="4"/>
+		<result property="proCode" column="pro_code" columnIndex="5"/>
+		<result property="proName" column="pro_name" columnIndex="6"/>
+		<result property="ipsuDoo" column="ipsu_doo" columnIndex="7"/>
+		<result property="ipsuQty" column="ipsu_qty" columnIndex="8"/>
+		<result property="workType1" column="work_type1" columnIndex="9"/>
+		<result property="workType2" column="work_type2" columnIndex="10"/>
+		<result property="workType3" column="work_type3" columnIndex="11"/>
+		<result property="workType4" column="work_type4" columnIndex="12"/>
+		<result property="workType5" column="work_type5" columnIndex="13"/>
+		<result property="workType6" column="work_type6" columnIndex="14"/>
+		<result property="jaegoQty" column="jaego_qty" columnIndex="15"/>
+		<result property="jaegoWeig" column="jaego_weig" columnIndex="16"/>
+		<result property="orderQty" column="order_qty" columnIndex="17"/>
+		<result property="orderWeig" column="order_weig" columnIndex="18"/>
+		<result property="woutQty" column="wout_qty" columnIndex="19"/>
+		<result property="woutWeig" column="wout_weig" columnIndex="20"/>
+		<result property="ajaegoQty" column="ajaego_qty" columnIndex="21"/>
+		<result property="ajaegoWeig" column="ajaego_weig" columnIndex="22"/>
+		<result property="sanQty1" column="san_qty1" columnIndex="23"/>
+		<result property="sanWeig1" column="san_weig1" columnIndex="24"/>
+		<result property="sanQty2" column="san_qty2" columnIndex="25"/>
+		<result property="sanWeig2" column="san_weig2" columnIndex="26"/>
+		<result property="sanQty3" column="san_qty3" columnIndex="27"/>
+		<result property="sanWeig3" column="san_weig3" columnIndex="28"/>
+		<result property="sanQty4" column="san_qty4" columnIndex="29"/>
+		<result property="sanWeig4" column="san_weig4" columnIndex="30"/>
+		<result property="sanQty5" column="san_qty5" columnIndex="31"/>
+		<result property="sanWeig5" column="san_weig5" columnIndex="32"/>
+		<result property="bjaegoQty" column="bjaego_qty" columnIndex="33"/>
+		<result property="bjaegoWeig" column="bjaego_weig" columnIndex="34"/>
+		<result property="workCnt" column="work_cnt" columnIndex="35"/>
+		<result property="frozen1" column="frozen1" columnIndex="36"/>
+		<result property="frozen2" column="frozen2" columnIndex="37"/>
+		<result property="gitaInt1" column="gita_int1" columnIndex="38"/>
+		<result property="gitaInt2" column="gita_int2" columnIndex="39"/>
+		<result property="gitaInt3" column="gita_int3" columnIndex="40"/>
+		<result property="gitaInt4" column="gita_int4" columnIndex="41"/>
+		<result property="gitaTemp1" column="gita_temp1" columnIndex="42"/>
+		<result property="gitaTemp2" column="gita_temp2" columnIndex="43"/>
+		<result property="gitaTemp3" column="gita_temp3" columnIndex="44"/>
+		<result property="gitaTemp4" column="gita_temp4" columnIndex="45"/>
+		<result property="status1" column="status1" columnIndex="46"/>
+		<result property="status2" column="status2" columnIndex="47"/>
+		<result property="memo" column="memo" columnIndex="48"/>
+		<result property="deleYn" column="dele_yn" columnIndex="49"/>
+		<result property="mdUser" column="md_user" columnIndex="50"/>
+		<result property="mdDate" column="md_date" columnIndex="51"/>
+		<result property="crUser" column="cr_user" columnIndex="52"/>
+		<result property="crDate" column="cr_date" columnIndex="53"/>
+		<result property="gitaInt5" column="gita_int5" columnIndex="54"/>
+		<result property="gitaInt6" column="gita_int6" columnIndex="55"/>
+		<result property="memo2" column="memo2" columnIndex="56"/>
+		<result property="memo3" column="memo3" columnIndex="57"/>
+		<result property="memo4" column="memo4" columnIndex="58"/>
+		<result property="memo5" column="memo5" columnIndex="59"/>
+	</resultMap>
+	
+	<insert id="mpPlanxdDAO.insertMpPlanxd_S">
+		<![CDATA[
+			INSERT INTO PPLAN_ITEM (WORK_DATE, HOUSE_CODE, PRO_LCODE,PRO_LNAME,PRO_CODE,PRO_NAME,IPSU_DOO
+			,       WORK_TYPE1 ,  
+			WORK_TYPE2, WORK_TYPE3,    ORDER_QTY,ORDER_WEIG,       WOUT_QTY,WOUT_WEIG,FROZEN1,FROZEN2,JAEGO_QTY
+			,JAEGO_WEIG, gita_int1,GITA_TEMP1 ) 
+			SELECT '2017-05-18','00', L.PRO_LCODE, L.PRO_LNAME, P.PRO_CODE, P.PRO_NAME, P.GITA_INT1,  
+			     CASE P.SOOYUL_CODE2 WHEN  '1 ' THEN '0mm'  when '2' THEN '1mm' 
+			     when '3' THEN '3mm'  when '4' THEN '3~5mm'  WHEN '5' THEN '4mm'                      
+			WHEN '6' THEN '5mm' WHEN '7' THEN '5~7mm' WHEN '8' THEN '7mm' WHEN '9' THEN '7~8mm' 
+			WHEN '10' THEN '10mm'    end AS JOB1
+			,    CASE  P.SOOYUL_GITA2 WHEN '1' THEN '진공' WHEN '2'THEN 'PE' WHEN '3' THEN '벌크' 
+			WHEN '4' THEN 'PE/진공'     WHEN '5' THEN 'PE/벌크' WHEN '6' THEN 'PE/개별' end AS JOB2     
+			, CASE  p.SOOYUL_CODE3 WHEN '1' THEN '더느림' WHEN '2' THEN '임금님표'WHEN '3' THEN '자향' 
+			WHEN '4' THEN '포쉬'    WHEN '5' THEN '프레쉬'    end AS  JOB3,      0 ORDER_QTY, 0 ORDER_WEIG,        0 OUT_QTY,0 OUT_WEIG,         CASE P.FROZEN_YN WHEN '0' THEN '●' ELSE '' END AS FROZEN1, CASE P.FROZEN_YN WHEN '1' THEN '●' ELSE '' END AS FROZEN2                , 0 JEGO_QTY , 0 JEGO_WEIG , P.Pro_weig,         
+			case p.GITA_CODE3 when '1' then '앞다리' when '2' then '몸통' when '3' then '뒷다리' end as GITA_CODE3 
+			FROM  PRODUCT_INFO P, PRODUCT_LARGE L   
+			WHERE  P.PRO_CODE = '' 
+			  AND P.LARGE_CODE *= L.PRO_LCODE      AND P.DELE_YN = 'N'      AND P.PRO_KIND = '1'   
+			GROUP BY  L.PRO_LCODE, L.PRO_LNAME, P.PRO_CODE, P.PRO_NAME, P.PRO_IPSU, P.PRO_MEAL4,           
+			P.FROZEN_YN, P.Pro_weig ,P.GITA_INT1, P.SOOYUL_CODE2, P.SOOYUL_GITA2,P.SOOYUL_CODE3,p.GITA_CODE3
+		]]>
+	</insert>
+	
+	<update id="mpPlanxdDAO.updateMpPlanxd_S">
+		<![CDATA[
+			UPDATE MP_PLANXD
+			SET work_date=#workDate#
+				, house_code=#houseCode#
+				, pro_lcode=#proLcode#
+				, pro_lname=#proLname#
+				, pro_code=#proCode#
+				, pro_name=#proName#
+				, ipsu_doo=#ipsuDoo#
+				, ipsu_qty=#ipsuQty#
+				, work_type1=#workType1#
+				, work_type2=#workType2#
+				, work_type3=#workType3#
+				, work_type4=#workType4#
+				, work_type5=#workType5#
+				, work_type6=#workType6#
+				, jaego_qty=#jaegoQty#
+				, jaego_weig=#jaegoWeig#
+				, order_qty=#orderQty#
+				, order_weig=#orderWeig#
+				, wout_qty=#woutQty#
+				, wout_weig=#woutWeig#
+				, ajaego_qty=#ajaegoQty#
+				, ajaego_weig=#ajaegoWeig#
+				, san_qty1=#sanQty1#
+				, san_weig1=#sanWeig1#
+				, san_qty2=#sanQty2#
+				, san_weig2=#sanWeig2#
+				, san_qty3=#sanQty3#
+				, san_weig3=#sanWeig3#
+				, san_qty4=#sanQty4#
+				, san_weig4=#sanWeig4#
+				, san_qty5=#sanQty5#
+				, san_weig5=#sanWeig5#
+				, bjaego_qty=#bjaegoQty#
+				, bjaego_weig=#bjaegoWeig#
+				, work_cnt=#workCnt#
+				, frozen1=#frozen1#
+				, frozen2=#frozen2#
+				, gita_int1=#gitaInt1#
+				, gita_int2=#gitaInt2#
+				, gita_int3=#gitaInt3#
+				, gita_int4=#gitaInt4#
+				, gita_temp1=#gitaTemp1#
+				, gita_temp2=#gitaTemp2#
+				, gita_temp3=#gitaTemp3#
+				, gita_temp4=#gitaTemp4#
+				, status1=#status1#
+				, status2=#status2#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+				, gita_int5=#gitaInt5#
+				, gita_int6=#gitaInt6#
+				, memo2=#memo2#
+				, memo3=#memo3#
+				, memo4=#memo4#
+				, memo5=#memo5#
+						WHERE work_date=#workDate#
+								AND house_code=#houseCode#
+								AND pro_code=#proCode#
+				]]>
+	</update>
+	
+	<delete id="mpPlanxdDAO.deleteMpPlanxd_S">
+		<![CDATA[
+			DELETE FROM MP_PLANXD 
+						WHERE work_date=#workDate#
+								AND house_code=#houseCode#
+								AND pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<select id="mpPlanxdDAO.selectMpPlanxd_S" resultMap="mpPlanxd">
+		<![CDATA[
+			SELECT
+				work_date
+				, house_code
+				, pro_lcode
+				, pro_lname
+				, pro_code
+				, pro_name
+				, ipsu_doo
+				, ipsu_qty
+				, work_type1
+				, work_type2
+				, work_type3
+				, work_type4
+				, work_type5
+				, work_type6
+				, jaego_qty
+				, jaego_weig
+				, order_qty
+				, order_weig
+				, wout_qty
+				, wout_weig
+				, ajaego_qty
+				, ajaego_weig
+				, san_qty1
+				, san_weig1
+				, san_qty2
+				, san_weig2
+				, san_qty3
+				, san_weig3
+				, san_qty4
+				, san_weig4
+				, san_qty5
+				, san_weig5
+				, bjaego_qty
+				, bjaego_weig
+				, work_cnt
+				, frozen1
+				, frozen2
+				, gita_int1
+				, gita_int2
+				, gita_int3
+				, gita_int4
+				, gita_temp1
+				, gita_temp2
+				, gita_temp3
+				, gita_temp4
+				, status1
+				, status2
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+				, gita_int5
+				, gita_int6
+				, memo2
+				, memo3
+				, memo4
+				, memo5
+			FROM MP_PLANXD
+						WHERE work_date=#workDate#
+								AND house_code=#houseCode#
+								AND pro_code=#proCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	 FROM MP_PLANXD  
+		 WHERE DELE_YN = 'N'  
+		<dynamic>
+			<isNotEmpty prepend="and" property="workDate">
+			 WORK_DATE = #workDate#
+	         </isNotEmpty>
+			 <isNotEmpty prepend="and" property="houseCode">
+			 HOUSE_CODE = #houseCode#
+	         </isNotEmpty>
+		 </dynamic>
+	</sql>
+	<select id="mpPlanxdDAO.selectMpPlanxdList_D" parameterClass="mpPlanxdSerarchVO" resultClass="egovMap">
+		SELECT * 
+		   <include refid="selectWhere_fragment"/>
+		   Order by Pro_LCode
+	</select>	
+	<select id="mpPlanxdDAO.selectMpPlanxdListTotCnt_S" parameterClass="mpPlanxdSerarchVO" resultClass="int">
+		SELECT count(*) 
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

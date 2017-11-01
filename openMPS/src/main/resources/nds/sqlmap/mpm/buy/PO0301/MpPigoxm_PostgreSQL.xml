@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PO0301MpPigoxm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="PO0301MpPigoxmSerarchVO" type="nds.mpm.buy.PO0301.vo.MpPigoxmVO"/>
+	
+	<resultMap id="PO0301MpPigoxm" class="nds.mpm.buy.PO0301.vo.MpPigoxmVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="dochDate" column="doch_date" columnIndex="2"/>
+		<result property="custCode" column="cust_code" columnIndex="3"/>
+		<result property="carNo" column="car_no" columnIndex="4"/>
+		<result property="othKind" column="oth_kind" columnIndex="5"/>
+		<result property="othCause" column="oth_cause" columnIndex="6"/>
+		<result property="othPart" column="oth_part" columnIndex="7"/>
+		<result property="othWeig" column="oth_weig" columnIndex="8"/>
+		<result property="othSise" column="oth_sise" columnIndex="9"/>
+		<result property="othPer" column="oth_per" columnIndex="10"/>
+		<result property="othPric" column="oth_pric" columnIndex="11"/>
+		<result property="othQty" column="oth_qty" columnIndex="12"/>
+		<result property="othDisu" column="oth_disu" columnIndex="13"/>
+		<result property="other" column="other" columnIndex="14"/>
+		<result property="othB" column="oth_b" columnIndex="15"/>
+		<result property="othDanga1" column="oth_danga1" columnIndex="16"/>
+		<result property="othDanga2" column="oth_danga2" columnIndex="17"/>
+		<result property="othDanga3" column="oth_danga3" columnIndex="18"/>
+		<result property="othCause1" column="oth_cause1" columnIndex="19"/>
+		<result property="othCause2" column="oth_cause2" columnIndex="20"/>
+		<result property="othCause3" column="oth_cause3" columnIndex="21"/>
+		<result property="othCause4" column="oth_cause4" columnIndex="22"/>
+		<result property="othCause5" column="oth_cause5" columnIndex="23"/>
+		<result property="othCause6" column="oth_cause6" columnIndex="24"/>
+		<result property="othCause7" column="oth_cause7" columnIndex="25"/>
+		<result property="othCause8" column="oth_cause8" columnIndex="26"/>
+		<result property="othCause9" column="oth_cause9" columnIndex="27"/>
+		<result property="gitaCode1" column="gita_code1" columnIndex="28"/>
+		<result property="gitaCode2" column="gita_code2" columnIndex="29"/>
+		<result property="gitaCode3" column="gita_code3" columnIndex="30"/>
+		<result property="memo" column="memo" columnIndex="31"/>
+		<result property="deleYn" column="dele_yn" columnIndex="32"/>
+		<result property="mdUser" column="md_user" columnIndex="33"/>
+		<result property="mdDate" column="md_date" columnIndex="34"/>
+		<result property="crUser" column="cr_user" columnIndex="35"/>
+		<result property="crDate" column="cr_date" columnIndex="36"/>
+		<result property="othQty1" column="oth_qty1" columnIndex="37"/>
+		<result property="othDanga4" column="oth_danga4" columnIndex="38"/>
+	</resultMap>
+	
+	<insert id="PO0301MpPigoxmDAO.insertPO0301MpPigoxm">
+		<selectKey resultClass="java.lang.String" keyProperty="custCode">
+          <![CDATA[
+            SELECT #custCode# 
+          ]]>
+      	</selectKey>
+			INSERT INTO openmps.mp_pigoxm 
+				( corp_code
+				  , doch_date
+				  , cust_code
+				  , car_no
+				  , oth_kind
+				  , oth_cause
+				  , oth_part
+				  , oth_weig
+				  , oth_sise
+				  , oth_per
+				  , oth_pric
+				  , oth_qty
+				  , oth_disu
+				  , other
+				  , oth_b
+				  , oth_danga1
+				  , oth_danga2
+				  , oth_danga3
+				  , oth_cause1
+				  , oth_cause2
+				  , oth_cause3
+				  , oth_cause4
+				  , oth_cause5
+				  , oth_cause6
+				  , oth_cause7
+				  , oth_cause8
+				  , oth_cause9
+				  , gita_code1
+				  , gita_code2
+				  , gita_code3
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date
+				  , oth_qty1
+				  , oth_danga4 )
+			VALUES ( #corpCode#
+				  , #dochDate#
+				  , #custCode#
+				  , #carNo#
+				  , #othKind#
+				  , 0
+				  , #othPart#
+				  , #othWeig#
+				  , #othSise#
+				  , #othPer#
+				  , #othPric#
+				  , #othQty#
+				  , #othDisu#
+				  , #other#
+				  , #othB#
+				  , #othDanga1#
+				  , #othDanga2#
+				  , #othDanga3#
+				  , #othCause1#
+				  , #othCause2#
+				  , #othCause3#
+				  , #othCause4#
+				  , #othCause5#
+				  , #othCause6#
+				  , #othCause7#
+				  , #othCause8#
+				  , #othCause9#
+				  , #gitaCode1#
+				  , #gitaCode2#
+				  , #gitaCode3#
+				  , #memo#
+				  , 'N'
+				  , #mdUser#
+				  , now()
+				  , #crUser#
+				  , now()
+				  , #othQty1#
+				  , #othDanga4# )
+			ON CONFLICT (corp_code, doch_date, cust_code, car_no, oth_kind, oth_cause, oth_part, oth_weig)
+    		DO UPDATE SET
+    			oth_cause=#othCause#
+				, oth_part=#othPart#
+				, oth_weig=#othWeig#
+				, oth_sise=#othSise#
+				, oth_per=#othPer#
+				, oth_pric=#othPric#
+				, oth_qty=#othQty#
+				, oth_disu=#othDisu#
+				, other=#other#
+				, oth_b=#othB#
+				, oth_danga1=#othDanga1#
+				, oth_danga2=#othDanga2#
+				, oth_danga3=#othDanga3#
+				, oth_danga4=#othDanga4#
+				, oth_cause1=#othCause1#
+				, oth_cause2=#othCause2#
+				, oth_cause3=#othCause3#
+				, oth_cause4=#othCause4#
+				, oth_cause5=#othCause5#
+				, oth_cause6=#othCause6#
+				, oth_cause7=#othCause7#
+				, oth_cause8=#othCause8#
+				, oth_cause9=#othCause9#
+				, gita_code1=#gitaCode1#
+				, gita_code2=#gitaCode2#
+				, gita_code3=#gitaCode3#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+				, oth_qty1=#othQty1#
+				, oth_danga4=#othDanga4#
+	</insert>
+	
+	<update id="PO0301MpPigoxmDAO.updatePO0301MpPigoxm">
+		<![CDATA[
+			UPDATE openmps.mp_pigoxm
+			SET oth_kind=#othKind#
+				, oth_cause=#othCause#
+				, oth_part=#othPart#
+				, oth_weig=#othWeig#
+				, oth_sise=#othSise#
+				, oth_per=#othPer#
+				, oth_pric=#othPric#
+				, oth_qty=#othQty#
+				, oth_disu=#othDisu#
+				, other=#other#
+				, oth_b=#othB#
+				, oth_danga1=#othDanga1#
+				, oth_danga2=#othDanga2#
+				, oth_danga3=#othDanga3#
+				, oth_danga4=#othDanga4#
+				, oth_cause1=#othCause1#
+				, oth_cause2=#othCause2#
+				, oth_cause3=#othCause3#
+				, oth_cause4=#othCause4#
+				, oth_cause5=#othCause5#
+				, oth_cause6=#othCause6#
+				, oth_cause7=#othCause7#
+				, oth_cause8=#othCause8#
+				, oth_cause9=#othCause9#
+				, gita_code1=#gitaCode1#
+				, gita_code2=#gitaCode2#
+				, gita_code3=#gitaCode3#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+				, oth_qty1=#othQty1#
+				, oth_danga4=#othDanga4#
+				WHERE corp_code=#corpCode#
+				AND doch_date=#dochDate#
+				AND cust_code=#custCode#
+				AND oth_kind=#othKind#
+				]]>
+	</update>
+	
+	<!--
+	tab2 update 
+	 -->
+	<update id="PO0301MpPigoxmDAO.updatePO0301Tab2MpPigoxm">
+		<![CDATA[
+			UPDATE openmps.mp_pigoxm
+			SET oth_kind=#othKind#
+				, oth_weig=#othWeig#
+				, oth_sise=#othSise#
+				, oth_per=#othPer#
+				, oth_pric=#othPric#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+				WHERE corp_code=#corpCode#
+				AND doch_date=#dochDate#
+				AND cust_code=#custCode#
+				AND oth_kind=#othKind#
+				]]>
+	</update>
+	<delete id="PO0301MpPigoxmDAO.deletePO0301MpPigoxm">
+		<![CDATA[
+			update openmps.mp_pigoxm set dele_yn = 'Y'
+						, md_user=#mdUser#
+						, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND doch_date=#dochDate#
+								AND cust_code=#custCode#
+								AND car_no=#carNo#
+								AND oth_kind=#othKind#
+				]]>
+	</delete>
+	
+	<select id="PO0301MpPigoxmDAO.selectPO0301MpPigoxm_S" resultMap="PO0301MpPigoxm">
+		<![CDATA[
+			SELECT
+				corp_code
+				, doch_date
+				, cust_code
+				, car_no
+				, oth_kind
+				, oth_cause
+				, oth_part
+				, oth_weig
+				, oth_sise
+				, oth_per
+				, oth_pric
+				, oth_qty
+				, oth_disu
+				, other
+				, oth_b
+				, oth_danga1
+				, oth_danga2
+				, oth_danga3
+				, oth_cause1
+				, oth_cause2
+				, oth_cause3
+				, oth_cause4
+				, oth_cause5
+				, oth_cause6
+				, oth_cause7
+				, oth_cause8
+				, oth_cause9
+				, gita_code1
+				, gita_code2
+				, gita_code3
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+				, oth_qty1
+				, oth_danga4
+			FROM openmps.mp_pigoxm
+						WHERE corp_code=#corpCode#
+								AND doch_date=#dochDate#
+								AND cust_code=#custCode#
+								AND car_no=#carNo#
+								AND oth_kind=#othKind#
+								AND oth_cause=#othCause#
+								AND oth_part=#othPart#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+		FROM openmps.mp_pigoxm a
+		where corp_code=#corpCode#
+		and doch_date =#dochDate#
+		and dele_yn = 'N'
+		<dynamic>
+			<isNotEmpty property="custCode">
+				and a.cust_code = #custCode#
+			</isNotEmpty>
+			<isNotEmpty property="brandCode">
+				and a.brand_code = #brandCode#
+			</isNotEmpty>
+			<isNotEmpty property="othKind">
+				and a.oth_kind = #othKind#
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	<!-- 
+		tab1 search
+	-->
+	<select id="PO0301MpPigoxmDAO.selectPO0301MpPigoxmTab1List_D" parameterClass="PO0301MpPigoxmSerarchVO" resultClass="egovMap">
+		SELECT
+			doch_date
+			, cust_code
+			, openmps."FN_GET_CUSTCODENM"(a.corp_code,a.cust_code) as cust_name
+			, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PP006',a.buy_type) as buy_type_name
+			, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PP007',a.brand_code) as brand_code_name
+			, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PO004',a.oth_kind) as oth_kindname 
+			, oth_part
+			, '' oth_cause <!-- 발생부위 controller에서 생성. -->
+			, oth_qty1
+			, oth_danga4
+			, oth_pric
+			, oth_weig
+			, oth_sise
+			, oth_per
+			, memo
+			
+			, buy_type
+			, brand_code
+			, oth_kind
+			, oth_disu
+			, oth_danga1
+			, other
+			, oth_danga2
+			
+			, ( case when oth_cause1 = '1' then 
+				openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PO006','1')
+			 	else '0' end ) as oth_cause1
+			, ( case when oth_cause2 = '1' then 
+				openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PO006','2')
+			 	else '0' end ) as oth_cause2
+			, ( case when oth_cause3 = '1' then 
+				openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PO006','3')
+			 	else '0' end ) as oth_cause3
+			, ( case when oth_cause4 = '1' then 
+				openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PO006','4')
+			 	else '0' end ) as oth_cause4
+			, ( case when oth_cause5 = '1' then 
+				openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PO006','5')
+			 	else '0' end ) as oth_cause5
+			, ( case when oth_cause6 = '1' then 
+				openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PO006','6')
+			 	else '0' end ) as oth_cause6
+			, ( case when oth_cause7 = '1' then 
+				openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PO006','7')
+			 	else '0' end ) as oth_cause7
+			, ( case when oth_cause8 = '1' then 
+				openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PO006','8')
+			 	else '0' end ) as oth_cause8
+			, ( case when oth_cause9 = '1' then 
+				openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PO006','9')
+			 	else '0' end ) as oth_cause9
+			, oth_b
+			, oth_danga3
+		<include refid="selectWhere_fragment"/>	
+		order by doch_date, cust_code	
+	</select>	
+	<select id="PO0301MpPigoxmDAO.selectPO0301MpPigoxmTab1ListTotCnt_S" parameterClass="PO0301MpPigoxmSerarchVO" resultClass="int">
+		SELECT count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	
+	<!-- 
+		도축일자+농장별 
+		mp_pigdxm 구매내역 및 정산내역 
+		
+		이상육생성 기초데이터 목록 
+	-->
+	<select id="PO0301MpPigoxmDAO.selectPO0301Tab1MpPigdxmList_D" parameterClass="PO0301MpPigoxmSerarchVO" resultClass="egovMap">
+		select
+				corp_code
+				,doch_date
+				,cust_code
+				,openmps."FN_GET_CUSTCODENM"(a.corp_code,a.cust_code) as cust_name
+				,count(doch_id) as do_su
+				, '0' as othKind
+				,'이상육' as othKindname
+				, 0 othQty1
+				, 0 othDanga4
+				, 0 othWeig
+				, 0 othSise
+				, 0 othPer
+				, '' memo
+		from openmps.mp_pigdxm a
+		where a.corp_code = #corpCode#
+		and a.doch_date = #dochDate#
+		and a.dele_yn = 'N'
+		group by corp_code
+				,doch_date
+				,cust_code
+	</select>
+	<!-- 
+		tab2 search
+		9/16 설계변경 폐기
+	<select id="PO0301MpPigoxmDAO.selectPO0301MpPigoxmTab2List_D" parameterClass="PO0301MpPigoxmSerarchVO" resultClass="egovMap">
+		SELECT
+			corp_code
+			, doch_date
+			, cust_code
+			, openmps."FN_GET_CUSTCODENM"(a.corp_code,a.cust_code) as cust_name
+			, oth_kind
+			, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PO004',a.oth_kind) as oth_kindname 
+			, oth_pric
+			, oth_weig
+			, oth_sise
+			, oth_per
+			, memo
+		<include refid="selectWhere_fragment"/>		
+	</select>	
+	<select id="PO0301MpPigoxmDAO.selectPO0301MpPigoxmTab2ListTotCnt_S" parameterClass="PO0301MpPigoxmSerarchVO" resultClass="int">
+		SELECT count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	-->
+	<!-- 
+		TAB3
+		도축일자+농장별 
+		mp_pigdxm 구매내역 및 정산내역 
+		가공실적.
+		계산후 채워질 필드 생성.
+	-->
+	<select id="PO0301MpPigoxmDAO.selectPO0301Tab3MpPigdxmList_D" parameterClass="PO0301MpPigoxmSerarchVO" resultClass="egovMap">
+		select
+				corp_code
+				,doch_date
+				,#procDate# pro_date
+				,cust_code
+				,openmps."FN_GET_CUSTCODENM"(a.corp_code,a.cust_code) as cust_name
+				,count(doch_id) as doch_cnt
+				, 0 dedu_amt
+				, 0 setl_amt
+				, 0 part_gubn
+				, 0 scra_mat
+				, sum(pig_weig2) pig_weig
+				, 0 disp_rate
+				, 0 oth_meat
+				, 0 oth_mat
+				, 0 cuse_occur
+				, 0 occur_qty
+				, 0 hind_leg
+				, '' memo
+		from openmps.mp_pigdxm a
+		where a.corp_code = #corpCode#
+		and a.doch_date = #dochDate#
+		and a.dele_yn = 'N'
+		group by corp_code
+				,doch_date
+				,cust_code
+	</select>	
+</sqlMap>

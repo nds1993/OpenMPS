@@ -1,0 +1,256 @@
+{
+  "module": "WorkAreaRenderer",
+  "options": {
+    "className": "contents_box",
+    "order": [
+      "queryBox",
+      "resultBox"
+    ],
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "queryBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "query_box",
+        "order": [
+          "receDate",
+          "groupType",
+          "rdo_custCode",
+          "custCode",
+          "headCode",
+          "teamCode",
+          "deptCode"
+        ],
+        "activation": {
+          "defaultWidget": "",
+          "method": "one-page"
+        },
+        "custom_form": {
+          "template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">기준일자</label><div class=\"input-group\"><input type=\"text\" class=\"form-control receDate\" value=\"2017-06\"><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">기준일자</span></button></span></div></div><div class=\"form-group\"><div class=\"radio\"><label><input type=\"radio\" name=\"groupType\" value=\"0\" checked>전체거래처 </label><label><input type=\"radio\" name=\"groupType\" value=\"1\">잔액거래처 </label></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>거래처선택</label><div class=\"form-group form_only\"><div class=\"radio\"><label><input type=\"radio\" name=\"rdo_custCode\" value=\"0\" checked>전체 </label><label><input type=\"radio\" name=\"rdo_custCode\" value=\"1\">선택 </label></div></div><div class=\"form-group form_only\"><div class=\"custCode_region\"></div></div><div class=\"form-group form_only\"><select multiple class=\"form-control select_multipe custCode\"></select></div></div></div><div class=\"col-xs-4 form_w40\"><div class=\"form-group\"><label>본부</label><div class=\"headCode_region\"></div></div><div class=\"form-group\"><label>팀</label><div class=\"teamCode_region\"></div></div><div class=\"form-group\"><label>부서</label><div class=\"deptCode_region\"></div></div></div></div>",
+          "mode": "form",
+          "items": {
+            "receDate": {
+              "module": "date",
+              "label": "선택일자",
+              "selector": ".receDate",
+              "required": true
+            },
+            "groupType": {
+              "module": "radiobox",
+              "label": "소계",
+              "selector": "[name=groupType]",
+              "required": false
+            },
+            "headCode": {
+              "label": "본부코드",
+              "required": false
+            },
+            "rdo_custCode": {
+              "module": "radiobox",
+              "label": "거래처",
+              "selector": "[name=rdo_custCode]",
+              "required": false
+            },
+            "custCode": {
+              "label": "거래처코드",
+              "required": false
+            },
+            "teamCode": {
+              "label": "팀코드",
+              "required": false
+            },
+            "deptCode": {
+              "label": "부서코드",
+              "required": false
+            }
+          },
+          "data": {}
+        },
+        "custCode": {
+          "module": "manifest!CodeSearch-1.0.0",
+          "options": {
+            "label": "거래처코드",
+            "required": false
+          }
+        },
+        "headCode": {
+          "module": "manifest!CodeSearch-1.0.0",
+          "options": {
+            "label": "본부코드",
+            "required": false
+          }
+        },
+        "teamCode": {
+          "module": "manifest!CodeSearch-1.0.0",
+          "options": {
+            "label": "팀코드",
+            "required": false
+          }
+        },
+        "deptCode": {
+          "module": "manifest!CodeSearch-1.0.0",
+          "options": {
+            "label": "부서코드",
+            "required": false
+          }
+        }
+      }
+    },
+    "resultBox": {
+      "module": "manifest!jqGrid4-1.0.0",
+      "options": {
+        "className": "result_box grid_box exex",
+        "gridId": "outputinfoJanak",
+        "gridParams": {
+          "data": [
+            {
+              "id": "1",
+              "invdate": "2017-07-25",
+              "name": "도축왕",
+              "weight": "275.35",
+              "buwi": "SAM",
+              "price": "17600.00",
+              "note": "냉장육"
+            },
+            {
+              "id": "2",
+              "invdate": "2017-07-26",
+              "name": "도축왕",
+              "weight": "275.35",
+              "buwi": "MOK",
+              "price": "17600.00",
+              "note": "냉장육"
+            },
+            {
+              "id": "3",
+              "invdate": "2017-07-26",
+              "name": "도두람",
+              "weight": "275.35",
+              "buwi": "SAM",
+              "price": "17600.00",
+              "note": "냉장육"
+            },
+            {
+              "id": "4",
+              "invdate": "2017-07-27",
+              "name": "인성왕",
+              "weight": "275.35",
+              "buwi": "OGY",
+              "price": "17600.00",
+              "note": "냉장육"
+            }
+          ],
+          "datatype": "local",
+          "height": "100%",
+          "colModel": [
+            {
+              "name": "id",
+              "index": "id",
+              "label": "아이디",
+              "width": 40,
+              "sorttype": "int",
+              "align": "center"
+            },
+            {
+              "name": "invdate",
+              "index": "invdate",
+              "width": 80,
+              "sorttype": "date",
+              "align": "center"
+            },
+            {
+              "name": "name",
+              "width": 50,
+              "align": "center"
+            },
+            {
+              "name": "rad",
+              "index": "rad",
+              "width": 40,
+              "align": "center",
+              "editable": true,
+              "edittype": "radiobutton",
+              "editoptions": {
+                "value": "Y:N"
+              },
+              "formatter": "radiobutton",
+              "formatoptions": {
+                "disabled": false
+              },
+              "sortable": false
+            },
+            {
+              "name": "weight",
+              "index": "weight",
+              "width": 90,
+              "sorttype": "float",
+              "align": "right"
+            },
+            {
+              "name": "buwi",
+              "index": "buwi",
+              "width": 130,
+              "align": "center",
+              "editable": true,
+              "formatter": "select",
+              "edittype": "select",
+              "editoptions": {
+                "value": "SAM:삼겹살;MOK:목살;OGY:오겹살"
+              },
+              "stype": "select",
+              "searchoptions": {
+                "value": ":Any;SAM:삼겹살;MOK:목살;OGY:오겹살"
+              }
+            },
+            {
+              "name": "price",
+              "index": "price",
+              "width": 70,
+              "sorttype": "float",
+              "align": "right"
+            },
+            {
+              "name": "select",
+              "index": "select",
+              "width": 40,
+              "align": "center",
+              "edittype": "checkbox",
+              "editoptions": {
+                "value": "Y:N"
+              },
+              "formatter": "checkbox",
+              "formatoptions": {
+                "disabled": false
+              },
+              "sortable": false
+            },
+            {
+              "name": "note",
+              "index": "note",
+              "width": 120,
+              "align": "center"
+            }
+          ],
+          "pager": true,
+          "multiselect": true,
+          "gridview": false,
+          "rownumbers": false,
+          "autoencode": false,
+          "width": "auto",
+          "ignoreCase": false,
+          "sortable": false,
+          "toppager": true,
+          "caption":"",
+          "sortname": "invdate",
+          "viewrecords": false,
+          "sortorder": "desc",
+          "editurl": "clientArray",
+          "iconSet": "fontAwesome",
+		  "cellEdit": false
+        }
+      }
+    }
+  }
+}

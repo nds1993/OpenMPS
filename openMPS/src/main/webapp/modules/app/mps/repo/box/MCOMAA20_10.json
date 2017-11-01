@@ -1,0 +1,263 @@
+{
+	"module": "WorkAreaRenderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"formBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"setCode",
+					"setName",
+					"proCode",
+					"setQty",
+					"memo"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">세트코드</label><input type=\"text\" class=\"form-control setCode\" value=\"\" readonly></div><div class=\"form-group\"><label class=\"required\">세트명</label><input type=\"text\" class=\"form-control setName\" value=\"\" readonly></div></div><div class=\"col-xs-8\"><div class=\"navigator_region\" style=\"display: block;\"><div class=\"pos_top\"><ul class=\"nav nav-tabs\"><li class=\"active\"><a>제품정보</a></li></ul></div></div><div class=\"row\"><div class=\"col-xs-6\"><div class=\"form-group\"><label>제품코드</label><div class=\"proCode_region\"></div></div></div><div class=\"col-xs-6\"><div class=\"form-group\"><label>세트수량</label><input type=\"text\" class=\"form-control setQty\" value=\"\"></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label>비고</label><textarea class=\"form-control memo\" value=\"\"></textarea></div></div></div></div></div>",
+					"mode": "form",
+					"items": {
+						"setCode": {
+							"module": "text",
+							"label": "세트코드",
+							"selector": ".setCode",
+							"required": true
+						},
+						"setName": {
+							"module": "text",
+							"label": "세트명",
+							"selector": ".setName",
+							"required": true
+						},
+						"proCode": {
+							"label": "제품코드",
+							"required": false
+						},
+						"setQty": {
+							"module": "text",
+							"label": "세트수량",
+							"selector": ".setQty",
+							"required": false
+						},
+						"memo": {
+							"module": "textarea",
+							"label": "비고",
+							"selector": ".memo",
+							"required": false
+						}
+					},
+					"data": {}
+				},
+				"proCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "제품코드",
+						"required": true
+					}
+				}
+			}
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"module": "FormBox",
+				"className": "query_box",
+				"order": [
+					"searchCondition",
+					"searchKeyword"
+				],
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"form-group form-inline\"><label>검색</label><select class=\"form-control searchCondition\"><option>조건검색</option><option value=\"setCode\">세트코드</option><option value=\"setName\">세트명</option></select><input type=\"text\" class=\"form-control searchKeyword\" value=\"\"></div>",
+					"items": {
+						"searchCondition": {
+							"module": "combobox",
+							"label": "검색",
+							"selector": ".searchCondition",
+							"required": true
+						},
+						"searchKeyword": {
+							"module": "text",
+							"label": "검색 내용 입력",
+							"selector": ".searchKeyword",
+							"required": true
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "result_box",
+				"order": [
+					"setitem",
+					"setdetail"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"row\"><div class=\"col-xs-2 setitem_region\"></div><div class=\"col-xs-10 setdetail_region\"></div></div>",
+					"items": {
+						"setitem": {
+							"label": "setitem",
+							"required": false
+						},
+						"setdetail": {
+							"label": "setdetail",
+							"required": false
+						}
+					},
+					"data": {}
+				},
+				"setitem": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "setitem_box grid_box",
+						"gridId": "setitem",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+									"name": "setCode",
+									"label": "세트코드",
+									"width": 40,
+									"align": "center",
+									"editable": false
+								},
+								{
+									"name": "setName",
+									"label": "세트명",
+									"align": "center",
+									"width": 80
+								}
+							],
+							"rowNum": 30,
+							"records": 30,
+							"rownumWidth": 20,
+							"rowList": [30, 50, 100, 200, "100000:All"],
+							"viewrecords": true,
+							"rownumbers": false,
+							"toppager": false,
+							"pager": true,
+							"shrinkToFit": false,
+							"multiselect": false,
+							"editurl": "clientArray",
+							"loadonce": true,
+							"width": "auto",
+							"height": 327,
+
+							"iconSet": "fontAwesome",
+							"autoencode": true,
+							"altRows": true,
+							"altclass": "myAltRowClass",
+							"pagerRightWidth": 140,
+
+							"caption": "",
+							"navOptions": {
+								"del": false
+							},
+							"searching": {
+								"closeAfterSearch": true,
+								"closeAfterReset": true,
+								"closeOnEscape": true,
+								"searchOnEnter": true,
+								"multipleSearch": true,
+								"multipleGroup": true,
+								"showQuery": true
+							},
+							"cellEdit": true
+						}
+					}
+				},
+				"setdetail": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "setdetail_box grid_box",
+						"gridId": "setdetail",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+									"name": "proCode",
+									"label": "제품코드",
+									"width": 60,
+									"align": "center",
+									"editable": false
+								},
+								{
+									"name": "proㅜ믇",
+									"label": "제품명",
+									"align": "center",
+									"width": 150
+								},
+								{
+									"name": "setQty",
+									"label": "세트수량",
+									"align": "right",
+									"width": 60
+								},
+								{
+									"name": "memo",
+									"label": "비고",
+									"align": "center",
+									"width": 200
+								}
+							],
+							"rowNum": 30,
+							"records": 30,
+							"rownumWidth": 20,
+							"rowList": [30, 50, 100, 200, "100000:All"],
+							"viewrecords": true,
+							"rownumbers": false,
+							"toppager": false,
+							"pager": true,
+							"shrinkToFit": false,
+							"multiselect": false,
+							"editurl": "clientArray",
+							"loadonce": true,
+							"width": "auto",
+							"height": 327,
+
+							"iconSet": "fontAwesome",
+							"autoencode": true,
+							"altRows": true,
+							"altclass": "myAltRowClass",
+							"pagerRightWidth": 140,
+
+							"caption": "",
+							"navOptions": {
+								"del": false
+							},
+							"searching": {
+								"closeAfterSearch": true,
+								"closeAfterReset": true,
+								"closeOnEscape": true,
+								"searchOnEnter": true,
+								"multipleSearch": true,
+								"multipleGroup": true,
+								"showQuery": true
+							},
+							"cellEdit": false
+						}
+					}
+				}
+			}
+		}
+	}
+}

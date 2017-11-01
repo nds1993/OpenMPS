@@ -1,0 +1,262 @@
+{
+    "module": "WorkAreaRenderer",
+    "options": {
+        "className": "contents_box",
+        "order": [
+            "queryBox",
+            "resultBox",
+            "formBox"
+        ],
+        "activation": {
+            "defaultWidget": "",
+            "method": "one-page"
+        },
+        "formBox": {
+            "module": "FormBox",
+            "options": {
+                "className": "form_box",
+                "order": [
+                    "corpCode",
+                    "factCode",
+                    "empCode",
+                    "wmsCode",
+                    "ui_input_01",
+                    "ui_input_02",
+                    "ui_input_03",
+                    "ui_input_04",
+                    "ui_input_05",
+                    "ui_input_06"
+                ],
+                "activation": {
+                    "defaultWidget": "",
+                    "method": "one-page"
+                },
+                "custom_form": {
+                    "template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group \"><label class=\"required\">회사</label><div class=\"corpCode_region\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label class=\"required\">공장</label><div class=\"factCode_region\"></div></div></div><div class=\"col-xs-4\">&nbsp;</div></div><div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group \"><label>창고코드</label><input type=\"text\" class=\"form-control ui_input_02\" value=\"\" placeholder=\"공장코드를 입력해주세요.\"></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>창고명</label><input type=\"text\" class=\"form-control ui_input_03\" value=\"\" placeholder=\"공장명을 입력해주세요.\"></div></div><div class=\"col-xs-4\">&nbsp;</div></div><div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group \"><label>WMS창고</label><div class=\"wmsCode_region\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>WMS연계여부</label><input type=\"checkbox\" name=\"ui_input_04\" value=\"1\"></div></div><div class=\"col-xs-4\">&nbsp;</div></div><div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group \"><label>구분</label><select class=\"form-control ui_input_01\"><option value=\"\">선택</option><option value=\"1\">자재창고</option><option value=\"0\">외부창고</option></select></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>담당자</label><div class=\"empCode_region\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>사용여부</label><input type=\"checkbox\" name=\"ui_input_05\" value=\"1\"></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label>비고</label><input type=\"text\" class=\"form-control ui_input_06\" value=\"\" placeholder=\"비고를 입력해주세요.\"></div></div></div>",
+                    "items": {
+                        "corpCode": {
+                            "label": "회사",
+                            "required": true
+                        },
+                        "factCode": {
+                            "label": "공장",
+                            "required": true
+                        },
+                        "empCode": {
+                            "label": "담당자",
+                            "required": true
+                        },
+                        "wmsCode": {
+                            "label": "창고",
+                            "required": true
+                        },
+                        "ui_input_01": {
+                            "module": "combobox",
+                            "label": "구분",
+                            "selector": ".ui_input_01",
+                            "required": false
+                        },
+                        "ui_input_02": {
+                            "module": "text",
+                            "label": "창고코드",
+                            "selector": ".ui_input_02",
+                            "required": false
+                        },
+                        "ui_input_03": {
+                            "module": "text",
+                            "label": "창고명",
+                            "selector": ".ui_input_03",
+                            "required": false
+                        },
+                        "ui_input_04": {
+                            "module": "checkbox",
+                            "label": "WMS연계여부",
+                            "selector": "[name=ui_input_04]",
+                            "required": false
+                        },
+                        "ui_input_05": {
+                            "module": "checkbox",
+                            "label": "사용여부",
+                            "selector": "[name=ui_input_05]",
+                            "required": false
+                        },
+                        "ui_input_06": {
+                            "module": "text",
+                            "label": "비고",
+                            "selector": ".ui_input_06",
+                            "required": false
+                        }
+                    },
+                    "data": {}
+                },
+                "corpCode": {
+                    "module": "manifest!CodeSearch-1.0.0",
+                    "options": {
+                        "label": "회사",
+                        "required": true
+                    }
+                },
+                "factCode": {
+                    "module": "manifest!CodeSearch-1.0.0",
+                    "options": {
+                        "label": "공장",
+                        "required": true
+                    }
+                },
+                "empCode": {
+                    "module": "manifest!CodeSearch-1.0.0",
+                    "options": {
+                        "label": "담당자",
+                        "required": true
+                    }
+                },
+                "wmsCode": {
+                    "module": "manifest!CodeSearch-1.0.0",
+                    "options": {
+                        "label": "창고",
+                        "required": true
+                    }
+                }
+            }
+        },
+        "queryBox": {
+            "module": "FormBox",
+            "options": {
+                "module": "FormBox",
+                "className": "query_box",
+                "order": [
+                    "ui_search_01",
+                    "ui_search_02"
+                ],
+                "custom_form": {
+                    "mode": "form",
+                    "template": "<div class=\"form-group form-inline\"><label>창고코드</label><input type=\"text\" class=\"form-control ui_search_01\" value=\"\" placeholder=\"창고코드 입력\"><label>창고명</label><input type=\"text\" class=\"form-control ui_search_02\" value=\"\" placeholder=\"창고명 입력\"></div>",
+                    "items": {
+                        "ui_search_01": {
+                            "module": "text",
+                            "label": "공장코드",
+                            "selector": ".ui_search_01",
+                            "required": true
+                        },
+                        "ui_search_02": {
+                            "module": "text",
+                            "label": "공장명",
+                            "selector": ".ui_search_02",
+                            "required": true
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "resultBox": {
+            "module": "manifest!jqGrid-1.0.0",
+            "options": {
+                "className": "resultBox_box grid_box",
+                "gridId": "TMCOOS40_grid_1",
+                "gridParams": {
+                    "data": [],
+                    "colModel": [{
+                        "name": "col1",
+                        "label": "회사코드",
+                        "align": "right",
+                        "width": 100
+                    }, {
+                        "name": "col2",
+                        "label": "회사명",
+                        "align": "right",
+                        "width": 100
+                    }, {
+                        "name": "col3",
+                        "label": "공장코드",
+                        "align": "right",
+                        "width": 100
+                    }, {
+                        "name": "col4",
+                        "label": "공장명",
+                        "align": "right",
+                        "width": 100
+                    }, {
+                        "name": "col5",
+                        "label": "창고코드",
+                        "align": "right",
+                        "width": 100
+                    }, {
+                        "name": "col6",
+                        "label": "창고명",
+                        "align": "right",
+                        "width": 100
+                    }, {
+                        "name": "col7",
+                        "label": "담당자",
+                        "align": "right",
+                        "width": 100
+                    }, {
+                        "name": "col8",
+                        "label": "구분",
+                        "align": "right",
+                        "width": 100
+                    }, {
+                        "name": "col9",
+                        "label": "WMS연계",
+                        "align": "right",
+                        "width": 100
+                    }, {
+                        "name": "col10",
+                        "label": "WMS창고코드",
+                        "align": "right",
+                        "width": 100
+                    }, {
+                        "name": "col10",
+                        "label": "WMS창고",
+                        "align": "right",
+                        "width": 100
+                    }, {
+                        "name": "col11",
+                        "label": "사용여부",
+                        "align": "right",
+                        "width": 100
+                    }, {
+                        "name": "col12",
+                        "label": "비고",
+                        "align": "right",
+                        "width": 200
+                    }],
+                    "rowNum": 30,
+                    "records": 30,
+                    "rownumWidth": 20,
+                    "rowList": [30, 50, 100, 200, "100000:All"],
+                    "viewrecords": true,
+                    "rownumbers": false,
+                    "toppager": false,
+                    "pager": true,
+                    "shrinkToFit": false,
+                    "multiselect": false,
+                    "editurl": "clientArray",
+                    "loadonce": true,
+                    "width": "auto",
+                    "height": 258,
+                    "iconSet": "fontAwesome",
+                    "autoencode": true,
+                    "altRows": true,
+                    "altclass": "myAltRowClass",
+                    "pagerRightWidth": 140,
+
+                    "caption": "",
+                    "navOptions": {
+                        "del": false
+                    },
+                    "searching": {
+                        "closeAfterSearch": true,
+                        "closeAfterReset": true,
+                        "closeOnEscape": true,
+                        "searchOnEnter": true,
+                        "multipleSearch": true,
+                        "multipleGroup": true,
+                        "showQuery": true
+                    }
+                }
+            }
+        }
+    }
+}

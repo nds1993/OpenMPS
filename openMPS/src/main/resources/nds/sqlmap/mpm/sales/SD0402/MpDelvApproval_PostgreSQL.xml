@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD0402">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SD0402SerarchVO" type="nds.mpm.sales.SD0402.vo.SD0402VO"/>
+	
+	<resultMap id="SD0402" class="nds.mpm.sales.SD0402.vo.SD0402VO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="delvDate" column="delv_date" columnIndex="2"/>
+		<result property="ordrNo" column="ordr_no" columnIndex="3"/>
+		<result property="creditPrice" column="credit_price" columnIndex="4"/>
+		<result property="ordrAmt" column="ordr_amt" columnIndex="5"/>
+		<result property="creditOver" column="credit_over" columnIndex="6"/>
+		<result property="salesman" column="salesman" columnIndex="7"/>
+		<result property="approRequest" column="appro_request" columnIndex="8"/>
+		<result property="approYn" column="appro_yn" columnIndex="9"/>
+		<result property="approMemo" column="appro_memo" columnIndex="10"/>
+		<result property="partCode" column="part_code" columnIndex="11"/>
+		<result property="partAppro" column="part_appro" columnIndex="12"/>
+		<result property="partDate" column="part_date" columnIndex="13"/>
+		<result property="headCode" column="head_code" columnIndex="14"/>
+		<result property="headAppro" column="head_appro" columnIndex="15"/>
+		<result property="headDate" column="head_date" columnIndex="16"/>
+		<result property="ceoAppro" column="ceo_appro" columnIndex="17"/>
+		<result property="ceoDate" column="ceo_date" columnIndex="18"/>
+		<result property="crUser" column="cr_user" columnIndex="19"/>
+		<result property="crDate" column="cr_date" columnIndex="20"/>
+		<result property="mdUser" column="md_user" columnIndex="21"/>
+		<result property="mdDate" column="md_date" columnIndex="22"/>
+	</resultMap>
+	
+	<insert id="SD0402DAO.insertSD0402">
+		<![CDATA[
+			INSERT INTO openmps.mp_delv_approval 
+				( corp_code
+				  , delv_date
+				  , ordr_no
+				  , credit_price
+				  , ordr_amt
+				  , credit_over
+				  , salesman
+				  , appro_yn
+				  , cr_user
+				  , cr_date
+				  , md_user
+				  , md_date )
+			VALUES ( #corpCode#
+				  , #delvDate#
+				  , #ordrNo#
+				  , #creditPrice#::numeric
+				  , #ordrAmt#::numeric
+				  , #creditOver#::numeric
+				  , #salesman#
+				  , 'N'
+				  , #crUser#
+				  , now()
+				  , #mdUser#
+				  , #mdDate# )
+			ON CONFLICT (corp_code, delv_date, ordr_no)
+    		DO UPDATE SET
+				md_user=#crUser#
+				, md_date=now()
+		]]>
+	</insert>
+	
+	<update id="SD0402DAO.updateSD0402Request">
+		<![CDATA[
+			UPDATE openmps.mp_delv_approval
+			SET appro_request = now()
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND delv_date=#delvDate#
+								AND ordr_no=#ordrNo#
+				]]>
+	</update>
+	<delete id="SD0402DAO.deleteSD0402">
+		<![CDATA[
+			DELETE FROM openmps.mp_delv_approval 
+						WHERE corp_code=#corpCode#
+								AND delv_date=#delvDate#
+								AND ordr_no=#ordrNo#
+				]]>
+	</delete>
+	
+	<select id="SD0402DAO.selectSD0402_S" resultMap="SD0402">
+		<![CDATA[
+			SELECT
+				corp_code
+				, delv_date
+				, ordr_no
+				, credit_price
+				, ordr_amt
+				, credit_over
+				, salesman
+				, appro_request
+				, appro_yn
+				, appro_memo
+				, part_code
+				, part_appro
+				, part_date
+				, head_code
+				, head_appro
+				, head_date
+				, ceo_appro
+				, ceo_date
+				, cr_user
+				, cr_date
+				, md_user
+				, md_date
+			FROM openmps.mp_delv_approval
+						WHERE corp_code=#corpCode#
+								AND delv_date=#delvDate#
+								AND ordr_no=#ordrNo#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+		<![CDATA[
+		FROM openmps.mp_order_h ordrtb
+		left outer join openmps."FN_GET_CUSTLIMIT"(
+		    ordrtb.corp_code,
+		    ordrtb.ordr_cust,
+		    ordrtb.delv_date,
+		    ordrtb.ordr_amt
+		) custlimit on (1=1)
+		left outer join openmps.mp_salesman_cust sc on ( 
+			ordrtb.corp_code = sc.corp_code 
+			and ordrtb.ordr_cust = sc.salesman_cust 
+			)
+		left outer join openmps.mp_delv_approval da on (
+				ordrtb.corp_code = da.corp_code 
+				and ordrtb.delv_date = da.delv_date 
+				and ordrtb.ordr_no = da.ordr_no
+		)
+		WHERE ordrtb.corp_code=#corpCode#
+		and ordrtb.delv_date >= #strtDate# 
+		and ordrtb.delv_date <= #lastDate#
+		and custlimit.o_remaining_limit < 0
+		and da.appro_request is null
+		]]>
+		<dynamic > 
+	         <isNotEmpty prepend="and" property="salesman">
+	         sc.salesman = #salesman#
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<!-- 
+			SD0402 출고승인요청 대상 목록( 잔여한도가 마이너스 )
+			appro_request is null
+			당일미수 = o_cur_unpay
+			여신한도 = o_cust_limit
+			잔여한도 = o_remaining_limit
+			결재상태 - appro_yn "Y" 출고승인, "X" 반려
+			
+			openmps."FN_GET_CUSTLIMIT"(
+		    #corpCode#,
+		    #custCode#,
+		    #strtDate#,
+		    #ordrAmt#,
+		)
+			o_corp_code
+			, o_cust_code
+			, o_strt_date 
+			, o_base_limit 
+			, o_one_limit 
+			, o_cust_limit 
+			, o_cur_unpay 
+			, o_remaining_limit	
+			
+			corp_code
+				  , delv_date
+				  , ordr_no
+				  , credit_price
+				  , ordr_amt
+				  , credit_over
+				  , salesman
+	-->
+	<select id="SD0402DAO.selectSD0402List_D" parameterClass="SD0402SerarchVO" resultClass="egovMap">
+		select
+			ordrtb.corp_code
+			,ordrtb.delv_date
+			,ordrtb.ordr_no
+			,ordrtb.ordr_cust
+			,da.appro_request
+			,o_cust_limit as credit_price 
+			,ordrtb.ordr_amt
+			,o_remaining_limit as credit_over
+			,sc.salesman
+  			,da.appro_yn 
+  			,da.appro_memo 
+  			,da.part_code 
+  			,da.part_appro 
+  			,da.part_date 
+  			,da.head_code 
+  			,da.head_appro 
+  			,da.head_date 
+  			,da.ceo_appro 
+  			,da.ceo_date 
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<select id="SD0402DAO.selectSD0402ListTotCnt_S" parameterClass="SD0402SerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<!-- 
+			SD0403 출고승인요청 접수 목록
+			appro_request is not null
+			당일미수 = o_cur_unpay
+			여신한도 = o_cust_limit
+			잔여한도 = o_remaining_limit
+			결재상태 - appro_yn "Y" 출고승인, "X" 반려
+			
+			openmps."FN_GET_CUSTLIMIT"(
+		    #corpCode#,
+		    #custCode#,
+		    #strtDate#,
+		    #ordrAmt#,
+		)
+	-->
+	<sql id="selectWhere_SD0403fragment">
+		FROM openmps.mp_order_h ordrtb
+		inner join openmps.mp_delv_approval da on (
+				ordrtb.corp_code = da.corp_code 
+				and ordrtb.delv_date = da.delv_date 
+				and ordrtb.ordr_no = da.ordr_no
+		)
+		left outer join openmps.mp_salesman_cust sc on ( 
+			ordrtb.corp_code = sc.corp_code 
+			and ordrtb.ordr_cust = sc.salesman_cust 
+			)
+		left outer join openmps."SD_CREDIT_CHECK"(
+		    'C',
+		    ordrtb.corp_code,
+		    ordrtb.ordr_cust,
+		    ordrtb.delv_date,
+		    NULL
+		) custlimit on (1=1)
+		WHERE ordrtb.corp_code=#corpCode#
+		<isNotEmpty property="strtDate">
+			<isNotEmpty property="lastDate">
+			<![CDATA[ and ordrtb.delv_date >= #strtDate# ]]> 
+			<![CDATA[ and ordrtb.delv_date <= #lastDate# ]]>
+			</isNotEmpty>
+		</isNotEmpty>
+		<isNotEmpty property="strtDate">
+			<isEmpty property="lastDate">
+				and ordrtb.delv_date = #strtDate#
+			</isEmpty>
+		</isNotEmpty>
+		<![CDATA[ and custlimit.o_remaining_limit < 0 ]]>
+		
+		<!-- 
+		
+		권한레벨에 맞는 결재대상목록 조회.
+		대표 ceo salesmanLevel = 1
+		부문장 head salesmanLevel = 2
+		파트장 part salesmanLevel = 3
+		-->
+		
+		<isEqual property="salesmanLevel" compareValue="1">
+		and da.head_date is not null
+		</isEqual>
+		<isEqual property="salesmanLevel" compareValue="2">
+		and da.part_date is not null
+		</isEqual>
+		<isEqual property="salesmanLevel" compareValue="3">
+		and da.appro_request is not null
+		</isEqual>
+		<isNotEmpty property="salesman">
+        and sc.salesman = #salesman#
+        </isNotEmpty>
+        <isNotEmpty property="approYn">
+        and da.appro_yn = #approYn#
+        </isNotEmpty>
+	</sql>
+	<select id="SD0402DAO.selectSD0403List_D" parameterClass="SD0402SerarchVO" resultClass="egovMap">
+		select
+			ordrtb.ordr_no
+			,ordrtb.ordr_cust
+			,da.appro_request
+			,o_credit_limit as credit_price
+			,ordrtb.ordr_amt
+			,o_remain_amt as credit_over
+  			,da.appro_yn 
+  			,da.appro_memo 
+  			,da.part_code 
+  			,da.part_appro 
+  			,da.part_date 
+  			,da.head_code 
+  			,da.head_appro 
+  			,da.head_date 
+  			,da.ceo_appro 
+  			,da.ceo_date 
+		<include refid="selectWhere_SD0403fragment"/>
+	</select>
+	<select id="SD0402DAO.selectSD0403ListTotCnt_S" parameterClass="SD0402SerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_SD0403fragment"/>
+	</select>
+	<!-- 
+		TEAM_CODE	팀코드	
+		DEPT_CODE	부서코드	
+		RANK_CODE	직급코드	
+		OFCE_CODE	직책코드	
+		POSI_CODE	직위코드	
+		DUTY_CODE	직무코드	
+	 -->
+	<select id="SD0402DAO.selectUserInfo" parameterClass="egovMap" resultClass="egovMap">
+		select 
+			team_code
+			,dept_code
+			,rank_code
+			,ofce_code
+			,posi_code
+			,duty_code
+		from openmps.tm_userxm 
+		where user_code = #userCode#
+	</select>
+	<update id="SD0402DAO.updateDelvApproConfirm">
+			UPDATE openmps.mp_delv_approval
+			SET appro_yn = #approYn#
+	  			,appro_memo = #approMemo# 
+	  			<isEqual property="partAppro" compareValue="Y">
+	  			,part_code = #partCode# 
+	  			,part_appro = #partAppro# 
+	  			,part_date = now()
+	  			</isEqual>
+	  			<isEqual property="partAppro" compareValue="X">
+	  			,appro_request = null
+	  			,part_code = null
+	  			,part_appro = null
+	  			,part_date = null
+	  			</isEqual>
+	  			<isEqual property="headAppro" compareValue="Y">
+	  			,head_code = #headCode# 
+	  			,head_appro = #headAppro# 
+	  			,head_date = now()
+	  			</isEqual>
+	  			<isEqual property="headAppro" compareValue="X">
+	  			,appro_request = null
+	  			,part_code = null
+	  			,part_appro = null
+	  			,part_date = null
+	  			,head_code = null
+	  			,head_appro = null
+	  			,head_date = null
+	  			</isEqual>
+	  			<isEqual property="ceoAppro" compareValue="Y">
+	  			,ceo_appro  = #ceoAppro#
+	  			,ceo_date = now()
+	  			</isEqual>
+	  			<isEqual property="ceoAppro" compareValue="X">
+	  			,appro_request = null
+	  			,part_code = null
+	  			,part_appro = null
+	  			,part_date = null
+	  			,head_code = null
+	  			,head_appro = null
+	  			,head_date = null
+	  			,ceo_appro  = null
+	  			,ceo_date = null
+	  			</isEqual>
+				,md_user=#mdUser#
+				,md_date=now()
+			WHERE corp_code=#corpCode#
+					AND delv_date=#delvDate#
+					AND ordr_no=#ordrNo#
+	</update>
+</sqlMap>

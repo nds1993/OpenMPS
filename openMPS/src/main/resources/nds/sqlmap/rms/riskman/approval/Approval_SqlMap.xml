@@ -1,0 +1,1353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Approval" >
+  
+  <resultMap id="SiteResult" class="nds.rms.riskman.takyung.service.TakyungVO" >
+    <result column="CERTNO" property="certno" jdbcType="VARCHAR" />
+	<result column="WERKS" property="werks" jdbcType="VARCHAR" />
+	<result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+	<result column="MAKTX" property="maktx" jdbcType="VARCHAR" />
+	<result column="CMATNR" property="cmatnr" jdbcType="VARCHAR" />
+	<result column="CMAKTX" property="cmaktx" jdbcType="VARCHAR" />
+	<result column="FLAG" property="flag" jdbcType="VARCHAR" />
+    <result column="ASSDAT" property="assdat" jdbcType="VARCHAR" />
+	<result column="DATE01" property="date01" jdbcType="VARCHAR" />
+	<result column="MENGE01" property="menge01" jdbcType="VARCHAR" />
+	<result column="MEINS" property="meins" jdbcType="VARCHAR" />
+	<result column="NAME02" property="name02" jdbcType="VARCHAR" />
+	<result column="DATE02" property="date02" jdbcType="VARCHAR" />
+	<result column="TEXT01" property="text01" jdbcType="VARCHAR" />
+	<result column="DATE03" property="date03" jdbcType="VARCHAR" />
+	<result column="TEXT02" property="text02" jdbcType="VARCHAR" />
+	<result column="DATE04" property="date04" jdbcType="VARCHAR" />
+	<result column="DATE05" property="date05" jdbcType="VARCHAR" />
+	<result column="DATE06" property="date06" jdbcType="VARCHAR" />
+	<result column="DATE07" property="date07" jdbcType="VARCHAR" />
+	<result column="DATE08" property="date08" jdbcType="VARCHAR" />
+	<result column="TEXT03" property="text03" jdbcType="VARCHAR" />
+	<result column="TEXT04" property="text04" jdbcType="VARCHAR" />
+	<result column="TEXT05" property="text05" jdbcType="VARCHAR" />
+	<result column="TEXT06" property="text06" jdbcType="VARCHAR" />
+	<result column="TEXT07" property="text07" jdbcType="VARCHAR" />
+	<result column="TEXT08" property="text08" jdbcType="VARCHAR" />
+	<result column="TEXT09" property="text09" jdbcType="VARCHAR" />
+	<result column="TEXT10" property="text10" jdbcType="VARCHAR" />
+	<result column="TEXT11" property="text11" jdbcType="VARCHAR" />
+	<result column="TEXT12" property="text12" jdbcType="VARCHAR" />
+	<result column="TEXT13" property="text13" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectSite" resultMap="SiteResult" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+    SELECT CERTNO      ,
+			DECODE(WERKS,'1300','안성공장','1500','대구공장',WERKS) WERKS       ,
+			MATNR       ,
+			MAKTX       ,
+			CMATNR      ,
+			CMAKTX      ,
+			FLAG        ,
+			ASSDAT      ,
+			DATE01      ,
+			NAME01      ,
+			MENGE01     ,
+			MEINS       ,
+			NAME02      ,
+			DATE02      ,
+			TEXT01      ,
+			DATE03      ,
+			TEXT02      ,
+			DATE04      ,
+			DATE05      ,
+			DATE06      ,
+			DATE07      ,
+			DATE08      ,
+			TEXT03      ,
+			TEXT04      ,
+			TEXT05      ,
+			TEXT06      ,
+			TEXT07      ,
+			TEXT08      ,
+			TEXT09      ,
+			TEXT10      ,
+			TEXT11      ,
+			TEXT12      ,
+			TEXT13 
+			FROM TK_ZQMT0420
+			WHERE 1=1
+			<isNotEmpty prepend="and" property="text05">
+                TEXT05 LIKE '%'||#text05:VARCHAR#||'%'
+	        </isNotEmpty>   
+	        <isNotEmpty prepend="and" property="schStartDd">
+	                ASSDAT  BETWEEN TO_CHAR(TO_DATE(#schStartDd:VARCHAR#),'YYYY-MM-DD') AND TO_CHAR(TO_DATE(#schEndDd:VARCHAR#),'YYYY-MM-DD')
+	        </isNotEmpty>
+	        <isNotEmpty prepend="and" property="schStartDd">
+                    DATE02  BETWEEN TO_CHAR(TO_DATE(#schStartDd1:VARCHAR#),'YYYY-MM-DD') AND TO_CHAR(TO_DATE(#schEndDd1:VARCHAR#),'YYYY-MM-DD')
+            </isNotEmpty>
+	        <isNotEmpty prepend="and" property="werks">
+                   WERKS = #werks:VARCHAR#
+            </isNotEmpty>
+             <isNotEmpty prepend="and" property="cmatnr">
+                   CMATNR = #cmatnr:VARCHAR#
+            </isNotEmpty>
+             <isNotEmpty property="sidx">
+                        <isEqual property="sidx" compareValue="certno">
+                            ORDER BY CERTNO
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="matnr">
+                            ORDER BY MATNR
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="maktx">
+                            ORDER BY MAKTX
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="assdat">
+                            ORDER BY ASSDAT
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="menge01">
+                            ORDER BY MENGE01
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="meins">
+                            ORDER BY MEINS
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="date02">
+                            ORDER BY DATE02
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="text05">
+                            ORDER BY TEXT05
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="werks">
+                            ORDER BY WERKS
+                        </isEqual>
+                        <isEqual property="sord" compareValue="asc">
+                            ASC
+                        </isEqual>
+                        <isEqual property="sord" compareValue="desc">
+                            DESC
+                        </isEqual>
+                    </isNotEmpty>
+                    <isEmpty property="sidx">
+                        ORDER BY CERTNO ASC
+                    </isEmpty>
+  </select>
+  
+  
+  
+  <resultMap id="TestResultDetl" class="nds.rms.riskman.takyung.service.TakyungVO" >
+    <result column="CERTNO" property="certno" jdbcType="VARCHAR" />
+    <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+    <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+    <result column="SORTFELD" property="sortfeld" jdbcType="VARCHAR" />
+    <result column="MASSEINHSW" property="masseinhsw" jdbcType="VARCHAR" />
+    <result column="DUMMY40" property="dummy40" jdbcType="VARCHAR" />
+    <result column="ORIGINAL_INPUT" property="original_input" jdbcType="VARCHAR" />
+     <result column="PRUEFDATUB" property="pruefdatub" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <select id="selectDetl" resultMap="TestResultDetl" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+    SELECT  CERTNO      ,
+            WERKS       ,
+            MATNR       ,
+            SORTFELD       ,
+            MASSEINHSW      ,
+            DUMMY40      ,
+            ORIGINAL_INPUT        ,
+            PRUEFDATUB      
+            FROM TK_ZQMT0430
+            WHERE 1=1
+            <isNotEmpty prepend="and" property="certno">
+                CERTNO = #certno:VARCHAR#
+	        </isNotEmpty>
+	        <isNotEmpty prepend="and" property="matnr">
+	                MATNR = #matnr:VARCHAR#
+	        </isNotEmpty>
+	        <isNotEmpty prepend="and" property="werks">
+	                WERKS = DECODE(#werks:VARCHAR#,'대구공장','1500','안성공장','1300',#werks:VARCHAR#)
+	        </isNotEmpty>
+             <isNotEmpty property="sidx">
+                        <isEqual property="sidx" compareValue="certno">
+                            ORDER BY CERTNO
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="werks">
+                            ORDER BY WERKS
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="matnr">
+                            ORDER BY MATNR
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="sortfeld">
+                            ORDER BY SORTFELD
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="masseinhsw">
+                            ORDER BY MASSEINHSW
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="dummy40">
+                            ORDER BY DUMMY40
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="original_input">
+                            ORDER BY ORIGINAL_INPUT
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="pruefdatub">
+                            ORDER BY PRUEFDATUB
+                        </isEqual>
+                        <isEqual property="sord" compareValue="asc">
+                            ASC
+                        </isEqual>
+                        <isEqual property="sord" compareValue="desc">
+                            DESC
+                        </isEqual>
+                    </isNotEmpty>
+                    <isEmpty property="sidx">
+                        ORDER BY CERTNO ASC
+                    </isEmpty>
+  </select>
+  
+  <select id="selectSiteCount" resultClass="java.lang.Integer" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+    SELECT COUNT(*)
+            FROM TK_ZQMT0420
+            WHERE 1=1
+             <isNotEmpty property="sidx">
+                        <isEqual property="sidx" compareValue="certno">
+                            ORDER BY CERTNO
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="matnr">
+                            ORDER BY MATNR
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="maktx">
+                            ORDER BY MAKTX
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="date01">
+                            ORDER BY DATE01
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="menge01">
+                            ORDER BY MENGE01
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="meins">
+                            ORDER BY MEINS
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="date02">
+                            ORDER BY DATE02
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="text05">
+                            ORDER BY TEXT05
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="werks">
+                            ORDER BY WERKS
+                        </isEqual>
+                        <isEqual property="sord" compareValue="asc">
+                            ASC
+                        </isEqual>
+                        <isEqual property="sord" compareValue="desc">
+                            DESC
+                        </isEqual>
+                    </isNotEmpty>
+                    <isEmpty property="sidx">
+                        ORDER BY CERTNO ASC
+                    </isEmpty>
+  </select>
+  
+    <select id="selectDetlCount" resultClass="java.lang.Integer" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+   SELECT  COUNT(*)    
+            FROM TK_ZQMT0430
+            WHERE 1=1
+            <isNotEmpty prepend="and" property="certno">
+                CERTNO = #certno:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="matnr">
+                    MATNR = #matnr:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="werks">
+                    WERKS = #werks:VARCHAR#
+            </isNotEmpty>
+             <isNotEmpty property="sidx">
+                        <isEqual property="sidx" compareValue="certno">
+                            ORDER BY CERTNO
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="werks">
+                            ORDER BY WERKS
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="matnr">
+                            ORDER BY MATNR
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="sortfeld">
+                            ORDER BY SORTFELD
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="masseinhsw">
+                            ORDER BY MASSEINHSW
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="dummy40">
+                            ORDER BY DUMMY40
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="original_input">
+                            ORDER BY ORIGINAL_INPUT
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="pruefdatub">
+                            ORDER BY PRUEFDATUB
+                        </isEqual>
+                        <isEqual property="sord" compareValue="asc">
+                            ASC
+                        </isEqual>
+                        <isEqual property="sord" compareValue="desc">
+                            DESC
+                        </isEqual>
+                    </isNotEmpty>
+                    <isEmpty property="sidx">
+                        ORDER BY CERTNO ASC
+                    </isEmpty>
+  </select>
+  
+  <resultMap id="tkChngMang" class="nds.rms.riskman.takyung.service.TakyungVO" >
+    <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+    <result column="MAKTX" property="maktx" jdbcType="VARCHAR" />
+    <result column="MAT_SEQ" property="mat_seq" jdbcType="VARCHAR" />
+    <result column="DOC_ID" property="doc_id" jdbcType="VARCHAR" />
+    <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+    <result column="MATNR_NS" property="matnr_ns" jdbcType="VARCHAR" />
+    <result column="MAKTX_NS" property="maktx_ns" jdbcType="VARCHAR" />
+    <result column="SUBJECT" property="subject" jdbcType="VARCHAR" />
+    <result column="PLAN_DEPART" property="plan_depart" jdbcType="VARCHAR" />
+    <result column="PLANER" property="planer" jdbcType="VARCHAR" />
+    <result column="MAINT_TERM" property="maint_term" jdbcType="VARCHAR" />
+    <result column="DEPARTMENT" property="department" jdbcType="VARCHAR" />
+    <result column="DEPART_CODE" property="depart_code" jdbcType="VARCHAR" />
+    <result column="REPORTER" property="reporter" jdbcType="VARCHAR" />
+    <result column="CLASS" property="class1" jdbcType="VARCHAR" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="ATTACHMENT" property="attachment" jdbcType="VARCHAR" />
+    <result column="BEFORE_CHANGE" property="before_change" jdbcType="VARCHAR" />
+    <result column="AFTER_CHANGE" property="after_change" jdbcType="VARCHAR" />
+    <result column="APPLY_DATE" property="apply_date" jdbcType="VARCHAR" />
+    <result column="APPLY_DAYTYPE" property="apply_daytype" jdbcType="VARCHAR" />
+    <result column="BEFORE_STOCK" property="before_stock" jdbcType="VARCHAR" />
+    <result column="PROCESS_PLAN" property="process_plan" jdbcType="VARCHAR" />
+    <result column="RELATED_DEPART1" property="related_depart1" jdbcType="VARCHAR" />
+    <result column="RELATED_COMMENT1" property="related_comment1" jdbcType="VARCHAR" />
+    <result column="RELATED_CHIEF1" property="related_chief1" jdbcType="VARCHAR" />
+    <result column="RELATED_DEPART2" property="related_depart2" jdbcType="VARCHAR" />
+    <result column="RELATED_COMMENT2" property="related_comment2" jdbcType="VARCHAR" />
+    <result column="RELATED_CHIEF2" property="related_chief2" jdbcType="VARCHAR" />
+    <result column="RELATED_DEPART3" property="related_depart3" jdbcType="VARCHAR" />
+    <result column="RELATED_COMMENT3" property="related_comment3" jdbcType="VARCHAR" />
+    <result column="RELATED_CHIEF3" property="related_chief3" jdbcType="VARCHAR" />
+    <result column="APPROVE_DEPART" property="approve_depart" jdbcType="VARCHAR" />
+    <result column="APPROVE_COMMENT1" property="approve_comment1" jdbcType="VARCHAR" />
+    <result column="APPROVE_COMMENT2" property="approve_comment2" jdbcType="VARCHAR" />
+    <result column="APPROVE_CHIEF" property="approve_chief" jdbcType="VARCHAR" />
+    <result column="APPROVAL" property="approval" jdbcType="VARCHAR" />
+    <result column="APPROVE_RESULT" property="approve_result" jdbcType="VARCHAR" />
+    <result column="DISTRIBUTION" property="distribution" jdbcType="VARCHAR" />
+    <result column="SHARE_CHECK" property="share_check" jdbcType="VARCHAR" />
+    <result column="VENDOR" property="vendor" jdbcType="VARCHAR" />
+    <result column="GW_APPROVAL" property="gw_approval" jdbcType="VARCHAR" />
+    <result column="GW_ROLE" property="gw_role" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ATTACH_FILE_URL" property="attach_file_url" jdbcType="VARCHAR" />
+    <result column="ATTACH_FILE_URL2" property="attach_file_url2" jdbcType="VARCHAR" />
+    <result column="ATTACH_FILE_URL3" property="attach_file_url3" jdbcType="VARCHAR" />
+    <result column="CRT_DATE" property="crt_date" jdbcType="VARCHAR" />
+    <result column="CRT_TIME" property="crt_time" jdbcType="VARCHAR" />
+    <result column="NSPLT" property="nsplt" jdbcType="VARCHAR" />
+    <result column="BATCH_NO" property="batch_no" jdbcType="VARCHAR" />
+    <result column="PRO_DATE" property="pro_date" jdbcType="VARCHAR" />
+    <result column="EP_DATE" property="ep_date" jdbcType="VARCHAR" />
+    <result column="PRO_APLY_DATE" property="pro_aply_date" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectChngMang" resultMap="tkChngMang" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+	     /* 태경 자재 변경 이력 조회 */
+	    SELECT   DECODE(C.MATNR,'', substr(B.MATNR,12,19),C.MATNR) MATNR            ,
+	             DECODE(C.MAKTX ,'', B.MAKTX ,C.MAKTX ) MAKTX             ,
+	             DECODE(C.MAT_SEQ ,'', B.MAT_SEQ ,C.MAT_SEQ ) MAT_SEQ           ,
+	             DECODE(C.DOC_ID ,'', B.DOC_ID ,C.DOC_ID ) DOC_ID            ,
+	             DECODE(C.WERKS ,'', B.WERKS , C.WERKS  ) WERKS              ,
+	             DECODE(C.WERKS_NS ,'', A.NSPLT , C.WERKS_NS )                               NSPLT,
+	             C.BATCH_NO,
+	             C.PRO_DATE,
+	             C.EP_DATE,
+	             C.PRO_APLY_DATE,
+	             DECODE(C.MATNR_NS ,'', substr(B.MATNR_NS,11,18) , C.MATNR_NS ) MATNR_NS          ,
+	             DECODE(C.MAKTX_NS ,'', B.MAKTX_NS , C.MAKTX_NS  ) MAKTX_NS          ,
+	             DECODE(C.SUBJECT ,'', B.SUBJECT , C.SUBJECT  ) SUBJECT           ,
+	             DECODE(C.PLAN_DEPART ,'', B.PLAN_DEPART , C.PLAN_DEPART  ) PLAN_DEPART       ,
+	             DECODE(C.PLANER ,'', B.PLANER , C.PLANER  ) PLANER            ,
+	             DECODE(C.MAINT_TERM ,'', B.MAINT_TERM , C.MAINT_TERM  ) MAINT_TERM        ,
+	             DECODE(C.DEPARTMENT ,'', B.DEPARTMENT , C.DEPARTMENT  ) DEPARTMENT        ,
+	             DECODE(C.DEPART_CODE ,'', B.DEPART_CODE , C.DEPART_CODE  ) DEPART_CODE       ,
+	             DECODE(C.REPORTER ,'', B.REPORTER , C.REPORTER  ) REPORTER          ,
+	             DECODE(C.CLASS ,'', B.CLASS , C.CLASS  ) CLASS             ,
+	             DECODE(C.REASON ,'', B.REASON , C.REASON  ) REASON            ,
+	             DECODE(C.ATTACHMENT ,'', B.ATTACHMENT , C.ATTACHMENT  ) ATTACHMENT        ,
+	             DECODE(C.BEFORE_CHANGE ,'', B.BEFORE_CHANGE , C.BEFORE_CHANGE  ) BEFORE_CHANGE     ,
+	             DECODE(C.AFTER_CHANGE ,'', B.AFTER_CHANGE , C.AFTER_CHANGE  ) AFTER_CHANGE      ,
+	             DECODE(C.APPLY_DATE ,'', B.APPLY_DATE , C.APPLY_DATE  ) APPLY_DATE        ,
+	             DECODE(C.APPLY_DAYTYPE ,'', B.APPLY_DAYTYPE , C.APPLY_DAYTYPE  ) APPLY_DAYTYPE     ,
+	             DECODE(C.BEFORE_STOCK ,'', B.BEFORE_STOCK , C.BEFORE_STOCK  ) BEFORE_STOCK      ,
+	             DECODE(C.PROCESS_PLAN  ,'', B.PROCESS_PLAN  , C.PROCESS_PLAN   ) PROCESS_PLAN      ,
+	             DECODE(C.RELATED_DEPART1  ,'', B.RELATED_DEPART1  , C.RELATED_DEPART1   ) RELATED_DEPART1   ,
+	             DECODE(C.RELATED_COMMENT1  ,'', B.RELATED_COMMENT1  , C.RELATED_COMMENT1   ) RELATED_COMMENT1  ,
+	             DECODE(C.RELATED_CHIEF1  ,'', B.RELATED_CHIEF1  , C.RELATED_CHIEF1   ) RELATED_CHIEF1    ,
+	             DECODE(C.RELATED_DEPART2  ,'', B.RELATED_DEPART2  , C.RELATED_DEPART2   ) RELATED_DEPART2   ,
+	             DECODE(C.RELATED_COMMENT2  ,'', B.RELATED_COMMENT2  , C.RELATED_COMMENT2   ) RELATED_COMMENT2  ,
+	             DECODE(C.RELATED_CHIEF2  ,'', B.RELATED_CHIEF2  , C.RELATED_CHIEF2   ) RELATED_CHIEF2    ,
+	             DECODE(C.RELATED_DEPART3  ,'', B.RELATED_DEPART3  , C.RELATED_DEPART3  ) RELATED_DEPART3   ,
+	             DECODE(C.RELATED_COMMENT3  ,'', B.RELATED_COMMENT3  , C.RELATED_COMMENT3  ) RELATED_COMMENT3  ,
+	             DECODE(C.RELATED_CHIEF3  ,'', B.RELATED_CHIEF3  , C.RELATED_CHIEF3  ) RELATED_CHIEF3    ,
+	             DECODE(C.APPROVE_DEPART  ,'', B.APPROVE_DEPART  , C.APPROVE_DEPART  ) APPROVE_DEPART    ,
+	             DECODE(C.APPROVE_COMMENT1  ,'', B.APPROVE_COMMENT1  , C.APPROVE_COMMENT1  ) APPROVE_COMMENT1  ,
+	             DECODE(C.APPROVE_COMMENT2  ,'', B.APPROVE_COMMENT2  , C.APPROVE_COMMENT2  ) APPROVE_COMMENT2  ,
+	             DECODE(C.APPROVE_CHIEF  ,'', B.APPROVE_CHIEF  , C.APPROVE_CHIEF  ) APPROVE_CHIEF     ,
+	             DECODE(C.APPROVAL  ,'', B.APPROVAL  , C.APPROVAL  ) APPROVAL          ,
+	             DECODE(C.APPROVE_RESULT  ,'', B.APPROVE_RESULT  , C.APPROVE_RESULT  ) APPROVE_RESULT    ,
+	             DECODE(C.DISTRIBUTION  ,'', B.DISTRIBUTION  , C.DISTRIBUTION  ) DISTRIBUTION      ,
+	             DECODE(C.SHARE_CHECK  ,'', B.SHARE_CHECK  , C.SHARE_CHECK  ) SHARE_CHECK       ,
+	             DECODE(C.VENDOR  ,'', B.VENDOR  , C.VENDOR  ) VENDOR            ,
+	             DECODE(C.GW_APPROVAL  ,'', B.GW_APPROVAL  , C.GW_APPROVAL ) GW_APPROVAL       ,
+	             DECODE(C.GW_ROLE  ,'', B.GW_ROLE  , C.GW_ROLE ) GW_ROLE           ,
+	             DECODE(C.STATUS  ,'', B.STATUS  , C.STATUS ) STATUS            ,
+	             DECODE(C.ATTACH_FILE_URL  ,'', B.ATTACH_FILE_URL  , C.ATTACH_FILE_URL ) ATTACH_FILE_URL   ,
+	             DECODE(C.ATTACH_FILE_URL2  ,'', B.ATTACH_FILE_URL2  , C.ATTACH_FILE_URL2 ) ATTACH_FILE_URL2  ,
+	             DECODE(C.ATTACH_FILE_URL3  ,'', B.ATTACH_FILE_URL3 , C.ATTACH_FILE_URL3 ) ATTACH_FILE_URL3  ,
+	             DECODE(C.CRT_DATE  ,'', B.CRT_DATE , C.CRT_DATE ) CRT_DATE          ,
+	             DECODE(C.CRT_TIME  ,'', B.CRT_TIME , C.CRT_TIME ) CRT_TIME 
+	From TK_ZSDT0700 A, TK_ZQMT0190 B, NS_ZQMT0190 C
+	where A.MATNR = B.MATNR(+) 
+	AND B.SHARE_CHECK = 'Y'
+	AND SUBSTR (a.matnr, 12, 19) = c.matnr(+)
+    AND a.nsplt = c.werks_ns(+)
+    AND        (    (   #srchJalign:VARCHAR#       =    'A'    )      
+                OR    (    #srchJalign:VARCHAR#        =    'L'   
+                    <isNotEmpty prepend="and" property="matnr_ns">        
+                        B.MAT_SEQ    =    (SELECT MAX(MAT_SEQ) FROM TK_ZQMT0190 
+                    WHERE  SUBSTR (matnr_ns, 11,18) = #matnr_ns:VARCHAR# )
+                    </isNotEmpty>
+                        )
+   ) 
+	        <isNotEmpty prepend="and" property="matnr_ns">
+                 SUBSTR (b.matnr_ns, 11,18)  = #matnr_ns:VARCHAR#
+            </isNotEmpty>   
+            <isNotEmpty prepend="and" property="department">
+                 DECODE(C.DEPARTMENT ,'', B.DEPARTMENT , C.DEPARTMENT  ) LIKE '%'||#department:VARCHAR#||'%'
+            </isNotEmpty>   
+            <isNotEmpty prepend="and" property="schStartDd">
+                 DECODE(C.APPLY_DATE ,'', B.APPLY_DATE , C.APPLY_DATE  )   BETWEEN TO_CHAR(TO_DATE(#schStartDd:VARCHAR#),'YYYYMMDD') AND TO_CHAR(TO_DATE(#schEndDd:VARCHAR#),'YYYYMMDD')
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="werks">
+                 DECODE(C.WERKS_NS ,'', A.NSPLT , C.WERKS_NS )  = #werks:VARCHAR#
+            </isNotEmpty>
+             <isNotEmpty property="sidx">
+                        <isEqual property="sidx" compareValue="department">
+                            ORDER BY DEPARTMENT
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="matnr_ns">
+                            ORDER BY MATNR_NS
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="maktx_ns">
+                            ORDER BY MAKTX_NS
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="mat_seq">
+                            ORDER BY MAT_SEQ
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="plan_depart">
+                            ORDER BY PLAN_DEPART
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="subject">
+                            ORDER BY SUBJECT
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="apply_date">
+                            ORDER BY APPLY_DATE
+                        </isEqual>
+                        <isEqual property="sord" compareValue="asc">
+                            ASC
+                        </isEqual>
+                        <isEqual property="sord" compareValue="desc">
+                            DESC
+                        </isEqual>
+                    </isNotEmpty>
+                    <isEmpty property="sidx">
+                        ORDER BY CRT_DATE ASC
+                    </isEmpty>
+  </select>
+  
+   <resultMap id="NsTestResult" class="nds.rms.riskman.takyung.service.TakyungVO" >
+        <result column="CUST_CODE" property="cust_code" jdbcType="VARCHAR" />
+        <result column="CUST_NAME" property="cust_name" jdbcType="VARCHAR" />
+        <result column="MATR_CODE" property="matr_code" jdbcType="VARCHAR" />
+        <result column="MATR_NAME" property="matr_name" jdbcType="VARCHAR" />
+        <result column="EP_DATE" property="ep_date" jdbcType="VARCHAR" />
+        <result column="PLANT" property="plant" jdbcType="VARCHAR" />
+        <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+        <result column="CHNG_NO" property="chng_no" jdbcType="VARCHAR" />
+        <result column="MANF_DATE" property="manf_date" jdbcType="VARCHAR" />
+        <result column="MANF_SEQ" property="manf_seq" jdbcType="VARCHAR" />
+        <result column="MATR_TYPE" property="matr_type" jdbcType="VARCHAR" />
+        <result column="PUB_NUM" property="pub_num" jdbcType="VARCHAR" />
+        <result column="PUB_DATE" property="pub_date" jdbcType="VARCHAR" />
+        <result column="LOT_NO" property="lot_no" jdbcType="VARCHAR" />
+        <result column="EXAM_DATE" property="exam_date" jdbcType="VARCHAR" />
+        <result column="DELV_QTY" property="delv_qty" jdbcType="VARCHAR" />
+        <result column="FOOD_TYPE" property="food_type" jdbcType="VARCHAR" />
+        <result column="FOOD_ADD_TYPE" property="food_add_type" jdbcType="VARCHAR" />
+        <result column="CHEK_CYCL" property="chek_cycl" jdbcType="VARCHAR" />
+        <result column="PLM_DOCU_NO" property="plm_docu_no" jdbcType="VARCHAR" />
+        <result column="PLM_RVER_SEQ" property="plm_rver_seq" jdbcType="VARCHAR" />
+        <result column="PLM_WRIT_USER" property="plm_writ_user" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectNsTest" resultMap="NsTestResult" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+    /* 시험성적서  헤더 조회 */
+SELECT  PS.MATNR MATR_CODE,
+        PS.ARKTX MATR_NAME,
+        KP.LFDAT EP_DATE  ,                             
+        PS.LFIMG DELV_QTY ,                              
+        PS.MEINS  UNIT,                                 
+        PS.WERKS  PLANT,                                
+        MT.LIFNR  CUST_CODE,                            
+        COM.COM_NAME        CUST_NAME    ,               
+        MT.CHNG_NO    CHNG_NO   ,                       
+        MT.HSDAT  MANF_DATE,                            
+        MT.MANF_SEQ  MANF_SEQ,  
+        T1.MATR_TYPE,                         
+        T1.PUB_NUM,                                                                         
+        T1.PUB_DATE,                                     
+        T1.LOT_NO,                                       
+        T1.EXAM_DATE,                                           
+        T2.FOOD_TYPE,                                   
+        T2.FOOD_ADD_TYPE,                               
+        T2.CHEK_CYCL,                                    
+        T1.PLM_DOCU_NO,                                           
+        T1.PLM_RVER_SEQ,                                
+        T1.PLM_WRIT_USER                                
+FROM    SAPLIKP KP,
+        SAPLIPS PS,
+        SAPZMMT0003 MT,
+        MMBAT100 COM,
+        MMDET200    T1,
+(
+SELECT  DOCUMENTNAME        PLM_DOCU_NO,
+REVISION            PLM_RVER_SEQ,
+N2PSFOODTYPE        FOOD_TYPE,
+N2PSFOODADDICTYPE    FOOD_ADD_TYPE,
+N2CHECKCYCLE        CHEK_CYCL,
+N2PSPARTCODE
+FROM    N2PRDSPC
+WHERE   FROZENINDICATOR        =    '+'
+)       T2
+WHERE   KP.MANDT = PS.MANDT
+AND     KP.VBELN = PS.VBELN
+AND     KP.MANDT = MT.MANDT
+AND     PS.VBELN = MT.VBELN
+AND     PS.POSNR = MT.POSNR
+AND     PS.MATNR = MT.MATNR
+AND     MT.MATNR  =  T2.N2PSPARTCODE          
+AND     MT.LIFNR = COM.CUST_CODE (+)
+AND     MT.LIFNR = T1.CUST_CODE
+AND     MT.MATNR = T1.MATR_CODE
+AND     MT.HSDAT = T1.MANF_DATE
+AND     TO_NUMBER(MT.MANF_SEQ) = TO_NUMBER(T1.MANF_SEQ)
+AND     MT.CHNG_NO = T1.CHNG_NO
+AND     KP.MANDT = '100'
+AND     KP.LFDAT = '20160401'                             
+AND     PS.WERKS = '1110'                                 
+AND     PS.LFIMG <![CDATA[>]]> 0                          
+AND     PS.VBELN LIKE '18%'
+AND     T1.PLM_DOCU_NO    =    T2.PLM_DOCU_NO(+)
+AND     T1.PLM_RVER_SEQ    =    T2.PLM_RVER_SEQ(+)
+             <isNotEmpty property="sidx">
+                        <isEqual property="sidx" compareValue="cust_name">
+                            ORDER BY CUST_NAME
+                        </isEqual>
+                         <isEqual property="sidx" compareValue="ep_date">
+                            ORDER BY EP_DATE
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="unit">
+                            ORDER BY UNIT
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="plant">
+                            ORDER BY PLANT
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="matr_code">
+                            ORDER BY MATR_CODE
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="matr_name">
+                            ORDER BY MATR_NAME
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="chng_no">
+                            ORDER BY CHNG_NO
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="manf_date">
+                            ORDER BY MANF_DATE
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="manf_seq">
+                            ORDER BY MANF_SEQ
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="delv_qty">
+                            ORDER BY DELV_QTY
+                        </isEqual>
+                        <isEqual property="sord" compareValue="asc">
+                            ASC
+                        </isEqual>
+                        <isEqual property="sord" compareValue="desc">
+                            DESC
+                        </isEqual>
+                    </isNotEmpty>
+                    <isEmpty property="sidx">
+                        ORDER BY MATR_CODE ASC
+                    </isEmpty>
+  </select>
+  
+  <select id="selectNsTestCount" resultClass="java.lang.Integer" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+    /* 시험성적서  헤더 건수 조회 */
+SELECT  COUNT(*)                   
+FROM    SAPLIKP KP,
+        SAPLIPS PS,
+        SAPZMMT0003 MT,
+        MMBAT100 COM,
+        MMDET200    T1,
+(
+SELECT  DOCUMENTNAME        PLM_DOCU_NO,
+REVISION            PLM_RVER_SEQ,
+N2PSFOODTYPE        FOOD_TYPE,
+N2PSFOODADDICTYPE    FOOD_ADD_TYPE,
+N2CHECKCYCLE        CHEK_CYCL,
+N2PSPARTCODE
+FROM    N2PRDSPC
+WHERE   FROZENINDICATOR        =    '+'
+)       T2
+WHERE   KP.MANDT = PS.MANDT
+AND     KP.VBELN = PS.VBELN
+AND     KP.MANDT = MT.MANDT
+AND     PS.VBELN = MT.VBELN
+AND     PS.POSNR = MT.POSNR
+AND     PS.MATNR = MT.MATNR
+AND     MT.MATNR  =  T2.N2PSPARTCODE          
+AND     MT.LIFNR = COM.CUST_CODE (+)
+AND     MT.LIFNR = T1.CUST_CODE
+AND     MT.MATNR = T1.MATR_CODE
+AND     MT.HSDAT = T1.MANF_DATE
+AND     MT.MANF_SEQ = TO_CHAR(T1.MANF_SEQ)
+AND     MT.CHNG_NO = T1.CHNG_NO
+AND     KP.MANDT = '100'
+AND     PS.MANDT = '100'
+AND     MT.MANDT = '100'
+AND     KP.LFDAT = '20160401'                             
+AND     PS.WERKS = '1110'                                 
+AND     PS.LFIMG <![CDATA[>]]> 0                          
+AND     PS.VBELN LIKE '18%'
+AND     T1.PLM_DOCU_NO    =    T2.PLM_DOCU_NO(+)
+AND     T1.PLM_RVER_SEQ    =    T2.PLM_RVER_SEQ(+)
+             <isNotEmpty property="sidx">
+                        <isEqual property="sidx" compareValue="cust_name">
+                            ORDER BY CUST_NAME
+                        </isEqual>
+                         <isEqual property="sidx" compareValue="ep_date">
+                            ORDER BY EP_DATE
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="unit">
+                            ORDER BY UNIT
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="plant">
+                            ORDER BY PLANT
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="matr_code">
+                            ORDER BY MATR_CODE
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="matr_name">
+                            ORDER BY MATR_NAME
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="chng_no">
+                            ORDER BY CHNG_NO
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="manf_date">
+                            ORDER BY MANF_DATE
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="manf_seq">
+                            ORDER BY MANF_SEQ
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="delv_qty">
+                            ORDER BY DELV_QTY
+                        </isEqual>
+                        <isEqual property="sord" compareValue="asc">
+                            ASC
+                        </isEqual>
+                        <isEqual property="sord" compareValue="desc">
+                            DESC
+                        </isEqual>
+                    </isNotEmpty>
+                    <isEmpty property="sidx">
+                        ORDER BY MATR_CODE ASC
+                    </isEmpty>
+  </select>
+  
+  <resultMap id="NsTestResultDetl" class="nds.rms.riskman.takyung.service.TakyungVO" >
+	 <result column="MATR_CODE" property="matr_code" jdbcType="VARCHAR" />
+     <result column="EXAM_ITEM_NAME" property="exam_item_name" jdbcType="VARCHAR" />
+     <result column="EXAM_TYPE" property="exam_type" jdbcType="VARCHAR" />
+     <result column="QUAN_STND" property="quan_stnd" jdbcType="VARCHAR" />
+     <result column="QUAN_MAX" property="quan_max" jdbcType="VARCHAR" />
+     <result column="QUAN_MIN" property="quan_min" jdbcType="VARCHAR" />
+     <result column="QUAN_UNIT" property="quan_unit" jdbcType="VARCHAR" />
+     <result column="QUAL_STND" property="qual_stnd" jdbcType="VARCHAR" />
+     <result column="REMK" property="remk" jdbcType="VARCHAR" />
+     <result column="LEGA_GUBN" property="lega_gubn" jdbcType="VARCHAR" />
+     <result column="EXAM_ANLY_RSLT" property="exam_anly_rslt" jdbcType="VARCHAR" />
+     <result column="VALD_DATE" property="vald_date" jdbcType="VARCHAR" />
+     <result column="LAST_PLM_DOCU_NO" property="last_plm_docu_no" jdbcType="VARCHAR" />
+     <result column="LAST_PLM_RVER_SEQ" property="last_plm_rver_seq" jdbcType="VARCHAR" />
+     <result column="LAST_PLM_WRIT_USER" property="last_plm_writ_user" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <select id="selectNsTestDetl" resultMap="NsTestResultDetl" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+    /* 시험성적서  상세 조회 */
+SELECT   MATR_CODE,
+        EXAM_ITEM_NAME,
+        EXAM_TYPE,
+        QUAN_STND,
+        QUAN_MAX,
+        QUAN_MIN,
+        QUAN_UNIT,
+        QUAL_STND,
+        REMK,
+        LEGA_GUBN,
+        LEGA_GUBN_RANK,
+        EXAM_ANLY_RSLT,
+        VALD_DATE,
+        LAST_PLM_DOCU_NO,
+        LAST_PLM_RVER_SEQ,
+        LAST_PLM_WRIT_USER
+FROM    (
+SELECT  T1.MATR_CODE,    
+T1.EXAM_ANAL_CODE,
+T1.EXAM_ITEM_CODE,
+T1.EXAM_ITEM_NAME,
+T1.EXAM_TYPE,
+T1.QUAN_STND,
+T1.QUAN_MAX,
+T1.QUAN_MIN,
+T1.QUAN_UNIT,
+T1.QUAL_STND,
+T1.REMK,
+T1.LEGA_GUBN,
+T1.LEGA_GUBN_RANK,
+T2.EXAM_ANLY_RSLT,
+T2.VALD_DATE,
+T3.LAST_PLM_DOCU_NO,
+T3.LAST_PLM_RVER_SEQ,
+T3.LAST_PLM_WRIT_USER,
+T1.FOOD_TYPE,
+T1.FOOD_ADD_TYPE,
+T1.CHEK_CYCL,
+NULL    MODI_FLAG
+FROM    (
+SELECT  '11000010'        MATR_CODE,
+D.N0ANALYSISCODE    EXAM_ANAL_CODE,
+D.N0TESTITEMCODE    EXAM_ITEM_CODE,
+D.N0TESTITEMNAME    EXAM_ITEM_NAME,
+D.N0TESTITEMTYPE    EXAM_TYPE,
+C.N2STANDARD        QUAN_STND,
+C.N2MAXIMUM            QUAN_MAX,
+C.N2MINIMUM            QUAN_MIN,
+C.N2UNIT            QUAN_UNIT,
+C.N2LIMIT            QUAL_STND,
+C.N2LAWREFERENCE    REMK,
+DECODE (C.N2SPECTYPE, 'E', '개별', 'C', '공통', 'S', '품질', 'R', '권장','' ) LEGA_GUBN,
+DECODE (C.N2SPECTYPE, 'E', '1',    'C', '2',    'S', '3',    'R', '4','5' ) LEGA_GUBN_RANK,
+A.N2PSFOODTYPE        FOOD_TYPE,
+A.N2PSFOODADDICTYPE    FOOD_ADD_TYPE,
+A.N2CHECKCYCLE        CHEK_CYCL
+FROM    N2PRDSPC A,
+STDOCSTR C,
+G5TCSPDC D,
+(
+SELECT  DOCUMENTNAME    PLM_DOCU_NO,
+REVISION        PLM_RVER_SEQ
+FROM    N2PRDSPC
+WHERE  REVISION =
+(SELECT MAX (REVISION)
+FROM N2PRDSPC
+WHERE FROZENINDICATOR = '+'                               /*확정*/
+AND DOCUMENTNAME =
+(SELECT C.DOCUMENTNAME
+FROM PARTDOCM A,
+(SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2ASSEM
+WHERE SUPERSEDED = '-'
+UNION ALL
+SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2RAW
+WHERE SUPERSEDED = '-') B,
+N2PRSMST C
+WHERE A.LEFT = B.OBID
+AND A.RIGHT = C.OBID
+<isNotEmpty prepend="and" property="matr_code">
+    PARTNUMBER = #matr_code:VARCHAR#
+</isNotEmpty>
+))
+AND DOCUMENTNAME =
+(SELECT C.DOCUMENTNAME
+FROM PARTDOCM A,
+(SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2ASSEM
+WHERE SUPERSEDED = '-'
+UNION ALL
+SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2RAW
+WHERE SUPERSEDED = '-') B,
+N2PRSMST C
+WHERE A.LEFT = B.OBID
+AND A.RIGHT = C.OBID
+<isNotEmpty prepend="and" property="matr_code">
+PARTNUMBER = #matr_code:VARCHAR#
+</isNotEmpty>
+)
+)        E
+WHERE      A.DOCUMENTNAME     =    E.PLM_DOCU_NO
+AND     A.REVISION            =    E.PLM_RVER_SEQ
+AND        A.OBID             =    C.LEFT
+AND        C.RIGHT            =    D.ITEMMSTROBID
+AND        A.FROZENINDICATOR  =    '+'
+)        T1,
+(
+SELECT  MATR_CODE,
+EXAM_ITEM_CODE,
+EXAM_ANLY_RSLT,
+VALD_DATE
+FROM    MMDET211
+WHERE   1=1
+<isNotEmpty prepend="and" property="cust_code">
+    CUST_CODE = #cust_code:VARCHAR#
+</isNotEmpty>
+<isNotEmpty prepend="and" property="matr_code">
+    MATR_CODE = #matr_code:VARCHAR#
+</isNotEmpty>
+<isNotEmpty prepend="and" property="chng_no">
+    CHNG_NO = #chng_no:VARCHAR#
+</isNotEmpty>
+<isNotEmpty prepend="and" property="manf_date">
+    MANF_DATE = #manf_date:VARCHAR#
+</isNotEmpty>
+ <isNotEmpty prepend="and" property="manf_seq">
+    MANF_SEQ = #manf_seq:VARCHAR#
+</isNotEmpty>
+)        T2,
+(
+SELECT  DOCUMENTNAME    LAST_PLM_DOCU_NO,
+REVISION        LAST_PLM_RVER_SEQ,
+CREATOR         LAST_PLM_WRIT_USER
+FROM    N2PRDSPC
+WHERE  REVISION =
+(SELECT MAX (REVISION)
+FROM N2PRDSPC
+WHERE FROZENINDICATOR = '+'                               /*확정*/
+AND DOCUMENTNAME =
+(SELECT C.DOCUMENTNAME
+FROM PARTDOCM A,
+(SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2ASSEM
+WHERE SUPERSEDED = '-'
+UNION ALL
+SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2RAW
+WHERE SUPERSEDED = '-') B,
+N2PRSMST C
+WHERE A.LEFT = B.OBID
+AND A.RIGHT = C.OBID
+AND PARTNUMBER = '11000010'))
+AND DOCUMENTNAME =
+(SELECT C.DOCUMENTNAME
+FROM PARTDOCM A,
+(SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2ASSEM
+WHERE SUPERSEDED = '-'
+UNION ALL
+SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2RAW
+WHERE SUPERSEDED = '-') B,
+N2PRSMST C
+WHERE A.LEFT = B.OBID
+AND A.RIGHT = C.OBID
+<isNotEmpty prepend="and" property="matr_code">
+    PARTNUMBER = #matr_code:VARCHAR#
+</isNotEmpty>    
+)
+)        T3
+WHERE    T1.MATR_CODE        =    T2.MATR_CODE(+)
+AND        T1.EXAM_ITEM_CODE    =    T2.EXAM_ITEM_CODE(+)
+UNION    ALL
+SELECT    MATR_CODE,
+'X'            EXAM_ANAL_CODE,
+TO_CHAR(SEQ)    EXAM_ITEM_CODE,
+EXAM_ITEM        EXAM_ITEM_NAME,
+'-'            EXAM_TYPE,
+'-'            QUAN_STND,
+'-'            QUAN_MAX,
+'-'            QUAN_MIN,
+UNIT            QUAN_UNIT,
+SIZE_STND        QUAL_STND,
+NULL            REMK,
+DECODE(LEGA_GUBN,'2','공통','3','권장','1','개별',LEGA_GUBN)
+LEGA_GUBN,
+DECODE(LEGA_GUBN,'2','2','3','3','1','1','0')    LEGA_GUBN_RANK,
+ANLY_RSLT        EXAM_ANLY_RSLT,
+VALD_DATE        VALD_DATE,
+'-'            LAST_PLM_DOCU_NO,
+'-'            LAST_PLM_RVER_SEQ,
+'-'            LAST_PLM_WRIT_USER,
+'-'            FOOD_TYPE,
+'-'            FOOD_ADD_TYPE,
+'-'            CHEK_CYCL,
+'N'            MODI_FLAG
+FROM    MMDET210
+WHERE   1=1
+<isNotEmpty prepend="and" property="cust_code">
+    CUST_CODE = #cust_code:VARCHAR#
+</isNotEmpty>
+<isNotEmpty prepend="and" property="matr_code">
+    MATR_CODE = #matr_code:VARCHAR#
+</isNotEmpty>
+<isNotEmpty prepend="and" property="chng_no">
+    CHNG_NO = #chng_no:VARCHAR#
+</isNotEmpty>
+<isNotEmpty prepend="and" property="manf_date">
+    MANF_DATE = #manf_date:VARCHAR#
+</isNotEmpty>
+ <isNotEmpty prepend="and" property="manf_seq">
+    MANF_SEQ = #manf_seq:VARCHAR#
+</isNotEmpty>
+)        T1,
+(
+SELECT    CODE
+FROM    MMSYT999
+WHERE    CODE_GUBN    =    'DE2101'
+AND        CODE_NAME3    =    'Y'
+)        T2
+WHERE    T1.EXAM_ANAL_CODE    =    T2.CODE(+)
+ORDER
+BY      T1.LEGA_GUBN_RANK,
+T1.EXAM_ITEM_CODE
+   
+  </select>
+  
+   <select id="selectNsDetlCount" resultClass="java.lang.Integer" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+    /* 시험성적서  상세 건수 조회 */
+SELECT  COUNT(*)
+FROM    (
+SELECT  T1.MATR_CODE,    
+T1.EXAM_ANAL_CODE,
+T1.EXAM_ITEM_CODE,
+T1.EXAM_ITEM_NAME,
+T1.EXAM_TYPE,
+T1.QUAN_STND,
+T1.QUAN_MAX,
+T1.QUAN_MIN,
+T1.QUAN_UNIT,
+T1.QUAL_STND,
+T1.REMK,
+T1.LEGA_GUBN,
+T1.LEGA_GUBN_RANK,
+T2.EXAM_ANLY_RSLT,
+T2.VALD_DATE,
+T3.LAST_PLM_DOCU_NO,
+T3.LAST_PLM_RVER_SEQ,
+T3.LAST_PLM_WRIT_USER,
+T1.FOOD_TYPE,
+T1.FOOD_ADD_TYPE,
+T1.CHEK_CYCL,
+NULL    MODI_FLAG
+FROM    (
+SELECT  '11000010'        MATR_CODE,
+D.N0ANALYSISCODE    EXAM_ANAL_CODE,
+D.N0TESTITEMCODE    EXAM_ITEM_CODE,
+D.N0TESTITEMNAME    EXAM_ITEM_NAME,
+D.N0TESTITEMTYPE    EXAM_TYPE,
+C.N2STANDARD        QUAN_STND,
+C.N2MAXIMUM            QUAN_MAX,
+C.N2MINIMUM            QUAN_MIN,
+C.N2UNIT            QUAN_UNIT,
+C.N2LIMIT            QUAL_STND,
+C.N2LAWREFERENCE    REMK,
+DECODE (C.N2SPECTYPE, 'E', '개별', 'C', '공통', 'S', '품질', 'R', '권장','' ) LEGA_GUBN,
+DECODE (C.N2SPECTYPE, 'E', '1',    'C', '2',    'S', '3',    'R', '4','5' ) LEGA_GUBN_RANK,
+A.N2PSFOODTYPE        FOOD_TYPE,
+A.N2PSFOODADDICTYPE    FOOD_ADD_TYPE,
+A.N2CHECKCYCLE        CHEK_CYCL
+FROM    N2PRDSPC A,
+STDOCSTR C,
+G5TCSPDC D,
+(
+SELECT  DOCUMENTNAME    PLM_DOCU_NO,
+REVISION        PLM_RVER_SEQ
+FROM    N2PRDSPC
+WHERE  REVISION =
+(SELECT MAX (REVISION)
+FROM N2PRDSPC
+WHERE FROZENINDICATOR = '+'                               /*확정*/
+AND DOCUMENTNAME =
+(SELECT C.DOCUMENTNAME
+FROM PARTDOCM A,
+(SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2ASSEM
+WHERE SUPERSEDED = '-'
+UNION ALL
+SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2RAW
+WHERE SUPERSEDED = '-') B,
+N2PRSMST C
+WHERE A.LEFT = B.OBID
+AND A.RIGHT = C.OBID
+<isNotEmpty prepend="and" property="matr_code">
+    PARTNUMBER = #matr_code:VARCHAR#
+</isNotEmpty>
+))
+AND DOCUMENTNAME =
+(SELECT C.DOCUMENTNAME
+FROM PARTDOCM A,
+(SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2ASSEM
+WHERE SUPERSEDED = '-'
+UNION ALL
+SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2RAW
+WHERE SUPERSEDED = '-') B,
+N2PRSMST C
+WHERE A.LEFT = B.OBID
+AND A.RIGHT = C.OBID
+<isNotEmpty prepend="and" property="matr_code">
+PARTNUMBER = #matr_code:VARCHAR#
+</isNotEmpty>
+)
+)        E
+WHERE      A.DOCUMENTNAME     =    E.PLM_DOCU_NO
+AND     A.REVISION            =    E.PLM_RVER_SEQ
+AND        A.OBID             =    C.LEFT
+AND        C.RIGHT            =    D.ITEMMSTROBID
+AND        A.FROZENINDICATOR  =    '+'
+)        T1,
+(
+SELECT  MATR_CODE,
+EXAM_ITEM_CODE,
+EXAM_ANLY_RSLT,
+VALD_DATE
+FROM    MMDET211
+WHERE   1=1
+<isNotEmpty prepend="and" property="cust_code">
+    CUST_CODE = #cust_code:VARCHAR#
+</isNotEmpty>
+<isNotEmpty prepend="and" property="matr_code">
+    MATR_CODE = #matr_code:VARCHAR#
+</isNotEmpty>
+<isNotEmpty prepend="and" property="chng_no">
+    CHNG_NO = #chng_no:VARCHAR#
+</isNotEmpty>
+<isNotEmpty prepend="and" property="manf_date">
+    MANF_DATE = #manf_date:VARCHAR#
+</isNotEmpty>
+ <isNotEmpty prepend="and" property="manf_seq">
+    MANF_SEQ = #manf_seq:VARCHAR#
+</isNotEmpty>
+)        T2,
+(
+SELECT  DOCUMENTNAME    LAST_PLM_DOCU_NO,
+REVISION        LAST_PLM_RVER_SEQ,
+CREATOR         LAST_PLM_WRIT_USER
+FROM    N2PRDSPC
+WHERE  REVISION =
+(SELECT MAX (REVISION)
+FROM N2PRDSPC
+WHERE FROZENINDICATOR = '+'                               /*확정*/
+AND DOCUMENTNAME =
+(SELECT C.DOCUMENTNAME
+FROM PARTDOCM A,
+(SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2ASSEM
+WHERE SUPERSEDED = '-'
+UNION ALL
+SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2RAW
+WHERE SUPERSEDED = '-') B,
+N2PRSMST C
+WHERE A.LEFT = B.OBID
+AND A.RIGHT = C.OBID
+AND PARTNUMBER = '11000010'))
+AND DOCUMENTNAME =
+(SELECT C.DOCUMENTNAME
+FROM PARTDOCM A,
+(SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2ASSEM
+WHERE SUPERSEDED = '-'
+UNION ALL
+SELECT PARTNUMBER, NOMENCLATURE, OBID
+FROM N2RAW
+WHERE SUPERSEDED = '-') B,
+N2PRSMST C
+WHERE A.LEFT = B.OBID
+AND A.RIGHT = C.OBID
+<isNotEmpty prepend="and" property="matr_code">
+    PARTNUMBER = #matr_code:VARCHAR#
+</isNotEmpty>    
+)
+)        T3
+WHERE    T1.MATR_CODE        =    T2.MATR_CODE(+)
+AND        T1.EXAM_ITEM_CODE    =    T2.EXAM_ITEM_CODE(+)
+UNION    ALL
+SELECT    MATR_CODE,
+'X'            EXAM_ANAL_CODE,
+TO_CHAR(SEQ)    EXAM_ITEM_CODE,
+EXAM_ITEM        EXAM_ITEM_NAME,
+'-'            EXAM_TYPE,
+'-'            QUAN_STND,
+'-'            QUAN_MAX,
+'-'            QUAN_MIN,
+UNIT            QUAN_UNIT,
+SIZE_STND        QUAL_STND,
+NULL            REMK,
+DECODE(LEGA_GUBN,'2','공통','3','권장','1','개별',LEGA_GUBN)
+LEGA_GUBN,
+DECODE(LEGA_GUBN,'2','2','3','3','1','1','0')    LEGA_GUBN_RANK,
+ANLY_RSLT        EXAM_ANLY_RSLT,
+VALD_DATE        VALD_DATE,
+'-'            LAST_PLM_DOCU_NO,
+'-'            LAST_PLM_RVER_SEQ,
+'-'            LAST_PLM_WRIT_USER,
+'-'            FOOD_TYPE,
+'-'            FOOD_ADD_TYPE,
+'-'            CHEK_CYCL,
+'N'            MODI_FLAG
+FROM    MMDET210
+WHERE   1=1
+<isNotEmpty prepend="and" property="cust_code">
+    CUST_CODE = #cust_code:VARCHAR#
+</isNotEmpty>
+<isNotEmpty prepend="and" property="matr_code">
+    MATR_CODE = #matr_code:VARCHAR#
+</isNotEmpty>
+<isNotEmpty prepend="and" property="chng_no">
+    CHNG_NO = #chng_no:VARCHAR#
+</isNotEmpty>
+<isNotEmpty prepend="and" property="manf_date">
+    MANF_DATE = #manf_date:VARCHAR#
+</isNotEmpty>
+ <isNotEmpty prepend="and" property="manf_seq">
+    MANF_SEQ = #manf_seq:VARCHAR#
+</isNotEmpty>
+)        T1,
+(
+SELECT    CODE
+FROM    MMSYT999
+WHERE    CODE_GUBN    =    'DE2101'
+AND        CODE_NAME3    =    'Y'
+)        T2
+WHERE    T1.EXAM_ANAL_CODE    =    T2.CODE(+)
+ORDER
+BY      T1.LEGA_GUBN_RANK,
+T1.EXAM_ITEM_CODE
+   
+  </select>
+  
+  
+  <select id="selectChngCount" resultClass="java.lang.Integer" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+    SELECT COUNT(*)
+            FROM ZQMT0190
+            WHERE 1=1
+             <isNotEmpty property="sidx">
+                        <isEqual property="sidx" compareValue="department">
+                            ORDER BY DEPARTMENT
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="matnr_ns">
+                            ORDER BY MATNR_NS
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="maktx_ns">
+                            ORDER BY MAKTX_NS
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="mat_seq">
+                            ORDER BY MAT_SEQ
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="plan_depart">
+                            ORDER BY PLAN_DEPART
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="subject">
+                            ORDER BY SUBJECT
+                        </isEqual>
+                        <isEqual property="sidx" compareValue="apply_date">
+                            ORDER BY APPLY_DATE
+                        </isEqual>
+                        <isEqual property="sord" compareValue="asc">
+                            ASC
+                        </isEqual>
+                        <isEqual property="sord" compareValue="desc">
+                            DESC
+                        </isEqual>
+                    </isNotEmpty>
+                    <isEmpty property="sidx">
+                        ORDER BY CRT_DATE ASC
+                    </isEmpty>
+  </select>
+  
+  <insert id="insertSite" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+    INSERT INTO CLT_CONNECT_SITE
+    (
+        SITE_CD , SITE_NM,
+        URL, USE_YN,
+        TEMP_01, TEMP_02,   TEMP_03,    
+        REG_USER, REG_DTTM,
+        UPDT_USER, UPDT_DTTM
+    )
+    VALUES
+    (
+        #siteCd:VARCHAR#, #siteNm:VARCHAR#,
+        #url:VARCHAR#, <isNotEmpty property="useYn">#useYn:VARCHAR#</isNotEmpty><isEmpty property="useYn">'N'</isEmpty>,
+        #temp01:VARCHAR#, #temp02:VARCHAR#, #temp03:VARCHAR#,
+        #regUser:VARCHAR#, TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'),
+        #updtUser:VARCHAR#, TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+    )
+  </insert>
+  
+  <update id="updateTkChng" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+   MERGE INTO NS_ZQMT0190
+        USING DUAL ON (     
+                MATNR = #matnr:VARCHAR#
+                AND MAT_SEQ  = #mat_seq:VARCHAR#
+                AND DOC_ID = #doc_id:VARCHAR#
+                AND WERKS   = #werks:VARCHAR#
+                AND WERKS_NS   = #nsplt:VARCHAR#
+                 )
+         WHEN MATCHED THEN 
+         UPDATE  SET      
+				MAKTX             = #maktx:VARCHAR#,
+				BATCH_NO          = #batch_no:VARCHAR#,
+				PRO_DATE          = #pro_date:VARCHAR#,
+				EP_DATE           = #ep_date:VARCHAR#,
+				PRO_APLY_DATE     = #pro_aply_date:VARCHAR#,
+				MATNR_NS          = #matnr_ns:VARCHAR#,
+				MAKTX_NS          = #maktx_ns:VARCHAR#,
+				SUBJECT           = #subject:VARCHAR#,
+				PLAN_DEPART       = #plan_depart:VARCHAR#,
+				PLANER            = #planer:VARCHAR#,
+				MAINT_TERM        = #maint_term:VARCHAR#,
+				DEPARTMENT        = #department:VARCHAR#,
+				DEPART_CODE       = #depart_code:VARCHAR#,
+				REPORTER          = #reporter:VARCHAR#,
+				CLASS             = #class1:VARCHAR#,
+				REASON            = #reason:VARCHAR#,
+				ATTACHMENT        = #attachment:VARCHAR#,
+				BEFORE_CHANGE     = #before_change:VARCHAR#,
+				AFTER_CHANGE      = #after_change:VARCHAR#,
+				APPLY_DATE        = #apply_date:VARCHAR#,
+				APPLY_DAYTYPE     = #apply_daytype:VARCHAR#,
+				BEFORE_STOCK      = #before_stock:VARCHAR#,
+				PROCESS_PLAN      = #process_plan:VARCHAR#,
+				SHARE_CHECK       = 'Y',
+				VENDOR            = #vendor:VARCHAR#,
+				STATUS            = #status:VARCHAR#,
+				ATTACH_FILE_URL   = #attach_file_url:VARCHAR#,
+				ATTACH_FILE_URL2  = #attach_file_url2:VARCHAR#,
+				ATTACH_FILE_URL3  = #attach_file_url3:VARCHAR#,
+				CRT_DATE          = to_char(SYSDATE,'YYYYMMDD'),
+				CRT_TIME          = '1200'
+         WHEN NOT MATCHED THEN  
+         INSERT (
+                MATNR             ,
+				MAKTX             ,
+				MAT_SEQ           ,
+				DOC_ID            ,
+				WERKS             ,
+				WERKS_NS          ,
+				BATCH_NO          ,
+				PRO_DATE          ,
+				EP_DATE           ,
+				PRO_APLY_DATE     ,
+				MATNR_NS          ,
+				MAKTX_NS          ,
+				SUBJECT           ,
+				PLAN_DEPART       ,
+				PLANER            ,
+				MAINT_TERM        ,
+				DEPARTMENT        ,
+				DEPART_CODE       ,
+				REPORTER          ,
+				CLASS             ,
+				REASON            ,
+				ATTACHMENT        ,
+				BEFORE_CHANGE     ,
+				AFTER_CHANGE      ,
+				APPLY_DATE        ,
+				APPLY_DAYTYPE     ,
+				BEFORE_STOCK      ,
+				PROCESS_PLAN      ,
+				SHARE_CHECK       ,
+				VENDOR            ,
+				STATUS            ,
+				ATTACH_FILE_URL   ,
+				ATTACH_FILE_URL2  ,
+				ATTACH_FILE_URL3  ,
+				CRT_DATE          ,
+				CRT_TIME
+        ) VALUES (
+            #matnr:VARCHAR#               ,
+			#maktx:VARCHAR#               ,
+			#mat_seq:VARCHAR#             ,
+			#doc_id:VARCHAR#              ,
+			#werks:VARCHAR#               ,
+			DECODE(#nsplt:VARCHAR#,'안양공장','1110','안성공장','1300','본사','1120','안성음료공장','1130','아산공장','1140','포승공장','1150','구미공장','1160','부산공장','1170','녹산공장','1180','없음')               ,
+			#batch_no:VARCHAR#            ,
+			#pro_date:VARCHAR#            ,
+			#ep_date:VARCHAR#             ,
+			#pro_aply_date:VARCHAR#       ,
+			#matnr_ns:VARCHAR#            ,
+			#maktx_ns:VARCHAR#            ,
+			#subject:VARCHAR#             ,
+			#plan_depart:VARCHAR#         ,
+			#planer:VARCHAR#              ,
+			#maint_term:VARCHAR#          ,
+			#department:VARCHAR#          ,
+			#depart_code:VARCHAR#         ,
+			#reporter:VARCHAR#            ,
+			#class1:VARCHAR#              ,
+			#reason:VARCHAR#              ,
+			#attachment:VARCHAR#          ,
+			#before_change:VARCHAR#       ,
+			#after_change:VARCHAR#        ,
+			#apply_date:VARCHAR#          ,
+			#apply_daytype:VARCHAR#       ,
+			#before_stock:VARCHAR#        ,
+			#process_plan:VARCHAR#        ,
+			'Y'                           ,
+			#vendor:VARCHAR#              ,
+			#status:VARCHAR#              ,
+			#attach_file_url:VARCHAR#     ,
+			#attach_file_url2:VARCHAR#    ,
+			#attach_file_url3:VARCHAR#    ,
+			to_char(SYSDATE,'YYYYMMDD')   ,
+			'1200'  
+            )
+  </update>
+  
+  <update id="updateSite" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+    update CLT_CONNECT_SITE
+    <dynamic prepend="set" >
+      <isNotEmpty prepend="," property="siteNm" >
+        SITE_NM = #siteNm:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="url" >
+        URL = #url:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="useYn" >
+        USE_YN = #useYn:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="temp01" >
+        TEMP_01 = #temp01:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="temp02" >
+        TEMP_02 = #temp02:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="temp03" >
+        TEMP_03 = #temp03:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="updtUser" >
+        UPDT_USER = #updtUser:VARCHAR#,
+        UPDT_DTTM = TO_CHAR(SYSDATE,'yyyymmddhh24miss')
+      </isNotEmpty>
+    </dynamic>
+    where SITE_CD = #siteCd:VARCHAR#
+  </update>
+  
+  <delete id="deleteSite" parameterClass="nds.rms.riskman.takyung.service.TakyungVO" >
+    DELETE FROM CLT_CONNECT_SITE
+    WHERE SITE_CD = #siteCd:VARCHAR#
+  </delete>
+</sqlMap>

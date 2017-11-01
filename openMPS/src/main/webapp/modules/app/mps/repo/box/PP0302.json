@@ -1,0 +1,3597 @@
+{
+	"name": "생산계획입력(CM)",
+	"module": "PP0302Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"tabAreaBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box form-inline",
+				"order": [
+					"workDate",
+					"proCode"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"workDate": {
+							"module": "date",
+							"selector": ".workDate",
+							"label": "작업일자",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"proCode": {
+							"required": false,
+							"label": "제품"
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>작업일자</label><input type=\"text\" class=\"form-control form_type_date workDate\" placeholder=\"\"></div><div class=\"form-group\"><label>제품</label><div class=\"proCode_region\"></div>"
+				},
+				"proCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "제품",
+						"required": true,
+						"codeType": "PP0103",
+						"params": {
+							"prdtType": 1,
+							"proKind": 1
+						},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+			}
+		},
+		"tabAreaBox": {
+			"module": "BaroBox",
+			"options": {
+				"className": "tabarea_box",
+				"order": [
+					"tab_plant_11",
+					"tab_plant_12",
+					"tab_plant_13",
+					"tab_plant_21",
+					"tab_plant_22",
+					"tab_plant_31",
+					"tab_plant_99",
+					"tab_total"
+				],
+				"activation": {
+					"defaultWidget": "tab_plant_11",
+					"method": "show-hide",
+					"navigator": {
+						"options": {
+							"pos": "top",
+							"closeButton": false,
+							"label": {
+								"tab_plant_11": "안성1공장",
+								"tab_plant_12": "안성2공장",
+								"tab_plant_13": "본래가공장",
+								"tab_plant_21": "호남1공장",
+								"tab_plant_22": "호남2공장",
+								"tab_plant_31": "김제공장",
+								"tab_plant_99": "기타공장",
+								"tab_total": "합계"
+							}
+						}
+					}
+				},
+				"tab_plant_11": {
+					"module": "BaroBox",
+					"options": {
+						"className": "tab_plant_11",
+						"order": [
+							"formBox",
+							"resultBox"
+						],
+						"activation": {
+							"method": "one-page"
+						},
+						"formBox": {
+							"module": "FormBox",
+							"options": {
+								"className": "form_box tab_form_box",
+								"order": [
+									"doosu1",
+									"doosu2",
+									"doosu3",
+									"doosu4",
+									"doosu5",
+									"status"
+								],
+								"activation": {
+									"method": "one-page"
+								},
+								"custom_form": {
+									"mode": "form",
+									"items": {
+										"doosu1": {
+											"required": false,
+											"selector": ".doosu1",
+											"max_size":15,
+											"label": "일반",
+											"module": "number"
+										},
+										"doosu2": {
+											"required": false,
+											"selector": ".doosu2",
+											"label": "더느림",
+											"module": "number"
+										},
+										"doosu3": {
+											"required": false,
+											"selector": ".doosu3",
+											"label": "무항생제",
+											"module": "number"
+										},
+										"doosu4": {
+											"required": false,
+											"selector": ".doosu4",
+											"label": "임금님표",
+											"module": "number"
+										},
+										"doosu5": {
+											"required": false,
+											"selector": ".doosu5",
+											"label": "합계",
+											"module": "number",
+											"disable": true
+										},
+										"status": {
+											"required": false,
+											"selector": ".status",
+											"label": "상태",
+											"module": "text",
+											"disable": true
+										}
+									},
+									"data": {},
+									"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group label_w2\"><label style=\"padding-top:5px\"><b>작업<br>두수</b></label><div class=\"form-group label_w3\"><label>일반</label><input type=\"text\" class=\"form-control doosu1 text-right\"></div><div class=\"form-group label_w3\"><label>더느림</label><input type=\"text\" class=\"form-control doosu2 text-right\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>무항생제</label><input type=\"text\" class=\"form-control doosu3 text-right\"></div><div class=\"form-group\"><label>임금님표</label><input type=\"text\" class=\"form-control doosu4 text-right\"></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>합계</label><input type=\"text\" class=\"form-control doosu5 text-right\"></div><div class=\"form-group\"><label>계획상태</label><input type=\"text\" class=\"form-control status\"></div></div></div>"
+								}
+							}
+						},
+						"resultBox": {
+							"module": "SubContainer",
+							"options": {
+								"header": {
+									"title": {
+										"className": "contnet_header_box no_label btn_pp0302",
+										"label": "생산계획"
+									},
+									"feature": [{
+											"create": "제품추가"
+										},
+										{
+											"confirm": "계획확정"
+										}
+									]
+								},
+								"content": {
+									"module": "manifest!jqGrid4-1.0.0",
+									"options": {
+										"className": "result_box grid_box multi_group_grid",
+										"gridId": "PP0302_grid_1",
+										"gridParams": {
+											"data": [],
+											"colModel": [{
+													"name": "corpCode",
+													"index": "corpCode",
+													"hidden": true,
+													"label": "회사 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "plantCode",
+													"index": "plantCode",
+													"hidden": true,
+													"label": "공장 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLcode",
+													"index": "proLcode",
+													"hidden": true,
+													"label": "품목코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLname",
+													"index": "proLname",
+													"hidden": false,
+													"label": "품목",
+													"width": 45,
+													"align": "left",
+													"editable": false,
+													"resizable": false
+												},
+												{
+													"name": "rateQty",
+													"index": "rateQty",
+													"hidden": false,
+													"label": "무박<br>비율",
+													"width": 25,
+													"align": "center",
+													"formatoptions": {
+														"suffix": "%"
+													},
+													"editable": false
+												},
+												{
+													"name": "proCode",
+													"index": "proCode",
+													"hidden": true,
+													"label": "제품코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proName",
+													"index": "proName",
+													"hidden": false,
+													"label": "제품명",
+													"width": 100,
+													"align": "left",
+													"editable": false,
+													"summaryType": "count",
+													"summaryTpl": "<div class=\"text-center\">합계</div>"
+												},
+												{
+													"name": "fRateSort",
+													"index": "fRateSort",
+													"hidden": false,
+													"label": "무박정렬순서",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanDosu",
+													"index": "sanDosu",
+													"hidden": false,
+													"label": "<div>생산<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "sanQty",
+													"index": "sanQty",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div><div>생산량<br>(box)</div>",
+													"width": 60,
+													"align": "right",
+													"editable": true,
+													"classes": "editable",
+													"editrules": {
+														"integer": true
+													},
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer",
+													"editoptions": {"maxlength": 14}
+												},
+												{
+													"name": "memo",
+													"index": "memo",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div>비고",
+													"width": 120,
+													"align": "left",
+													"editable": true,
+													"classes": "editable",
+													"editoptions": { "maxlength":100}
+												},
+												{
+													"name": "ipsuDoo",
+													"index": "ipsuDoo",
+													"hidden": false,
+													"label": "<div>입수<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "jaegoQty",
+													"index": "jaegoQty",
+													"hidden": true,
+													"label": "전일재고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "jaegoWeig",
+													"index": "jaegoWeig",
+													"hidden": false,
+													"label": "<div>현재고<br>(Kg)</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekQty",
+													"index": "ordWeekQty",
+													"hidden": true,
+													"label": "익일후 일주일 주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekWeig",
+													"index": "ordWeekWeig",
+													"hidden": false,
+													"label": "<div>익일후<br>1주간<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderQty",
+													"index": "orderQty",
+													"hidden": true,
+													"label": "익일주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderWeig",
+													"index": "orderWeig",
+													"hidden": false,
+													"label": "<div>익일<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutQty",
+													"index": "woutQty",
+													"hidden": true,
+													"label": "최근일주일 출고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutWeig",
+													"index": "woutWeig",
+													"hidden": false,
+													"label": "<div>최근<Br>일주일<br>출고중량</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ajaegoWeig",
+													"index": "ajaegoWeig",
+													"hidden": false,
+													"label": "<div>출고후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "unitKg",
+													"index": "unitKg",
+													"hidden": true,
+													"label": "단위당 중량",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType1",
+													"index": "workType1",
+													"hidden": true,
+													"label": "작업사양1",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType2",
+													"index": "workType2",
+													"hidden": true,
+													"label": "작업사양2",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType3",
+													"index": "workType3",
+													"hidden": true,
+													"label": "작업사양3",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "printSheet",
+													"index": "printSheet",
+													"hidden": true,
+													"label": "출력시트",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "frozenYn",
+													"index": "frozenYn",
+													"hidden": true,
+													"label": "냉장구분",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanWeig",
+													"index": "sanWeig",
+													"hidden": false,
+													"label": "생산량</br>(kg)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "bjaegoWeig",
+													"index": "bjaegoWeig",
+													"hidden": false,
+													"label": "<div>생산후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "workCnt",
+													"index": "workCnt",
+													"hidden": true,
+													"label": "작업순서",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												}
+											],
+											"rowNum": "100000000",
+											"width": "auto",
+											"height": "447",
+											"cellEdit": true,
+											"shrinkToFit": true,
+											"gridview": true,
+											"datatype": "local",
+											"viewrecords": true,
+											"multiselect": false,
+											"multiselectWidth": 20,
+											"cellsubmit": "clientArray",
+											"rownumbers": false,
+											"grouping": true,
+											"groupingView": {
+												"groupField": [
+													"proLcode",
+													"fRateSort"
+												],
+												"groupColumnShow": [
+													false,
+													false
+												],
+												"groupText": [
+													"<b>{0}</b>",
+													"<b>{0}</b>"
+												],
+												"groupCollapse": false,
+												"groupOrder": [
+													"asc",
+													"asc"
+												],
+												"groupSummary": [
+													true,
+													true
+												],
+												"groupDataSorted": true
+											},
+											"groupingView.backup": {
+												"groupField": [
+													"proLcode"
+												],
+												"groupColumnShow": [
+													false
+												],
+												"groupText": [
+													"<b>{0}</b>"
+												],
+												"groupCollapse": false,
+												"groupOrder": [
+													"asc"
+												],
+												"groupSummary": [
+													true
+												],
+												"groupDataSorted": true
+											},
+											"footerrow": false,
+											"userDataOnFooter": false,
+											"pager": "#PP0302_grid_1_pager",
+											"recordpos": "left",
+											"pgbuttons": false,
+											"pginput": false,
+											"cmTemplate": {
+												"sortable": false
+											}
+										},
+										"cellattr.backup": {
+											"colNames": [
+												"proLname"
+											]
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tab_plant_12": {
+					"module": "BaroBox",
+					"options": {
+						"className": "tab_plant_12",
+						"order": [
+							"formBox",
+							"resultBox"
+						],
+						"activation": {
+							"method": "one-page"
+						},
+						"formBox": {
+							"module": "FormBox",
+							"options": {
+								"className": "form_box tab_form_box",
+								"order": [
+									"doosu1",
+									"doosu2",
+									"doosu3",
+									"doosu4",
+									"doosu5",
+									"status"
+								],
+								"activation": {
+									"method": "one-page"
+								},
+								"custom_form": {
+									"mode": "form",
+									"items": {
+										"doosu1": {
+											"required": false,
+											"selector": ".doosu1",
+											"label": "일반",
+											"module": "number"
+										},
+										"doosu2": {
+											"required": false,
+											"selector": ".doosu2",
+											"label": "더느림",
+											"module": "number"
+										},
+										"doosu3": {
+											"required": false,
+											"selector": ".doosu3",
+											"label": "무항생제",
+											"module": "number"
+										},
+										"doosu4": {
+											"required": false,
+											"selector": ".doosu4",
+											"label": "임금님표",
+											"module": "number"
+										},
+										"doosu5": {
+											"required": false,
+											"selector": ".doosu5",
+											"label": "합계",
+											"module": "number",
+											"disable": true
+										},
+										"status": {
+											"required": false,
+											"selector": ".status",
+											"label": "상태",
+											"module": "text",
+											"disable": true
+										}
+									},
+									"data": {},
+									"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group label_w2\"><label style=\"padding-top:5px\"><b>작업<br>두수</b></label><div class=\"form-group label_w3\"><label>일반</label><input type=\"text\" class=\"form-control doosu1 text-right\"></div><div class=\"form-group label_w3\"><label>더느림</label><input type=\"text\" class=\"form-control doosu2 text-right\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>무항생제</label><input type=\"text\" class=\"form-control doosu3 text-right\"></div><div class=\"form-group\"><label>임금님표</label><input type=\"text\" class=\"form-control doosu4 text-right\"></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>합계</label><input type=\"text\" class=\"form-control doosu5 text-right\"></div><div class=\"form-group\"><label>계획상태</label><input type=\"text\" class=\"form-control status\"></div></div></div>"
+								}
+							}
+						},
+						"resultBox": {
+							"module": "SubContainer",
+							"options": {
+								"header": {
+									"title": {
+										"className": "contnet_header_box no_label",
+										"label": "생산계획"
+									},
+									"feature": [{
+											"create": "제품추가"
+										},
+										{
+											"confirm": "계획확정"
+										}
+									]
+								},
+								"content": {
+									"module": "manifest!jqGrid4-1.0.0",
+									"options": {
+										"className": "result_box grid_box multi_group_grid",
+										"gridId": "PP0302_grid_2",
+										"gridParams": {
+											"cmTemplate": {
+												"sortable": false
+											},
+											"data": [],
+											"colModel": [{
+													"name": "corpCode",
+													"index": "corpCode",
+													"hidden": true,
+													"label": "회사 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "plantCode",
+													"index": "plantCode",
+													"hidden": true,
+													"label": "공장 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLcode",
+													"index": "proLcode",
+													"hidden": true,
+													"label": "품목코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLname",
+													"index": "proLname",
+													"hidden": false,
+													"label": "품목",
+													"width": 45,
+													"align": "left",
+													"editable": false,
+													"resizable": false
+												},
+												{
+													"name": "rateQty",
+													"index": "rateQty",
+													"hidden": false,
+													"label": "무박<br>비율",
+													"formatoptions": {
+														"suffix": "%"
+													},
+													"width": 25,
+													"align": "center",
+													"editable": false
+												},
+												{
+													"name": "proCode",
+													"index": "proCode",
+													"hidden": true,
+													"label": "제품코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proName",
+													"index": "proName",
+													"hidden": false,
+													"label": "제품명",
+													"width": 100,
+													"align": "left",
+													"editable": false,
+													"summaryType": "count",
+													"summaryTpl": "<div class=\"text-center\">합계</div>"
+												},
+												{
+													"name": "fRateSort",
+													"index": "fRateSort",
+													"hidden": false,
+													"label": "무박정렬순서",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanDosu",
+													"index": "sanDosu",
+													"hidden": false,
+													"label": "<div>생산<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "sanQty",
+													"index": "sanQty",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div><div>생산량<br>(box)</div>",
+													"width": 60,
+													"align": "right",
+													"editable": true,
+													"classes": "editable",
+													"editrules": {
+														"integer": true
+													},
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer",
+													"editoptions": {"maxlength": 14}
+												},
+												{
+													"name": "memo",
+													"index": "memo",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div>비고",
+													"width": 120,
+													"align": "left",
+													"editable": true,
+													"classes": "editable"
+												},
+												{
+													"name": "ipsuDoo",
+													"index": "ipsuDoo",
+													"hidden": false,
+													"label": "<div>입수<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "jaegoQty",
+													"index": "jaegoQty",
+													"hidden": true,
+													"label": "전일재고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "jaegoWeig",
+													"index": "jaegoWeig",
+													"hidden": false,
+													"label": "<div>현재고<br>(Kg)</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekQty",
+													"index": "ordWeekQty",
+													"hidden": true,
+													"label": "익일후 일주일 주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekWeig",
+													"index": "ordWeekWeig",
+													"hidden": false,
+													"label": "<div>익일후<br>1주간<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderQty",
+													"index": "orderQty",
+													"hidden": true,
+													"label": "익일주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderWeig",
+													"index": "orderWeig",
+													"hidden": false,
+													"label": "<div>익일<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutQty",
+													"index": "woutQty",
+													"hidden": true,
+													"label": "최근일주일 출고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutWeig",
+													"index": "woutWeig",
+													"hidden": false,
+													"label": "<div>최근<Br>일주일<br>출고중량</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ajaegoWeig",
+													"index": "ajaegoWeig",
+													"hidden": false,
+													"label": "<div>출고후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "unitKg",
+													"index": "unitKg",
+													"hidden": true,
+													"label": "단위당 중량",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType1",
+													"index": "workType1",
+													"hidden": true,
+													"label": "작업사양1",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType2",
+													"index": "workType2",
+													"hidden": true,
+													"label": "작업사양2",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType3",
+													"index": "workType3",
+													"hidden": true,
+													"label": "작업사양3",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "printSheet",
+													"index": "printSheet",
+													"hidden": true,
+													"label": "출력시트",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "frozenYn",
+													"index": "frozenYn",
+													"hidden": true,
+													"label": "냉장구분",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanWeig",
+													"index": "sanWeig",
+													"hidden": false,
+													"label": "생산량</br>(kg)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "bjaegoWeig",
+													"index": "bjaegoWeig",
+													"hidden": false,
+													"label": "<div>생산후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "workCnt",
+													"index": "workCnt",
+													"hidden": true,
+													"label": "작업순서",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												}
+											],
+											"rowNum": "100000000",
+											"width": "auto",
+											"height": "447",
+											"cellEdit": true,
+											"cellsubmit": "clientArray",
+											"shrinkToFit": true,
+											"gridview": true,
+											"datatype": "local",
+											"viewrecords": true,
+											"multiselect": false,
+											"multiselectWidth": 20,
+											"rownumbers": false,
+											"grouping": true,
+											"groupingView": {
+												"groupField": [
+													"proLcode",
+													"fRateSort"
+												],
+												"groupColumnShow": [
+													false,
+													false
+												],
+												"groupText": [
+													"<b>{0}</b>",
+													"<b>{0}</b>"
+												],
+												"groupCollapse": false,
+												"groupOrder": [
+													"asc",
+													"asc"
+												],
+												"groupSummary": [
+													true,
+													true
+												],
+												"groupDataSorted": true
+											},
+											"footerrow": false,
+											"userDataOnFooter": false,
+											"pager": "#PP0302_grid_2_pager",
+											"recordpos": "left",
+											"pgbuttons": false,
+											"pginput": false
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tab_plant_13": {
+					"module": "BaroBox",
+					"options": {
+						"className": "tab_plant_13",
+						"order": [
+							"formBox",
+							"resultBox"
+						],
+						"activation": {
+							"method": "one-page"
+						},
+						"formBox": {
+							"module": "FormBox",
+							"options": {
+								"className": "form_box tab_form_box",
+								"order": [
+									"doosu1",
+									"doosu2",
+									"doosu3",
+									"doosu4",
+									"doosu5",
+									"status"
+								],
+								"activation": {
+									"method": "one-page"
+								},
+								"custom_form": {
+									"mode": "form",
+									"items": {
+										"doosu1": {
+											"required": false,
+											"selector": ".doosu1",
+											"label": "일반",
+											"module": "number"
+										},
+										"doosu2": {
+											"required": false,
+											"selector": ".doosu2",
+											"label": "더느림",
+											"module": "number"
+										},
+										"doosu3": {
+											"required": false,
+											"selector": ".doosu3",
+											"label": "무항생제",
+											"module": "number"
+										},
+										"doosu4": {
+											"required": false,
+											"selector": ".doosu4",
+											"label": "임금님표",
+											"module": "number"
+										},
+										"doosu5": {
+											"required": false,
+											"selector": ".doosu5",
+											"label": "합계",
+											"module": "number",
+											"disable": true
+										},
+										"status": {
+											"required": false,
+											"selector": ".status",
+											"label": "상태",
+											"module": "text",
+											"disable": true
+										}
+									},
+									"data": {},
+									"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group label_w2\"><label style=\"padding-top:5px\"><b>작업<br>두수</b></label><div class=\"form-group label_w3\"><label>일반</label><input type=\"text\" class=\"form-control doosu1 text-right\"></div><div class=\"form-group label_w3\"><label>더느림</label><input type=\"text\" class=\"form-control doosu2 text-right\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>무항생제</label><input type=\"text\" class=\"form-control doosu3 text-right\"></div><div class=\"form-group\"><label>임금님표</label><input type=\"text\" class=\"form-control doosu4 text-right\"></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>합계</label><input type=\"text\" class=\"form-control doosu5 text-right\"></div><div class=\"form-group\"><label>계획상태</label><input type=\"text\" class=\"form-control status\"></div></div></div>"
+								}
+							}
+						},
+						"resultBox": {
+							"module": "SubContainer",
+							"options": {
+								"header": {
+									"title": {
+										"className": "contnet_header_box no_label",
+										"label": "생산계획"
+									},
+									"feature": [{
+											"create": "제품추가"
+										},
+										{
+											"confirm": "계획확정"
+										}
+									]
+								},
+								"content": {
+									"module": "manifest!jqGrid4-1.0.0",
+									"options": {
+										"className": "result_box grid_box multi_group_grid",
+										"gridId": "PP0302_grid_13",
+										"gridParams": {
+											"cmTemplate": {
+												"sortable": false
+											},
+											"data": [],
+											"colModel": [{
+													"name": "corpCode",
+													"index": "corpCode",
+													"hidden": true,
+													"label": "회사 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "plantCode",
+													"index": "plantCode",
+													"hidden": true,
+													"label": "공장 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLcode",
+													"index": "proLcode",
+													"hidden": true,
+													"label": "품목코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLname",
+													"index": "proLname",
+													"hidden": false,
+													"label": "품목",
+													"width": 45,
+													"align": "left",
+													"editable": false,
+													"resizable": false
+												},
+												{
+													"name": "rateQty",
+													"index": "rateQty",
+													"hidden": false,
+													"label": "무박<br>비율",
+													"formatoptions": {
+														"suffix": "%"
+													},
+													"width": 25,
+													"align": "center",
+													"editable": false
+												},
+												{
+													"name": "proCode",
+													"index": "proCode",
+													"hidden": true,
+													"label": "제품코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proName",
+													"index": "proName",
+													"hidden": false,
+													"label": "제품명",
+													"width": 100,
+													"align": "left",
+													"editable": false,
+													"summaryType": "count",
+													"summaryTpl": "<div class=\"text-center\">합계</div>"
+												},
+												{
+													"name": "fRateSort",
+													"index": "fRateSort",
+													"hidden": false,
+													"label": "무박정렬순서",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanDosu",
+													"index": "sanDosu",
+													"hidden": false,
+													"label": "<div>생산<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "sanQty",
+													"index": "sanQty",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div><div>생산량<br>(box)</div>",
+													"width": 60,
+													"align": "right",
+													"editable": true,
+													"classes": "editable",
+													"editrules": {
+														"integer": true
+													},
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer",
+													"editoptions": {"maxlength": 14}
+												},
+												{
+													"name": "memo",
+													"index": "memo",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div>비고",
+													"width": 120,
+													"align": "left",
+													"editable": true,
+													"classes": "editable"
+												},
+												{
+													"name": "ipsuDoo",
+													"index": "ipsuDoo",
+													"hidden": false,
+													"label": "<div>입수<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "jaegoQty",
+													"index": "jaegoQty",
+													"hidden": true,
+													"label": "전일재고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "jaegoWeig",
+													"index": "jaegoWeig",
+													"hidden": false,
+													"label": "<div>현재고<br>(Kg)</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekQty",
+													"index": "ordWeekQty",
+													"hidden": true,
+													"label": "익일후 일주일 주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekWeig",
+													"index": "ordWeekWeig",
+													"hidden": false,
+													"label": "<div>익일후<br>1주간<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderQty",
+													"index": "orderQty",
+													"hidden": true,
+													"label": "익일주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderWeig",
+													"index": "orderWeig",
+													"hidden": false,
+													"label": "<div>익일<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutQty",
+													"index": "woutQty",
+													"hidden": true,
+													"label": "최근일주일 출고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutWeig",
+													"index": "woutWeig",
+													"hidden": false,
+													"label": "<div>최근<Br>일주일<br>출고중량</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ajaegoWeig",
+													"index": "ajaegoWeig",
+													"hidden": false,
+													"label": "<div>출고후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "unitKg",
+													"index": "unitKg",
+													"hidden": true,
+													"label": "단위당 중량",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType1",
+													"index": "workType1",
+													"hidden": true,
+													"label": "작업사양1",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType2",
+													"index": "workType2",
+													"hidden": true,
+													"label": "작업사양2",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType3",
+													"index": "workType3",
+													"hidden": true,
+													"label": "작업사양3",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "printSheet",
+													"index": "printSheet",
+													"hidden": true,
+													"label": "출력시트",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "frozenYn",
+													"index": "frozenYn",
+													"hidden": true,
+													"label": "냉장구분",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanWeig",
+													"index": "sanWeig",
+													"hidden": false,
+													"label": "생산량</br>(kg)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "bjaegoWeig",
+													"index": "bjaegoWeig",
+													"hidden": false,
+													"label": "<div>생산후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "workCnt",
+													"index": "workCnt",
+													"hidden": true,
+													"label": "작업순서",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												}
+											],
+											"rowNum": "100000000",
+											"width": "auto",
+											"height": "447",
+											"cellEdit": true,
+											"cellsubmit": "clientArray",
+											"shrinkToFit": true,
+											"gridview": true,
+											"datatype": "local",
+											"viewrecords": true,
+											"multiselect": false,
+											"multiselectWidth": 20,
+											"rownumbers": false,
+											"grouping": true,
+											"groupingView": {
+												"groupField": [
+													"proLcode",
+													"fRateSort"
+												],
+												"groupColumnShow": [
+													false,
+													false
+												],
+												"groupText": [
+													"<b>{0}</b>",
+													"<b>{0}</b>"
+												],
+												"groupCollapse": false,
+												"groupOrder": [
+													"asc",
+													"asc"
+												],
+												"groupSummary": [
+													true,
+													true
+												],
+												"groupDataSorted": true
+											},
+											"footerrow": false,
+											"userDataOnFooter": false,
+											"pager": "#PP0302_grid_13_pager",
+											"recordpos": "left",
+											"pgbuttons": false,
+											"pginput": false
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tab_plant_21": {
+					"module": "BaroBox",
+					"options": {
+						"className": "tab_plant_21",
+						"order": [
+							"formBox",
+							"resultBox"
+						],
+						"activation": {
+							"method": "one-page"
+						},
+						"formBox": {
+							"module": "FormBox",
+							"options": {
+								"className": "form_box tab_form_box",
+								"order": [
+									"doosu1",
+									"doosu2",
+									"doosu3",
+									"doosu4",
+									"doosu5",
+									"status"
+								],
+								"activation": {
+									"method": "one-page"
+								},
+								"custom_form": {
+									"mode": "form",
+									"items": {
+										"doosu1": {
+											"required": false,
+											"selector": ".doosu1",
+											"label": "일반",
+											"module": "number"
+										},
+										"doosu2": {
+											"required": false,
+											"selector": ".doosu2",
+											"label": "더느림",
+											"module": "number"
+										},
+										"doosu3": {
+											"required": false,
+											"selector": ".doosu3",
+											"label": "무항생제",
+											"module": "number"
+										},
+										"doosu4": {
+											"required": false,
+											"selector": ".doosu4",
+											"label": "임금님표",
+											"module": "number"
+										},
+										"doosu5": {
+											"required": false,
+											"selector": ".doosu5",
+											"label": "합계",
+											"module": "number",
+											"disable": true
+										},
+										"status": {
+											"required": false,
+											"selector": ".status",
+											"label": "상태",
+											"module": "text",
+											"disable": true
+										}
+									},
+									"data": {},
+									"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group label_w2\"><label style=\"padding-top:5px\"><b>작업<br>두수</b></label><div class=\"form-group label_w3\"><label>일반</label><input type=\"text\" class=\"form-control doosu1 text-right\"></div><div class=\"form-group label_w3\"><label>더느림</label><input type=\"text\" class=\"form-control doosu2 text-right\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>무항생제</label><input type=\"text\" class=\"form-control doosu3 text-right\"></div><div class=\"form-group\"><label>임금님표</label><input type=\"text\" class=\"form-control doosu4 text-right\"></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>합계</label><input type=\"text\" class=\"form-control doosu5 text-right\"></div><div class=\"form-group\"><label>계획상태</label><input type=\"text\" class=\"form-control status\"></div></div></div>"
+								}
+							}
+						},
+						"resultBox": {
+							"module": "SubContainer",
+							"options": {
+								"header": {
+									"title": {
+										"className": "contnet_header_box no_label",
+										"label": "생산계획"
+									},
+									"feature": [{
+											"create": "제품추가"
+										},
+										{
+											"confirm": "계획확정"
+										}
+									]
+								},
+								"content": {
+									"module": "manifest!jqGrid4-1.0.0",
+									"options": {
+										"className": "result_box grid_box multi_group_grid",
+										"gridId": "PP0302_grid_3",
+										"gridParams": {
+											"cmTemplate": {
+												"sortable": false
+											},
+											"data": [],
+											"colModel": [{
+													"name": "corpCode",
+													"index": "corpCode",
+													"hidden": true,
+													"label": "회사 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "plantCode",
+													"index": "plantCode",
+													"hidden": true,
+													"label": "공장 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLcode",
+													"index": "proLcode",
+													"hidden": true,
+													"label": "품목코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLname",
+													"index": "proLname",
+													"hidden": false,
+													"label": "품목",
+													"width": 45,
+													"align": "left",
+													"editable": false,
+													"resizable": false
+												},
+												{
+													"name": "rateQty",
+													"index": "rateQty",
+													"hidden": false,
+													"label": "무박<br>비율",
+													"formatoptions": {
+														"suffix": "%"
+													},
+													"width": 25,
+													"align": "center",
+													"editable": false
+												},
+												{
+													"name": "proCode",
+													"index": "proCode",
+													"hidden": true,
+													"label": "제품코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proName",
+													"index": "proName",
+													"hidden": false,
+													"label": "제품명",
+													"width": 100,
+													"align": "left",
+													"editable": false,
+													"summaryType": "count",
+													"summaryTpl": "<div class=\"text-center\">합계</div>"
+												},
+												{
+													"name": "fRateSort",
+													"index": "fRateSort",
+													"hidden": false,
+													"label": "무박정렬순서",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanDosu",
+													"index": "sanDosu",
+													"hidden": false,
+													"label": "<div>생산<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "sanQty",
+													"index": "sanQty",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div><div>생산량<br>(box)</div>",
+													"width": 60,
+													"align": "right",
+													"editable": true,
+													"classes": "editable",
+													"editrules": {
+														"integer": true
+													},
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer",
+													"editoptions": {"maxlength": 14}
+												},
+												{
+													"name": "memo",
+													"index": "memo",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div>비고",
+													"width": 120,
+													"align": "left",
+													"editable": true,
+													"classes": "editable"
+												},
+												{
+													"name": "ipsuDoo",
+													"index": "ipsuDoo",
+													"hidden": false,
+													"label": "<div>입수<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "jaegoQty",
+													"index": "jaegoQty",
+													"hidden": true,
+													"label": "전일재고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "jaegoWeig",
+													"index": "jaegoWeig",
+													"hidden": false,
+													"label": "<div>현재고<br>(Kg)</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekQty",
+													"index": "ordWeekQty",
+													"hidden": true,
+													"label": "익일후 일주일 주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekWeig",
+													"index": "ordWeekWeig",
+													"hidden": false,
+													"label": "<div>익일후<br>1주간<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderQty",
+													"index": "orderQty",
+													"hidden": true,
+													"label": "익일주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderWeig",
+													"index": "orderWeig",
+													"hidden": false,
+													"label": "<div>익일<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutQty",
+													"index": "woutQty",
+													"hidden": true,
+													"label": "최근일주일 출고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutWeig",
+													"index": "woutWeig",
+													"hidden": false,
+													"label": "<div>최근<Br>일주일<br>출고중량</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ajaegoWeig",
+													"index": "ajaegoWeig",
+													"hidden": false,
+													"label": "<div>출고후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "unitKg",
+													"index": "unitKg",
+													"hidden": true,
+													"label": "단위당 중량",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType1",
+													"index": "workType1",
+													"hidden": true,
+													"label": "작업사양1",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType2",
+													"index": "workType2",
+													"hidden": true,
+													"label": "작업사양2",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType3",
+													"index": "workType3",
+													"hidden": true,
+													"label": "작업사양3",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "printSheet",
+													"index": "printSheet",
+													"hidden": true,
+													"label": "출력시트",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "frozenYn",
+													"index": "frozenYn",
+													"hidden": true,
+													"label": "냉장구분",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanWeig",
+													"index": "sanWeig",
+													"hidden": false,
+													"label": "생산량</br>(kg)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "bjaegoWeig",
+													"index": "bjaegoWeig",
+													"hidden": false,
+													"label": "<div>생산후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "workCnt",
+													"index": "workCnt",
+													"hidden": true,
+													"label": "작업순서",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												}
+											],
+											"rowNum": "100000000",
+											"width": "auto",
+											"height": "447",
+											"cellEdit": true,
+											"cellsubmit": "clientArray",
+											"shrinkToFit": true,
+											"gridview": true,
+											"datatype": "local",
+											"viewrecords": true,
+											"multiselect": false,
+											"multiselectWidth": 20,
+											"rownumbers": false,
+											"grouping": true,
+											"groupingView": {
+												"groupField": [
+													"proLcode",
+													"fRateSort"
+												],
+												"groupColumnShow": [
+													false,
+													false
+												],
+												"groupText": [
+													"<b>{0}</b>",
+													"<b>{0}</b>"
+												],
+												"groupCollapse": false,
+												"groupOrder": [
+													"asc",
+													"asc"
+												],
+												"groupSummary": [
+													true,
+													true
+												],
+												"groupDataSorted": true
+											},
+											"footerrow": false,
+											"userDataOnFooter": false,
+											"pager": "#PP0302_grid_3_pager",
+											"recordpos": "left",
+											"pgbuttons": false,
+											"pginput": false
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tab_plant_22": {
+					"module": "BaroBox",
+					"options": {
+						"className": "tab_plant_22",
+						"order": [
+							"formBox",
+							"resultBox"
+						],
+						"activation": {
+							"method": "one-page"
+						},
+						"formBox": {
+							"module": "FormBox",
+							"options": {
+								"className": "form_box tab_form_box",
+								"order": [
+									"doosu1",
+									"doosu2",
+									"doosu3",
+									"doosu4",
+									"doosu5",
+									"status"
+								],
+								"activation": {
+									"method": "one-page"
+								},
+								"custom_form": {
+									"mode": "form",
+									"items": {
+										"doosu1": {
+											"required": false,
+											"selector": ".doosu1",
+											"label": "일반",
+											"module": "number"
+										},
+										"doosu2": {
+											"required": false,
+											"selector": ".doosu2",
+											"label": "더느림",
+											"module": "number"
+										},
+										"doosu3": {
+											"required": false,
+											"selector": ".doosu3",
+											"label": "무항생제",
+											"module": "number"
+										},
+										"doosu4": {
+											"required": false,
+											"selector": ".doosu4",
+											"label": "임금님표",
+											"module": "number"
+										},
+										"doosu5": {
+											"required": false,
+											"selector": ".doosu5",
+											"label": "합계",
+											"module": "number",
+											"disable": true
+										},
+										"status": {
+											"required": false,
+											"selector": ".status",
+											"label": "상태",
+											"module": "text",
+											"disable": true
+										}
+									},
+									"data": {},
+									"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group label_w2\"><label style=\"padding-top:5px\"><b>작업<br>두수</b></label><div class=\"form-group label_w3\"><label>일반</label><input type=\"text\" class=\"form-control doosu1 text-right\"></div><div class=\"form-group label_w3\"><label>더느림</label><input type=\"text\" class=\"form-control doosu2 text-right\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>무항생제</label><input type=\"text\" class=\"form-control doosu3 text-right\"></div><div class=\"form-group\"><label>임금님표</label><input type=\"text\" class=\"form-control doosu4 text-right\"></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>합계</label><input type=\"text\" class=\"form-control doosu5 text-right\"></div><div class=\"form-group\"><label>계획상태</label><input type=\"text\" class=\"form-control status\"></div></div></div>"
+								}
+							}
+						},
+						"resultBox": {
+							"module": "SubContainer",
+							"options": {
+								"header": {
+									"title": {
+										"className": "contnet_header_box no_label",
+										"label": "생산계획"
+									},
+									"feature": [{
+											"create": "제품추가"
+										},
+										{
+											"confirm": "계획확정"
+										}
+									]
+								},
+								"content": {
+									"module": "manifest!jqGrid4-1.0.0",
+									"options": {
+										"className": "result_box grid_box multi_group_grid",
+										"gridId": "PP0302_grid_4",
+										"gridParams": {
+											"cmTemplate": {
+												"sortable": false
+											},
+											"data": [],
+											"colModel": [{
+													"name": "corpCode",
+													"index": "corpCode",
+													"hidden": true,
+													"label": "회사 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "plantCode",
+													"index": "plantCode",
+													"hidden": true,
+													"label": "공장 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLcode",
+													"index": "proLcode",
+													"hidden": true,
+													"label": "품목코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLname",
+													"index": "proLname",
+													"hidden": false,
+													"label": "품목",
+													"width": 45,
+													"align": "left",
+													"editable": false,
+													"resizable": false
+												},
+												{
+													"name": "rateQty",
+													"index": "rateQty",
+													"hidden": false,
+													"label": "무박<br>비율",
+													"formatoptions": {
+														"suffix": "%"
+													},
+													"width": 25,
+													"align": "center",
+													"editable": false
+												},
+												{
+													"name": "proCode",
+													"index": "proCode",
+													"hidden": true,
+													"label": "제품코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proName",
+													"index": "proName",
+													"hidden": false,
+													"label": "제품명",
+													"width": 100,
+													"align": "left",
+													"editable": false,
+													"summaryType": "count",
+													"summaryTpl": "<div class=\"text-center\">합계</div>"
+												},
+												{
+													"name": "fRateSort",
+													"index": "fRateSort",
+													"hidden": false,
+													"label": "무박정렬순서",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanDosu",
+													"index": "sanDosu",
+													"hidden": false,
+													"label": "<div>생산<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "sanQty",
+													"index": "sanQty",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div><div>생산량<br>(box)</div>",
+													"width": 60,
+													"align": "right",
+													"editable": true,
+													"classes": "editable",
+													"editrules": {
+														"integer": true
+													},
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer",
+													"editoptions": {"maxlength": 14}
+												},
+												{
+													"name": "memo",
+													"index": "memo",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div>비고",
+													"width": 120,
+													"align": "left",
+													"editable": true,
+													"classes": "editable"
+												},
+												{
+													"name": "ipsuDoo",
+													"index": "ipsuDoo",
+													"hidden": false,
+													"label": "<div>입수<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "jaegoQty",
+													"index": "jaegoQty",
+													"hidden": true,
+													"label": "전일재고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "jaegoWeig",
+													"index": "jaegoWeig",
+													"hidden": false,
+													"label": "<div>현재고<br>(Kg)</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekQty",
+													"index": "ordWeekQty",
+													"hidden": true,
+													"label": "익일후 일주일 주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekWeig",
+													"index": "ordWeekWeig",
+													"hidden": false,
+													"label": "<div>익일후<br>1주간<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderQty",
+													"index": "orderQty",
+													"hidden": true,
+													"label": "익일주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderWeig",
+													"index": "orderWeig",
+													"hidden": false,
+													"label": "<div>익일<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutQty",
+													"index": "woutQty",
+													"hidden": true,
+													"label": "최근일주일 출고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutWeig",
+													"index": "woutWeig",
+													"hidden": false,
+													"label": "<div>최근<Br>일주일<br>출고중량</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ajaegoWeig",
+													"index": "ajaegoWeig",
+													"hidden": false,
+													"label": "<div>출고후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "unitKg",
+													"index": "unitKg",
+													"hidden": true,
+													"label": "단위당 중량",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType1",
+													"index": "workType1",
+													"hidden": true,
+													"label": "작업사양1",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType2",
+													"index": "workType2",
+													"hidden": true,
+													"label": "작업사양2",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType3",
+													"index": "workType3",
+													"hidden": true,
+													"label": "작업사양3",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "printSheet",
+													"index": "printSheet",
+													"hidden": true,
+													"label": "출력시트",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "frozenYn",
+													"index": "frozenYn",
+													"hidden": true,
+													"label": "냉장구분",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanWeig",
+													"index": "sanWeig",
+													"hidden": false,
+													"label": "생산량</br>(kg)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "bjaegoWeig",
+													"index": "bjaegoWeig",
+													"hidden": false,
+													"label": "<div>생산후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "workCnt",
+													"index": "workCnt",
+													"hidden": true,
+													"label": "작업순서",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												}
+											],
+											"rowNum": "100000000",
+											"width": "auto",
+											"height": "447",
+											"cellEdit": true,
+											"cellsubmit": "clientArray",
+											"shrinkToFit": true,
+											"gridview": true,
+											"datatype": "local",
+											"viewrecords": true,
+											"multiselect": false,
+											"multiselectWidth": 20,
+											"rownumbers": false,
+											"grouping": true,
+											"groupingView": {
+												"groupField": [
+													"proLcode",
+													"fRateSort"
+												],
+												"groupColumnShow": [
+													false,
+													false
+												],
+												"groupText": [
+													"<b>{0}</b>",
+													"<b>{0}</b>"
+												],
+												"groupCollapse": false,
+												"groupOrder": [
+													"asc",
+													"asc"
+												],
+												"groupSummary": [
+													true,
+													true
+												],
+												"groupDataSorted": true
+											},
+											"footerrow": false,
+											"userDataOnFooter": false,
+											"pager": "#PP0302_grid_4_pager",
+											"recordpos": "left",
+											"pgbuttons": false,
+											"pginput": false
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tab_plant_31": {
+					"module": "BaroBox",
+					"options": {
+						"className": "tab_plant_31",
+						"order": [
+							"formBox",
+							"resultBox"
+						],
+						"activation": {
+							"method": "one-page"
+						},
+						"formBox": {
+							"module": "FormBox",
+							"options": {
+								"className": "form_box tab_form_box",
+								"order": [
+									"doosu1",
+									"doosu2",
+									"doosu3",
+									"doosu4",
+									"doosu5",
+									"status"
+								],
+								"activation": {
+									"method": "one-page"
+								},
+								"custom_form": {
+									"mode": "form",
+									"items": {
+										"doosu1": {
+											"required": false,
+											"selector": ".doosu1",
+											"label": "일반",
+											"module": "number"
+										},
+										"doosu2": {
+											"required": false,
+											"selector": ".doosu2",
+											"label": "더느림",
+											"module": "number"
+										},
+										"doosu3": {
+											"required": false,
+											"selector": ".doosu3",
+											"label": "무항생제",
+											"module": "number"
+										},
+										"doosu4": {
+											"required": false,
+											"selector": ".doosu4",
+											"label": "임금님표",
+											"module": "number"
+										},
+										"doosu5": {
+											"required": false,
+											"selector": ".doosu5",
+											"label": "합계",
+											"module": "number",
+											"disable": true
+										},
+										"status": {
+											"required": false,
+											"selector": ".status",
+											"label": "상태",
+											"module": "text",
+											"disable": true
+										}
+									},
+									"data": {},
+									"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group label_w2\"><label style=\"padding-top:5px\"><b>작업<br>두수</b></label><div class=\"form-group label_w3\"><label>일반</label><input type=\"text\" class=\"form-control doosu1 text-right\"></div><div class=\"form-group label_w3\"><label>더느림</label><input type=\"text\" class=\"form-control doosu2 text-right\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>무항생제</label><input type=\"text\" class=\"form-control doosu3 text-right\"></div><div class=\"form-group\"><label>임금님표</label><input type=\"text\" class=\"form-control doosu4 text-right\"></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>합계</label><input type=\"text\" class=\"form-control doosu5 text-right\"></div><div class=\"form-group\"><label>계획상태</label><input type=\"text\" class=\"form-control status\"></div></div></div>"
+								}
+							}
+						},
+						"resultBox": {
+							"module": "SubContainer",
+							"options": {
+								"header": {
+									"title": {
+										"className": "contnet_header_box no_label",
+										"label": "생산계획"
+									},
+									"feature": [{
+											"create": "제품추가"
+										},
+										{
+											"confirm": "계획확정"
+										}
+									]
+								},
+								"content": {
+									"module": "manifest!jqGrid4-1.0.0",
+									"options": {
+										"className": "result_box grid_box multi_group_grid",
+										"gridId": "PP0302_grid_5",
+										"gridParams": {
+											"cmTemplate": {
+												"sortable": false
+											},
+											"data": [],
+											"colModel": [{
+													"name": "corpCode",
+													"index": "corpCode",
+													"hidden": true,
+													"label": "회사 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "plantCode",
+													"index": "plantCode",
+													"hidden": true,
+													"label": "공장 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLcode",
+													"index": "proLcode",
+													"hidden": true,
+													"label": "품목코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLname",
+													"index": "proLname",
+													"hidden": false,
+													"label": "품목",
+													"width": 45,
+													"align": "left",
+													"editable": false,
+													"resizable": false
+												},
+												{
+													"name": "rateQty",
+													"index": "rateQty",
+													"hidden": false,
+													"label": "무박<br>비율",
+													"formatoptions": {
+														"suffix": "%"
+													},
+													"width": 25,
+													"align": "center",
+													"editable": false
+												},
+												{
+													"name": "proCode",
+													"index": "proCode",
+													"hidden": true,
+													"label": "제품코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proName",
+													"index": "proName",
+													"hidden": false,
+													"label": "제품명",
+													"width": 100,
+													"align": "left",
+													"editable": false,
+													"summaryType": "count",
+													"summaryTpl": "<div class=\"text-center\">합계</div>"
+												},
+												{
+													"name": "fRateSort",
+													"index": "fRateSort",
+													"hidden": false,
+													"label": "무박정렬순서",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanDosu",
+													"index": "sanDosu",
+													"hidden": false,
+													"label": "<div>생산<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "sanQty",
+													"index": "sanQty",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div><div>생산량<br>(box)</div>",
+													"width": 60,
+													"align": "right",
+													"editable": true,
+													"classes": "editable",
+													"editrules": {
+														"integer": true
+													},
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer",
+													"editoptions": {"maxlength": 14}
+												},
+												{
+													"name": "memo",
+													"index": "memo",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div>비고",
+													"width": 120,
+													"align": "left",
+													"editable": true,
+													"classes": "editable"
+												},
+												{
+													"name": "ipsuDoo",
+													"index": "ipsuDoo",
+													"hidden": false,
+													"label": "<div>입수<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "jaegoQty",
+													"index": "jaegoQty",
+													"hidden": true,
+													"label": "전일재고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "jaegoWeig",
+													"index": "jaegoWeig",
+													"hidden": false,
+													"label": "<div>현재고<br>(Kg)</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekQty",
+													"index": "ordWeekQty",
+													"hidden": true,
+													"label": "익일후 일주일 주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekWeig",
+													"index": "ordWeekWeig",
+													"hidden": false,
+													"label": "<div>익일후<br>1주간<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderQty",
+													"index": "orderQty",
+													"hidden": true,
+													"label": "익일주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderWeig",
+													"index": "orderWeig",
+													"hidden": false,
+													"label": "<div>익일<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutQty",
+													"index": "woutQty",
+													"hidden": true,
+													"label": "최근일주일 출고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutWeig",
+													"index": "woutWeig",
+													"hidden": false,
+													"label": "<div>최근<Br>일주일<br>출고중량</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ajaegoWeig",
+													"index": "ajaegoWeig",
+													"hidden": false,
+													"label": "<div>출고후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "unitKg",
+													"index": "unitKg",
+													"hidden": true,
+													"label": "단위당 중량",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType1",
+													"index": "workType1",
+													"hidden": true,
+													"label": "작업사양1",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType2",
+													"index": "workType2",
+													"hidden": true,
+													"label": "작업사양2",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType3",
+													"index": "workType3",
+													"hidden": true,
+													"label": "작업사양3",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "printSheet",
+													"index": "printSheet",
+													"hidden": true,
+													"label": "출력시트",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "frozenYn",
+													"index": "frozenYn",
+													"hidden": true,
+													"label": "냉장구분",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanWeig",
+													"index": "sanWeig",
+													"hidden": false,
+													"label": "생산량</br>(kg)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "bjaegoWeig",
+													"index": "bjaegoWeig",
+													"hidden": false,
+													"label": "<div>생산후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "workCnt",
+													"index": "workCnt",
+													"hidden": true,
+													"label": "작업순서",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												}
+											],
+											"rowNum": "100000000",
+											"width": "auto",
+											"height": "447",
+											"cellEdit": true,
+											"cellsubmit": "clientArray",
+											"shrinkToFit": true,
+											"gridview": true,
+											"datatype": "local",
+											"viewrecords": true,
+											"multiselect": false,
+											"multiselectWidth": 20,
+											"rownumbers": false,
+											"grouping": true,
+											"groupingView": {
+												"groupField": [
+													"proLcode",
+													"fRateSort"
+												],
+												"groupColumnShow": [
+													false,
+													false
+												],
+												"groupText": [
+													"<b>{0}</b>",
+													"<b>{0}</b>"
+												],
+												"groupCollapse": false,
+												"groupOrder": [
+													"asc",
+													"asc"
+												],
+												"groupSummary": [
+													true,
+													true
+												],
+												"groupDataSorted": true
+											},
+											"footerrow": false,
+											"userDataOnFooter": false,
+											"pager": "#PP0302_grid_5_pager",
+											"recordpos": "left",
+											"pgbuttons": false,
+											"pginput": false
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				,
+				"tab_plant_99": {
+					"module": "BaroBox",
+					"options": {
+						"className": "tab_plant_99",
+						"order": [
+							"formBox",
+							"resultBox"
+						],
+						"activation": {
+							"method": "one-page"
+						},
+						"formBox": {
+							"module": "FormBox",
+							"options": {
+								"className": "form_box tab_form_box",
+								"order": [
+									"doosu1",
+									"doosu2",
+									"doosu3",
+									"doosu4",
+									"doosu5",
+									"status"
+								],
+								"activation": {
+									"method": "one-page"
+								},
+								"custom_form": {
+									"mode": "form",
+									"items": {
+										"doosu1": {
+											"required": false,
+											"selector": ".doosu1",
+											"label": "일반",
+											"module": "number"
+										},
+										"doosu2": {
+											"required": false,
+											"selector": ".doosu2",
+											"label": "더느림",
+											"module": "number"
+										},
+										"doosu3": {
+											"required": false,
+											"selector": ".doosu3",
+											"label": "무항생제",
+											"module": "number"
+										},
+										"doosu4": {
+											"required": false,
+											"selector": ".doosu4",
+											"label": "임금님표",
+											"module": "number"
+										},
+										"doosu5": {
+											"required": false,
+											"selector": ".doosu5",
+											"label": "합계",
+											"module": "number",
+											"disable": true
+										},
+										"status": {
+											"required": false,
+											"selector": ".status",
+											"label": "상태",
+											"module": "text",
+											"disable": true
+										}
+									},
+									"data": {},
+									"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group label_w2\"><label style=\"padding-top:5px\"><b>작업<br>두수</b></label><div class=\"form-group label_w3\"><label>일반</label><input type=\"text\" class=\"form-control doosu1 text-right\"></div><div class=\"form-group label_w3\"><label>더느림</label><input type=\"text\" class=\"form-control doosu2 text-right\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>무항생제</label><input type=\"text\" class=\"form-control doosu3 text-right\"></div><div class=\"form-group\"><label>임금님표</label><input type=\"text\" class=\"form-control doosu4 text-right\"></div></div><div class=\"col-xs-4\"><div class=\"form-group \"><label>합계</label><input type=\"text\" class=\"form-control doosu5 text-right\"></div><div class=\"form-group\"><label>계획상태</label><input type=\"text\" class=\"form-control status\"></div></div></div>"
+								}
+							}
+						},
+						"resultBox": {
+							"module": "SubContainer",
+							"options": {
+								"header": {
+									"title": {
+										"className": "contnet_header_box no_label",
+										"label": "생산계획"
+									},
+									"feature": [{
+											"create": "제품추가"
+										},
+										{
+											"confirm": "계획확정"
+										}
+									]
+								},
+								"content": {
+									"module": "manifest!jqGrid4-1.0.0",
+									"options": {
+										"className": "result_box grid_box multi_group_grid",
+										"gridId": "PP0302_grid_99",
+										"gridParams": {
+											"cmTemplate": {
+												"sortable": false
+											},
+											"data": [],
+											"colModel": [{
+													"name": "corpCode",
+													"index": "corpCode",
+													"hidden": true,
+													"label": "회사 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "plantCode",
+													"index": "plantCode",
+													"hidden": true,
+													"label": "공장 코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLcode",
+													"index": "proLcode",
+													"hidden": true,
+													"label": "품목코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proLname",
+													"index": "proLname",
+													"hidden": false,
+													"label": "품목",
+													"width": 45,
+													"align": "left",
+													"editable": false,
+													"resizable": false
+												},
+												{
+													"name": "rateQty",
+													"index": "rateQty",
+													"hidden": false,
+													"label": "무박<br>비율",
+													"formatoptions": {
+														"suffix": "%"
+													},
+													"width": 25,
+													"align": "center",
+													"editable": false
+												},
+												{
+													"name": "proCode",
+													"index": "proCode",
+													"hidden": true,
+													"label": "제품코드",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "proName",
+													"index": "proName",
+													"hidden": false,
+													"label": "제품명",
+													"width": 100,
+													"align": "left",
+													"editable": false,
+													"summaryType": "count",
+													"summaryTpl": "<div class=\"text-center\">합계</div>"
+												},
+												{
+													"name": "fRateSort",
+													"index": "fRateSort",
+													"hidden": false,
+													"label": "무박정렬순서",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanDosu",
+													"index": "sanDosu",
+													"hidden": false,
+													"label": "<div>생산<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "sanQty",
+													"index": "sanQty",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div><div>생산량<br>(box)</div>",
+													"width": 60,
+													"align": "right",
+													"editable": true,
+													"classes": "editable",
+													"editrules": {
+														"integer": true
+													},
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer",
+													"editoptions": {"maxlength": 14}
+												},
+												{
+													"name": "memo",
+													"index": "memo",
+													"hidden": false,
+													"label": "<div class=\"editable_mark\"></div>비고",
+													"width": 120,
+													"align": "left",
+													"editable": true,
+													"classes": "editable"
+												},
+												{
+													"name": "ipsuDoo",
+													"index": "ipsuDoo",
+													"hidden": false,
+													"label": "<div>입수<br>두수</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "jaegoQty",
+													"index": "jaegoQty",
+													"hidden": true,
+													"label": "전일재고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "jaegoWeig",
+													"index": "jaegoWeig",
+													"hidden": false,
+													"label": "<div>현재고<br>(Kg)</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekQty",
+													"index": "ordWeekQty",
+													"hidden": true,
+													"label": "익일후 일주일 주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ordWeekWeig",
+													"index": "ordWeekWeig",
+													"hidden": false,
+													"label": "<div>익일후<br>1주간<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderQty",
+													"index": "orderQty",
+													"hidden": true,
+													"label": "익일주문량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "orderWeig",
+													"index": "orderWeig",
+													"hidden": false,
+													"label": "<div>익일<br>주문량</div>",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutQty",
+													"index": "woutQty",
+													"hidden": true,
+													"label": "최근일주일 출고량(BOX)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "woutWeig",
+													"index": "woutWeig",
+													"hidden": false,
+													"label": "<div>최근<Br>일주일<br>출고중량</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "ajaegoWeig",
+													"index": "ajaegoWeig",
+													"hidden": false,
+													"label": "<div>출고후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "unitKg",
+													"index": "unitKg",
+													"hidden": true,
+													"label": "단위당 중량",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType1",
+													"index": "workType1",
+													"hidden": true,
+													"label": "작업사양1",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType2",
+													"index": "workType2",
+													"hidden": true,
+													"label": "작업사양2",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "workType3",
+													"index": "workType3",
+													"hidden": true,
+													"label": "작업사양3",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "printSheet",
+													"index": "printSheet",
+													"hidden": true,
+													"label": "출력시트",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "frozenYn",
+													"index": "frozenYn",
+													"hidden": true,
+													"label": "냉장구분",
+													"width": 50,
+													"align": "right",
+													"editable": false
+												},
+												{
+													"name": "sanWeig",
+													"index": "sanWeig",
+													"hidden": false,
+													"label": "생산량</br>(kg)",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "bjaegoWeig",
+													"index": "bjaegoWeig",
+													"hidden": false,
+													"label": "<div>생산후<br>예상재고</div>",
+													"width": 60,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "workCnt",
+													"index": "workCnt",
+													"hidden": true,
+													"label": "작업순서",
+													"width": 50,
+													"align": "right",
+													"editable": false,
+													"summaryType": "sum",
+													"sorttype":"integer","formatter":"integer"
+												}
+											],
+											"rowNum": "100000000",
+											"width": "auto",
+											"height": "447",
+											"cellEdit": true,
+											"cellsubmit": "clientArray",
+											"shrinkToFit": true,
+											"gridview": true,
+											"datatype": "local",
+											"viewrecords": true,
+											"multiselect": false,
+											"multiselectWidth": 20,
+											"rownumbers": false,
+											"grouping": true,
+											"groupingView": {
+												"groupField": [
+													"proLcode",
+													"fRateSort"
+												],
+												"groupColumnShow": [
+													false,
+													false
+												],
+												"groupText": [
+													"<b>{0}</b>",
+													"<b>{0}</b>"
+												],
+												"groupCollapse": false,
+												"groupOrder": [
+													"asc",
+													"asc"
+												],
+												"groupSummary": [
+													true,
+													true
+												],
+												"groupDataSorted": true
+											},
+											"footerrow": false,
+											"userDataOnFooter": false,
+											"pager": "#PP0302_grid_99_pager",
+											"recordpos": "left",
+											"pgbuttons": false,
+											"pginput": false
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				,
+				"tab_total": {
+					"module": "FormBox",
+					"options": {
+						"className": "",
+						"order": [
+							"planDateTime11",
+							"planDateTime12",
+							"planDateTime13",
+							"planDateTime21",
+							"planDateTime22",
+							"planDateTime31",
+							"planDateTime99",
+							"total_grid"
+						],
+						"activation": {
+							"method": "one-page"
+						},
+						"custom_form": {
+							"mode": "form",
+							"items": {
+								"planDateTime_11": {
+									"module": "date",
+									"selector": ".planDateTime",
+									"label": "계획확정일시 :",
+									"required": false,
+									"format": "YYYY-MM-DD HH:mm:ss",
+									"disable": true,
+									"useCurrent": true,
+									"defaultDate": true
+								}
+							},
+							"data": {},
+							"template": "<table class=\"table table-bordered\"><thead><tr><th>구분</th><th>안성1공장</th><th>안성2공장</th><th>본래가공장</th><th>호남1공장</th><th>호남2공장</th><th>김제공장</th><th>기타공장</th></tr></thead><tbody><tr><th>계획확정일시</th><td><input type=\"text\" class=\"text-center form-control-static form-control  planDateTime11\" disabled=\"\"></td><td><input type=\"text\" class=\"text-center form-control-static form-control  planDateTime12\" disabled=\"\"></td><td><input type=\"text\" class=\"text-center form-control-static form-control  planDateTime13\" disabled=\"\"></td><td><input type=\"text\" class=\"text-center form-control-static form-control  planDateTime21\" disabled=\"\"></td><td><input type=\"text\" class=\"text-center form-control-static form-control  planDateTime22\" disabled=\"\"></td><td><input type=\"text\" class=\"text-center form-control-static form-control  planDateTime31\" disabled=\"\"></td><td><input type=\"text\" class=\"text-center form-control-static form-control  planDateTime99\" disabled=\"\"></tr></tbody></table><div class=\"total_grid_region\"></div>"
+						},
+						"total_grid": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "result_box grid_box multi_group_grid",
+								"gridId": "PP0302_grid_6",
+								"gridParams": {
+									"cmTemplate": {
+										"sortable": false
+									},
+									"data": [],
+									"colModel": [{
+											"name": "saleGroup2Name",
+											"label": "제품군",
+											"width": 80,
+											"align": "left",
+											"editable": false
+										},
+										{
+											"name": "largeCode",
+											"hidden": true,
+											"label": "largeCode",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer"
+										},
+										{
+											"name": "largeCodeName",
+											"hidden": false,
+											"label": "품목",
+											"width": 50,
+											"align": "left",
+											"editable": false
+										},
+										{
+											"name": "frozenType",
+											"hidden": true,
+											"label": "냉장여부",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer"
+										},
+										{
+											"name": "frozen",
+											"hidden": false,
+											"label": "구분",
+											"width": 50,
+											"align": "center",
+											"editable": false
+										},
+										{
+											"name": "proCode",
+											"hidden": true,
+											"label": "proCode",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer"
+										},
+										{
+											"name": "proName",
+											"hidden": false,
+											"label": "제품",
+											"width": 120,
+											"align": "left",
+											"editable": false
+										},
+										{
+											"name": "p11",
+											"hidden": false,
+											"label": "<div>안성1<br>생산량</div><div class=\"jqgrid_th_cell total\">0</div>",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer"
+										},
+										{
+											"name": "p12",
+											"hidden": false,
+											"label": "<div>안성2<br>생산량</div><div class=\"jqgrid_th_cell total\">0</div>",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer"
+										},
+										{
+											"name": "p13",
+											"hidden": false,
+											"label": "<div>본래<br>생산량</div><div class=\"jqgrid_th_cell total\">0</div>",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer"
+										},
+										{
+											"name": "p21",
+											"hidden": false,
+											"label": "<div>호남1<br>생산량</div><div class=\"jqgrid_th_cell total\">0</div>",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer"
+										},
+										{
+											"name": "p22",
+											"hidden": false,
+											"label": "<div>호남2<br>생산량</div><div class=\"jqgrid_th_cell total\">0</div>",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer"
+										},
+										{
+											"name": "p31",
+											"hidden": false,
+											"label": "<div>김제<br>생산량</div><div class=\"jqgrid_th_cell total\">0</div>",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer"
+										},
+										{
+											"name": "p99",
+											"hidden": true,
+											"label": "기타공장",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer"
+										},
+										{
+											"name": "psum",
+											"hidden": false,
+											"label": "<div style=\"height: 24px;line-height: 24px;\">합계</div><div class=\"jqgrid_th_cell total\">0</div>",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer"
+										},
+										{
+											"name": "sanWeig",
+											"hidden": false,
+											"label": "생산중량<br>(kg)",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer"
+										},
+										{
+											"name": "jaegoWeig",
+											"hidden": false,
+											"label": "현재고<br>(kg)",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"formatter":"integer"
+										},
+										{
+											"name": "ordrWeight",
+											"hidden": false,
+											"label": "주문량<br>(kg)",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"formatter":"integer"
+										},
+										{
+											"name": "jaegoAvail",
+											"hidden": false,
+											"label": "가용재고<br>(kg)",
+											"width": 50,
+											"align": "right",
+											"editable": false,
+											"sorttype":"integer","formatter":"integer"
+										}
+									],
+									"rowNum": "100000000",
+									"width": "auto",
+									"height": "469",
+									"cellEdit": false,
+									"shrinkToFit": true,
+									"gridview": true,
+									"datatype": "local",
+									"viewrecords": true,
+									"multiselect": false,
+									"multiselectWidth": 20,
+									"rownumbers": false,
+									"grouping": false,
+									"footerrow": false,
+									"userDataOnFooter": false,
+									"pager": "#PP0302_grid_6_pager",
+									"recordpos": "left",
+									"pgbuttons": false,
+									"pginput": false
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

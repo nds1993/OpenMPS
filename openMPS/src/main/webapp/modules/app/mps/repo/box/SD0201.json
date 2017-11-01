@@ -1,0 +1,61 @@
+{
+  "name":"표준단가 목록",
+  "module": "SD0201Renderer",
+  "options": {
+    "className": "contents_box",
+    "order": ["resultBox"],
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "resultBox": {
+      "module": "manifest!jqGrid4-1.0.0",
+      "options": {
+        "className": "grid_box mw60p",
+        "gridId": "SD0201_grid_1",
+        "gridParams": {
+          "data": [],
+          "colModel": [{
+            "name": "proCode",
+            "label": "<div class=\"editable_mark\"></div>제품",
+            "width": 50,
+            "align": "center",
+            "editable": true,
+			"classes":"editable codesearch"
+          }, {
+            "name": "proName",
+            "label": "제품명",
+            "width": 250,
+            "align": "left",
+            "editable": false
+          }, {
+            "name": "saleGroup2Name",
+            "label": "품목분류(영업)",
+            "width": 80,
+            "align": "left",
+            "editable": false
+          }, {
+            "name": "oldProCode",
+            "label": "oldProCode",
+            "width": 80,
+            "align": "left",
+            "hidden": true
+          }],
+          "width": "auto",
+          "height": 645,
+          "multiselect": true,
+		  "multiselectWidth": 8,
+          "gridview" : true,
+          "datatype" : "local",
+          "cellEdit": true,
+          "cellsubmit": "clientArray",
+		  "pager": "#SD0201_grid_1_pager",
+		  "viewrecords": true,
+		  "recordpos":"left",
+		  "pgbuttons":false,
+		  "pginput":false
+        }
+      }
+    }
+  }
+}

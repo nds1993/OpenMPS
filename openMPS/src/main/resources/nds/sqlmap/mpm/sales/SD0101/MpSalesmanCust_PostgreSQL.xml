@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpSalesmanCust">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpSalesmanCustSerarchVO" type="nds.mpm.sales.SD0101.vo.MpSalesmanCustVO"/>
+	
+	<resultMap id="mpSalesmanCust" class="nds.mpm.sales.SD0101.vo.MpSalesmanCustVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="salesman" column="salesman" columnIndex="2"/>
+		<result property="salesmanCust" column="salesman_cust" columnIndex="3"/>
+		<result property="crUser" column="cr_user" columnIndex="4"/>
+		<result property="crDate" column="cr_date" columnIndex="5"/>
+	</resultMap>
+	
+	<insert id="mpSalesmanCustDAO.insertMpSalesmanCust">
+		<![CDATA[
+			INSERT INTO mp_salesman_cust 
+				( corp_code
+				  , salesman
+				  , salesman_cust
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #salesman#
+				  , #salesmanCust#
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="mpSalesmanCustDAO.updateMpSalesmanCust">
+		<![CDATA[
+			UPDATE mp_salesman_cust
+			SET salesman_cust=#salesmanCust#
+						WHERE corp_code=#corpCode#
+								AND salesman=#salesman#
+				]]>
+	</update>
+	
+	<delete id="mpSalesmanCustDAO.deleteMpSalesmanCust">
+		<![CDATA[
+			DELETE FROM mp_salesman_cust 
+						WHERE corp_code=#corpCode#
+								AND salesman=#salesman#
+								AND salesman_cust=#salesmanCust#
+				]]>
+	</delete>
+	
+	<select id="mpSalesmanCustDAO.selectMpSalesmanCust_S" resultMap="mpSalesmanCust">
+		<![CDATA[
+			SELECT
+				corp_code
+				, salesman
+				, salesman_cust
+			FROM mp_salesman_cust
+						WHERE corp_code=#corpCode#
+								AND salesman=#salesman#
+								AND salesman_cust=#salesmanCust#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM 
+			openmps.mp_salesman_cust c 
+			left outer join openmps.mp_cust_info d on ( d.corp_code = #corpCode# and c.salesman_cust = d.cust_code )
+		<!-- 	left outer join openmps.mp_cust_pri_class pc on ( c.corp_code = pc.corp_code and pc.cust_code = c.salesman_cust )
+		 -->
+		<dynamic prepend="where"> 
+			 <isNotEmpty prepend="and" property="salesmanCust">
+			 c.salesman_cust = #salesmanCust#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="salesman">
+			 c.salesman = #salesman#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="searchKeyword">
+			 ( c.salesman_cust like '%' || #searchKeyword# || '%' 
+			 or d.cust_name like '%' || #searchKeyword# || '%' )
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="mpSalesmanCustDAO.selectMpSalesmanCustList_D" parameterClass="mpSalesmanCustSerarchVO" resultClass="egovMap">
+		SELECT
+				c.corp_code
+				, c.salesman
+				, c.salesman_cust
+				, openmps."FN_GET_CUSTCODENM"(c.corp_code,c.salesman_cust) as salesman_custname 
+				, c.cr_date
+				, c.cr_user
+				, d.price_type
+				, ( case when d.price_type='2' and d.price_day is not null
+					then openmps."FN_GET_TMCODEXDNM"( c.corp_code, 'SD010' , d.price_day) 
+					else openmps."FN_GET_TMCODEXDNM"( c.corp_code, 'SD009' , d.price_type)  end ) 
+					as price_type_name
+				
+		<include refid="selectWhere_fragment"/>
+		order by c.salesman_cust
+	</select>	
+	<select id="mpSalesmanCustDAO.selectMpSalesmanCustListTotCnt_S" parameterClass="mpSalesmanCustSerarchVO" resultClass="int">
+		select count(*)
+			<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpPlanPmM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpPlanPmMSerarchVO" type="nds.mpm.prod.PP0305.vo.MpPlanPmMVO"/>
+	
+	<resultMap id="mpPlanPmM" class="nds.mpm.prod.PP0305.vo.MpPlanPmMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="plantCode" column="plant_code" columnIndex="2"/>
+		<result property="planNo" column="plan_no" columnIndex="3"/>
+		<result property="proCode" column="pro_code" columnIndex="4"/>
+		<result property="workDate" column="work_date" columnIndex="5"/>
+		<result property="workLine" column="work_line" columnIndex="6"/>
+		<result property="workSeq" column="work_seq" columnIndex="7"/>
+		<result property="workQty" column="work_qty" columnIndex="8"/>
+		<result property="proUnit" column="pro_unit" columnIndex="9"/>
+		<result property="status" column="status" columnIndex="10"/>
+		<result property="memo" column="memo" columnIndex="11"/>
+		<result property="deleYn" column="dele_yn" columnIndex="12"/>
+		<result property="mdUser" column="md_user" columnIndex="13"/>
+		<result property="mdDate" column="md_date" columnIndex="14"/>
+		<result property="crUser" column="cr_user" columnIndex="15"/>
+		<result property="crDate" column="cr_date" columnIndex="16"/>
+	</resultMap>
+	<select id="mpPlanPmMDAO.selectMpPlanPmMPlanNo" parameterClass="egovMap" resultClass="string">
+		select #workDate# || lpad( (coalesce(count(plan_no),0) + 1)::varchar, 3, '0') as plan_no
+				  	from openmps.mp_plan_pm_m
+				  	where corp_code = #corpCode#
+				  	and plant_code = #plantCode#
+				  	and work_date = #workDate#
+	</select>
+	<insert id="mpPlanPmMDAO.insertMpPlanPmM">
+		<![CDATA[
+			INSERT INTO mp_plan_pm_m 
+				( corp_code
+				  , plant_code
+				  , plan_no
+				  , pro_code
+				  , work_date
+				  , work_line
+				  , work_seq
+				  , work_qty
+				  , pro_unit
+				  , ordr_cust
+				  , status
+				  , memo
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #planNo#
+				  , #proCode#
+				  , #workDate#
+				  , #workLine#
+				  , #workSeq#::numeric
+				  , #workQty#::numeric
+				  , #proUnit#
+				  , #ordrCust#
+				  , '1'
+				  , #memo#
+				  , 'N'
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	<update id="mpPlanPmMDAO.updateMpPlanPmM">
+			UPDATE mp_plan_pm_m
+			SET work_seq = #workSeq#::numeric
+				, work_qty=#workQty#::numeric
+				<isNotEmpty property="status">
+				, status=#status#
+				</isNotEmpty>
+				, memo = #memo#
+				, md_user=#mdUser#
+				<isNotEqual property="status" compareValue="3">
+				, md_date=now()
+				</isNotEqual>
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND work_date = #workDate#
+								AND plan_no=#planNo#
+								AND pro_code=#proCode#
+	</update>
+	<update id="mpPlanPmMDAO.updateMpPlanPmMStatus">
+		<![CDATA[
+			UPDATE mp_plan_pm_m
+			SET status=#status#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND work_date = #workDate#
+								AND plan_no=#planNo#
+								AND pro_code=#proCode#
+				]]>
+	</update>
+	<update id="mpPlanPmMDAO.updateMpAcceptOrdrPmMStatus">
+		<![CDATA[
+			UPDATE mp_accept_ordr_pm_m
+			SET status = #status#
+				, md_user=#mdUser#
+				, md_date=now()
+			WHERE corp_code=#corpCode#
+					AND delv_date=#delvDate#
+					AND pro_code=#proCode#
+				]]>
+	</update>
+	
+	<delete id="mpPlanPmMDAO.deleteMpPlanPmM">
+		<![CDATA[
+			DELETE FROM mp_plan_pm_m 
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND plan_no=#planNo#
+								AND pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<select id="mpPlanPmMDAO.selectMpPlanPmM_S" resultMap="mpPlanPmM">
+			SELECT
+				corp_code
+				, plant_code
+				, plan_no
+				, pro_code
+				, work_date
+				, work_line
+				, work_seq
+				, work_qty
+				, pro_unit
+				, status
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM mp_plan_pm_m
+			WHERE corp_code=#corpCode#
+					AND plant_code=#plantCode#
+					AND plan_no=#planNo#
+					AND pro_code=#proCode#
+	</select>
+	<!--
+	 생산계획 PM 접수 mp_accept_ordr_pm_m delv_date sum조회
+	 -->
+	<sql id="selectWhere_MpAcceptOrdrPmMfragment">
+	from(
+		SELECT
+				pm.corp_code
+				, pm.plant_code
+				, pm.delv_date
+				, m.large_code
+				, pm.pro_code
+				, m.work_line
+				, pm.ordr_box
+				, m.pro_ukind
+				, pm.ordr_cust
+				, pm.plan_no
+				, pm.ordr_no
+		from 
+		openmps.mp_accept_ordr_pm_m pm
+		left outer join openmps.mp_item_master_m m 
+			on (pm.corp_code = m.corp_code and pm.pro_code = m.pro_code)
+		WHERE pm.corp_code=#corpCode#
+		and pm.plant_code = #plantCode#
+		and pm.status = '0'
+		<dynamic> 
+	         <isNotEmpty prepend="and" property="plantCode">
+	         </isNotEmpty>
+		</dynamic>
+		and pm.dele_yn = 'N'
+	) aa
+	</sql>
+	<select id="mpPlanPmMDAO.selectMpAcceptOrdrPmMList_D" parameterClass="mpPlanPmMSerarchVO" resultClass="egovMap">
+		SELECT
+				openmps."FN_GET_CUSTCODENM"(aa.corp_code, aa.ordr_cust ) as cust_name
+				, openmps."FN_GET_TMCODEXDNM"(aa.corp_code,'MP006',aa.large_code) as pro_large_name
+				, aa.pro_code
+				, openmps."FN_GET_PROCODENM"(aa.corp_code,aa.pro_code) as pro_name
+				, aa.ordr_box
+				, aa.ordr_box work_qty
+				, aa.delv_date
+				, aa.pro_ukind as pro_unit
+				, 0 as work_seq
+				, '' as memo
+				
+				, aa.ordr_no
+				, aa.corp_code
+				, aa.plant_code
+				, aa.plan_no
+				, aa.pro_code
+				, #workDate# as work_date
+				, aa.work_line
+				,aa.ordr_cust
+		<include refid="selectWhere_MpAcceptOrdrPmMfragment"/>
+	</select>	
+	<select id="mpPlanPmMDAO.selectMpAcceptOrdrPmMListTotCnt_S" parameterClass="mpPlanPmMSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_MpAcceptOrdrPmMfragment"/>
+	</select>
+	<sql id="selectWhere_MpPlanPmMfragment">
+	  	from openmps.mp_plan_pm_m pm
+	  	inner join openmps.mp_accept_ordr_pm_m accept on (pm.corp_code = accept.corp_code 
+		  	and pm.plant_code = accept.plant_code 
+		  	and pm.plan_no = accept.plan_no
+		  	and pm.pro_code = accept.pro_code)
+		left outer join openmps.mp_order_h h 
+			on (accept.corp_code = accept.corp_code and accept.delv_date = h.delv_date and accept.ordr_no = h.ordr_no)
+	  	left outer join openmps.mp_item_master_m m 
+			on (pm.corp_code = m.corp_code and pm.pro_code = m.pro_code)
+	  	left outer join openmps.tm_platxm p
+			on (pm.corp_code = p.corp_code and pm.plant_code = p.plant_code)
+	  	
+	  	where pm.corp_code = #corpCode#
+	  	and pm.work_date = #workDate#
+	  	<isNotEmpty property="status">
+        and pm.status = #status#
+        </isNotEmpty>
+        <isNotEmpty property="planNo">
+        and to_char(pm.md_date, 'YYYYMMDDHH24miss') = #planNo#
+        </isNotEmpty>
+        <isNotEmpty property="plantCode">
+	        <isNotEqual property="plantCode" compareValue="0">
+			and pm.plant_code = #plantCode#
+			</isNotEqual>
+        </isNotEmpty> 
+		<dynamic> 
+		</dynamic>
+	</sql>
+	<select id="mpPlanPmMDAO.selectMpPlanPmMList_D" parameterClass="mpPlanPmMSerarchVO" resultClass="egovMap">
+			SELECT
+				openmps."FN_GET_CUSTCODENM"(pm.corp_code, pm.ordr_cust ) as cust_name
+				, openmps."FN_GET_TMCODEXDNM"(pm.corp_code,'MP006',m.large_code) as pro_large_name
+				, pm.pro_code
+				, openmps."FN_GET_PROCODENM"(pm.corp_code,pm.pro_code) as pro_name
+				, accept.ordr_box 
+				, pm.work_qty
+				, accept.delv_date
+				, pm.pro_unit
+				, pm.work_seq
+				, pm.memo
+				
+				, p.plant_name
+				, pm.plan_no
+				, pm.corp_code
+				, pm.plant_code
+				, pm.work_date
+				, h.ordr_cust
+				, m.large_code
+				, pm.work_date
+				, pm.work_line
+				, pm.status
+			<include refid="selectWhere_MpPlanPmMfragment"/>
+			order by h.ordr_cust, accept.delv_date, m.large_code, pm.pro_code
+	</select>	
+	<select id="mpPlanPmMDAO.selectMpPlanPmMListTotCnt_S" parameterClass="mpPlanPmMSerarchVO" resultClass="int">
+		SELECT
+				count(*)
+		<include refid="selectWhere_MpPlanPmMfragment"/>	
+	</select>
+	
+	<select id="mpPlanPmMDAO.selectMpPlanPmMListPlanTime" parameterClass="mpPlanPmMSerarchVO" resultClass="egovMap">
+			SELECT
+				 to_char(md_date, 'YYYYMMDDHH24miss') code
+				,to_char(pm.md_date,'YYYY-MM-DD HH24:mi:ss') as label
+			from openmps.mp_plan_pm_m pm	
+			where pm.corp_code = #corpCode#
+			and pm.plant_code = #plantCode#
+		  	and pm.work_date = #workDate#
+	        and pm.status = '3'
+	        group by md_date
+	        order by md_date desc
+	</select>
+	<select id="mpPlanPmMDAO.selectPP0306MpPlanPmMList_D" parameterClass="mpPlanPmMSerarchVO" resultClass="egovMap">
+			SELECT
+				p.plant_name
+				, pm.plan_no
+				, to_char(pm.md_date,'YYYY-MM-DD HH24:mi:ss') as plan_time
+				, openmps."FN_GET_CUSTCODENM"(pm.corp_code, pm.ordr_cust ) as cust_name
+				, openmps."FN_GET_TMCODEXDNM"(pm.corp_code,'MP006',m.large_code) as pro_large_name
+				, pm.pro_code
+				, openmps."FN_GET_PROCODENM"(pm.corp_code,pm.pro_code) as pro_name
+				, pm.work_qty
+				, pm.memo
+				
+				, pm.corp_code
+				, pm.plant_code
+				, accept.delv_date
+				, pm.work_date
+				, h.ordr_cust
+				, m.large_code
+				, pm.work_date
+				, pm.work_line
+				, pm.work_seq
+				, pm.pro_unit
+				, pm.status
+			<include refid="selectWhere_MpPlanPmMfragment"/>
+			order by openmps."FN_GET_CUSTCODENM"(pm.corp_code, pm.ordr_cust )
+			, m.large_code, openmps."FN_GET_PROCODENM"(pm.corp_code,pm.pro_code)
+	</select>
+</sqlMap>

@@ -1,0 +1,19 @@
+{
+  "name": "DesignItem",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "designItem-1.0.0.js",
+  	"manager": "designItem.manager-1.0.0.js"
+  },
+  "resource": {
+  },
+  "dependencies":
+  [
+	"BaroPanelBase", 
+	"Logger"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  },
+  "tag":["design"]
+}

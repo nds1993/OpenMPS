@@ -1,0 +1,212 @@
+{
+    "module": "TMCOBD10Renderer",
+    "options": {
+        "className": "contents_box",
+        "order": [
+            "queryBox",
+            "resultBox",
+            "formBox"
+        ],
+        "activation": {
+            "defaultWidget": "",
+            "method": "one-page"
+        },
+        "formBox": {
+            "module": "FormBox",
+            "options": {
+                "order": [
+                    "bbsName",
+                    "bbsMemo",
+                    "writeAuth",
+                    "replyYn",
+                    "commentYn",
+                    "attachYn",
+                    "attachCnt",
+                    "useYn"
+                ],
+                "activation": {
+                    "defaultWidget": "",
+                    "method": "one-page"
+                },
+                "custom_form": {
+                	"name": "Form Builder Params",
+                    "template": "<div class=\"form_box form-group-tmm equal_width\"><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">게시판명</label><input type=\"text\" class=\"form-control bbsName\" value=\"\" placeholder=\"\"></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">게시판설명</label><textarea rows=\"10\" class=\"form-control bbsMemo\"></textarea></div></div></div><div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group \"><label>작성 권한</label><div class=\"select_design writeAuth\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>답글 사용 여부</label><input type=\"checkbox\" name=\"replyYn\" value=\"Y\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>댓글 사용 여부</label><input type=\"checkbox\" name=\"commentYn\" value=\"Y\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>사용여부</label><input type=\"checkbox\" name=\"useYn\" value=\"Y\"></div></div></div><div class=\"row\"><div class=\"col-xs-4\" style=\"display:none;\"><div class=\"form-group\"><label>파일첨부 사용</label><input type=\"checkbox\" name=\"attachYn\" value=\"Y\"></div></div><div class=\"col-xs-4\" style=\"display:none;\"><div class=\"form-group \"><label>첨부파일 개수</label><div class=\"select_design attachCnt\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div></div>",
+                    "mode": "form",
+                    "items": {
+                    	"bbsName": {
+                            "module": "text",
+                            "label": "게시판명",
+                            "selector": ".bbsName",
+                            "required": true
+                        },
+                    	"bbsMemo": {
+                            "module": "textarea",
+                            "label": "게시판설명",
+                            "selector": ".bbsMemo",
+                            "required": true
+                        },
+                        "writeAuth": {
+                            "selector": ".writeAuth",
+                            "label": "작성권한",
+                            "required": true,
+                            "module": "combobox",
+                            "value": "",
+							"items": [
+								{
+									"label": "관리자",
+									"value": "ADMIN"
+								},
+								{
+									"label": "전체",
+									"value": "ALL"
+								}
+							]
+                        },
+                        "replyYn": {
+                            "module": "checkbox",
+                            "label": "답글",
+                            "selector": "[name=replyYn]",
+                            "required": false
+                        },
+                        "commentYn": {
+                            "module": "checkbox",
+                            "label": "댓글",
+                            "selector": "[name=commentYn]",
+                            "required": false
+                        },
+                        "attachYn": {
+                            "module": "checkbox",
+                            "label": "파일첨부",
+                            "selector": "[name=attachYn]",
+                            "required": false
+                        },
+                        "attachCnt": {
+                            "selector": ".attachCnt",
+                            "label": "첨부파일개수",
+                            "required": false,
+                            "module": "combobox",
+                            "value": "",
+							"items": [
+								{
+									"label": "0",
+									"value": "0"
+								},
+								{
+									"label": "1",
+									"value": "1"
+								},
+								{
+									"label": "2",
+									"value": "2"
+								},
+								{
+									"label": "3",
+									"value": "3"
+								}
+							]
+                        },
+                        "useYn": {
+                            "module": "checkbox",
+                            "label": "사용여부",
+                            "selector": "[name=useYn]",
+                            "required": false
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "queryBox": {
+            "module": "FormBox",
+            "options": {
+                "module": "FormBox",
+                "className": "query_box form-inline",
+                "order": [
+                    "searchKeyword"
+                ],
+                "custom_form": {
+                	"mode": "form",
+                    "template": "<div class=\"form-group\"><label>게시판명</label><input type=\"text\" class=\"form-control searchKeyword\" placeholder=\"\"></div>",
+                    "items": {
+                    	"searchKeyword": {
+                            "module": "text",
+                            "label": "검색내용",
+                            "selector": ".searchKeyword",
+                            "required": false
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "resultBox": {
+            "module": "manifest!jqGrid4-1.0.0",
+            "options": {
+                "className": "resultBox_box grid_box",
+                "gridId": "TMCOBD10_grid_1",
+                "gridParams": {
+                    "data": [],
+                    "colModel": [
+                    {
+                        "name": "bbsName",
+                        "label": "게시판명",
+                        "align": "center",
+                        "width": 600
+                    }, {
+                       "name": "crUserName",
+                        "label": "등록자",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "crDate2",
+                        "label": "등록일",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "useYn",
+                        "label": "사용여부",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "bbsCode",
+                        "label": " 게시판 ID",
+                        "hidden":true
+                    }, {
+                        "name": "bbsMemo",
+                        "label": "게시판 설명",
+                        "hidden":true
+                    }, {
+                        "name": "corpCode",
+                        "label": "회사코드",
+                        "hidden":true
+                    }, {
+                        "name": "writeAuth",
+                        "label": "작성권한",
+                        "hidden":true
+                    }, {
+                        "name": "replyYn",
+                        "label": "답글 사용 여부",
+                        "hidden":true
+                    }, {
+                        "name": "commentYn",
+                        "label": "댓글 사용 여부",
+                        "hidden":true
+                    }, {
+                        "name": "attachYn",
+                        "label": "파일첨부 사용",
+                        "hidden":true
+                    }, {
+                        "name": "attachCnt",
+                        "label": "첨부파일 개수",
+                        "hidden":true
+                    }],
+                    "width": "auto",
+                    "height": "250",
+                    "iconSet": "fontAwesome",
+                    "pager": false,
+                    "cellEdit": false
+                }
+            }
+        }
+    }
+}

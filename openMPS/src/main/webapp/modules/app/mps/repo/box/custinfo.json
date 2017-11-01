@@ -1,0 +1,566 @@
+{
+	"module": "WorkAreaRenderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"formBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"module": "FormBox",
+				"className": "query_box",
+				"order": [
+					"searchCondition",
+					"searchKeyword",
+					"searchCondition"
+				],
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"form-group form-inline\"><label>검색</label><select class=\"form-control searchCondition\"><option>조건선택</option><option value=\"userCode\">코드</option><option value=\"userName\">거래처명</option><option value=\"phone\">대표자</option><option value=\"deptCode\">부서</option><option value=\"phone\">전화번호</option></select><input type=\"text\" class=\"form-control searchKeyword\" value=\"\"><label class=\"ml50\">검색</label><select class=\"form-control searchCondition2\"><option>조건선택</option><option value=\"userCode\">전체</option><option value=\"userName\">농장</option><option value=\"phone\">급식업체</option></select></div>",
+					"items": {
+						"searchCondition": {
+							"module": "combobox",
+							"label": "검색",
+							"selector": ".searchCondition",
+							"required": false
+						},
+						"searchKeyword": {
+							"module": "text",
+							"label": "검색 내용 입력",
+							"selector": ".searchKeyword",
+							"required": false
+						},
+						"searchCondition2": {
+							"module": "combobox",
+							"label": "구분",
+							"selector": ".searchCondition2",
+							"required": false
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"custCode",
+					"custName",
+					"shortName",
+					"owner",
+					"ssno",
+					"uptae",
+					"jong",
+					"outCode",
+					"tabArea"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label class=\"required\">코드</label><input type=\"text\" class=\"form-control custCode\" value=\"\"></div><div class=\"form-group\"><label class=\"required\">상호</label><input type=\"text\" class=\"form-control custName\" value=\"\"></div><div class=\"form-group\"><label>단축명</label><input type=\"text\" class=\"form-control shortName\" value=\"\"></div><div class=\"form-group\"><label>사업자번호</label><input type=\"text\" class=\"form-control ssno\" value=\"\"></div><div class=\"form-group\"><label>업태</label><input type=\"text\" class=\"form-control uptae\" value=\"\"></div><div class=\"form-group\"><label>종목</label><input type=\"text\" class=\"form-control jong\" value=\"\"></div><div class=\"form-group\"><label>대표자</label><input type=\"text\" class=\"form-control owner\" value=\"\"></div><div class=\"form-group\"><label>출고창고</label><div class=\"outCode_region\"></div></div></div><div class=\"col-xs-9 tabArea_region\"></div></div>",
+					"mode": "form",
+					"items": {
+
+						"custCode": {
+							"module": "text",
+							"label": "거래처코드",
+							"selector": ".custCode",
+							"required": true
+						},
+						"custName": {
+							"module": "text",
+							"label": "상호",
+							"selector": ".custName",
+							"required": true
+						},
+						"shortName": {
+							"module": "text",
+							"label": "단축명",
+							"selector": ".shortName",
+							"required": false
+						},
+						"owner": {
+							"module": "text",
+							"label": "대표자",
+							"selector": ".owner",
+							"required": false
+						},
+						"ssno": {
+							"module": "text",
+							"label": "사업자번호",
+							"selector": ".ssno",
+							"required": false
+						},
+						"uptae": {
+							"module": "text",
+							"label": "업태",
+							"selector": ".uptae",
+							"required": false
+						},
+						"jong": {
+							"module": "text",
+							"label": "종목",
+							"selector": ".jong",
+							"required": false
+						},
+						"outCode": {
+							"label": "outCode",
+							"required": false
+						},
+						"tabArea": {
+							"label": "tabArea",
+							"required": false
+						}
+					},
+					"data": {}
+				},
+				"outCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "본부코드검색",
+						"required": false
+					}
+				},
+				"tabArea": {
+					"module": "FormBox",
+					"options": {
+						"className": "tabArea_box",
+						"height" :"213px",
+						"order": [
+							"tab_baseInfo",
+							"tap_salesInfo",
+							"tap_suInfo",
+							"tap_damInfo",
+							"tab_coaddress",
+							"tab_zipaddress"
+						],
+						"activation": {
+							"defaultWidget": "tab_baseInfo",
+							"method": "show-hide",
+							"navigator": {
+								"options": {
+									"pos": "top",
+									"label": {
+										"tab_baseInfo":"기본정보",
+										"tap_salesInfo":"영업정보",
+										"tap_suInfo":"수금정보",
+										"tap_damInfo":"담보정보",
+										"tab_coaddress":"사업장주소",
+										"tab_zipaddress":"우편물주소"
+									},
+									"control": {
+										"close":false,
+										"scroll":false
+									}
+
+								}
+							}
+						},
+						"custom_form": {
+							"mode": "form",
+							"items": {
+								"tab_baseInfo": {"label": "기기본정보","required": false},
+								"tap_salesInfo": {"label": "기영업정보","required": false},								"tap_suInfo": {"label": "기수금정보","required": false},
+								"tap_damInfo": {"label": "기담보정보","required": false},
+								"tab_coaddress": {"label": "기사업장주소","required": false},
+								"tab_zipaddress": {"label": "기우편물주소","required": false}
+							},
+							"data": {}
+						},
+						"tab_baseInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tab_baseInfo_box",
+								"order": [
+									"carCode",
+									"headCode",
+									"teamCode",
+									"deptCode",
+									"beforeUserCode",
+									"beforeUserName",
+									"afterUser",
+									"phone",
+									"mobile",
+									"fax",
+									"email",
+									"memo",
+									"vatYn",
+									"accYn",
+									"jumin" ,
+									"mhisDate"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label>배차차량</label><div class=\"carCode_region\"></div></div><div class=\"form-group\"><label>본부코드</label><div class=\"headCode_region\"></div></div><div class=\"form-group\"><label>팀코드</label><div class=\"teamCode_region\"></div></div><div class=\"form-group\"><label>부서코드</label><div class=\"deptCode_region\"></div></div><div class=\"form-group multi_box\"><label>전영업담당</label><div class=\"row\"><div class=\"col-xs-4\"><input type=\"text\" class=\"form-control beforeUserCode inline\" value=\"\" readonly></div><div class=\"col-xs-8\"><input type=\"text\" class=\"form-control beforeUserName inline\" value=\"\" readonly></div></div></div><div class=\"form-group\"><label>현영업담당</label><div class=\"afterUser_region\"></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>생년월일</label><input type=\"text\" class=\"form-control jumin\" value=\"\"></div><div class=\"form-group\"><label>전화번호</label><input type=\"text\" class=\"form-control phone\" value=\"\"></div><div class=\"form-group\"><label>휴대번호</label><input type=\"text\" class=\"form-control mobile\" value=\"\"></div><div class=\"form-group\"><label>팩스번호</label><input type=\"text\" class=\"form-control fax\" value=\"\"></div><div class=\"form-group\"><label>이메일</label><input type=\"text\" class=\"form-control email\" value=\"\"></div><div class=\"form-group\"><label>변경일자</label><input type=\"text\" class=\"form-control mhisDate\" value=\"\" readonly></div></div><div class=\"col-xs-4 form_w40\"><div class=\"form-group\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"vatYn\" value=\"1\"><span class=\"title\">과세</span></label></div></div><div class=\"form-group\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"accYn\" value=\"1\"><span class=\"title\">세금계산서 발행</span></label></div></div><div class=\"form-group\"><label>비고</label><textarea class=\"form-control memo text4line\"></textarea></div></div></div>",
+									"mode": "form",
+									"items": {
+										"carCode": {"label": "배차차량코드","required":false},
+										"headCode": {"label": "본부코드","required":false},
+										"teamCode": {"label": "팀코드","required":false},
+										"deptCode": {"label": "부서코드","required":false},
+										"beforeUserCode": {"module": "text","label": "전영업담당코드","selector": ".beforeUserCode","required":false},
+										"beforeUserName": {"module": "text","label": "전영업담당이름","selector": ".beforeUserName","required":false},
+										"afterUser": {"label": "현영업담당","required":false},
+										"phone": {"module": "text","label": "전화번호","selector": ".phone","required":false},
+										"mobile": {"module": "text","label": "휴대번호","selector": ".mobile","required":false},
+										"fax": {"module": "text","label": "팩스번호","selector": ".fax","required":false},
+										"email": {"module": "text","label": "이메일","selector": ".email","required":false},
+										"memo": {"module": "textarea","label": "비고","selector": ".memo","required":false},
+										"vatYn": {"module": "checkbox","label": "과세여부","selector": "[name=vatYn]","required":false},
+										"accYn": {"module": "checkbox","label": "세금계산서여부","selector": "[name=accYn]","required":false},
+										"jumin" : {"module": "text","label": "생년월일","selector": ".jumin","required":false},
+										"mhisDate" :  {"module": "date","label": "변경일자","selector": ".jumin","required":false}
+										},
+									"data": {}
+								},
+								"carCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "배차차량코드검색",
+										"required": false
+									}
+								},
+								"headCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "본부코드검색",
+										"required": false
+									}
+								},
+								"teamCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "팀코드검색",
+										"required": false
+									}
+								},
+								"deptCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "부서코드검색",
+										"required": false
+									}
+								},
+								"afterUser": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "현영업담당",
+										"required": false
+									}
+								}
+							}
+						},
+						"tap_salesInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tap_salesInfo_box",
+								"order": [
+									"custKind1",
+									"custKind2",
+									"custKind3",
+									"custKind4",
+									"custKind5",
+									"largeYn",
+									"largeCode",
+									"middYn",
+									"middCode",
+									"receYn",
+									"receCode",
+									"facKind",
+									"facCode",
+									"logYn",
+									"logCode",
+									"priceCode",
+									"distRoute",
+									"custName",
+									"suName"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template":"<div class=\"row\"><div class=\"col-xs-2\"><fieldset><legend>구분[1]</legend><div class=\"form-group form_only\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"custKind1\" value=\"1\">자사 </label></div></div><div class=\"form-group form_only\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"custKind2\" value=\"1\">판매처 </label></div></div><div class=\"form-group form_only\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"custKind3\" value=\"1\">구매처 </label></div></div><div class=\"form-group form_only\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"custKind4\" value=\"1\">개인 </label></div></div></fieldset></div><div class=\"col-xs-5\"><fieldset><legend>구분[2]</legend><div class=\"form-group form_only\"><div class=\"radio\"><label><input type=\"radio\" name=\"custKind5\" value=\"1\">업체 </label><label><input type=\"radio\" name=\"custKind5\" value=\"2\">농장 </label><label><input type=\"radio\" name=\"custKind5\" value=\"3\">수매기관 </label><label><input type=\"radio\" name=\"custKind5\" value=\"4\">급식업체 </label></div></div></fieldset><fieldset><legend>분류여부</legend><div class=\"form-group form_w90\"><label><input type=\"checkbox\" name=\"largeYn\" value=\"1\">대분류여부</label><div class=\"largeCode_region\"></div></div><div class=\"form-group form_w90\"><label><input type=\"checkbox\" name=\"middYn\" value=\"1\">중분류여부</label><div class=\"middCode_region\"></div></div><div class=\"form-group form_w90\"><label><input type=\"checkbox\" name=\"receYn\" value=\"1\">수금대분류 </label><div class=\"receCode_region\"></div></div></fieldset></div><div class=\"col-xs-5\"><div class=\"form-group\"><label>가격코드</label><div class=\"priceCode_region\"></div></div><div class=\"form-group\"><label>경로코드</label><div class=\"distRoute_region\"></div></div><div class=\"form-group\"><label>생돈정산</label><div class=\"form-group form_only\"><select class=\"form-control facKind\"><option value=\"0\">안함</option><option value=\"1\">탕박등급제</option><option value=\"2\">고정등급제</option><option value=\"3\">신정산법</option></select></div><div class=\"form-group form_only\"><div class=\"facCode_region\"></div></div></div><div class=\"form-group\"><label>업체명</label><input type=\"text\" class=\"form-control custName\" value=\"\" readonly></div><div class=\"form-group\"><label>수매기관</label><div class=\"form-group form_only\"><input type=\"text\" class=\"form-control suName\" value=\"\" readonly></div><div class=\"form-group form_w90\"><label><input type=\"checkbox\" name=\"logYn\">웹발주여부 </label><input type=\"text\" class=\"form-control logCode\" value=\"\" readonly></div></div></div></div>",
+									"mode": "form",
+									"items": {
+										"custKind1" :  {"module": "checkbox","label": "자사여부","selector": "[name=custKind1]","required":false},
+										"custKind2" :  {"module": "checkbox","label": "판매처여부","selector": "[name=custKind2]","required":false},
+										"custKind3" :  {"module": "checkbox","label": "구매처여부","selector": "[name=custKind3]","required":false},
+										"custKind4" :  {"module": "checkbox","label": "개인여부","selector": "[name=custKind4]","required":false},
+										"custKind5" :  {"module": "radiobox","label": "구분","selector": "[name=custKind5]","required":false},
+										"largeYn" :  {"module": "checkbox","label": "대분류체크여부","selector": "[name=largeYn]","required":false},
+										"largeCode" :  {"label": "대분류코드","required":false},
+										"middYn" :  {"module": "checkbox","label": "중분류체크여부","selector": "[name=middYn]","required":false},
+										"middCode" :  {"label": "중분류코드","required":false},
+										"receYn" :  {"module": "checkbox","label": "수금대분류체크여부","selector": "[name=receYn]","required":false},
+										"receCode" :  {"label": "수금대분류코드","required":false},
+										"facKind" :  {"module": "combobox","label": "생돈정산","selector": ".facKind","required":false},
+										"facCode" :  {"label": "생돈정산법","required":false},
+										"logYn" :  {"module": "checkbox","label": "웹발주여부","selector": "[name=logYn]","required":false},
+										"logCode" :  {"module": "text","label": "웹발주여부내용","selector": ".logCode","required":false},
+										"priceCode" :  {"label": "가격코드","required":false},
+										"distRoute" :  {"label": "경로코드","required":false},
+										"custName" :  {"module": "text","label": "업체명","selector": ".custName","required":false},
+										"suName" :  {"module": "text","label": "수매기관","selector": ".suName","required":false}
+									},
+									"data": {}
+								},
+								"largeCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "대분류코드",
+										"required": false
+									}
+								},
+								"middCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "중분류코드",
+										"required": false
+									}
+								},
+								"receCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "수금대분류코드",
+										"required": false
+									}
+								},
+								"priceCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "가격코드",
+										"required": false
+									}
+								},
+								"distRoute": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "경로코드",
+										"required": false
+									}
+								},
+								"facCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "생돈정산코드",
+										"required": false
+									}
+								}
+							}
+						},
+						"tap_suInfo": {"module": "FormBox",
+							"options": {
+								"className": "tap_suInfo_box",
+								"order": [
+									"receKind",
+									"receDate1",
+									"receDate2",
+									"creditYn",
+									"vatYn",
+									"tempCredit",
+									"tempDate",
+									"oneCredit",
+									"bankName",
+									"bankNo",
+									"bankUser"
+
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template":"<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label>수금계획</label><div class=\"form-group form_only\"><select class=\"form-control receKind\"><option value=\"0\">없음</option><option value=\"1\">출고후</option><option value=\"2\">월마감후</option><option value=\"3\">보름마감후</option><option value=\"5\">일주일마감후</option><option value=\"4\">기타</option></select></div><div class=\"form-group form_only\"><div class=\"input-group\"><input type=\"text\" class=\"form-control receDate1\" value=\"\" readonly><div class=\"input-group-addon\">일 마감후 </div></div></div><div class=\"form-group form_only\"><div class=\"input-group\"><input type=\"text\" class=\"form-control receDate2\" value=\"\" readonly><div class=\"input-group-addon\">일 </div></div></div></div><div class=\"form-group form_only\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"vatYn\" value=\"1\">부실거래처</label></div></div></div><div class=\"col-xs-4\"><div class=\"form-group form_only\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"creditYn\" value=\"1\">한도관리</label></div></div><div class=\"form-group form_only\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"creditYn2\" value=\"1\">한도무한</label></div></div><div class=\"form-group\"><label>여신한도</label><div class=\"input-group\"><div class=\"input-group-addon\">₩</div><input type=\"text\" class=\"form-control credit\" value=\"\" readonly><div class=\"input-group-addon\">원</div></div></div><div class=\"form-group\"><label>임시여신</label><div class=\"input-group\"><div class=\"input-group-addon\">₩</div><input type=\"text\" class=\"form-control tempCredit\" value=\"\" readonly><div class=\"input-group-addon\">원</div></div></div><div class=\"form-group\"><label>증액만기일</label><input type=\"text\" class=\"form-control tempDate\" value=\"\" readonly></div><div class=\"form-group\"><label>1회한도증액</label><div class=\"input-group\"><div class=\"input-group-addon\">₩</div><input type=\"text\" class=\"form-control oneCredit\" value=\"\" readonly><div class=\"input-group-addon\">원</div></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label>은행명</label><input type=\"text\" class=\"form-control bankName\" value=\"\"></div><div class=\"form-group\"><label>계좌번호</label><input type=\"text\" class=\"form-control bankNo\" value=\"\"></div><div class=\"form-group\"><label>입금자</label><input type=\"text\" class=\"form-control bankUser\" value=\"\"></div></div></div>",
+									"mode": "form",
+									"items": {
+
+										"receKind" :  {"module": "combobox","label": "수금계획","selector": ".receKind","required":false},
+										"receDate1" :  {"module": "text","label": "일마감후","selector": ".receDate1","required":false},
+										"receDate2" :  {"module": "text","label": "일","selector": ".receDate2","required":false},
+										"vatYn" :  {"module": "checkbox","label": "부실거래처,","selector": "[name=vatYn]","required":false},
+										"creditYn" :  {"module": "checkbox","label": "한도관리체크","selector": "[name=creditYn]","required":false},
+										"creditYn2" :  {"module": "checkbox","label": "한도무한체크","selector": "[name=creditYn2]","required":false},
+										"tempCredit" :  {"module": "price","label": "임시여신","selector": ".tempCredit","required":false},
+										"tempDate" :  {"module": "date","label": "증액만기일","selector": ".tempDate","required":false},
+										"oneCredit" :  {"module": "price","label": "1회한도증액","selector": ".oneCredit","required":false},
+										"bankName" :  {"module": "text","label": "은행명","selector": ".bankName","required":false},
+										"bankNo" :  {"module": "text","label": "계좌번호","selector": ".bankNo","required":false},
+										"bankUser" :  {"module": "text","label": "입금자","selector": ".bankUser","required":false}
+
+									},
+									"data": {}
+								}
+							}
+
+						},
+						"tap_damInfo": {
+							"module": "FormBox",
+							"options": {
+								"className": "tap_damInfo_box",
+								"order": [
+									"damCkind",
+									"damNkind",
+									"damPrice",
+									"damList",
+									"damSdate",
+									"damEdate",
+									"damHdate",
+									"damComp",
+									"damTel",
+									"damBuil",
+									"damSrank",
+									"damSkum",
+									"damMemo"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template":"<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><button class=\"btn btn-primary btn_go_dambo\">담보변경</button></div><div class=\"form-group\"><label>종류코드</label><input type=\"text\" class=\"form-control damCkind\" value=\"\" readonly></div><div class=\"form-group\"><label>종류명</label><input type=\"text\" class=\"form-control damNkind\" value=\"\" readonly></div><div class=\"form-group\"><label>담보가액</label><div class=\"input-group\"><div class=\"input-group-addon\">₩</div><input type=\"text\" class=\"form-control damPrice\" value=\"\" readonly><div class=\"input-group-addon\">원</div></div></div><div class=\"form-group\"><label>담보내용</label><textarea class=\"form-control damList\" readonly></textarea></div></div><div class=\"col-xs-8\"><div class=\"row\"><div class=\"col-xs-6\"><div class=\"form-group\"><label>담보설정일</label><input type=\"text\" class=\"form-control damSdate\" value=\"\" readonly></div><div class=\"form-group\"><label>담보만기일</label><input type=\"text\" class=\"form-control damEdate\" value=\"\" readonly></div><div class=\"form-group\"><label>담보효력일</label><input type=\"text\" class=\"form-control damHdate\" value=\"\" readonly></div><div class=\"form-group\"><label>가입처</label><input type=\"text\" class=\"form-control damComp\" value=\"\" readonly></div><div class=\"form-group\"><label>가입처전화</label><input type=\"text\" class=\"form-control damTel\" value=\"\" readonly></div></div><div class=\"col-xs-6\"><div class=\"form-group\"><label>선순위금액</label><div class=\"input-group\"><div class=\"input-group-addon\">₩</div><input type=\"text\" class=\"form-control damSkum\" value=\"\" readonly><div class=\"input-group-addon\">원</div></div></div><div class=\"form-group\"><label>선순위</label><textarea class=\"form-control damSrank\" readonly></textarea></div><div class=\"form-group\"><label>비고</label><textarea class=\"form-control damMemo\" readonly></textarea></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label>담보지물건</label><input type=\"text\" class=\"form-control damBuil\" value=\"\" readonly></div></div></div></div></div>",
+									"mode": "form",
+									"items": {
+										"damCkind" :  {"module": "text","label": "종류코드","selector": ".damCkind","required":false},
+										"damNkind" :  {"module": "text","label": "종류명","selector": ".damNkind","required":false},
+										"damPrice" :  {"module": "price","label": "담보가액","selector": ".damPrice","required":false},
+										"damList" :  {"module": "textarea","label": "담보내용","selector": ".damList","required":false},
+										"damSdate" :  {"module": "date","label": "담보설정일","selector": ".damSdate","required":false},
+										"damEdate" :  {"module": "date","label": "담보만기일","selector": ".damEdate","required":false},
+										"damHdate" :  {"module": "date","label": "담보효력일","selector": ".damHdate","required":false},
+										"damComp" :  {"module": "text","label": "가입처","selector": ".damComp","required":false},
+										"damTel" :  {"module": "text","label": "가입처전화","selector": ".damTel","required":false},
+										"damBuil" :  {"module": "text","label": "담보물건지","selector": ".damBuil","required":false},
+										"damSrank" :  {"module": "text","label": "선순위","selector": ".damSrank","required":false},
+										"damSkum" :  {"module": "price","label": "선순위금액","selector": ".damSkum","required":false},
+										"damMemo" :  {"module": "textarea","label": "비고","selector": ".damMemo","required":false},
+										"logCode" :  {"module": "text","label": "웹발주여부내용","selector": ".logCode","required":false}
+
+									},
+									"data": {}
+								}
+							}
+						},
+						"tab_coaddress":{
+							"module": "FormBox",
+							"options": {
+								"className": "tab_coaddress_box",
+								"order": [
+									"coAddress",
+									"areaCode",
+									"outOrder"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template":"<div class=\"row\"><div class=\"col-xs-8 coAddress_region\"></div><div class=\"col-xs-4\"><div class=\"form-group form_only\"><button class=\"btn btn-primary btn_go_copyaddress\">우편물주소로 <i class=\"fa fa-arrow-right\"></i></button></div><div class=\"form-group\"><label>지역구분</label><div class=\"areaCode_region\"></div></div><div class=\"form-group\"><label>출력순서</label><input type=\"text\" class=\"form-control outOrder\" value=\"\" readonly></div></div></div>",
+									"mode": "form",
+									"items": {
+										"coAddress" :  {"label": "주소찾기","required":false},
+										"areaCode" :  {"label": "지역구분","required":false},
+										"outOrder" :  {"module": "text","label": "출력순서","selector": ".outOrder","required":false}
+									},
+									"data": {}
+								},
+								"coAddress": {
+									"module": "manifest!address-1.3.0",
+									"options": {
+										"label": "주소찾기",
+										"required": false
+									}
+								},
+								"areaCode": {
+									"module": "manifest!CodeSearch-1.0.0",
+									"options": {
+										"label": "지역구분",
+										"required": false
+									}
+								}
+							}
+						},
+						"tab_zipaddress":{
+							"module": "FormBox",
+							"options": {
+								"className": "tab_zipaddress_box",
+								"order": [
+									"zipAddress"
+								],
+								"activation": {
+									"defaultWidget": "",
+									"method": "one-page"
+								},
+								"custom_form": {
+									"template":"<div class=\"row\"><div class=\"col-xs-8 zipAddress_region\"></div><div class=\"col-xs-4\"></div></div>",
+									"mode": "form",
+									"items": {
+										"zipAddress" :  {"label": "주소찾기","required":false}
+									},
+									"data": {}
+								},
+								"zipAddress": {
+									"module": "manifest!address-1.3.0",
+									"options": {
+										"label": "주소찾기",
+										"required": false
+									}
+								}
+							}
+
+						}
+					}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "result_box grid_box",
+				"gridId": "userinfo",
+				"gridParams": {
+					"data": [{}],
+					"colModel": [
+						{"name": "custCode","label": "거래처","align": "left","width": 80},
+						{"name": "custName","label": "거래처명","align": "left","width": 200},
+						{"name": "shortName","label": "단축명","align": "left","width": 200},
+						{"name": "owner","label": "대표자","align": "left","width": 80},
+						{"name": "ssno","label": "사업자번호","align": "left","width": 90},
+						{"name": "jumin","label": "주민번호","align": "left","width": 120},
+						{"name": "uptae","label": "업태","align": "left","width": 80},
+						{"name": "jong","label": "종목","align": "left","width": 80},
+						{"name": "carCode","label": "배차차량코드","align": "left","width": 80},
+						{"name": "teamCode","label": "팀코드","align": "left","width": 60},
+						{"name": "teamName","label": "팀명","align": "left","width": 80},
+						{"name": "afterUser","label": "영업담당","align": "left","width": 100},
+						{"name": "distRoute","label": "경로코드","align": "left","width": 80},
+						{"name": "priceCode","label": "가격코드","align": "left","width": 80},
+						{"name": "areaCode","label": "지역구분","align": "left","width": 80},
+						{"name": "zipc1","label": "우편번호","align": "left","width": 100},
+						{"name": "addr1","label": "주소","align": "left","width": 250},
+						{"name": "mhisDate","label": "등록일자","align": "left","width": 120},
+						{"name": "fax","label": "팩스번호","align": "left","width": 80}
+					],
+					"pager":false,
+					"width": "auto",
+					"height": 213,
+					"iconSet": "fontAwesome"
+				}
+			}
+		}
+	}
+}

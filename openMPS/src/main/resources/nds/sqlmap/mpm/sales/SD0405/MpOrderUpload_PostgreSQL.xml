@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpOrderUpload">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpOrderUploadSerarchVO" type="nds.mpm.sales.SD0405.vo.MpOrderUploadVO"/>
+	
+	<resultMap id="mpOrderUpload" class="nds.mpm.sales.SD0405.vo.MpOrderUploadVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="ordrCust" column="ordr_cust" columnIndex="2"/>
+		<result property="sortKey1" column="sort_key1" columnIndex="3"/>
+		<result property="sortKey2" column="sort_key2" columnIndex="4"/>
+		<result property="col1" column="col1" columnIndex="5"/>
+		<result property="col2" column="col2" columnIndex="6"/>
+		<result property="col3" column="col3" columnIndex="7"/>
+		<result property="col4" column="col4" columnIndex="8"/>
+		<result property="col5" column="col5" columnIndex="9"/>
+		<result property="col6" column="col6" columnIndex="10"/>
+		<result property="col7" column="col7" columnIndex="11"/>
+		<result property="col8" column="col8" columnIndex="12"/>
+		<result property="col9" column="col9" columnIndex="13"/>
+		<result property="col10" column="col10" columnIndex="14"/>
+		<result property="col11" column="col11" columnIndex="15"/>
+		<result property="col12" column="col12" columnIndex="16"/>
+		<result property="col13" column="col13" columnIndex="17"/>
+		<result property="col14" column="col14" columnIndex="18"/>
+		<result property="col15" column="col15" columnIndex="19"/>
+		<result property="col16" column="col16" columnIndex="20"/>
+		<result property="col17" column="col17" columnIndex="21"/>
+		<result property="col18" column="col18" columnIndex="22"/>
+		<result property="col19" column="col19" columnIndex="23"/>
+		<result property="col20" column="col20" columnIndex="24"/>
+		<result property="col21" column="col21" columnIndex="25"/>
+		<result property="col22" column="col22" columnIndex="26"/>
+		<result property="col23" column="col23" columnIndex="27"/>
+		<result property="col24" column="col24" columnIndex="28"/>
+		<result property="col25" column="col25" columnIndex="29"/>
+		<result property="col26" column="col26" columnIndex="30"/>
+		<result property="col27" column="col27" columnIndex="31"/>
+		<result property="col28" column="col28" columnIndex="32"/>
+		<result property="col29" column="col29" columnIndex="33"/>
+		<result property="col30" column="col30" columnIndex="34"/>
+		<result property="col31" column="col31" columnIndex="35"/>
+		<result property="col32" column="col32" columnIndex="36"/>
+		<result property="col33" column="col33" columnIndex="37"/>
+		<result property="col34" column="col34" columnIndex="38"/>
+		<result property="col35" column="col35" columnIndex="39"/>
+		<result property="col36" column="col36" columnIndex="40"/>
+		<result property="col37" column="col37" columnIndex="41"/>
+		<result property="col38" column="col38" columnIndex="42"/>
+		<result property="col39" column="col39" columnIndex="43"/>
+		<result property="col40" column="col40" columnIndex="44"/>
+		<result property="col41" column="col41" columnIndex="45"/>
+		<result property="col42" column="col42" columnIndex="46"/>
+		<result property="col43" column="col43" columnIndex="47"/>
+		<result property="col44" column="col44" columnIndex="48"/>
+		<result property="col45" column="col45" columnIndex="49"/>
+		<result property="col46" column="col46" columnIndex="50"/>
+		<result property="col47" column="col47" columnIndex="51"/>
+		<result property="col48" column="col48" columnIndex="52"/>
+		<result property="col49" column="col49" columnIndex="53"/>
+		<result property="col50" column="col50" columnIndex="54"/>
+		<result property="col1Hd" column="col1_hd" columnIndex="55"/>
+		<result property="col2Hd" column="col2_hd" columnIndex="56"/>
+		<result property="col3Hd" column="col3_hd" columnIndex="57"/>
+		<result property="col4Hd" column="col4_hd" columnIndex="58"/>
+		<result property="col5Hd" column="col5_hd" columnIndex="59"/>
+		<result property="col6Hd" column="col6_hd" columnIndex="60"/>
+		<result property="col7Hd" column="col7_hd" columnIndex="61"/>
+		<result property="col8Hd" column="col8_hd" columnIndex="62"/>
+		<result property="col9Hd" column="col9_hd" columnIndex="63"/>
+		<result property="col10Hd" column="col10_hd" columnIndex="64"/>
+		<result property="col11Hd" column="col11_hd" columnIndex="65"/>
+		<result property="col12Hd" column="col12_hd" columnIndex="66"/>
+		<result property="col13Hd" column="col13_hd" columnIndex="67"/>
+		<result property="col14Hd" column="col14_hd" columnIndex="68"/>
+		<result property="col15Hd" column="col15_hd" columnIndex="69"/>
+		<result property="col16Hd" column="col16_hd" columnIndex="70"/>
+		<result property="col17Hd" column="col17_hd" columnIndex="71"/>
+		<result property="col18Hd" column="col18_hd" columnIndex="72"/>
+		<result property="col19Hd" column="col19_hd" columnIndex="73"/>
+		<result property="col20Hd" column="col20_hd" columnIndex="74"/>
+		<result property="col21Hd" column="col21_hd" columnIndex="75"/>
+		<result property="col22Hd" column="col22_hd" columnIndex="76"/>
+		<result property="col23Hd" column="col23_hd" columnIndex="77"/>
+		<result property="col24Hd" column="col24_hd" columnIndex="78"/>
+		<result property="col25Hd" column="col25_hd" columnIndex="79"/>
+		<result property="col26Hd" column="col26_hd" columnIndex="80"/>
+		<result property="col27Hd" column="col27_hd" columnIndex="81"/>
+		<result property="col28Hd" column="col28_hd" columnIndex="82"/>
+		<result property="col29Hd" column="col29_hd" columnIndex="83"/>
+		<result property="col30Hd" column="col30_hd" columnIndex="84"/>
+		<result property="col31Hd" column="col31_hd" columnIndex="85"/>
+		<result property="col32Hd" column="col32_hd" columnIndex="86"/>
+		<result property="col33Hd" column="col33_hd" columnIndex="87"/>
+		<result property="col34Hd" column="col34_hd" columnIndex="88"/>
+		<result property="col35Hd" column="col35_hd" columnIndex="89"/>
+		<result property="col36Hd" column="col36_hd" columnIndex="90"/>
+		<result property="col37Hd" column="col37_hd" columnIndex="91"/>
+		<result property="col38Hd" column="col38_hd" columnIndex="92"/>
+		<result property="col39Hd" column="col39_hd" columnIndex="93"/>
+		<result property="col40Hd" column="col40_hd" columnIndex="94"/>
+		<result property="col41Hd" column="col41_hd" columnIndex="95"/>
+		<result property="col42Hd" column="col42_hd" columnIndex="96"/>
+		<result property="col43Hd" column="col43_hd" columnIndex="97"/>
+		<result property="col44Hd" column="col44_hd" columnIndex="98"/>
+		<result property="col45Hd" column="col45_hd" columnIndex="99"/>
+		<result property="col46Hd" column="col46_hd" columnIndex="100"/>
+		<result property="col47Hd" column="col47_hd" columnIndex="101"/>
+		<result property="col48Hd" column="col48_hd" columnIndex="102"/>
+		<result property="col49Hd" column="col49_hd" columnIndex="103"/>
+		<result property="col50Hd" column="col50_hd" columnIndex="104"/>
+		<result property="col1Name" column="col1_name" columnIndex="105"/>
+		<result property="col2Name" column="col2_name" columnIndex="106"/>
+		<result property="col3Name" column="col3_name" columnIndex="107"/>
+		<result property="col4Name" column="col4_name" columnIndex="108"/>
+		<result property="col5Name" column="col5_name" columnIndex="109"/>
+		<result property="col6Name" column="col6_name" columnIndex="110"/>
+		<result property="col7Name" column="col7_name" columnIndex="111"/>
+		<result property="col8Name" column="col8_name" columnIndex="112"/>
+		<result property="col9Name" column="col9_name" columnIndex="113"/>
+		<result property="col10Name" column="col10_name" columnIndex="114"/>
+		<result property="col11Name" column="col11_name" columnIndex="115"/>
+		<result property="col12Name" column="col12_name" columnIndex="116"/>
+		<result property="col13Name" column="col13_name" columnIndex="117"/>
+		<result property="col14Name" column="col14_name" columnIndex="118"/>
+		<result property="col15Name" column="col15_name" columnIndex="119"/>
+		<result property="col16Name" column="col16_name" columnIndex="120"/>
+		<result property="col17Name" column="col17_name" columnIndex="121"/>
+		<result property="col18Name" column="col18_name" columnIndex="122"/>
+		<result property="col19Name" column="col19_name" columnIndex="123"/>
+		<result property="col20Name" column="col20_name" columnIndex="124"/>
+		<result property="col21Name" column="col21_name" columnIndex="125"/>
+		<result property="col22Name" column="col22_name" columnIndex="126"/>
+		<result property="col23Name" column="col23_name" columnIndex="127"/>
+		<result property="col24Name" column="col24_name" columnIndex="128"/>
+		<result property="col25Name" column="col25_name" columnIndex="129"/>
+		<result property="col26Name" column="col26_name" columnIndex="130"/>
+		<result property="col27Name" column="col27_name" columnIndex="131"/>
+		<result property="col28Name" column="col28_name" columnIndex="132"/>
+		<result property="col29Name" column="col29_name" columnIndex="133"/>
+		<result property="col30Name" column="col30_name" columnIndex="134"/>
+		<result property="col31Name" column="col31_name" columnIndex="135"/>
+		<result property="col32Name" column="col32_name" columnIndex="136"/>
+		<result property="col33Name" column="col33_name" columnIndex="137"/>
+		<result property="col34Name" column="col34_name" columnIndex="138"/>
+		<result property="col35Name" column="col35_name" columnIndex="139"/>
+		<result property="col36Name" column="col36_name" columnIndex="140"/>
+		<result property="col37Name" column="col37_name" columnIndex="141"/>
+		<result property="col38Name" column="col38_name" columnIndex="142"/>
+		<result property="col39Name" column="col39_name" columnIndex="143"/>
+		<result property="col40Name" column="col40_name" columnIndex="144"/>
+		<result property="col41Name" column="col41_name" columnIndex="145"/>
+		<result property="col42Name" column="col42_name" columnIndex="146"/>
+		<result property="col43Name" column="col43_name" columnIndex="147"/>
+		<result property="col44Name" column="col44_name" columnIndex="148"/>
+		<result property="col45Name" column="col45_name" columnIndex="149"/>
+		<result property="col46Name" column="col46_name" columnIndex="150"/>
+		<result property="col47Name" column="col47_name" columnIndex="151"/>
+		<result property="col48Name" column="col48_name" columnIndex="152"/>
+		<result property="col49Name" column="col49_name" columnIndex="153"/>
+		<result property="col50Name" column="col50_name" columnIndex="154"/>
+		<result property="crUser" column="cr_user" columnIndex="155"/>
+		<result property="crDate" column="cr_date" columnIndex="156"/>
+		<result property="mdUser" column="md_user" columnIndex="157"/>
+		<result property="mdDate" column="md_date" columnIndex="158"/>
+	</resultMap>
+	
+	<insert id="mpOrderUploadDAO.insertMpOrderUpload_S">
+		<![CDATA[
+			INSERT INTO mp_order_upload 
+				( corp_code
+				  , ordr_cust
+				  , sort_key1
+				  , sort_key2
+				  , col1
+				  , col2
+				  , col3
+				  , col4
+				  , col5
+				  , col6
+				  , col7
+				  , col8
+				  , col9
+				  , col10
+				  , col11
+				  , col12
+				  , col13
+				  , col14
+				  , col15
+				  , col16
+				  , col17
+				  , col18
+				  , col19
+				  , col20
+				  , col21
+				  , col22
+				  , col23
+				  , col24
+				  , col25
+				  , col26
+				  , col27
+				  , col28
+				  , col29
+				  , col30
+				  , col31
+				  , col32
+				  , col33
+				  , col34
+				  , col35
+				  , col36
+				  , col37
+				  , col38
+				  , col39
+				  , col40
+				  , col41
+				  , col42
+				  , col43
+				  , col44
+				  , col45
+				  , col46
+				  , col47
+				  , col48
+				  , col49
+				  , col50
+				  , col1_name
+				  , col2_name
+				  , col3_name
+				  , col4_name
+				  , col5_name
+				  , col6_name
+				  , col7_name
+				  , col8_name
+				  , col9_name
+				  , col10_name
+				  , col11_name
+				  , col12_name
+				  , col13_name
+				  , col14_name
+				  , col15_name
+				  , col16_name
+				  , col17_name
+				  , col18_name
+				  , col19_name
+				  , col20_name
+				  , col21_name
+				  , col22_name
+				  , col23_name
+				  , col24_name
+				  , col25_name
+				  , col26_name
+				  , col27_name
+				  , col28_name
+				  , col29_name
+				  , col30_name
+				  , col31_name
+				  , col32_name
+				  , col33_name
+				  , col34_name
+				  , col35_name
+				  , col36_name
+				  , col37_name
+				  , col38_name
+				  , col39_name
+				  , col40_name
+				  , col41_name
+				  , col42_name
+				  , col43_name
+				  , col44_name
+				  , col45_name
+				  , col46_name
+				  , col47_name
+				  , col48_name
+				  , col49_name
+				  , col50_name
+				  , cr_user
+				  , cr_date
+				  , md_user
+				  , md_date )
+			VALUES ( #corpCode#
+				  , #ordrCust#
+				  , #sortKey1#
+				  , #sortKey2#
+				  , #col1#
+				  , #col2#
+				  , #col3#
+				  , #col4#
+				  , #col5#
+				  , #col6#
+				  , #col7#
+				  , #col8#
+				  , #col9#
+				  , #col10#
+				  , #col11#
+				  , #col12#
+				  , #col13#
+				  , #col14#
+				  , #col15#
+				  , #col16#
+				  , #col17#
+				  , #col18#
+				  , #col19#
+				  , #col20#
+				  , #col21#
+				  , #col22#
+				  , #col23#
+				  , #col24#
+				  , #col25#
+				  , #col26#
+				  , #col27#
+				  , #col28#
+				  , #col29#
+				  , #col30#
+				  , #col31#
+				  , #col32#
+				  , #col33#
+				  , #col34#
+				  , #col35#
+				  , #col36#
+				  , #col37#
+				  , #col38#
+				  , #col39#
+				  , #col40#
+				  , #col41#
+				  , #col42#
+				  , #col43#
+				  , #col44#
+				  , #col45#
+				  , #col46#
+				  , #col47#
+				  , #col48#
+				  , #col49#
+				  , #col50#
+				  , #col1Name#
+				  , #col2Name#
+				  , #col3Name#
+				  , #col4Name#
+				  , #col5Name#
+				  , #col6Name#
+				  , #col7Name#
+				  , #col8Name#
+				  , #col9Name#
+				  , #col10Name#
+				  , #col11Name#
+				  , #col12Name#
+				  , #col13Name#
+				  , #col14Name#
+				  , #col15Name#
+				  , #col16Name#
+				  , #col17Name#
+				  , #col18Name#
+				  , #col19Name#
+				  , #col20Name#
+				  , #col21Name#
+				  , #col22Name#
+				  , #col23Name#
+				  , #col24Name#
+				  , #col25Name#
+				  , #col26Name#
+				  , #col27Name#
+				  , #col28Name#
+				  , #col29Name#
+				  , #col30Name#
+				  , #col31Name#
+				  , #col32Name#
+				  , #col33Name#
+				  , #col34Name#
+				  , #col35Name#
+				  , #col36Name#
+				  , #col37Name#
+				  , #col38Name#
+				  , #col39Name#
+				  , #col40Name#
+				  , #col41Name#
+				  , #col42Name#
+				  , #col43Name#
+				  , #col44Name#
+				  , #col45Name#
+				  , #col46Name#
+				  , #col47Name#
+				  , #col48Name#
+				  , #col49Name#
+				  , #col50Name#
+				  , #crUser#
+				  , now()
+				  , #mdUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="mpOrderUploadDAO.updateMpOrderUpload_S">
+		<![CDATA[
+			UPDATE mp_order_upload
+			SET sort_key1=#sortKey1#
+				, sort_key2=#sortKey2#
+				, col1=#col1#
+				, col2=#col2#
+				, col3=#col3#
+				, col4=#col4#
+				, col5=#col5#
+				, col6=#col6#
+				, col7=#col7#
+				, col8=#col8#
+				, col9=#col9#
+				, col10=#col10#
+				, col11=#col11#
+				, col12=#col12#
+				, col13=#col13#
+				, col14=#col14#
+				, col15=#col15#
+				, col16=#col16#
+				, col17=#col17#
+				, col18=#col18#
+				, col19=#col19#
+				, col20=#col20#
+				, col21=#col21#
+				, col22=#col22#
+				, col23=#col23#
+				, col24=#col24#
+				, col25=#col25#
+				, col26=#col26#
+				, col27=#col27#
+				, col28=#col28#
+				, col29=#col29#
+				, col30=#col30#
+				, col31=#col31#
+				, col32=#col32#
+				, col33=#col33#
+				, col34=#col34#
+				, col35=#col35#
+				, col36=#col36#
+				, col37=#col37#
+				, col38=#col38#
+				, col39=#col39#
+				, col40=#col40#
+				, col41=#col41#
+				, col42=#col42#
+				, col43=#col43#
+				, col44=#col44#
+				, col45=#col45#
+				, col46=#col46#
+				, col47=#col47#
+				, col48=#col48#
+				, col49=#col49#
+				, col50=#col50#
+				, col1_name=#col1Name#
+				, col2_name=#col2Name#
+				, col3_name=#col3Name#
+				, col4_name=#col4Name#
+				, col5_name=#col5Name#
+				, col6_name=#col6Name#
+				, col7_name=#col7Name#
+				, col8_name=#col8Name#
+				, col9_name=#col9Name#
+				, col10_name=#col10Name#
+				, col11_name=#col11Name#
+				, col12_name=#col12Name#
+				, col13_name=#col13Name#
+				, col14_name=#col14Name#
+				, col15_name=#col15Name#
+				, col16_name=#col16Name#
+				, col17_name=#col17Name#
+				, col18_name=#col18Name#
+				, col19_name=#col19Name#
+				, col20_name=#col20Name#
+				, col21_name=#col21Name#
+				, col22_name=#col22Name#
+				, col23_name=#col23Name#
+				, col24_name=#col24Name#
+				, col25_name=#col25Name#
+				, col26_name=#col26Name#
+				, col27_name=#col27Name#
+				, col28_name=#col28Name#
+				, col29_name=#col29Name#
+				, col30_name=#col30Name#
+				, col31_name=#col31Name#
+				, col32_name=#col32Name#
+				, col33_name=#col33Name#
+				, col34_name=#col34Name#
+				, col35_name=#col35Name#
+				, col36_name=#col36Name#
+				, col37_name=#col37Name#
+				, col38_name=#col38Name#
+				, col39_name=#col39Name#
+				, col40_name=#col40Name#
+				, col41_name=#col41Name#
+				, col42_name=#col42Name#
+				, col43_name=#col43Name#
+				, col44_name=#col44Name#
+				, col45_name=#col45Name#
+				, col46_name=#col46Name#
+				, col47_name=#col47Name#
+				, col48_name=#col48Name#
+				, col49_name=#col49Name#
+				, col50_name=#col50Name#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND ordr_cust=#ordrCust#
+				]]>
+	</update>
+	
+	<delete id="mpOrderUploadDAO.deleteMpOrderUpload_S">
+		<![CDATA[
+			DELETE FROM mp_order_upload 
+						WHERE corp_code=#corpCode#
+								AND ordr_cust=#ordrCust#
+				]]>
+	</delete>
+	
+	<select id="mpOrderUploadDAO.selectMpOrderUpload_S" resultClass="egovMap">
+		<![CDATA[
+			SELECT
+				a.corp_code
+				, a.ordr_cust
+				, a.sort_key1
+				, a.sort_key2
+				, col1
+				, col2
+				, col3
+				, col4
+				, col5
+				, col6
+				, col7
+				, col8
+				, col9
+				, col10
+				, col11
+				, col12
+				, col13
+				, col14
+				, col15
+				, col16
+				, col17
+				, col18
+				, col19
+				, col20
+				, col21
+				, col22
+				, col23
+				, col24
+				, col25
+				, col26
+				, col27
+				, col28
+				, col29
+				, col30
+				, col31
+				, col32
+				, col33
+				, col34
+				, col35
+				, col36
+				, col37
+				, col38
+				, col39
+				, col40
+				, col41
+				, col42
+				, col43
+				, col44
+				, col45
+				, col46
+				, col47
+				, col48
+				, col49
+				, col50
+				, col1_name
+				, col2_name
+				, col3_name
+				, col4_name
+				, col5_name
+				, col6_name
+				, col7_name
+				, col8_name
+				, col9_name
+				, col10_name
+				, col11_name
+				, col12_name
+				, col13_name
+				, col14_name
+				, col15_name
+				, col16_name
+				, col17_name
+				, col18_name
+				, col19_name
+				, col20_name
+				, col21_name
+				, col22_name
+				, col23_name
+				, col24_name
+				, col25_name
+				, col26_name
+				, col27_name
+				, col28_name
+				, col29_name
+				, col30_name
+				, col31_name
+				, col32_name
+				, col33_name
+				, col34_name
+				, col35_name
+				, col36_name
+				, col37_name
+				, col38_name
+				, col39_name
+				, col40_name
+				, col41_name
+				, col42_name
+				, col43_name
+				, col44_name
+				, col45_name
+				, col46_name
+				, col47_name
+				, col48_name
+				, col49_name
+				, col50_name
+				, a.cr_user
+				, a.cr_date
+				, a.md_user
+				, a.md_date
+			FROM mp_order_upload a
+						WHERE corp_code=#corpCode#
+								AND ordr_cust=#ordrCust#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM 
+			openmps.mp_order_upload a 
+			inner join mp_cust_info b on ( a.corp_code = b.corp_code and a.ordr_cust = b.cust_code )
+		where a.corp_code = #corpCode#
+		<!-- 여신한도 체크거래처의경우 주문업로드거래처제외.
+			and b.credit_yn != 'Y'	 -->
+		<dynamic >
+			 <isNotEmpty prepend="and" property="ordrCust">
+			 a.ordr_cust = #ordrCust#
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="mpOrderUploadDAO.selectMpOrderUploadList_D" parameterClass="mpOrderUploadSerarchVO" resultClass="egovMap">
+		select 
+			*
+			
+		<include refid="selectWhere_fragment"/>
+	</select>	
+	<select id="mpOrderUploadDAO.selectMpOrderUploadListTotCnt_S" parameterClass="mpOrderUploadSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

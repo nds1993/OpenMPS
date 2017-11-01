@@ -1,0 +1,175 @@
+@charset "UTF-8";
+
+body                    { scrollbar-3dlight-color:#B4B4B4; scrollbar-arrow-color:#333333; scrollbar-base-color:#EEEEEE; scrollbar-darkshadow-color:#FFFFFF; scrollbar-face-color:#eeeeee; scrollbar-highlight-color:#FFFFFF; scrollbar-shadow-color:#B4B4B4; background-color:#FFFFFF; margin:0 0 0 0;}
+form                    { margin:0px;padding:0px;}
+table                   { font-family:"돋움", "Verdana"; border-collapse:collapse; color:#555555;}
+img                     { border:0; }
+
+/* 2012_06_29 추가*/
+/* 기본 Hyperlink Style */
+a:link {font-size:9pt;font-family: 돋움; color:#1a1a1a; letter-spacing:-1px; text-decoration: none;}
+a:visited {font-size:9pt;font-family: 돋움; color:#1a1a1a; letter-spacing:-1px; text-decoration: none;}
+a:hover {font-size:9pt;font-family: 돋움; color:#FF3C00; letter-spacing:-1px; text-decoration: none;}
+
+/* topmini_menu */
+.topmini                {font-size:9pt;font-family: 돋움; line-height:16px; color:#1a1a1a; letter-spacing:0px; text-decoration: none; text-align: right; }
+
+/* 좌측메뉴_로그인 */
+.left_login {font-size:9pt;font-family: 돋움; font-weight:bold; line-height:18px; color:#055178; letter-spacing:0px; padding-left:22px; line-height:20px; text-decoration: none; 
+             background:url(../images/main/left/left_login_box.gif) no-repeat left top; }
+
+/* 상단메뉴 */
+a:link.submenu {font-size:9pt;font-family: 돋움; font-weight:none;  color:#1a1a1a; letter-spacing:0px; text-decoration: none;}
+a:visited.submenu {font-size:9pt;font-family: 돋움; font-weight:none;  color:#1a1a1a; letter-spacing:0px; text-decoration: none;}
+a:hover.submenu {font-size:9pt;font-family: 돋움; font-weight:bold;  color:#1a1a1a; letter-spacing:-1px; text-decoration: none; padding-left:0px; padding-top:5px; }
+.submenu {font-size:9pt;font-family: 돋움; font-weight:none;  color:#1a1a1a; letter-spacing:-2px; text-decoration: none; padding-left:-1px; padding-top:5px; }
+
+.bgtopmenu1 {font-size:9pt;font-family: 돋움; font-weight:bold;  color:#FFFFFF; letter-spacing:-1px; text-decoration: none; padding-left:12px;} 
+.bgtopmenu1_over {font-size:9pt;font-family: 돋움; font-weight:bold;  color:#fff568; letter-spacing:-1px; text-decoration: none;  padding-left:12px; background:url(../images/main/top/top_menu_arrow.gif) no-repeat center top; }
+.bgtopmenu1_over_null {font-size:9pt;font-family: 돋움; font-weight:bold;  color:#fff568; letter-spacing:-1px; text-decoration: none;  padding-left:0px; background:url(../images/main/top/top_menu_arrow.gif) no-repeat left top; }
+.bgtopmenu2 { text-align:center; padding-right:30px; padding-left:27px;}
+.bgtopmenu2_over { text-align:center; padding-right:30px;  padding-left:27px;}
+
+.left_title {width:215px; height:30px; font-size:12pt; font-family: 돋움; text-align:center; font-weight:bold; letter-spacing:0px; color:#fcff00; text-decoration: none; margin-bottom:4px; background:url(../images/main/left/sub_left_title.gif) ;}
+.submenu_1 { margin-bottom:3px; }
+.submenu_1_1 { margin-bottom:3px; width:159px; border-bottom:1px #1a1a1a solid; }
+.left_menu1 {width:171px; height:25px; font-size:9pt; font-family: 돋움; text-align:left; letter-spacing:0px; color:#ffffff; padding-left:22px; padding-top:4px; text-decoration: none; margin-bottom:3px;   cursor:pointer;}
+.left_menu2 {width:159px; height:22px; font-size:10pt; font-family: 돋움; text-align:left; font-weight:bold; letter-spacing:-1px; color:#686868; padding-left:22px; padding-top:3px; text-decoration: none;  cursor:pointer;}
+
+/* 나의업무현황/mymenu */
+.font_01 {font-size:9pt;font-family: 돋움; line-height:20px; color:#1a1a1a; letter-spacing:0px; text-decoration: none;}
+.font_01_blod {font-size:9pt;font-family: 돋움;  font-weight:bold;  line-height:20px; color:#1a1a1a; letter-spacing:0px; text-decoration: none;}
+.font_blue {font-size:9pt;font-family: 돋움;  font-weight:bold;  line-height:20px; color:#2f62bb; letter-spacing:0px; text-decoration: none;}
+.font_star {font-size:9pt;font-family: 돋움; line-height:23px; color:#1a1a1a; padding-left:3px; text-decoration: none;  }
+
+/* 좌측메뉴 */
+a:link.leftmenu {font-size:9pt;font-family: 돋움; font-weight:none;  color:#ffffff; letter-spacing:0px; text-decoration: none;}
+a:visited.leftmenu {font-size:9pt;font-family: 돋움; font-weight:none;  color:#ffffff; letter-spacing:0px; text-decoration: none;}
+a:hover.leftmenu {font-size:9pt;font-family: 돋움; font-weight:bold;  color:#ffffff; letter-spacing:-1px; text-decoration: none; padding-left:0px; padding-top:7px; }
+.leftmenu {font-size:9pt;font-family: 돋움; font-weight:none;  color:#ffffff; letter-spacing:-2px; text-decoration: none; padding-left:-1px; padding-top:7px; }
+
+A.lmenu:link { font-family: "돋움"; font-size: 11px; font-weight:bold;  color: #ffffff; padding-left:5px; padding-top:5px; text-decoration:none; }
+A.lmenu:visited { font-family: "돋움"; font-size: 11px; font-weight:bold;  color: #ffffff; padding-left:5px; padding-top:5px; text-decoration:none; }
+A.lmenu:active { font-family: "돋움"; font-size: 11px; font-weight:bold;  color: #ffffff; padding-left:5px; padding-top:5px; text-decoration:none; }
+A.lmenu:hover { font-family: "돋움"; font-size: 11px; font-weight:bold;  color: #ffffff; padding-left:5px; padding-top:5px; text-decoration:none; }
+
+/* LEFT메뉴 기본 */
+.bgleftmenu2 { font-size: 12px;font-family: 돋움; padding-left: 28px; color:#ffffff; letter-spacing:0px; text-decoration: none; background:url(../images/main/left/sub_left_plus.gif) no-repeat left top; }
+/* LEFT메뉴 마이너스*/
+.bgleftmenumn { font-size: 12px;font-family: 돋움; padding-left: 28px; color:#ffffff; letter-spacing:0px; text-decoration: none; background:url(../images/main/left/sub_left_minus.gif) no-repeat left top; }
+/* LEFT메뉴 마우스 OVER */
+.bgleftmenu_over {font-size: 12px;font-family: 돋움; padding-left: 28px; font-weight:bold; color: #FFFFFF; letter-spacing: 0px; text-decoration: none;  background:url(../images/main/left/sub_left_plus.gif) no-repeat left top; }  
+/* LEFT메뉴 마이너스 마우스 OVER */
+.bgleftmenumn_over {font-size: 12px;font-family: 돋움; padding-left: 28px; font-weight:bold; color: #FFFFFF; letter-spacing: 0px; text-decoration: none;  background:url(../images/main/left/sub_left_minus.gif) no-repeat left top; }
+/* LEFT메뉴 변경 */
+.bgleftmenu {font-size: 12px;font-family: 돋움; padding-left: 28px; color:#ffffff; letter-spacing:0px; text-decoration: none; background:url(../images/main/left/sub_left_plus.gif) no-repeat left top; }
+
+
+
+
+
+
+
+
+
+
+
+/* 상단 메인메뉴 */
+.mLeft                  { font-size:14px; font-family: 돋움; font-weight:bold;  color:#606060; letter-spacing:-1px; text-decoration: none; padding-left:8px;}
+.mLeftOver              { font-size:14px; font-family: 돋움; font-weight:bold;  color:#fffe85; letter-spacing:-1px; text-decoration: none; padding-left:8px; background:url(../images/main/top/bg_tmbox_left_over.jpg) no-repeat left top; }
+.mRight                 { font-size:14px; letter-spacing:0px; text-align:center; padding-right:7px; padding-top:15px;}
+.mRightOver             { font-size:14px; letter-spacing:0px; text-align:center; padding-right:7px; padding-top:15px; background:url(../images/main/top/bg_tmbox_right_over.jpg) no-repeat right top; }
+
+/* 상단 서브메뉴 */
+.tmenu_link  { font-size:12px;font-family: 돋움; color:#ffffff; text-decoration: none; padding-left:13px; padding-top:2px; }
+a:link.tmenu_link       { font-size:12px;font-family: 돋움; color:#f8f8f8; letter-spacing:1px; text-decoration: none; }
+a:visited.tmenu_link    { font-size:12px;font-family: 돋움; color:#f8f8f8; letter-spacing:1px; text-decoration: none; }
+a:hover.tmenu_link      { font-size:12px;font-family: 돋움; font-weight:bold; color:#ffffff; letter-spacing:0px; text-decoration: none; }
+
+.tmenu_link1            { font-size:9pt;font-family: 돋움; font-weight:normal; color:#ffffff; letter-spacing:0px;   text-decoration: none; padding-left:13px; padding-top:3px; background:url(../images/main/top/sub_ico_on.gif) no-repeat left;}
+a:link.tmenu_link1      { font-size:9pt;font-family: 돋움; font-weight:normal; color:#ffffff; letter-spacing:1.5px; text-decoration: none; background:url(../images/main/top/sub_ico.gif) no-repeat left;}
+a:visited.tmenu_link1   { font-size:9pt;font-family: 돋움; font-weight:normal; color:#ffffff; letter-spacing:1.5px; text-decoration: none; background:url(../images/main/top/sub_ico.gif) no-repeat left;}
+a:hover.tmenu_link1     { font-size:9pt;font-family: 돋움; font-weight:bold;   color:#ffffff; letter-spacing:0px;   text-decoration: none; background:url(../images/main/top/sub_ico_on.gif) no-repeat left;}
+
+/* 좌측메뉴     */
+.left_menu              { font-size:9pt; letter-spacing:0px; font-family: 돋움,굴림; color: #363636; text-decoration: none;}
+.lmenu_link             { font-size:8pt; letter-spacing:0px; font-family: 돋움,굴림; color: #888787; text-decoration: none;}
+.lmenu_link a:link      { font-size:11px; letter-spacing:0px; font-family: 돋움,굴림; color: #666666; text-decoration: none;}
+.lmenu_link a:visited   { font-size:11px; letter-spacing:0px; font-family: 돋움,굴림; color: #666666; text-decoration: none;}
+.lmenu_link a:hover     { font-size:11px; letter-spacing:0px; font-family: 돋움,굴림; font-weight:bold; color: #333333; text-decoration: underline;}
+
+a:link.lmenu_link       { font-size:8pt; letter-spacing:0px; font-family: 돋움,굴림; color: #888787; text-decoration: none;}
+a:visited.lmenu_link    { font-size:8pt; letter-spacing:0px; font-family: 돋움,굴림; color: #888787; text-decoration: none;}
+a:hover.lmenu_link      { font-size:8pt; letter-spacing:0px; font-family: 돋움,굴림; color: #888787; text-decoration: underline;}
+
+
+a:link                  { font-size:9pt;font-family: 돋움; color:#333; letter-spacing:-1px; text-decoration: none;}
+a:visited               { font-size:9pt;font-family: 돋움; color:#333; letter-spacing:-1px; text-decoration: none;}
+a:hover                 { font-size:9pt;font-family: 돋움; color:#333; letter-spacing:-1px; text-decoration: none;}
+
+
+.gab5                   { height:5px;font-size:1px;}
+
+.font02                 { font-size:8pt; font-family: 돋움,굴림;  letter-spacing:0px;  color: #FFFFFF; text-decoration: none; font-weight:bold;}
+.font03                 { font-size:9pt; font-family: 돋움,굴림;  letter-spacing:0px;  color: #094D88; text-decoration: none; font-weight:bold;}
+.font08                 { font-size:10pt;font-family: 돋움,굴림;  letter-spacing:-1px; color: #FFFFFF; text-decoration: none; font-weight:bold;}
+.font09                 { font-size:10pt;font-family: 돋움,굴림;  letter-spacing:-1px; color: #000000; text-decoration: none; font-weight:bold;}
+
+input.intxt01           { padding-top:1px; font-size:9pt;font-family: Verdana,굴림; letter-spacing:-1px; border-right: #e8e8e8 1px solid; border-top: #e8e8e8 1px solid; border-left: #e8e8e8 1px solid; border-bottom: #e8e8e8 1px solid; color:#666666; background:#fafafa;}
+
+/** JavaScript Common Css */
+.biz_script             {}
+.biz_required           { font-size:9pt;font-family: Verdana,굴림;  letter-spacing:-1px; border-right: #e8e8e8 1px solid; border-top: #e8e8e8 1px solid; border-left: #e8e8e8 1px solid; border-bottom: #e8e8e8 1px solid; color:#666666; background:#fafafa;}
+.biz_error              { font-size:9pt;font-family: Verdana,굴림;  letter-spacing:-1px; border-right: #e8e8e8 1px solid; border-top: #e8e8e8 1px solid; border-left: #e8e8e8 1px solid; border-bottom: #e8e8e8 1px solid; color:#666666; background:#EEFFB6;}
+
+.biz_right              { text-align : right; }
+.biz_center             { text-align : center;}  
+.biz_left               { text-align : left;  }
+.biz_readonly           { font-size:9pt;font-family: Verdana,굴림;  letter-spacing:-1px; border-right: #e8e8e8 1px solid; border-top: #e8e8e8 1px solid; border-left: #e8e8e8 1px solid; border-bottom: #e8e8e8 1px solid; color:#666666; background:#FDFCC6;}
+.biz_disable            { border:solid 1px #e8e8e8; background-color:#EFEFEF; color:#666666; font-size:12px; font-family:돋움,verdana;}
+.biz_enable             { border:solid 1px #e8e8e8; background-color:#fafafa; color:#666666; font-size:12px; font-family:돋움,verdana;}
+
+.mtitle_bg { background-image: url('../images/main/m_title01bg.jpg');repeat-y;}
+.mtitle_bg1 { background-image: url('../images/main/m_title02bg.jpg');repeat-y;}
+
+.bodytitlebg {
+    background-image: url(../images/icon/screen_ico_01.gif);
+    background-repeat: no-repeat;
+    background-position: -14px 6px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #000033;
+    text-decoration: none;
+    padding-left:25px;
+    font-family: "돋움";
+
+}
+.maintext {
+    font-family: "돋움";
+    font-size: 12px;
+    font-weight: bold;
+    color: #333333;
+    text-decoration: none;
+}
+.orangetext {
+    font-family: "돋움";
+    font-size: 11px;
+    font-weight: bold;
+    color: #FF6633;
+    text-decoration: none;
+}
+.list_bgw  { background-color:#FFFFFF; font-size:11px; font-family:"돋움","Arial"; color:#2F2F2F;}
+.list_over { background-color:#EEF6FB}
+.noticetext01 {
+    font-family: "돋움";
+    font-size: 12px;
+    color: #999999;
+    text-decoration: none;
+}
+
+.button3_01         { height:20px; padding-left:12px; background:url(../images/button/bg_button_left_03.gif) no-repeat left; cursor:default; }
+.button3_01_over    { height:20px; padding-left:12px; background:url(../images/button/bg_button_left_03_over.gif) no-repeat left; cursor:default; }
+.button3_02         { height:20px; font-size:8pt; font-family: 돋움; text-align:left; letter-spacing:-1px; color:#4a4d4a; padding-right:10px; padding-top:5px; background:url(../images/button/bg_button_right_03.gif) no-repeat right; cursor:default;}
+.button3_02_over    { height:20px; font-size:8pt; font-family: 돋움; text-align:left; letter-spacing:-1px; color:#4a4d4a; padding-right:10px; padding-top:5px; background:url(../images/button/bg_button_right_03_over.gif) no-repeat right; cursor:default;}
+
+

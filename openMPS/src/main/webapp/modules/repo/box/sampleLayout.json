@@ -1,0 +1,515 @@
+{
+  "module": "WorkAreaRenderer",
+  "options": {
+    "className": "contents_box",
+    "order": [
+      "formBox_html_templet",
+      "formBox_html_include_tab",
+      "queryBox",
+      "queryBox_date",
+      "resultBox_single",
+      "resultBox_duble",
+      "resultBox_tab",
+      "widget_form_control",
+      "widget_sample"
+    ],
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "formBox_html_templet": {
+      "module": "FormBox",
+      "options": {
+        "className": "form_box",
+        "order": [
+          "sampleCode"
+        ],
+        "activation": {
+          "defaultWidget": "",
+          "method": "one-page"
+        },
+        "custom_form": {
+          "template": "<div><input class=\"sampleCode\"></div>",
+          "mode": "form",
+          "items": {
+            "sampleCode": {  "module": "text","label": "샘플","selector": ".sampleCode","required": true}
+          },
+          "data": {}
+        }
+      }
+    },
+    "formBox_html_include_tab": {
+      "module": "FormBox",
+      "options": {
+        "className": "form_box",
+        "order": [
+          "htmlArea_code",
+          "tabArea"
+        ],
+        "activation": {
+          "defaultWidget": "",
+          "method": "one-page"
+        },
+        "custom_form": {
+          "template": "<div><input class=\"htmlArea_code\"></div><div class=\"tabArea_ragion\"></div>",
+          "mode": "form",
+          "items": {
+            "htmlArea": {
+              "module": "text",
+              "label": "샘플",
+              "selector": ".htmlArea_code",
+              "required": true
+            },
+            "tabArea" : {
+
+            }
+          },
+          "data": {}
+        },
+        "tabArea": {
+          "module": "FormBox",
+          "options": {
+            "className": "form_box",
+            "order": [
+              "tab_01",
+              "tab_02"
+            ],
+            "activation": {
+              "defaultWidget": "tab_01",
+              "method": "show-hide",
+              "navigator": {
+                "options": {
+                  "pos": "top",
+                  "closeButton": false,
+                  "label": {
+                    "tab_01": "탭1",
+                    "tab_02": "탭2"
+                  }
+                }
+              }
+            },
+            "custom_form": {
+              "mode": "form",
+              "items": {
+                "tab_01": {
+                  "label": "기본정보",
+                  "required": true
+                },
+                "tab_02": {
+                  "label": "주소",
+                  "required": true
+                }
+              },
+              "data": {}
+            },
+            "tab_01": {
+              "module": "FormBox",
+              "options": {}
+            },
+            "tab_02": {
+              "module": "FormBox",
+              "options": {}
+            }
+          }
+        }
+      }
+    },
+    "queryBox": {
+      "module": "FormBox",
+      "options": {
+        "module": "FormBox",
+        "className": "query_box",
+        "order": [
+          "searchCondition",
+          "ui_user_query_input"
+        ],
+        "custom_form": {
+          "mode": "form",
+          "template": "<div class=\"form-group\"><label>검색</label><select class=\"form-control searchCondition\"><option value=\"0\">조건선택</option><option value=\"1\">코드</option><option value=\"2\">이름</option><option value=\"3\">전화번호</option><option value=\"4\">핸드폰</option><option value=\"5\">부서</option></select><input type=\"text\"class=\"form-control searchKeyword\"value=\"\"placeholder=\"검색 내용 입력\"></div>",
+          "items": {
+            "searchCondition": {
+              "module": "combobox",
+              "label": "검색",
+              "selector": ".searchCondition",
+              "required": true
+            },
+            "searchKeyword": {
+              "module": "text",
+              "label": "검색 내용 입력",
+              "selector": ".searchKeyword",
+              "required": true
+            }
+          },
+          "data": {}
+        }
+      }
+    },
+    "queryBox_date": {
+      "module": "FormBox",
+      "options": {
+        "module": "FormBox",
+        "className": "query_box",
+        "order": [
+          "searchCondition",
+          "searchCondition2",
+          "searchKeyword",
+          "beginDate",
+          "endDate"
+        ],
+        "custom_form": {
+          "mode": "form",
+          "template": "<div class=\"form-group form-inline\"><label>검색</label><select class=\"form-control searchCondition\"><option value=\"1\">거래처명</option><option value=\"2\">거래처코드</option></select><input type=\"text\" class=\"form-control searchKeyword\" value=\"\" placeholder=\"코드명 입력\"><select class=\"form-control searchCondition2 ml50\"><option value=\"1\">등록일자</option><option value=\"2\">담보설정일</option><option value=\"3\">담보만기일</option><option value=\"4\">담보효력일</option></select><div class=\"input-group\"><input type=\"text\" class=\"form-control beginDate\" value=\"2017-06-09\" placeholder=\"시작날짜 선택\"><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">날짜선택</span></button></span></div>~ <div class=\"input-group\"><input type=\"text\" class=\"form-control endDate\" value=\"2017-06-09\" placeholder=\"마지막날짜 선택\"><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">날짜선택</span></button></span></div></div>",
+          "items": {
+            "searchCondition": {
+              "module": "text",
+              "label": "검색",
+              "selector": ".searchCondition",
+              "required": false
+            },
+            "searchKeyword": {
+              "module": "text",
+              "label": "검색 내용 입력",
+              "selector": ".searchKeyword",
+              "required": false
+            },
+            "searchCondition2": {
+              "module": "combobox",
+              "label": "기간 종류 선택",
+              "selector": ".searchCondition2",
+              "required": false
+            },
+            "beginDate": {
+              "module": "date",
+              "label": "시작일 선택",
+              "selector": ".beginDate",
+              "required": false
+            },
+            "endDate": {
+              "module": "date",
+              "label": "마지막일 선택",
+              "selector": ".endDate",
+              "required": false
+            }
+          },
+          "data": {}
+        }
+      }
+    },
+
+    "resultBox_single": {
+      "module": "manifest!jqGrid-1.0.0",
+      "options": {
+        "className": "result_box grid_box",
+        "gridId": "userReg",
+        "gridParams": {
+          "data": [
+            {
+              "code": "Code",
+              "check": true
+            }
+          ],
+          "colModel": [
+            {"name": "code","label": "코드",  "width": 60,"align": "center"},
+            {"name": "check","label": "체크","template": "booleanCheckboxFa",  "align": "center",  "width": 40}
+          ]
+        }
+      }
+    },
+    "resultBox_duble": {
+      "module": "FormBox",
+      "options": {
+        "className": "result_box",
+        "order": [
+          "code",
+          "code_detail"
+        ],
+        "activation": {
+          "defaultWidget": "",
+          "method": "one-page"
+        },
+        "custom_form": {
+          "mode": "form",
+          "template": "<div class=\"row\"><div class=\"col-xs-2 code_region\"></div><div class=\"col-xs-10 code_detail_region\"></div></div>",
+          "items": {
+            "code_box": {
+              "label": "code",
+              "required": true
+            },
+            "code_detail_box": {
+              "label": "code_detail",
+              "required": true
+            }
+          },
+          "data": {}
+        },
+        "code": {
+          "module": "manifest!jqGrid-1.0.0",
+          "options": {
+            "className": "code_box grid_box",
+            "gridId": "code",
+            "gridParams": {
+              "data": [
+                {
+                  "code": "Code",
+                  "check": true
+                }
+              ],
+              "colModel": [
+                {"name": "code","label": "코드",  "width": 60,"align": "center"},
+                {"name": "check","label": "체크","template": "booleanCheckboxFa",  "align": "center",  "width": 40}
+              ]
+            }
+          }
+        },
+        "code_detail": {
+          "module": "manifest!jqGrid-1.0.0",
+          "options": {
+            "className": "code_detail_box grid_box",
+            "gridId": "code_detail",
+            "gridParams": {
+              "data": [
+                {
+                  "code": "Code",
+                  "check": true
+                }
+              ],
+              "colModel": [
+                {"name": "code","label": "코드",  "width": 60,"align": "center"},
+                {"name": "check","label": "체크","template": "booleanCheckboxFa",  "align": "center",  "width": 40}
+              ]
+            }
+          }
+        }
+      }
+    },
+    "resultBox_tab": {
+      "module": "FormBox",
+      "options": {
+        "className": "form_box",
+        "order": [
+          "tab_01",
+          "tab_02"
+        ],
+        "activation": {
+          "defaultWidget": "tab_01",
+          "method": "show-hide",
+          "navigator": {
+            "options": {
+              "pos": "top",
+              "closeButton": false,
+              "label": {
+                "tab_01": "탭1",
+                "tab_02": "탭2"
+              }
+            }
+          }
+        },
+        "custom_form": {
+          "mode": "form",
+          "items": {
+            "tab_01": {
+              "label": "기본정보",
+              "required": true
+            },
+            "tab_02": {
+              "label": "주소",
+              "required": true
+            }
+          },
+          "data": {}
+        },
+        "tab_01": {
+          "module": "manifest!jqGrid-1.0.0",
+          "options": {
+            "className": "tab_01_box grid_box",
+            "gridId": "tab_01",
+            "gridParams": {
+              "data": [
+                {
+                  "code": "Code",
+                  "check": true
+                }
+              ],
+              "colModel": [
+                {"name": "code","label": "코드",  "width": 60,"align": "center"},
+                {"name": "check","label": "체크","template": "booleanCheckboxFa",  "align": "center",  "width": 40}
+              ]
+            }
+          }
+        },
+        "tab_02": {
+          "module": "manifest!jqGrid-1.0.0",
+          "options": {
+            "className": "tab_02_box grid_box",
+            "gridId": "tab_02",
+            "gridParams": {
+              "data": [
+                {
+                  "code": "Code",
+                  "check": true
+                }
+              ],
+              "colModel": [
+                {"name": "code","label": "코드",  "width": 60,"align": "center"},
+                {"name": "check","label": "체크","template": "booleanCheckboxFa",  "align": "center",  "width": 40}
+              ]
+            }
+          }
+        }
+      }
+    },
+    "widget_form_control": {
+      "module": "FormBox",
+      "options": {
+        "className": "form_box",
+        "order": [
+          "text",
+          "textarea",
+          "date",
+          "datetime",
+          "checkbox",
+          "combobox",
+          "radiobox",
+          "price"
+        ],
+        "activation": {
+          "defaultWidget": "",
+          "method": "one-page"
+        },
+        "custom_form": {
+          "template": "text:<input type=\"text\" class=\"text\"><br>textarea:<textarea class=\"textarea\"></textarea><br>date:<input type=\"text\" class=\"date\"><br>checkbox:<label><input type=\"checkbox\" name=\"checkbox\">checkbox </label><br>combobox:<select class=\"checkbox\"><option>combobox</option></select><br>radiobox:<label><input type=\"radio\" name=\"radiobox\" value=\"1\" checked>test1 </label><label><input type=\"radio\" name=\"radiobox\" value=\"2\">test1 </label><br>price:<input type=\"text\" class=\"price\"><br>",
+          "mode": "form",
+          "items": {
+            "text": {
+              "module": "text",
+              "label": "text",
+              "selector": ".text",
+              "required": true
+            },
+            "textarea": {
+              "module": "textarea",
+              "label": "textarea",
+              "selector": ".textarea",
+              "required": true
+            },
+            "date": {
+              "module": "date",
+              "label": "date",
+              "selector": ".date",
+              "required": true
+            },
+            "datetime": {
+              "module": "datetime",
+              "label": "datetime",
+              "selector": ".datetime",
+              "required": true
+            },
+            "checkbox": {
+              "module": "checkbox",
+              "label": "전비밀번호",
+              "selector": "[name=checkbox]",
+              "required": true
+            },
+            "combobox": {
+              "module": "combobox",
+              "label": "combobox",
+              "selector": ".combobox",
+              "required": true
+            },
+            "radiobox": {
+              "module": "radiobox",
+              "label": "전비밀번호",
+              "selector": "[name=radiobox]",
+              "required": true
+            },
+            "price": {
+              "module": "price",
+              "label": "price",
+              "selector": ".price",
+              "required": true
+            }
+          }
+        },
+        "data": {}
+      }
+    },
+    "widget_sample": {
+      "module": "FormBox",
+      "options": {
+        "className": "form_box",
+        "order": [
+          "codeSearch",
+          "address",
+          "jqGrid"
+        ],
+        "activation": {
+          "defaultWidget": "",
+          "method": "one-page"
+        },
+        "custom_form": {
+          "template": "<div class=\"codeSearch_region\"></div><div class=\"address_region\"></div><div class=\"jqGrid_region\"></div>",
+          "mode": "form",
+          "items": {
+            "codeSearch": {
+              "label": "코드 검색 위젯",
+              "required": true
+            },
+            "address": {
+              "label": "주소 위젯",
+              "required": true
+            },
+            "jqGrid": {
+              "label": "jqGrid 위젯",
+              "required": true
+            }
+          },
+          "data": {}
+        },
+        "codeSearch": {
+          "module": "manifest!CodeSearch-1.0.0",
+          "options": {
+            "label": "코드 검색 위젯",
+            "required": true
+          }
+        },
+        "address": {
+          "module": "manifest!address-1.3.0",
+          "options": {
+            "label": "주소",
+            "required": true
+          }
+        },
+        "jqGrid": {
+          "module": "manifest!jqGrid-1.0.0",
+          "options": {
+            "className": "result_box",
+            "gridId": "jqGrid",
+            "gridParams": {
+              "data": [
+                {
+                  "code": "Code",
+                  "check": true
+                }
+              ],
+              "colModel": [
+                {
+                  "name": "code",
+                  "label": "코드",
+                  "width": 60,
+                  "align": "center"
+                },
+                {
+                  "name": "check",
+                  "label": "체크",
+                  "template": "booleanCheckboxFa",
+                  "align": "center",
+                  "width": 40
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

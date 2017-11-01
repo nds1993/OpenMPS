@@ -1,0 +1,259 @@
+{
+	"name": "메뉴권한매핑-그룹별메뉴관리",
+	"module": "RDENFRenderer",
+	"options": {
+		"order": [
+			"queryBox",
+			"resultBox"
+		],
+		"className": "contents_box",
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box form-inline",
+				"order": [
+					"searchCode"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"name": "API Runner Form",
+					"mode": "form",
+					"items": {
+						"searchCode": {
+							"label": "권한그룹",
+							"required": false
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>권한그룹</label><span class=\"searchCode_region form_only inline\"></span></div>"
+				},
+				"searchCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "권한그룹",
+						"required": true,
+						"codeType": "TMCOUR40",
+						"params": {},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "result_box",
+				"order": [
+					"leftGrid",
+					"rightGrid"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"row\"><div class=\"col-xs-3  leftGrid_region\"></div><div class=\"col-xs-9 rightGrid_region\"></div></div>",
+					"items": {
+						"leftGrid": {
+							"label": "groupInfo",
+							"required": true
+						},
+						"rightGrid": {
+							"label": "groupItem",
+							"required": true
+						}
+					},
+					"data": {}
+				},
+				"leftGrid": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"label": "권한그룹"
+							}
+						},
+						"content": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "groupInfo_box grid_box grid_btn_hide",
+								"gridId": "TMCOUR50_grid_1",
+								"gridParams": {
+									"data": [],
+									"colModel": [{
+										"name": "groupCode",
+										"label": "권한코드",
+										"width": 80,
+										"align": "center",
+										"editable": false
+									}, {
+										"name": "groupName",
+										"label": "권한그룹명",
+										"width": 100,
+										"align": "center",
+										"editable": false
+									}],
+									"width": "auto",
+									"height": "580",
+									"cellEdit": true,
+									"gridview": true,
+									"datatype": "local",
+									"cellsubmit": "clientArray",
+					"rowNum": "10000000",
+					"pager": "#TMCOUR50_grid_1_pager",
+					"viewrecords": true,
+					"recordpos": "left",
+					"pgbuttons": false,
+					"pginput": false
+
+								}
+							}
+						}
+					}
+				},
+				"rightGrid": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"label": "메뉴권한"
+							}
+						},
+						"content": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "groupItem_box grid_box  grid_btn_hide",
+								"gridId": "TMCOUR50_grid_2",
+								"gridParams": {
+									"data": [],
+									"colModel": [{
+										"name": "sysName",
+										"label": "시스템명",
+										"width": 70,
+										"align": "left",
+										"editable": false
+									}, {
+										"name": "navi",
+										"label": "상위메뉴명",
+										"width": 100,
+										"align": "left",
+										"editable": false
+									}, {
+										"name": "menuCode",
+										"label": "프로그램 ID",
+										"width": 80,
+										"align": "left",
+										"editable": false
+									}, {
+										"name": "menuName",
+										"label": "메뉴명",
+										"width": 100,
+										"align": "left",
+										"editable": false
+									}, {
+										"name": "viewAuth",
+										"label": "<div><div class=\"editable_mark\"></div>화면권한</div><div class=\"jqgrid_th_cell\"><input type=\"checkbox\" name=\"all\" class=\"all\"></div>",
+										"align": "center",
+										"width": 60,
+										"editable": true,
+										"edittype": "checkbox",
+										"formatter": "checkbox",
+										"classes": "editable",
+										"sortable": false
+									}, {
+										"name": "selectAuth",
+										"label": "<div><div class=\"editable_mark\"></div>조회</div><div class=\"jqgrid_th_cell\"><input type=\"checkbox\" name=\"all\" class=\"all\"></div>",
+										"template": "booleanCheckboxFa",
+										"align": "center",
+										"width": 60,
+										"editable": true,
+										"edittype": "checkbox",
+										"formatter": "checkbox",
+										"classes": "editable",
+										"sortable": false
+									}, {
+										"name": "insertAuth",
+										"label": "<div><div class=\"editable_mark\"></div>신규</div><div class=\"jqgrid_th_cell\"><input type=\"checkbox\" name=\"all\" class=\"all\"></div>",
+										"align": "center",
+										"width": 60,
+										"editable": true,
+										"edittype": "checkbox",
+										"formatter": "checkbox",
+										"classes": "editable",
+										"sortable": false
+									}, {
+										"name": "deleteAuth",
+										"label": "<div><div class=\"editable_mark\"></div>삭제</div><div class=\"jqgrid_th_cell\"><input type=\"checkbox\" name=\"all\" class=\"all\"></div>",
+										"align": "center",
+										"width": 60,
+										"editable": true,
+										"edittype": "checkbox",
+										"formatter": "checkbox",
+										"classes": "editable",
+										"sortable": false
+									}, {
+										"name": "saveAuth",
+										"label": "<div><div class=\"editable_mark\"></div>저장</div><div class=\"jqgrid_th_cell\"><input type=\"checkbox\" name=\"all\" class=\"all\"></div>",
+										"align": "center",
+										"width": 60,
+										"editable": true,
+										"edittype": "checkbox",
+										"formatter": "checkbox",
+										"classes": "editable",
+										"sortable": false
+
+									}, {
+										"name": "excelAuth",
+										"label": "<div><div class=\"editable_mark\"></div>엑셀</div><div class=\"jqgrid_th_cell\"><input type=\"checkbox\" name=\"all\" class=\"all\"></div>",
+										"align": "center",
+										"width": 60,
+										"editable": true,
+										"edittype": "checkbox",
+										"formatter": "checkbox",
+										"classes": "editable",
+										"sortable": false
+
+									}, {
+										"name": "printAuth",
+										"label": "<style></style><div><div class=\"editable_mark\"></div>인쇄</div><div class=\"jqgrid_th_cell\"><input type=\"checkbox\" name=\"all\" class=\"all\"></div>",
+										"align": "center",
+										"width": 60,
+										"editable": true,
+										"edittype": "checkbox",
+										"formatter": "checkbox",
+										"classes": "editable",
+										"sortable": false
+									}],
+									"width": "auto",
+									"height": "554",
+									"cellEdit": true,
+									"gridview": true,
+									"datatype": "local",
+									"cellEdit": true,
+									"cellsubmit": "clientArray",
+					"rowNum": "10000000",
+					"pager": "#TMCOUR50_grid_2_pager",
+					"viewrecords": true,
+					"recordpos": "left",
+					"pgbuttons": false,
+					"pginput": false
+
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

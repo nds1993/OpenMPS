@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpItemPlntgM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpItemPlntgMSerarchVO" type="nds.mpm.prod.PP0103.vo.MpItemPlntgMVO"/>
+	
+	<resultMap id="mpItemPlntgM" class="nds.mpm.prod.PP0103.vo.MpItemPlntgMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="grupPlant" column="grup_plant" columnIndex="2"/>
+		<result property="proCode" column="pro_code" columnIndex="3"/>
+		<result property="safetyStock" column="safety_stock" columnIndex="4"/>
+		<result property="etc01" column="etc01" columnIndex="5"/>
+		<result property="etc02" column="etc02" columnIndex="6"/>
+		<result property="etc03" column="etc03" columnIndex="7"/>
+		<result property="etc04" column="etc04" columnIndex="8"/>
+		<result property="etc05" column="etc05" columnIndex="9"/>
+		<result property="deleYn" column="dele_yn" columnIndex="10"/>
+		<result property="mdUser" column="md_user" columnIndex="11"/>
+		<result property="mdDate" column="md_date" columnIndex="12"/>
+		<result property="crUser" column="cr_user" columnIndex="13"/>
+		<result property="crDate" column="cr_date" columnIndex="14"/>
+	</resultMap>
+	
+	<insert id="mpItemPlntgMDAO.insertMpItemPlntgM">
+		<selectKey keyProperty="proCode" resultClass="string">
+		    select #proCode# as pro_code
+		</selectKey>
+		<![CDATA[
+			INSERT INTO mp_item_plntg_m 
+				( corp_code
+				  , grup_plant
+				  , pro_code
+				  , safety_stock
+				  , etc01
+				  , etc02
+				  , etc03
+				  , etc04
+				  , etc05
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #grupPlant#
+				  , #proCode#
+				  , #safetyStock#::numeric(15,0)
+				  , #etc01#
+				  , #etc02#
+				  , #etc03#
+				  , #etc04#
+				  , #etc05#
+				  , 'N'
+				  , #crUser#
+				  , now() )
+			ON CONFLICT (corp_code, grup_plant, pro_code)
+    		DO UPDATE SET
+    			safety_stock=#safetyStock#::numeric(15,0)
+    			, dele_yn='N'
+    			, md_user=#mdUser#
+				, md_date=now()	  
+		]]>
+	</insert>
+	
+	<update id="mpItemPlntgMDAO.updateMpItemPlntgM">
+		<![CDATA[
+			UPDATE mp_item_plntg_m
+			SET safety_stock=#safetyStock#
+				, etc01=#etc01#
+				, etc02=#etc02#
+				, etc03=#etc03#
+				, etc04=#etc04#
+				, etc05=#etc05#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+						WHERE corp_code=#corpCode#
+								AND grup_plant=#grupPlant#
+								AND pro_code=#proCode#
+				]]>
+	</update>
+	
+	<delete id="mpItemPlntgMDAO.deleteMpItemPlntgM">
+		<![CDATA[
+			update mp_item_plntg_m set dele_yn='Y'
+						, md_user=#mdUser#
+						, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND grup_plant=#grupPlant#
+								AND pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<select id="mpItemPlntgMDAO.selectMpItemPlntgM_S" resultMap="mpItemPlntgM">
+		<![CDATA[
+			SELECT
+				corp_code
+				, grup_plant
+				, pro_code
+				, safety_stock
+				, etc01
+				, etc02
+				, etc03
+				, etc04
+				, etc05
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM mp_item_plntg_m
+						WHERE corp_code=#corpCode#
+								AND grup_plant=#grupPlant#
+								AND pro_code=#proCode#
+				]]>
+	</select>
+	
+	<select id="mpItemPlntgMDAO.selectMpItemPlntgMList_D" parameterClass="mpItemPlntgMSerarchVO" resultClass="egovMap">
+
+	</select>	
+	<select id="mpItemPlntgMDAO.selectMpItemPlntgMListTotCnt_S" parameterClass="mpItemPlntgMSerarchVO" resultClass="int">
+
+	</select>
+
+</sqlMap>

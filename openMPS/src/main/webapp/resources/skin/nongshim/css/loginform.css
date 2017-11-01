@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+/* 기본 Hyperlink Style */
+a:link {font-size:9pt;font-family: 돋움; color:#1a1a1a; letter-spacing:-1px; text-decoration: none;}
+a:visited {font-size:9pt;font-family: 돋움; color:#1a1a1a; letter-spacing:-1px; text-decoration: none;}
+a:hover {font-size:9pt;font-family: 돋움; color:#FF3C00; letter-spacing:-1px; text-decoration: none;}
+
+/* 메인로그인 */
+.login_text { height:27px; font-size:9pt;font-family: 돋움; font-weight:bold; line-height:16px; color:#1a1a1a; letter-spacing:0px; text-decoration: none; text-align: left;  padding-top:3px; padding-left:30px; 
+                background:url(../images/loginform/login_dot.gif) no-repeat  8px 7px; }
+.login_text_01 { font-size:9pt;font-family: 돋움; font-weight:bold; line-height:16px; color:#1a1a1a; letter-spacing:0px; text-decoration: none; text-align: right;  padding-top:0px; padding-left:7px; }
+
+.table_button { text-align:light; font-family: "돋움"; font-size: 12px; color: #666666; text-decoration:none; }

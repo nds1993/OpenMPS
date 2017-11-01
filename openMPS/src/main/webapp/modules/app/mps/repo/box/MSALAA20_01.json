@@ -1,0 +1,452 @@
+{
+	"module": "WorkAreaRenderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"formBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"custCode",
+					"damDate",
+					"damCkind",
+					"damNkind",
+					"damPrice",
+					"damList",
+					"damSdate",
+					"damEdate",
+					"damHdate",
+					"damComp",
+					"damTel",
+					"damBuil",
+					"damSrank",
+					"damSkum",
+					"damMemo"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">거래처</label><div class=\"custCode_region\"></div></div><div class=\"form-group\"><label class=\"required\">등록일자</label><div class=\"input-group\"><input type=\"text\" class=\"form-control damDate\" value=\"2017-06-09\"><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">날짜선택</span></button></span></div></div><div class=\"form-group\"><label>종류코드</label><input type=\"text\" class=\"form-control damCkind\" value=\"\"></div><div class=\"form-group\"><label>종류명</label><input type=\"text\" class=\"form-control damNkind\" value=\"\"></div><div class=\"form-group\"><label>담보가액</label><div class=\"input-group\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control damPrice\"><span class=\"input-group-addon\">원</span></div></div><div class=\"form-group\"><label>담보내용</label><textarea class=\"form-control damList\" value=\"\"></textarea></div></div><div class=\"col-xs-4\"><div class=\"form-group form_empty\"></div><div class=\"form-group\"><label class=\"required\">담보설정일</label><div class=\"input-group\"><input type=\"text\" class=\"form-control damSdate\" value=\"\"><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">날짜선택</span></button></span></div></div><div class=\"form-group\"><label class=\"required\">담보만기일</label><div class=\"input-group\"><input type=\"text\" class=\"form-control damEdate\" value=\"\"><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">날짜선택</span></button></span></div></div><div class=\"form-group\"><label class=\"required\">담보효력일</label><div class=\"input-group\"><input type=\"text\" class=\"form-control damHdate\" value=\"\"><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">날짜선택</span></button></span></div></div><div class=\"form-group\"><label>가입처</label><input type=\"text\" class=\"form-control damComp\" value=\"\"></div><div class=\"form-group\"><label>가입처전화</label><input type=\"text\" class=\"form-control damTel\" value=\"\"></div><div class=\"form-group\"><label>선순위금액</label><div class=\"input-group\"><span class=\"input-group-addon\">₩</span><input type=\"text\" class=\"form-control damBuil\"><span class=\"input-group-addon\">원</span></div></div></div><div class=\"col-xs-4\"><div class=\"form-group form_empty\"></div><div class=\"form-group\"><label>선순위</label><textarea class=\"form-control damSrank\" value=\"\"></textarea></div><div class=\"form-group\"><label>담보물건지</label><textarea class=\"form-control damSkum\" value=\"\"></textarea></div><div class=\"form-group\"><label>비고</label><textarea class=\"form-control damMemo\" value=\"\"></textarea></div></div></div>",
+
+
+					"items": {
+						"custCode": {
+							"label": "custCode",
+							"required": true
+						},
+						"damDate": {
+							"module": "date",
+							"label": "등록일자",
+							"selector": ".damDate",
+							"required": true
+						},
+						"damCkind": {
+							"module": "text",
+							"label": "종류코드",
+							"selector": ".damCkind",
+							"required": false
+						},
+						"damNkind": {
+							"module": "text",
+							"label": "종류명",
+							"selector": ".damNkind",
+							"required": false
+						},
+						"damPrice": {
+							"module": "price",
+							"label": "담보가액",
+							"selector": ".damPrice",
+							"required": false
+						},
+						"damList": {
+							"module": "textarea",
+							"label": "담보내용",
+							"selector": ".damList",
+							"required": false
+						},
+						"damSdate": {
+							"module": "date",
+							"label": "담보설정일",
+							"selector": ".damSdate",
+							"required": true
+						},
+						"damEdate": {
+							"module": "date",
+							"label": "담보만기일",
+							"selector": ".damEdate",
+							"required": true
+						},
+						"damHdate": {
+							"module": "date",
+							"label": "담보효력일",
+							"selector": ".damHdate",
+							"required": true
+						},
+						"damComp": {
+							"module": "text",
+							"label": "가입처",
+							"selector": ".damComp",
+							"required": false
+						},
+						"damTel": {
+							"module": "text",
+							"label": "가입처전화",
+							"selector": ".damTel",
+							"required": false
+						},
+						"damBuil": {
+							"module": "price",
+							"label": "선순위금액",
+							"selector": ".damBuil",
+							"required": false
+						},
+						"damSrank": {
+							"module": "textarea",
+							"label": "선순위",
+							"selector": ".damSrank",
+							"required": false
+						},
+						"damSkum": {
+							"module": "textarea",
+							"label": "담보물건지",
+							"selector": ".damSkum",
+							"required": false
+						},
+						"damMemo": {
+							"module": "textarea",
+							"label": "비고",
+							"selector": ".damMemo",
+							"required": false
+						}
+					},
+					"data": {}
+				},
+				"custCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "거래처",
+						"required": true
+					}
+				}
+			}
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"module": "FormBox",
+				"className": "query_box",
+				"order": [
+					"searchCondition",
+					"searchCondition2",
+					"searchKeyword",
+					"beginDate",
+					"endDate"
+				],
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"form-group form-inline\"><label>검색</label><select class=\"form-control searchCondition\"><option value=\"1\">거래처명</option><option value=\"2\">거래처코드</option></select><input type=\"text\" class=\"form-control searchKeyword\" value=\"\"><select class=\"form-control searchCondition2 ml50\"><option value=\"1\">등록일자</option><option value=\"2\">담보설정일</option><option value=\"3\">담보만기일</option><option value=\"4\">담보효력일</option></select><div class=\"input-group\"><input type=\"text\" class=\"form-control beginDate\" value=\"2017-06-09\" ><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">날짜선택</span></button></span></div>~ <div class=\"input-group\"><input type=\"text\" class=\"form-control endDate\" value=\"2017-06-09\" ><span class=\"input-group-btn\"><button class=\"btn btn-default btn_go_calender\" type=\"button\"><i class=\"fa fa-fw fa-calendar\"></i><span class=\"sr-only\">날짜선택</span></button></span></div></div>",
+					"items": {
+						"searchCondition": {
+							"module": "text",
+							"label": "검색",
+							"selector": ".searchCondition",
+							"required": false
+						},
+						"searchKeyword": {
+							"module": "text",
+							"label": "검색 내용 입력",
+							"selector": ".searchKeyword",
+							"required": false
+						},
+						"searchCondition2": {
+							"module": "combobox",
+							"label": "기간 종류 선택",
+							"selector": ".searchCondition2",
+							"required": false
+						},
+						"beginDate": {
+							"module": "date",
+							"label": "시작일 선택",
+							"selector": ".beginDate",
+							"required": false
+						},
+						"endDate": {
+							"module": "date",
+							"label": "마지막일 선택",
+							"selector": ".endDate",
+							"required": false
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "result_box",
+				"order": [
+					"damboinfo",
+					"damboall"
+				],
+				"activation": {
+					"defaultWidget": "damboinfo",
+					"method": "show-hide",
+					"navigator": {
+						"options": {
+							"pos": "top",
+							"closeButton": false,
+							"label": {
+								"damboinfo": "이력관리",
+								"damboall": "전체내역"
+							}
+						}
+					}
+				},
+
+				"custom_form": {
+					"mode": "form",
+					"items": {
+						"damboinfo": {
+							"label": "이력관리",
+							"required": false
+						},
+						"damboall": {
+							"label": "전체내역",
+							"required": false
+						}
+					},
+					"data": {}
+				},
+				"damboinfo": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "damboinfo_box grid_box",
+						"gridId": "damboinfo",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+									"name": "damNo",
+									"label": "코드",
+									"align": "right",
+									"width": 60
+								},
+								{
+									"name": "custCode",
+									"label": "거래처",
+									"align": "right",
+									"width": 80
+								},
+								{
+									"name": "custName",
+									"label": "거래처명",
+									"align": "left",
+									"width": 120
+								},
+								{
+									"name": "damDate",
+									"label": "등록일자",
+									"align": "left",
+									"width": 90
+								},
+								{
+									"name": "damCkind",
+									"label": "종류코드",
+									"align": "left",
+									"width": 90
+								},
+								{
+									"name": "damNkind",
+									"label": "종류명",
+									"align": "left",
+									"width": 120
+								},
+								{
+									"name": "damPrice",
+									"label": "담보가액",
+									"align": "right",
+									"width": 150
+								},
+								{
+									"name": "damList",
+									"label": "담보내용",
+									"align": "left",
+									"width": 200
+								},
+								{
+									"name": "damSdate",
+									"label": "담보설정일",
+									"align": "left",
+									"width": 90
+								},
+								{
+									"name": "damEdate",
+									"label": "담보만기일",
+									"align": "left",
+									"width": 90
+								},
+								{
+									"name": "damHdate",
+									"label": "담보효력일",
+									"align": "left",
+									"width": 90
+								},
+								{
+									"name": "damComp",
+									"label": "가입처",
+									"align": "left",
+									"width": 150
+								},
+								{
+									"name": "damTel ",
+									"label": "가입처전화",
+									"align": "left",
+									"width": 150
+								},
+								{
+									"name": "damBuil",
+									"label": "담보물건지",
+									"align": "left",
+									"width": 150
+								},
+								{
+									"name": "damSrank",
+									"label": "선순위",
+									"align": "left",
+									"width": 150
+								},
+								{
+									"name": "damSkum",
+									"label": "선순위금액",
+									"align": "right",
+									"width": 150
+								},
+								{
+									"name": "damMemo",
+									"label": "비고",
+									"align": "left",
+									"width": 300
+								}
+							],
+							"rowNum": 30,
+							"records": 30,
+							"rownumWidth": 20,
+							"rowList": [30, 50, 100, 200, "100000:All"],
+							"viewrecords": true,
+							"rownumbers": false,
+							"toppager": false,
+							"pager": true,
+							"shrinkToFit": false,
+							"multiselect": false,
+							"editurl": "clientArray",
+							"loadonce": true,
+							"width": "auto",
+							"height": 204,
+							"iconSet": "fontAwesome",
+							"autoencode": true,
+							"altRows": true,
+							"altclass": "myAltRowClass",
+							"pagerRightWidth": 140,
+
+							"caption": "",
+							"navOptions": {
+								"del": false
+							},
+							"searching": {
+								"closeAfterSearch": true,
+								"closeAfterReset": true,
+								"closeOnEscape": true,
+								"searchOnEnter": true,
+								"multipleSearch": true,
+								"multipleGroup": true,
+								"showQuery": true
+							},
+							"cellEdit": true
+						}
+					}
+				},
+				"damboall": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "damboall_box grid_box",
+						"gridId": "damboall",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+									"name": "client_name",
+									"label": "거래처명",
+									"width": 150,
+									"align": "center",
+									"editable": false
+								},
+								{
+									"name": "wr_date",
+									"label": "개설일",
+									"align": "center",
+									"width": 100
+								},
+								{
+									"name": "we_date",
+									"label": "만기일",
+									"align": "center",
+									"width": 100
+								},
+								{
+									"name": "w_memo",
+									"label": "담보내용",
+									"align": "center",
+									"width": 300
+								}
+							],
+							"rowNum": 30,
+							"records": 30,
+							"rownumWidth": 20,
+							"rowList": [30, 50, 100, 200, "100000:All"],
+							"viewrecords": true,
+							"rownumbers": false,
+							"toppager": false,
+							"pager": true,
+							"shrinkToFit": false,
+							"multiselect": false,
+							"editurl": "clientArray",
+							"loadonce": true,
+							"width": "auto",
+							"height": 204,
+							"iconSet": "fontAwesome",
+							"autoencode": true,
+							"altRows": true,
+							"altclass": "myAltRowClass",
+							"pagerRightWidth": 140,
+
+							"caption": "",
+							"navOptions": {
+								"del": false
+							},
+							"searching": {
+								"closeAfterSearch": true,
+								"closeAfterReset": true,
+								"closeOnEscape": true,
+								"searchOnEnter": true,
+								"multipleSearch": true,
+								"multipleGroup": true,
+								"showQuery": true
+							},
+							"cellEdit": false
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,167 @@
+{
+	"name": "BOM등록_팝업_BOM codesearch",
+	"module": "PP0105SearchPopupRenderer",
+	"options": {
+		"header": {
+			"title": {
+				"label": "BOM 코드 검색"
+			},
+			"feature": [{
+				"search": "조회"
+			}]
+		},
+		"content": {
+			"module": "BaroBox",
+			"options": {
+				"className": "contents_box",
+				"order": [
+					"queryBox",
+					"resultBox"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"queryBox": {
+					"module": "FormBox",
+					"options": {
+						"module": "FormBox",
+						"className": "query_box form-inline",
+						"order": [
+							"proCode"
+						],
+						"custom_form": {
+							"mode": "form",
+							"template": "<div class=\"form-group\"><label>제품코드</label><div class=\"proCode_region\"></div></div>",
+							"items": {
+								"proCode": {
+									"label": "Product"
+								}
+							},
+							"data": {}
+						},
+						"proCode": {
+							"module": "manifest!CodeSearch-1.0.0",
+							"options": {
+								"label": "제품",
+								"required": false,
+								"codeType": "PP0103",
+								"params": {},
+								"value": {
+									"keyword": null,
+									"result": null
+								}
+							}
+						}
+					}
+				},
+				"resultBox": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "resultBox_box grid_box gird_btn_hide",
+						"gridId": "PP0105_pop_02_grid_1",
+						"gridParams": {
+							"data": [],
+							"colModel": [
+
+								{
+									"name": "bomCode",
+									"label": "BOM코드",
+									"width": 70,
+									"align": "center",
+									"editable": false,
+									"hidden": false
+								},
+								{
+									"name": "bomVer",
+									"label": "Ver",
+									"width": 50,
+									"align": "center",
+									"editable": false,
+									"hidden": false
+								},
+								{
+									"name": "useYn",
+									"label": "사용여부",
+									"width": 60,
+									"align": "center",
+									"editable": false,
+									"hidden": true
+								},
+								{
+									"name": "proCode",
+									"label": "제품코드",
+									"width": 80,
+									"align": "center",
+									"editable": false,
+									"hidden": false
+								},
+								{
+									"name": "proName",
+									"label": "제품명",
+									"width": 150,
+									"align": "center",
+									"editable": false,
+									"hidden": false
+								},
+								{
+									"name": "totWeig",
+									"label": "공박스중량",
+									"width": 70,
+									"align": "right",
+									"editable": false,
+									"hidden": false,
+									"sorttype":"number","formatter":"number"
+								},
+								{
+									"name": "boxWeig",
+									"label": "박스중량",
+									"width": 70,
+									"align": "right",
+									"editable": false,
+									"hidden": false,
+									"sorttype":"number","formatter":"number"
+								},
+								{
+									"name": "filmWeig",
+									"label": "필름중량",
+									"width": 70,
+									"align": "right",
+									"editable": false,
+									"hidden": false,
+									"sorttype":"number","formatter":"number"
+								},
+								{
+									"name": "etcWeig",
+									"label": "기타중량",
+									"width": 70,
+									"align": "right",
+									"editable": false,
+									"hidden": false,
+									"sorttype":"number","formatter":"number"
+								}
+							],
+							"pager": false,
+							"width": "auto",
+							"height": "234",
+							"cellEdit": false,
+							"shrinkToFit": true,
+							"gridview": true,
+							"datatype": "local",
+							"footerrow": false,
+							"multiselect": false,
+							"multiselectWidth": 20,
+							"rownumbers": false,
+							"pager": "#PP0105_pop_02_grid_1_pager",
+							"viewrecords": true,
+							"recordpos": "left",
+							"pgbuttons": false,
+							"pginput": false
+
+						}
+					}
+				}
+			}
+		}
+	}
+}

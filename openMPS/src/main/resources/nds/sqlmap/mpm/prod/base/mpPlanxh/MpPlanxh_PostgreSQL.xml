@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpPlanxh">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpPlanxhSerarchVO" type="nds.mpm.prod.base.vo.MpPlanxhVO"/>
+	
+	<resultMap id="mpPlanxh" class="nds.mpm.prod.base.vo.MpPlanxhVO">
+		<result property="workDate" column="work_date" columnIndex="1"/>
+		<result property="an1Doosu1" column="an1_doosu1" columnIndex="2"/>
+		<result property="an1Doosu2" column="an1_doosu2" columnIndex="3"/>
+		<result property="an2Doosu1" column="an2_doosu1" columnIndex="4"/>
+		<result property="an2Doosu2" column="an2_doosu2" columnIndex="5"/>
+		<result property="hoDoosu1" column="ho_doosu1" columnIndex="6"/>
+		<result property="hoDoosu2" column="ho_doosu2" columnIndex="7"/>
+		<result property="gita1Doosu1" column="gita1_doosu1" columnIndex="8"/>
+		<result property="gita1Doosu2" column="gita1_doosu2" columnIndex="9"/>
+		<result property="gita2Doosu1" column="gita2_doosu1" columnIndex="10"/>
+		<result property="gita2Doosu2" column="gita2_doosu2" columnIndex="11"/>
+		<result property="an1San1" column="an1_san1" columnIndex="12"/>
+		<result property="an1San2" column="an1_san2" columnIndex="13"/>
+		<result property="an2San1" column="an2_san1" columnIndex="14"/>
+		<result property="an2San2" column="an2_san2" columnIndex="15"/>
+		<result property="hoSan1" column="ho_san1" columnIndex="16"/>
+		<result property="hoSan2" column="ho_san2" columnIndex="17"/>
+		<result property="gita1San1" column="gita1_san1" columnIndex="18"/>
+		<result property="gita1San2" column="gita1_san2" columnIndex="19"/>
+		<result property="gita2San1" column="gita2_san1" columnIndex="20"/>
+		<result property="gita2San2" column="gita2_san2" columnIndex="21"/>
+		<result property="temp1" column="temp1" columnIndex="22"/>
+		<result property="temp2" column="temp2" columnIndex="23"/>
+		<result property="temp3" column="temp3" columnIndex="24"/>
+		<result property="temp4" column="temp4" columnIndex="25"/>
+		<result property="temp5" column="temp5" columnIndex="26"/>
+		<result property="memo" column="memo" columnIndex="27"/>
+		<result property="deleYn" column="dele_yn" columnIndex="28"/>
+		<result property="mdUser" column="md_user" columnIndex="29"/>
+		<result property="mdDate" column="md_date" columnIndex="30"/>
+		<result property="crUser" column="cr_user" columnIndex="31"/>
+		<result property="crDate" column="cr_date" columnIndex="32"/>
+		<result property="an1Doosu3" column="an1_doosu3" columnIndex="33"/>
+		<result property="an1Doosu4" column="an1_doosu4" columnIndex="34"/>
+		<result property="an2Doosu3" column="an2_doosu3" columnIndex="35"/>
+		<result property="an2Doosu4" column="an2_doosu4" columnIndex="36"/>
+		<result property="hoDoosu3" column="ho_doosu3" columnIndex="37"/>
+		<result property="hoDoosu4" column="ho_doosu4" columnIndex="38"/>
+		<result property="gita1Doosu3" column="gita1_doosu3" columnIndex="39"/>
+		<result property="gita1Doosu4" column="gita1_doosu4" columnIndex="40"/>
+		<result property="gita2Doosu3" column="gita2_doosu3" columnIndex="41"/>
+		<result property="gita2Doosu4" column="gita2_doosu4" columnIndex="42"/>
+		<result property="an1Doosu5" column="an1_doosu5" columnIndex="43"/>
+		<result property="an2Doosu5" column="an2_doosu5" columnIndex="44"/>
+		<result property="hoDoosu5" column="ho_doosu5" columnIndex="45"/>
+		<result property="gita1Doosu5" column="gita1_doosu5" columnIndex="46"/>
+		<result property="gita2Doosu5" column="gita2_doosu5" columnIndex="47"/>
+		<result property="an1San3" column="an1_san3" columnIndex="48"/>
+		<result property="an1San4" column="an1_san4" columnIndex="49"/>
+		<result property="an1San5" column="an1_san5" columnIndex="50"/>
+		<result property="an2San3" column="an2_san3" columnIndex="51"/>
+		<result property="an2San4" column="an2_san4" columnIndex="52"/>
+		<result property="an2San5" column="an2_san5" columnIndex="53"/>
+		<result property="hoSan3" column="ho_san3" columnIndex="54"/>
+		<result property="hoSan4" column="ho_san4" columnIndex="55"/>
+		<result property="hoSan5" column="ho_san5" columnIndex="56"/>
+		<result property="gita1San3" column="gita1_san3" columnIndex="57"/>
+		<result property="gita1San4" column="gita1_san4" columnIndex="58"/>
+		<result property="gita1San5" column="gita1_san5" columnIndex="59"/>
+		<result property="gita2San3" column="gita2_san3" columnIndex="60"/>
+		<result property="gita2San4" column="gita2_san4" columnIndex="61"/>
+		<result property="gita2San5" column="gita2_san5" columnIndex="62"/>
+	</resultMap>
+	
+	<insert id="mpPlanxhDAO.insertMpPlanxh_S">
+		<![CDATA[
+			INSERT INTO MP_PLANXH 
+				( work_date
+				  , an1_doosu1
+				  , an1_doosu2
+				  , an2_doosu1
+				  , an2_doosu2
+				  , ho_doosu1
+				  , ho_doosu2
+				  , gita1_doosu1
+				  , gita1_doosu2
+				  , gita2_doosu1
+				  , gita2_doosu2
+				  , an1_san1
+				  , an1_san2
+				  , an2_san1
+				  , an2_san2
+				  , ho_san1
+				  , ho_san2
+				  , gita1_san1
+				  , gita1_san2
+				  , gita2_san1
+				  , gita2_san2
+				  , temp1
+				  , temp2
+				  , temp3
+				  , temp4
+				  , temp5
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date
+				  , an1_doosu3
+				  , an1_doosu4
+				  , an2_doosu3
+				  , an2_doosu4
+				  , ho_doosu3
+				  , ho_doosu4
+				  , gita1_doosu3
+				  , gita1_doosu4
+				  , gita2_doosu3
+				  , gita2_doosu4
+				  , an1_doosu5
+				  , an2_doosu5
+				  , ho_doosu5
+				  , gita1_doosu5
+				  , gita2_doosu5
+				  , an1_san3
+				  , an1_san4
+				  , an1_san5
+				  , an2_san3
+				  , an2_san4
+				  , an2_san5
+				  , ho_san3
+				  , ho_san4
+				  , ho_san5
+				  , gita1_san3
+				  , gita1_san4
+				  , gita1_san5
+				  , gita2_san3
+				  , gita2_san4
+				  , gita2_san5 )
+			VALUES ( #workDate#
+				  , #an1Doosu1#
+				  , #an1Doosu2#
+				  , #an2Doosu1#
+				  , #an2Doosu2#
+				  , #hoDoosu1#
+				  , #hoDoosu2#
+				  , #gita1Doosu1#
+				  , #gita1Doosu2#
+				  , #gita2Doosu1#
+				  , #gita2Doosu2#
+				  , #an1San1#
+				  , #an1San2#
+				  , #an2San1#
+				  , #an2San2#
+				  , #hoSan1#
+				  , #hoSan2#
+				  , #gita1San1#
+				  , #gita1San2#
+				  , #gita2San1#
+				  , #gita2San2#
+				  , #temp1#
+				  , #temp2#
+				  , #temp3#
+				  , #temp4#
+				  , #temp5#
+				  , #memo#
+				  , #deleYn#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , #crDate#
+				  , #an1Doosu3#
+				  , #an1Doosu4#
+				  , #an2Doosu3#
+				  , #an2Doosu4#
+				  , #hoDoosu3#
+				  , #hoDoosu4#
+				  , #gita1Doosu3#
+				  , #gita1Doosu4#
+				  , #gita2Doosu3#
+				  , #gita2Doosu4#
+				  , #an1Doosu5#
+				  , #an2Doosu5#
+				  , #hoDoosu5#
+				  , #gita1Doosu5#
+				  , #gita2Doosu5#
+				  , #an1San3#
+				  , #an1San4#
+				  , #an1San5#
+				  , #an2San3#
+				  , #an2San4#
+				  , #an2San5#
+				  , #hoSan3#
+				  , #hoSan4#
+				  , #hoSan5#
+				  , #gita1San3#
+				  , #gita1San4#
+				  , #gita1San5#
+				  , #gita2San3#
+				  , #gita2San4#
+				  , #gita2San5# )
+		]]>
+	</insert>
+	
+	<update id="mpPlanxhDAO.updateMpPlanxh_S">
+		<![CDATA[
+			UPDATE MP_PLANXH
+			SET work_date=#workDate#
+				, an1_doosu1=#an1Doosu1#
+				, an1_doosu2=#an1Doosu2#
+				, an2_doosu1=#an2Doosu1#
+				, an2_doosu2=#an2Doosu2#
+				, ho_doosu1=#hoDoosu1#
+				, ho_doosu2=#hoDoosu2#
+				, gita1_doosu1=#gita1Doosu1#
+				, gita1_doosu2=#gita1Doosu2#
+				, gita2_doosu1=#gita2Doosu1#
+				, gita2_doosu2=#gita2Doosu2#
+				, an1_san1=#an1San1#
+				, an1_san2=#an1San2#
+				, an2_san1=#an2San1#
+				, an2_san2=#an2San2#
+				, ho_san1=#hoSan1#
+				, ho_san2=#hoSan2#
+				, gita1_san1=#gita1San1#
+				, gita1_san2=#gita1San2#
+				, gita2_san1=#gita2San1#
+				, gita2_san2=#gita2San2#
+				, temp1=#temp1#
+				, temp2=#temp2#
+				, temp3=#temp3#
+				, temp4=#temp4#
+				, temp5=#temp5#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+				, an1_doosu3=#an1Doosu3#
+				, an1_doosu4=#an1Doosu4#
+				, an2_doosu3=#an2Doosu3#
+				, an2_doosu4=#an2Doosu4#
+				, ho_doosu3=#hoDoosu3#
+				, ho_doosu4=#hoDoosu4#
+				, gita1_doosu3=#gita1Doosu3#
+				, gita1_doosu4=#gita1Doosu4#
+				, gita2_doosu3=#gita2Doosu3#
+				, gita2_doosu4=#gita2Doosu4#
+				, an1_doosu5=#an1Doosu5#
+				, an2_doosu5=#an2Doosu5#
+				, ho_doosu5=#hoDoosu5#
+				, gita1_doosu5=#gita1Doosu5#
+				, gita2_doosu5=#gita2Doosu5#
+				, an1_san3=#an1San3#
+				, an1_san4=#an1San4#
+				, an1_san5=#an1San5#
+				, an2_san3=#an2San3#
+				, an2_san4=#an2San4#
+				, an2_san5=#an2San5#
+				, ho_san3=#hoSan3#
+				, ho_san4=#hoSan4#
+				, ho_san5=#hoSan5#
+				, gita1_san3=#gita1San3#
+				, gita1_san4=#gita1San4#
+				, gita1_san5=#gita1San5#
+				, gita2_san3=#gita2San3#
+				, gita2_san4=#gita2San4#
+				, gita2_san5=#gita2San5#
+						WHERE work_date=#workDate#
+				]]>
+	</update>
+	
+	<delete id="mpPlanxhDAO.deleteMpPlanxh_S">
+		<![CDATA[
+			DELETE FROM MP_PLANXH 
+						WHERE work_date=#workDate#
+				]]>
+	</delete>
+	
+	<select id="mpPlanxhDAO.selectMpPlanxh_S" resultMap="mpPlanxh">
+		<![CDATA[
+			SELECT
+				work_date
+				, an1_doosu1
+				, an1_doosu2
+				, an2_doosu1
+				, an2_doosu2
+				, ho_doosu1
+				, ho_doosu2
+				, gita1_doosu1
+				, gita1_doosu2
+				, gita2_doosu1
+				, gita2_doosu2
+				, an1_san1
+				, an1_san2
+				, an2_san1
+				, an2_san2
+				, ho_san1
+				, ho_san2
+				, gita1_san1
+				, gita1_san2
+				, gita2_san1
+				, gita2_san2
+				, temp1
+				, temp2
+				, temp3
+				, temp4
+				, temp5
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+				, an1_doosu3
+				, an1_doosu4
+				, an2_doosu3
+				, an2_doosu4
+				, ho_doosu3
+				, ho_doosu4
+				, gita1_doosu3
+				, gita1_doosu4
+				, gita2_doosu3
+				, gita2_doosu4
+				, an1_doosu5
+				, an2_doosu5
+				, ho_doosu5
+				, gita1_doosu5
+				, gita2_doosu5
+				, an1_san3
+				, an1_san4
+				, an1_san5
+				, an2_san3
+				, an2_san4
+				, an2_san5
+				, ho_san3
+				, ho_san4
+				, ho_san5
+				, gita1_san3
+				, gita1_san4
+				, gita1_san5
+				, gita2_san3
+				, gita2_san4
+				, gita2_san5
+			FROM MP_PLANXH
+						WHERE work_date=#workDate#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM MP_PLANXH 
+		 WHERE DELE_YN = 'N' 
+		<dynamic>
+			 <isNotEmpty prepend="and" property="workDate">
+	         </isNotEmpty>
+		 </dynamic>
+	</sql>
+	<select id="mpPlanxhDAO.selectMpPlanxhList_D" parameterClass="mpPlanxhSerarchVO" resultClass="egovMap">
+		SELECT * 
+		 <include refid="selectWhere_fragment"/>
+		  ORDER BY WORK_DATE DESC
+	</select>	
+	<select id="mpPlanxhDAO.selectMpPlanxhListTotCnt_S" parameterClass="mpPlanxhSerarchVO" resultClass="int">
+		SELECT count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

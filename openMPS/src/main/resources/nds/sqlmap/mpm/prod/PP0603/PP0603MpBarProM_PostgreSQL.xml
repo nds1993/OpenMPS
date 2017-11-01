@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PP0603MpBarProM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="PP0603mpBarProMSerarchVO" type="nds.mpm.prod.PP0504.vo.MpBarProMVO"/>
+	
+	<!-- <resultMap id="mpBarProM" class="nds.mpm.prod.PP0603.vo.MpBarProMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="plantCode" column="plant_code" columnIndex="2"/>
+		<result property="barCode" column="bar_code" columnIndex="3"/>
+		<result property="proDate" column="pro_date" columnIndex="4"/>
+		<result property="proTime" column="pro_time" columnIndex="5"/>
+		<result property="proCode" column="pro_code" columnIndex="6"/>
+		<result property="suCode" column="su_code" columnIndex="7"/>
+		<result property="nongCode" column="nong_code" columnIndex="8"/>
+		<result property="boxWeig" column="box_weig" columnIndex="9"/>
+		<result property="cartonNo" column="carton_no" columnIndex="10"/>
+		<result property="dochDate" column="doch_date" columnIndex="11"/>
+		<result property="pojangji" column="pojangji" columnIndex="12"/>
+		<result property="shelfLife" column="shelf_life" columnIndex="13"/>
+		<result property="manufacturer" column="manufacturer" columnIndex="14"/>
+		<result property="slaughterhouse" column="slaughterhouse" columnIndex="15"/>
+		<result property="temperature" column="temperature" columnIndex="16"/>
+		<result property="bunchNo" column="bunch_no" columnIndex="17"/>
+		<result property="prdtType" column="prdt_type" columnIndex="18"/>
+		<result property="wmsYn" column="wms_yn" columnIndex="19"/>
+		<result property="memo" column="memo" columnIndex="20"/>
+		<result property="deleYn" column="dele_yn" columnIndex="21"/>
+		<result property="mdUser" column="md_user" columnIndex="22"/>
+		<result property="mdDate" column="md_date" columnIndex="23"/>
+		<result property="crUser" column="cr_user" columnIndex="24"/>
+		<result property="crDate" column="cr_date" columnIndex="25"/>
+	</resultMap>
+	
+	<insert id="mpBarProMDAO.insertMpBarProM_S">
+		<![CDATA[
+			INSERT INTO mp_bar_pro_m 
+				( corp_code
+				  , plant_code
+				  , bar_code
+				  , pro_date
+				  , pro_time
+				  , pro_code
+				  , su_code
+				  , nong_code
+				  , box_weig
+				  , carton_no
+				  , doch_date
+				  , pojangji
+				  , shelf_life
+				  , manufacturer
+				  , slaughterhouse
+				  , temperature
+				  , bunch_no
+				  , prdt_type
+				  , wms_yn
+				  , memo
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #barCode#
+				  , #proDate#
+				  , #proTime#
+				  , #proCode#
+				  , #suCode#
+				  , #nongCode#
+				  , #boxWeig#
+				  , #cartonNo#
+				  , #dochDate#
+				  , #pojangji#
+				  , #shelfLife#
+				  , #manufacturer#
+				  , #slaughterhouse#
+				  , #temperature#
+				  , #bunchNo#
+				  , #prdtType#
+				  , #wmsYn#
+				  , #memo#
+				  , #deleYn#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , #crDate# )
+		]]>
+	</insert>
+	
+	<update id="mpBarProMDAO.updateMpBarProM_S">
+		<![CDATA[
+			UPDATE mp_bar_pro_m
+			SET corp_code=#corpCode#
+				, plant_code=#plantCode#
+				, bar_code=#barCode#
+				, pro_date=#proDate#
+				, pro_time=#proTime#
+				, pro_code=#proCode#
+				, su_code=#suCode#
+				, nong_code=#nongCode#
+				, box_weig=#boxWeig#
+				, carton_no=#cartonNo#
+				, doch_date=#dochDate#
+				, pojangji=#pojangji#
+				, shelf_life=#shelfLife#
+				, manufacturer=#manufacturer#
+				, slaughterhouse=#slaughterhouse#
+				, temperature=#temperature#
+				, bunch_no=#bunchNo#
+				, prdt_type=#prdtType#
+				, wms_yn=#wmsYn#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND bar_code=#barCode#
+				]]>
+	</update>
+	
+	<delete id="mpBarProMDAO.deleteMpBarProM_S">
+		<![CDATA[
+			DELETE FROM mp_bar_pro_m 
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND bar_code=#barCode#
+				]]>
+	</delete>
+	
+	<select id="mpBarProMDAO.selectMpBarProM_S" resultMap="mpBarProM">
+		<![CDATA[
+			SELECT
+				corp_code
+				, plant_code
+				, bar_code
+				, pro_date
+				, pro_time
+				, pro_code
+				, su_code
+				, nong_code
+				, box_weig
+				, carton_no
+				, doch_date
+				, pojangji
+				, shelf_life
+				, manufacturer
+				, slaughterhouse
+				, temperature
+				, bunch_no
+				, prdt_type
+				, wms_yn
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM mp_bar_pro_m
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND bar_code=#barCode#
+				]]>
+	</select> -->
+	
+	<select id="PP0603mpBarProMDAO.selectMpBarProMList_D" parameterClass="PP0603mpBarProMSerarchVO" resultClass="egovMap">
+		SELECT a.pro_date as proDate,
+		       a.pro_time as proTime,
+		       b.plant_name as plantCode,
+		       c.code_name as sumaeCode,
+		       d.code_name as nongName,
+		       f.code_name as proLcode,
+		       e.pro_name as proCode,
+		       a.box_weig as weight,
+		       g.code_name as slaughterHouse,
+		       a.manufacturer as manufacture,
+		       h.code_name as saveQty,
+		       a.shelf_life as shelfLife,
+		       a.temperature,
+		       a.bar_code as barCode,
+		       a.bunch_no as hisNo
+		  FROM openmps.mp_bar_pro_m a
+		  LEFT JOIN openmps.tm_codexd c ON a.su_code = c.code_id
+		                              AND a.corp_code = c.corp_code
+		                              AND c.group_code = 'PP001' /*수매기관*/
+		  LEFT JOIN openmps.tm_codexd d ON a.nong_code = d.code_id
+		                              AND a.corp_code = d.corp_code
+		                              AND d.group_code = 'PP010' /*농장명*/
+		  LEFT JOIN openmps.tm_codexd g ON a.slaughterhouse = g.code_id
+		                              AND a.corp_code = g.corp_code
+		                              AND g.group_code = 'PP008', /*도축장*/
+		 openmps.tm_platxm b, openmps.mp_item_master_m e
+		  LEFT JOIN openmps.tm_codexd f ON e.large_code = f.code_id
+		                              AND e.corp_code = f.corp_code
+		                              AND f.group_code = 'MP006' /*품목*/
+		  LEFT JOIN openmps.tm_codexd h ON e.frozen_type = h.code_id
+		                              AND e.corp_code = h.corp_code
+		                              AND h.group_code = 'MP008' /*냉장/냉동*/
+		 WHERE a.corp_code = #corpCode#
+		   AND a.pro_date BETWEEN #strtDate# AND #lastDate#
+		   AND a.prdt_type IN ('1','2')
+		   AND a.dele_yn = 'N'
+		   AND a.corp_code = b.corp_code
+		   AND a.plant_code = b.plant_code
+		   AND a.corp_code = e.corp_code
+		   AND a.pro_code = e.pro_code
+		   AND a.plant_code IN (SELECT a.plant_code
+		                          FROM openmps.tm_platxm a
+		                         WHERE a.corp_code = #corpCode#
+		                           AND a.grup_plant = #plantCode#)
+		UNION ALL
+		
+		SELECT work_date AS proDate,
+		       substr(a.print_code, 9, 2) || ':' || substr(a.print_code, 11, 2) || ':' || substr(a.print_code, 13, 2) AS proTime,
+		       c.plant_name as plantCode,
+		       '' AS sumaeCode,
+		       '' AS nongName,
+		       f.code_name as proLcode,
+		       b.pro_name as proCode,
+		       b.pro_weig as weight,
+		       '' AS slaughterhouse,
+		       '' AS manufacturer,
+		       h.code_name as saveQty,
+		       '' AS shelfLife,
+		       '' AS temperature,
+		       a.print_code as barCode,
+		       a.bunch_no as hisNo
+		  FROM openmps.mp_auto_total_m a, openmps.mp_item_master_m b
+		  LEFT JOIN openmps.tm_codexd f ON b.large_code = f.code_id
+		                              AND b.corp_code = f.corp_code
+		                              AND f.group_code = 'MP006' /*품목*/
+		  LEFT JOIN openmps.tm_codexd h ON b.frozen_type = h.code_id
+		                              AND b.corp_code = h.corp_code
+		                              AND h.group_code = 'MP008' /*냉장/냉동*/                              
+		 , openmps.tm_platxm c
+		 WHERE a.corp_code = #corpCode#
+		   AND work_date BETWEEN #strtDate# AND #lastDate#
+		   AND a.dele_yn = 'N'
+		   AND a.corp_code = b.corp_code
+		   AND a.pro_name = b.pro_name
+		   AND a.corp_code = c.corp_code
+		   AND a.plant_code = c.plant_code
+		   AND a.plant_code IN (SELECT a.plant_code
+		                          FROM openmps.tm_platxm a
+		                         WHERE a.corp_code = #corpCode#
+		                           AND a.grup_plant = #plantCode#)
+         ORDER BY 1, 3, 6, 7 
+	</select>	
+	
+	<select id="PP0603mpBarProMDAO.selectMpBarProMListTotCnt_S" parameterClass="PP0603mpBarProMSerarchVO" resultClass="int">
+	</select>
+
+</sqlMap>

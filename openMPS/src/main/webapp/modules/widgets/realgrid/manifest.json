@@ -1,0 +1,20 @@
+{
+  "name": "RealGrid",
+  "version": "1.1.25",
+  "startup": {
+  	"widget": "rgrid-1.1.25.js",
+  	"manager": "rgrid.manager-1.1.25.js"
+  },
+  "resource": {
+  	"template": "resource.html",
+  	"nls": null
+  },
+  "dependencies":
+  [
+	"Logger",
+	"BaroPanelBase"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "name": "라벨관리",
+  "module": "RDENFRenderer",
+  "options": {
+    "order": [
+      "queryBox",
+      "resultBox"
+    ],
+    "className": "contents_box",
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "queryBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "query_box form-inline",
+        "order": [
+          "searchKeyword"
+        ],
+        "activation": {
+          "method": "one-page"
+        },
+        "custom_form": {
+          "name": "API Runner Form",
+          "mode": "form",
+          "items": {
+            "searchKeyword": {
+              "module": "text",
+              "selector": ".searchKeyword",
+              "label": "프로그램(메뉴)코드/명",
+              "required": false
+            }
+          },
+          "data": {},
+          "template": null
+        }
+      }
+    },
+    "resultBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "result_box",
+        "order": [
+          "leftGrid",
+          "rightGrid"
+        ],
+        "activation": {
+          "defaultWidget": "",
+          "method": "one-page"
+        },
+        "custom_form": {
+          "mode": "form",
+          "template": "<div class=\"row\"><div class=\"col-xs-7  leftGrid_region\"></div><div class=\"col-xs-5 rightGrid_region\"></div></div>",
+          "items": {
+            "leftGrid": {
+              "label": "programInfo",
+              "required": true
+            },
+            "rightGrid": {
+              "label": "labelInfo",
+              "required": true
+            }
+          },
+          "data": {}
+        },
+        "leftGrid": {
+          "module": "SubContainer",
+          "options": {
+            "header": {
+              "title": {
+                "label": "프로그램(메뉴)"
+              }
+            },
+            "content": {
+              "module": "manifest!jqGrid4-1.0.0",
+              "options": {
+                "className": "programInfo_box grid_box grid_btn_hide",
+                "gridId": "TMCOCD20_grid_1",
+                "gridParams": {
+                  "data": [],
+                  "colModel": [
+                    {
+                      "name": "menuCode",
+                      "label": "메뉴ID",
+                      "width": 130,
+                      "align": "left",
+                      "editable": false
+                    },
+                    {
+                      "name": "menuName",
+                      "label": "메뉴명",
+                      "width": 160,
+                      "align": "left",
+                      "editable": false
+                    },
+                    {
+                      "name": "upCode",
+                      "label": "상위코드",
+                      "width": 50,
+                      "align": "left",
+                      "editable": false
+                    },
+                    {
+                      "name": "upName",
+                      "label": "상위메뉴명",
+                      "width": 160,
+                      "align": "left",
+                      "editable": false
+                    },
+                    {
+                      "name": "useYn",
+                      "label": "사용여부",
+                      "template": "booleanCheckboxFa",
+                      "align": "center",
+                      "width": 60,
+                      "editable": false
+                    }
+                  ],
+									"rowNum":"10000000",
+									"width": "auto",
+									"height": "580",
+									"cellEdit": false,
+									"cellsubmit": "clientArray",
+									"gridview": true,
+									"datatype": "local",
+									"pager": "#TMCOCD20_grid_1_pager",
+									"viewrecords": true,
+									"recordpos":"left",
+									"pgbuttons":false,
+									"pginput":false
+                }
+              }
+            }
+          }
+        },
+        "rightGrid": {
+          "module": "SubContainer",
+          "options": {
+            "header": {
+              "title": {
+                "label": "라벨"
+                }
+            },
+            "content": {
+              "module": "manifest!jqGrid4-1.0.0",
+              "options": {
+                "className": "labelInfo grid_box grid_btn_hide",
+                "gridId": "TMCOCD20_grid_2",
+                "gridParams": {
+                  "data": [],
+                  "colModel": [
+                    {
+                      "name": "labelCode",
+                      "label": "라벨코드",
+                      "width": 100,
+                      "align": "center",
+                      "editable": false
+                    },
+                    {
+                      "name": "labelName",
+                      "label": "<div class=\"editable_mark\"></div>라벨명",
+                      "width": 150,
+                      "align": "left",
+                      "editable": true,
+					  "classes":"editable"
+
+                    },
+                    {
+                      "name": "useYn",
+                      "label": "<div class=\"editable_mark\"></div>사용여부",
+                      "align": "center",
+                      "width": 70,
+                      "editable": true,
+					  "formatter":"checkbox",
+					  "edittype":"checkbox",
+					  "classes":"editable"
+                    }
+                  ],
+									"rowNum":"10000000",
+									"width": "auto",
+									"height": "580",
+									"cellEdit": false,
+									"cellsubmit": "clientArray",
+									"gridview": true,
+									"datatype": "local",
+									"pager": "#TMCOCD20_grid_2_pager",
+									"viewrecords": true,
+									"recordpos":"left",
+									"pgbuttons":false,
+									"pginput":false
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

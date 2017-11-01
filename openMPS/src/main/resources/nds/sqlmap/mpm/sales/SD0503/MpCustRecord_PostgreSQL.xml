@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD0503MpCustRecord">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SD0503mpCustRecordSerarchVO" type="nds.mpm.sales.SD0604.vo.MpCustRecordVO"/>
+	 
+	<select id="SD0503mpCustRecordDAO.selectMpCustRecordList_D" parameterClass="SD0503mpCustRecordSerarchVO" resultClass="egovMap">
+	<![CDATA[
+		select	tt1.head_code,
+				tt1.head_name,
+				tt1.dept_code,
+				tt1.dept_name,
+				tt1.user_name,
+				tt1.salesman,
+				tt1.last_unpay,
+				tt1.t_sale_amt,
+				tt1.sale_amt,
+				tt1.t_rece_amt,
+				tt1.rece_amt,
+				tt1.t_last_unpay,
+				case
+					when 	tt1.sale_amt = 0
+					then	0
+					else
+							trunc((tt1.t_last_unpay/tt1.sale_amt)*to_number(to_char(to_date(to_char(DATE_TRUNC('MONTH', to_date(#lastDate#,'yyyymmdd')) + INTERVAL '1 MONTH -1 day','yyyymmdd'),'yyyymmdd') - to_date(substr(#lastDate#,0,7)||'01','yyyymmdd') + 1,'99'),'99')) 
+				end as turnover
+	from
+				(	  
+				  select		t10.head_code,
+								t10.head_name,
+								t4.dept_code,
+								t8.dept_name,
+								t4.user_name, 
+								t4.salesman,
+								sum(t1.last_unpay) last_unpay,
+								sum(t6.sale_amt) t_sale_amt,
+								sum(t2.sale_amt) sale_amt,
+								sum(t7.rece_amt) t_rece_amt,
+								sum(t3.rece_amt) rece_amt,
+								sum(t1.last_unpay + t2.sale_amt - t3.rece_amt) t_last_unpay
+					from 		(
+								select	corp_code,
+											cust_code,
+											sum(last_unpay) last_unpay
+								from		mp_last_unpayment 
+								where		corp_code = #corpCode#
+								and		to_date(unpay_yymm,'yyyymm') = to_date(substr(to_char(to_date(#lastDate#,'yyyymmdd') + INTERVAL '- 1 MONTH','yyyymmdd'),0,7),'yyyymm')
+								group
+								by			corp_code, 
+											cust_code
+								)t1, 
+							   (
+							   select	cust_code,
+							   			SUM(sale_amt+sale_vat) sale_amt
+								from		mp_cust_record 
+								where		to_date(sale_date,'yyyymmdd') 	between to_date(#strtDate#,'yyyymmdd')
+																						and     to_date(#lastDate#,'yyyymmdd')
+								and		corp_code = #corpCode#
+								group
+								by			cust_code
+								)t2, 
+								(
+								select	tt1.cust_code,
+											sum(tt1.rece_amt) rece_amt
+								from		(
+											select	t1.cust_code,
+														sum(t1.rece_amt) rece_amt
+											from		mp_cust_receipt  t1,
+														(
+														select 	t1.corp_code,
+																	t3.salesman_cust as cust_code,
+																	t2.dept_code,
+																	t1.salesman,
+																	t2.user_name
+														from 		mp_cust_hist t1,
+																	tm_userxm t2,
+																	mp_salesman_cust t3,
+																	mp_cust_info t4
+														where		start_date <= #lastDate#
+														and		last_date >= #lastDate#
+														and		t1.salesman = t2.user_code
+														and		(t2.dept_code = #teamCode# or t2.team_code = #teamCode# or t2.head_code = #teamCode#)
+														and		t1.salesman = t3.salesman
+														and		t1.corp_code = t2.corp_code
+														and		t1.corp_code = t3.corp_code
+														and		t1.cust_code = t3.salesman_cust
+														and		t1.corp_code = #corpCode#
+														and		t1.cust_code = t4.cust_code
+														and		t1.corp_code = t4.corp_code
+														and		t4.rece_comb = '1'
+														) t2
+											where		to_date(rece_date,'yyyymmdd')	between to_date(#strtDate#,'yyyymmdd')
+																								and	  to_date(#lastDate#,'yyyymmdd')
+											and		t1.cust_code = t2.cust_code
+											group
+											by			t1.cust_code
+											union 
+											select	t2.cust_code,
+														sum(t1.rece_amt) rece_amt
+											from		mp_cust_receipt  t1,
+														(
+														select 	t1.corp_code,
+																	t3.salesman_cust as cust_code,
+																	t2.dept_code,
+																	t1.salesman,
+																	t2.user_name,
+																	t4.rece_comb_cust
+														from 		mp_cust_hist t1,
+																	tm_userxm t2,
+																	mp_salesman_cust t3,
+																	mp_cust_info t4
+														where		start_date <= #lastDate#
+														and		last_date >= #lastDate#
+														and		t1.salesman = t2.user_code
+														and		(t2.dept_code = #teamCode# or t2.team_code = #teamCode# or t2.head_code = #teamCode#)
+														and		t1.salesman = t3.salesman
+														and		t1.corp_code = t2.corp_code
+														and		t1.corp_code = t3.corp_code
+														and		t1.cust_code = t3.salesman_cust
+														and		t1.corp_code = #corpCode#
+														and		t1.corp_code = t4.corp_code
+														and		t1.cust_code = t4.cust_code
+														and		t4.rece_comb = '2'
+														) t2
+											where		to_date(rece_date,'yyyymmdd')	between to_date(#strtDate#,'yyyymmdd')
+																								and	  to_date(#lastDate#,'yyyymmdd')
+											and		t1.cust_code = t2.rece_comb_cust
+											group
+											by			t2.cust_code
+											) tt1
+								group
+								by			tt1.cust_code
+								)t3,
+								(
+								select 	t1.corp_code,
+											t3.salesman_cust as cust_code,
+											t2.dept_code,
+											t1.salesman,
+											t2.user_name
+								from 		mp_cust_hist t1,
+											tm_userxm t2,
+											mp_salesman_cust t3
+								where		start_date <= #lastDate#
+								and		last_date >= #lastDate#
+								and		t1.salesman = t2.user_code
+								and		(t2.dept_code = #teamCode# or t2.team_code = #teamCode# or t2.head_code = #teamCode#)
+								and		t1.salesman = t3.salesman
+								and		t1.corp_code = t2.corp_code
+								and		t1.corp_code = t3.corp_code
+								and		t1.cust_code = t3.salesman_cust
+								and		t1.corp_code = #corpCode#
+								)t4,
+								(
+								select	cust_code,
+											sum(sale_amt+sale_vat) sale_amt
+								from		mp_cust_record 
+								where		sale_date = #lastDate#
+								and		corp_code = #corpCode#
+								group
+								by			cust_code
+								)t6,
+								(
+								select	tt1.cust_code,
+											sum(tt1.rece_amt) rece_amt
+								from		(
+											select	t1.cust_code,
+														sum(t1.rece_amt) rece_amt
+											from		mp_cust_receipt t1,
+														mp_cust_info t2
+											where		t1.rece_date = #lastDate#
+											and		t1.corp_code = #corpCode#
+											and		t1.corp_code = t2.corp_code
+											and		t1.cust_code = t2.cust_code
+											and 		t2.rece_comb = '1'
+											group
+											by			t1.cust_code
+											union
+											select	t2.cust_code,
+														sum(t1.rece_amt) rece_amt
+											from		mp_cust_receipt t1,
+														mp_cust_info t2
+											where		t1.rece_date = #lastDate#
+											and		t1.corp_code = #corpCode#
+											and		t1.corp_code = t2.corp_code
+											and		t1.cust_code = t2.rece_comb_cust
+											and 		t2.rece_comb = '2'
+											group
+											by			t2.cust_code
+											)tt1
+								group
+								by			tt1.cust_code
+								)t7,
+								tm_deptxm t8,
+								tm_teamxm t9,
+								tm_orguxm t10
+					where		t1.cust_code = t2.cust_code
+					and		t1.cust_code = t3.cust_code
+					and		t1.cust_code = t4.cust_code
+					and		t1.cust_code = t6.cust_code
+					and		t1.cust_code = t7.cust_code
+					and		t4.dept_code = t8.dept_code
+					and		t8.team_code = t9.team_code
+					and		t9.head_code = t10.head_code
+					and		t1.corp_code = t8.corp_code
+					and		t1.corp_code = t9.corp_code
+					and		t1.corp_code = t10.corp_code
+					group
+					by			t10.head_code,
+								t10.head_name,
+								t4.dept_code,
+								t8.dept_name,
+								t4.user_name,
+								t4.salesman
+					)tt1
+					order
+					by			tt1.dept_code,
+								tt1.user_name
+	]]>
+	</select>	
+	<select id="SD0503mpCustRecordDAO.selectMpCustRecordListTotCnt_S" parameterClass="SD0503mpCustRecordSerarchVO" resultClass="int">
+
+	</select>
+	<select id="SD0503mpCustRecordDAO.selectDetailTab1MpCustRecordList_D" parameterClass="SD0503mpCustRecordSerarchVO" resultClass="egovMap">
+	<![CDATA[
+		select 		case 
+						when	t4.close_yn = 'Y' then '종결'
+						else	''
+					end as clos_gubn,
+					t1.cust_code,
+					t4.cust_name,
+					t1.last_unpay,
+					t6.sale_amt as t_sale_amt,
+					t2.sale_amt,
+					t7.rece_amt as t_rece_amt,
+					t3.rece_amt,
+					t1.last_unpay + t2.sale_amt - t3.rece_amt as t_last_unpay
+		from 		(
+					select	corp_code,
+								cust_code,
+								sum(last_unpay) last_unpay
+					from		mp_last_unpayment 
+					where		corp_code = #corpCode#
+					and		to_date(unpay_yymm,'yyyymm') = to_date(substr(to_char(to_date(#lastDate#,'yyyymmdd') + INTERVAL '- 1 MONTH','yyyymmdd'),0,7),'yyyymm')
+					group
+					by			corp_code, 
+								cust_code
+					)t1, 
+				   (
+				   select	cust_code,
+				   			SUM(sale_amt+sale_vat) sale_amt
+					from		mp_cust_record 
+					where		to_date(sale_date,'yyyymmdd') 	between to_date(#strtDate#,'yyyymmdd')
+																			and     to_date(#lastDate#,'yyyymmdd')
+					and		corp_code = #corpCode#
+					group
+					by			cust_code
+					)t2, 
+					(
+					select	tt1.cust_code,
+								sum(tt1.rece_amt) rece_amt
+					from		(
+								select	t1.cust_code,
+											sum(t1.rece_amt) rece_amt
+								from		mp_cust_receipt  t1,
+											(
+											select 	t1.corp_code,
+														t3.salesman_cust as cust_code,
+														t2.dept_code,
+														t1.salesman,
+														t2.user_name
+											from 		mp_cust_hist t1,
+														tm_userxm t2,
+														mp_salesman_cust t3,
+														mp_cust_info t4
+											where		start_date <= #lastDate#
+											and		last_date >= #lastDate#
+											and		t1.salesman = t2.user_code
+											and		(t2.dept_code = #teamCode# or t2.team_code = #teamCode# or t2.head_code = #teamCode#)
+											and		t1.salesman = t3.salesman
+											and		t1.corp_code = t2.corp_code
+											and		t1.corp_code = t3.corp_code
+											and		t1.cust_code = t3.salesman_cust
+											and		t1.corp_code = #corpCode#
+											and		t1.cust_code = t4.cust_code
+											and		t1.corp_code = t4.corp_code
+											and		t4.rece_comb = '1'
+											) t2
+								where		to_date(rece_date,'yyyymmdd')	between to_date(#strtDate#,'yyyymmdd')
+																					and	  to_date(#lastDate#,'yyyymmdd')
+								and		t1.cust_code = t2.cust_code
+								group
+								by			t1.cust_code
+								union 
+								select	t2.cust_code,
+											sum(t1.rece_amt) rece_amt
+								from		mp_cust_receipt  t1,
+											(
+											select 	t1.corp_code,
+														t3.salesman_cust as cust_code,
+														t2.dept_code,
+														t1.salesman,
+														t2.user_name,
+														t4.rece_comb_cust
+											from 		mp_cust_hist t1,
+														tm_userxm t2,
+														mp_salesman_cust t3,
+														mp_cust_info t4
+											where		start_date <= #lastDate#
+											and		last_date >= #lastDate#
+											and		t1.salesman = t2.user_code
+											and		(t2.dept_code = #teamCode# or t2.team_code = #teamCode# or t2.head_code = #teamCode#)
+											and		t1.salesman = t3.salesman
+											and		t1.corp_code = t2.corp_code
+											and		t1.corp_code = t3.corp_code
+											and		t1.cust_code = t3.salesman_cust
+											and		t1.corp_code = #corpCode#
+											and		t1.corp_code = t4.corp_code
+											and		t1.cust_code = t4.cust_code
+											and		t4.rece_comb = '2'
+											) t2
+								where		to_date(rece_date,'yyyymmdd')	between to_date(#strtDate#,'yyyymmdd')
+																					and	  to_date(#lastDate#,'yyyymmdd')
+								and		t1.cust_code = t2.rece_comb_cust
+								group
+								by			t2.cust_code
+								) tt1
+					group
+					by			tt1.cust_code
+					)t3,
+					(
+					select 	t1.corp_code,
+								t3.salesman_cust as cust_code,
+								t2.dept_code,
+								t1.salesman,
+								t2.user_name,
+								t4.close_yn,
+								t4.cust_name
+					from 		mp_cust_hist t1,
+								tm_userxm t2,
+								mp_salesman_cust t3,
+								mp_cust_info t4
+					where		start_date <= #lastDate#
+					and		last_date >= #lastDate#
+					and		t1.salesman = t2.user_code
+					and		(t2.dept_code = #teamCode# or t2.team_code = #teamCode# or t2.head_code = #teamCode#)
+					and		t1.salesman = t3.salesman
+					and		t1.corp_code = t2.corp_code
+					and		t1.corp_code = t3.corp_code
+					and		t1.cust_code = t3.salesman_cust
+					and		t1.corp_code = #corpCode#
+					and		t1.corp_code = t4.corp_code
+					and		t1.cust_code = t4.cust_code
+					)t4,
+					(
+					select	cust_code,
+								sum(sale_amt+sale_vat) sale_amt
+					from		mp_cust_record 
+					where		sale_date = #lastDate#
+					and		corp_code = #corpCode#
+					group
+					by			cust_code
+					)t6,
+					(
+					select	tt1.cust_code,
+								sum(tt1.rece_amt) rece_amt
+					from		(
+								select	t1.cust_code,
+											sum(t1.rece_amt) rece_amt
+								from		mp_cust_receipt t1,
+											mp_cust_info t2
+								where		t1.rece_date = #lastDate#
+								and		t1.corp_code = #corpCode#
+								and		t1.corp_code = t2.corp_code
+								and		t1.cust_code = t2.cust_code
+								and 		t2.rece_comb = '1'
+								group
+								by			t1.cust_code
+								union
+								select	t2.cust_code,
+											sum(t1.rece_amt) rece_amt
+								from		mp_cust_receipt t1,
+											mp_cust_info t2
+								where		t1.rece_date = #lastDate#
+								and		t1.corp_code = #corpCode#
+								and		t1.corp_code = t2.corp_code
+								and		t1.cust_code = t2.rece_comb_cust
+								and 		t2.rece_comb = '2'
+								group
+								by			t2.cust_code
+								)tt1
+					group
+					by			tt1.cust_code
+					)t7,
+					tm_deptxm t8,
+					tm_teamxm t9,
+					tm_orguxm t10
+		where		t1.cust_code = t2.cust_code
+		and		t1.cust_code = t3.cust_code
+		and		t1.cust_code = t4.cust_code
+		and		t1.cust_code = t6.cust_code
+		and		t1.cust_code = t7.cust_code
+		and		t4.dept_code = t8.dept_code
+		and		t8.team_code = t9.team_code
+		and		t9.head_code = t10.head_code
+		and		t1.corp_code = t8.corp_code
+		and		t1.corp_code = t9.corp_code
+		and		t1.corp_code = t10.corp_code
+		and		t4.salesman  = #userCode#
+		order
+		by			t1.cust_code
+	]]>			
+	</select>	
+	 
+</sqlMap>

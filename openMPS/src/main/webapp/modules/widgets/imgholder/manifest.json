@@ -1,0 +1,21 @@
+{
+  "name": "ImageHolder",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "img.holder-1.0.0.js"
+  },
+  "resource": {
+  	"template": "img.holder-1.0.0.html"
+  },
+  "dependencies":
+  [
+	"Logger",
+	"BaroProps",
+	"BaroFloating",
+	"FormItemPanel",
+	"manifest!imageeditor-0.8.1"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  }
+}

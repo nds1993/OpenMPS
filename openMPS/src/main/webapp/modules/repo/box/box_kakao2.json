@@ -1,0 +1,204 @@
+{
+  "module": "BaroBox",
+  "options": {
+    "className": "contents_box",
+    "order": [
+      "back",
+      "story"
+    ],
+    "activation": {
+      "method": "one-page"
+    },
+    "back": {
+      "module": "manifest!Button-1.0.0",
+      "options": {
+        "label": "Home",
+        "icons": [
+          {
+            "pos": "prefix",
+            "view": true,
+            "type": "fa",
+            "value": "fa-paw"
+          },
+          {
+            "pos": "suffix",
+            "view": true,
+            "type": "fa",
+            "value": "fa-paw"
+          }
+        ],
+        "button_loyout": {
+          "style": "btn-primary",
+          "size": "btn-lg",
+          "align": "text-left",
+          "sr_only": false,
+          "block": false
+        },
+        "cmd": "#box/IntroHome"
+      }
+    },
+    "story": {
+      "module": "BaroBox",
+      "options": {
+        "className": "contents_box",
+        "order": [
+          "kakao1",
+          "kakao2",
+          "kakao3",
+          "kakao4",
+          "kakao5",
+          "kakao6",
+          "kakao7",
+          "kakao8",
+          "kakao9",
+          "kakao10",
+          "kakao11",
+          "kakao12",
+          "kakao13",
+          "kakao14",
+          "kakao15",
+          "kakao16",
+          "kakao17",
+          "kakao18"
+        ],
+        "activation": {
+          "defaultWidget": "kakao1",
+          "method": "show-hide",
+          "navigator": {
+            "options": {
+              "label": {
+                "kakao1": "스토리1",
+                "kakao2": "스토리2",
+                "kakao3": "스토리3",
+                "kakao4": "스토리4",
+                "kakao5": "스토리5",
+                "kakao6": "스토리6",
+                "kakao7": "스토리7",
+                "kakao8": "스토리8",
+                "kakao9": "스토리9",
+                "kakao10": "스토리10",
+                "kakao11": "스토리11",
+                "kakao12": "스토리12",
+                "kakao13": "스토리13",
+                "kakao14": "스토리14",
+                "kakao15": "스토리15",
+                "kakao16": "스토리16",
+                "kakao17": "스토리17",
+                "kakao18": "스토리18"
+              },
+              "pos": "top"
+            }
+          }
+        },
+        "kakao1": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao1.jpeg width='100%'>"
+          }
+        },
+        "kakao2": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao2.jpeg width='100%'>"
+          }
+        },
+        "kakao3": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao3.jpeg width='100%'>"
+          }
+        },
+        "kakao4": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao4.jpeg width='100%'>"
+          }
+        },
+        "kakao5": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao5.jpeg width='100%'>"
+          }
+        },
+        "kakao6": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao6.jpeg width='100%'>"
+          }
+        },
+        "kakao7": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao7.jpeg width='100%'>"
+          }
+        },
+        "kakao8": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao8.jpeg width='100%'>"
+          }
+        },
+        "kakao9": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao9.jpeg width='100%'>"
+          }
+        },
+        "kakao10": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao10.jpeg width='100%'>"
+          }
+        },
+        "kakao11": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao11.jpeg width='100%'>"
+          }
+        },
+        "kakao12": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao12.jpeg width='100%'>"
+          }
+        },
+        "kakao13": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao13.jpeg width='100%'>"
+          }
+        },
+        "kakao14": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao14.jpeg width='100%'>"
+          }
+        },
+        "kakao15": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao15.jpeg width='100%'>"
+          }
+        },
+        "kakao16": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao16.jpeg width='100%'>"
+          }
+        },
+        "kakao17": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao17.jpeg width='100%'>"
+          }
+        },
+        "kakao18": {
+          "module": "manifest!DesignItem-1.0.0",
+          "options": {
+            "html": "<img src=/app/intro/res/kakao18.jpeg width='100%'>"
+          }
+        }
+      }
+    }
+  }
+}

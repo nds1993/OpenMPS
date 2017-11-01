@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PP0402MpReqMtrlM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="PP0402mpReqMtrlMSerarchVO" type="nds.mpm.prod.PP0401.vo.MpReqMtrlMDefaultVO"/>
+		
+	<insert id="PP0402mpReqMtrlMDAO.insertMpReqMtrlM_S">
+		<![CDATA[
+			INSERT INTO mp_req_mtrl_m 
+				( corp_code
+				  , plant_code
+				  , work_date
+				  , mtrl_code
+				  , req_source
+				  , pro_code
+				  , req_mtrl_qty
+				  , inv_qty
+				  , safe_qty
+				  , req_pur_qty
+				  , pro_unit
+				  , memo
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #workDate#
+				  , #mtrlCode#
+				  , #reqSource#
+				  , #proCode#
+				  , #reqMtrlQty#
+				  , #invQty#
+				  , #safeQty#
+				  , #reqPurQty#
+				  , #proUnit#
+				  , #memo#
+				  , #deleYn#
+				  , #crUser#
+				  , #crDate# )
+		]]>
+	</insert>
+	
+	<update id="PP0402mpReqMtrlMDAO.updateMpReqMtrlM_S">
+		<![CDATA[
+			UPDATE mp_req_mtrl_m
+			SET corp_code=#corpCode#
+				, plant_code=#plantCode#
+				, work_date=#workDate#
+				, mtrl_code=#mtrlCode#
+				, req_source=#reqSource#
+				, pro_code=#proCode#
+				, req_mtrl_qty=#reqMtrlQty#
+				, inv_qty=#invQty#
+				, safe_qty=#safeQty#
+				, req_pur_qty=#reqPurQty#
+				, pro_unit=#proUnit#
+				, memo=#memo#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND work_date=#workDate#
+								AND mtrl_code=#mtrlCode#
+								AND req_source=#reqSource#
+								AND pro_code=#proCode#
+				]]>
+	</update>
+	
+	<delete id="PP0402mpReqMtrlMDAO.deleteMpReqMtrlM_S">
+		<![CDATA[
+			DELETE FROM mp_req_mtrl_m 
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+								AND work_date=#workDate#
+								AND mtrl_code=#mtrlCode#
+								AND req_source=#reqSource#
+								AND pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<sql id="selectWhere_fragment">
+		select
+	  		a.corp_code
+			, a.plant_code
+			, a.pro_code
+			, a.mtrl_code
+			, a.req_mtrl_qty
+			, a.pro_unit
+			, a.req_pur_qty 
+		from mp_req_mtrl_m a
+		inner join tm_platxm b on ( a.corp_code = b.corp_code and a.plant_code = b.plant_code )
+		left outer join mp_item_master_m c on ( a.corp_code = c.corp_code and a.pro_code = c.pro_code )
+	   where a.corp_code = #corpCode# 
+	   and a.work_date between #strtDate# and #lastDate#
+	   <isNotEmpty property="plantCode">
+        and  a.plant_code IN
+                 (SELECT plant_code
+                    FROM tm_platxm
+                   WHERE grup_plant IN
+                         (SELECT code_id
+                            FROM tm_codexd
+                           WHERE group_code = 'MP002'
+                             AND corp_code = #corpCode#
+                             AND code_id =  #plantCode#
+                             AND use_yn = 'Y'
+                             AND dele_yn = 'N')
+                     AND corp_code = #corpCode#
+                 )                      
+       </isNotEmpty>
+	</sql>	
+	<select id="PP0402mpReqMtrlMDAO.selectProcodeMtrlCodeMpReqMtrlMList_D" parameterClass="PP0402mpReqMtrlMSerarchVO" resultClass="egovMap">
+		select 
+		aa.pro_code
+		, m1.pro_name  pro_name
+		, aa.mtrl_code
+		, m2.pro_name  mtrl_name
+		, (sum(aa.req_mtrl_qty)::numeric(11,0))::varchar as req_mtrl_qty
+		, aa.pro_unit
+		, (sum(aa.req_pur_qty)::numeric(11,0))::varchar as  req_pur_qty
+		
+		, aa.corp_code
+		
+		from
+		(
+ 		<include refid="selectWhere_fragment"/>
+ 		) aa
+ 		left outer join openmps.mp_item_master_m m1 on 
+ 			(aa.corp_code=m1.corp_code and aa.pro_code=m1.pro_code)
+ 		left outer join openmps.mp_item_master_m m2 on 
+ 			(aa.corp_code=m2.corp_code and aa.mtrl_code=m2.pro_code)	
+ 		group by 
+	 		aa.corp_code
+			, aa.pro_code
+			, aa.mtrl_code
+			, aa.pro_unit
+			, m1.pro_name
+			, m2.pro_name
+		order by m1.pro_name
+			, m2.pro_name
+	</select>	
+	<select id="PP0402mpReqMtrlMDAO.selectProcodeMtrlCodeMpReqMtrlMListTotCnt_S" parameterClass="PP0402mpReqMtrlMSerarchVO" resultClass="int">
+		select
+			count(*)
+		from
+		(
+		<include refid="selectWhere_fragment"/>
+		) aa
+	</select>
+	<select id="PP0402mpReqMtrlMDAO.selectMtrlCodeMpReqMtrlMList_D" parameterClass="PP0402mpReqMtrlMSerarchVO" resultClass="egovMap">
+		select 
+		aa.mtrl_code
+		, m2.pro_name  mtrl_name
+		, (sum(aa.req_mtrl_qty)::numeric(11,0))::varchar as req_mtrl_qty
+		, aa.pro_unit
+		, (sum(aa.req_pur_qty)::numeric(11,0))::varchar as  req_pur_qty
+		
+		, aa.corp_code
+		
+		from
+		(
+ 		<include refid="selectWhere_fragment"/>
+ 		) aa
+ 		left outer join openmps.mp_item_master_m m2 on 
+ 			(aa.corp_code=m2.corp_code and aa.mtrl_code=m2.pro_code)
+ 		group by aa.corp_code		
+		, aa.mtrl_code
+		, aa.pro_unit
+		, m2.pro_name
+		order by m2.pro_name
+	</select>	
+	<select id="PP0402mpReqMtrlMDAO.selectMtrlCodeMpReqMtrlMListTotCnt_S" parameterClass="PP0402mpReqMtrlMSerarchVO" resultClass="int">
+		select
+			count(*)
+		from
+		(
+		<include refid="selectWhere_fragment"/>
+		) aa
+	</select>
+</sqlMap>

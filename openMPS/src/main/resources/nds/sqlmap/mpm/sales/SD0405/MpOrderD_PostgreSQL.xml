@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpOrderD">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpOrderDSerarchVO" type="nds.mpm.sales.SD0405.vo.MpOrderDVO"/>
+	
+	<resultMap id="mpOrderD" class="nds.mpm.sales.SD0405.vo.MpOrderDVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="delvDate" column="delv_date" columnIndex="2"/>
+		<result property="ordrNo" column="ordr_no" columnIndex="3"/>
+		<result property="ordrSeq" column="ordr_seq" columnIndex="4"/>
+		<result property="proCode" column="pro_code" columnIndex="5"/>
+		<result property="saleGroup2" column="sale_group2" columnIndex="6"/>
+		<result property="proUkind" column="pro_ukind" columnIndex="7"/>
+		<result property="priceSrc" column="price_src" columnIndex="8"/>
+		<result property="unitPrice" column="unit_price" columnIndex="9"/>
+		<result property="ordrBox" column="ordr_box" columnIndex="10"/>
+		<result property="ordrWeight" column="ordr_weight" columnIndex="11"/>
+		<result property="ordrAmt" column="ordr_amt" columnIndex="12"/>
+		<result property="ordrVat" column="ordr_vat" columnIndex="13"/>
+		<result property="delvBox" column="delv_box" columnIndex="14"/>
+		<result property="delvWeight" column="delv_weight" columnIndex="15"/>
+		<result property="delvAmt" column="delv_amt" columnIndex="16"/>
+		<result property="delvVat" column="delv_vat" columnIndex="17"/>
+		<result property="weightComp" column="weight_comp" columnIndex="18"/>
+		<result property="pmAcceptYn" column="pm_accept_yn" columnIndex="19"/>
+		<result property="status" column="status" columnIndex="20"/>
+		<result property="custPoNo" column="cust_po_no" columnIndex="21"/>
+		<result property="custPoSeq" column="cust_po_seq" columnIndex="22"/>
+		<result property="custProCode" column="cust_pro_code" columnIndex="23"/>
+		<result property="crUser" column="cr_user" columnIndex="24"/>
+		<result property="crDate" column="cr_date" columnIndex="25"/>
+		<result property="mdUser" column="md_user" columnIndex="26"/>
+		<result property="mdDate" column="md_date" columnIndex="27"/>
+	</resultMap>
+	
+	<insert id="mpOrderDDAO.insertMpOrderD">
+		<selectKey keyProperty="orderNo" resultClass="string">
+		    select #ordrNo# as ordr_no
+		</selectKey>
+		<![CDATA[
+			INSERT INTO openmps.mp_order_d 
+				( corp_code
+				  , delv_date
+				  , ordr_no
+				  
+				  , ordr_seq
+				  , pro_code
+				  , sale_group2
+				  
+				  , pro_ukind
+				  
+				  , price_src
+				  , unit_price
+				  , ordr_box
+				  , ordr_weight
+				  , ordr_amt
+				  , ordr_vat
+				  , delv_box
+				  , delv_weight
+				  , delv_amt
+				  , delv_vat
+				  , weight_comp
+				  , cust_po_no 
+  				  , cust_po_seq 
+  				  , cust_pro_code
+				  , status
+				  , pm_accept_yn
+				  , cr_user
+				  , cr_date
+				  , md_user
+				  , md_date )
+			VALUES ( #corpCode#
+				  , #delvDate#
+				  , #ordrNo#
+				  , ( select lpad( (coalesce(max(ordr_seq::integer),0)+1)::varchar ,3,'0') from openmps.mp_order_d 
+				  	where corp_code = #corpCode# and delv_date = #delvDate# and ordr_no = #ordrNo# )
+				  , #proCode#
+				  , #saleGroup2#
+				  , #proUkind#
+				  , #priceSrc#
+				  , #unitPrice#::numeric
+				  , #ordrBox#::numeric
+				  , #ordrWeight#
+				  , #ordrAmt#
+				  , #ordrVat#
+				  , #delvBox#
+				  , #delvWeight#
+				  , #delvAmt#
+				  , #delvVat#
+				  , #weightComp#
+				  , #custPoNo# 
+  				  , #custPoSeq# 
+  				  , #custProCode#
+				  , #status#
+				  , #pmAcceptYn#
+				  , #crUser#
+				  , now()
+				  , #mdUser#
+				  , now() )
+			ON CONFLICT (corp_code, delv_date, ordr_no, ordr_seq, pro_code)
+    		DO UPDATE SET
+				 sale_group2=#saleGroup2#
+				, pro_ukind=#proUkind#
+				, price_src=#priceSrc#
+				, unit_price=#unitPrice#::numeric
+				, ordr_box=#ordrBox#::numeric
+				, ordr_weight=#ordrWeight#
+				, ordr_amt=#ordrAmt#
+				, ordr_vat=#ordrVat#
+				, weight_comp=#weightComp#
+				, cust_po_no=#custPoNo#
+				, cust_po_seq=#custPoSeq#
+				, cust_pro_code=#custProCode#
+				, md_user=#mdUser#
+				, md_date=now()	  
+		]]>
+	</insert>
+	
+	<update id="mpOrderDDAO.updateMpOrderD">
+		<![CDATA[
+			UPDATE openmps.mp_order_d
+			SET  pro_code=#proCode#
+				, sale_group2=#saleGroup2#
+				, pro_ukind=#proUkind#
+				, price_src=#priceSrc#
+				, unit_price=#unitPrice#
+				, ordr_box=#ordrBox#
+				, ordr_weight=#ordrWeight#
+				, ordr_amt=#ordrAmt#
+				, ordr_vat=#ordrVat#
+				, cust_po_no=#custPoNo#
+				, cust_po_seq=#custPoSeq#
+				, cust_pro_code=#custProCode#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND delv_date=#delvDate#
+								AND ordr_no=#ordrNo#
+								AND ordr_seq=#ordrSeq#
+				]]>
+	</update>
+	<update id="mpOrderDDAO.updateMpOrderDAmt">
+		<![CDATA[
+			UPDATE openmps.mp_order_d
+			SET  ordr_box=#ordrBox#
+				, ordr_weight=#ordrWeight#
+				, ordr_amt=#ordrAmt#
+				, ordr_vat=#ordrVat#
+				, delv_box=#delvBox#
+				, delv_weight=#delvWeight#
+				, delv_amt=#delvAmt#
+				, delv_vat=#delvVat#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#::varchar
+								AND delv_date=#delvDate#::varchar
+								AND ordr_no=#ordrNo#::varchar
+								AND ordr_seq=#ordrSeq#::varchar
+				]]>
+	</update>
+	
+	<delete id="mpOrderDDAO.deleteMpOrderD">
+		<![CDATA[
+			DELETE FROM openmps.mp_order_d 
+						WHERE corp_code=#corpCode#::varchar
+								AND delv_date=#delvDate#::varchar
+								AND ordr_no=#ordrNo#::varchar
+								AND ordr_seq=#ordrSeq#::varchar
+				]]>
+	</delete>
+	
+	<select id="mpOrderDDAO.selectMpOrderD_S" resultClass="egovMap">
+			SELECT
+				a.corp_code
+				, a.delv_date
+				, a.ordr_no
+				, a.ordr_seq
+				, a.pro_code
+				, a.sale_group2
+				, a.pro_ukind
+				, a.price_src
+				, a.unit_price
+				, a.ordr_box
+				, a.ordr_weight
+				, a.ordr_amt
+				, a.ordr_vat
+				, a.delv_box
+				, a.delv_weight
+				, a.delv_amt
+				, a.delv_vat
+				, a.weight_comp
+				, a.pm_accept_yn
+				, a.status
+				, a.cust_po_no
+				, a.cust_po_seq
+				, a.cust_pro_code
+				, a.cr_user
+				, a.cr_date
+				, a.md_user
+				, a.md_date
+			FROM openmps.mp_order_d a
+			WHERE corp_code=#corpCode#
+			<dynamic > 
+	         <isNotEmpty prepend="and" property="delvDate">
+			 a.delv_date = #delvDate#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="ordrNo">
+			 a.ordr_no = #"ordrNo"#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="proCode">
+			 a.pro_code = #proCode#
+	         </isNotEmpty>
+			</dynamic>
+	</select>
+	<!-- 
+	
+		재고정보뷰  openmps.ST_STOK_IBDE_V 
+		출고계획 	openmps.OD_ODERHD
+			    openmps.OD_ODERDT
+			    SUM(PLANQTY) AS PLANQTY,  예정량
+			    SUM(PLANWT)  AS PLANWT    예정중량
+			    H.DC     = ?     물류센터
+			   AND H.BIZ    = ?     사업자(1000:openMPS)
+			   AND H.CLIENT = ?     하주(1001:openMPS, 1002:openMPS)
+			   AND H.DEALDE = ?     거래일(영업의 출고일)
+			   AND H.STAT   NOT IN ('50','99')  상태(50:출고완료, 99:삭제)
+			   AND D.STAT   NOT IN ('50','99')  상태(50:출고완료, 99:삭제)
+	-->
+	<sql id="selectWhere_fragment">
+			FROM 
+			openmps.mp_order_h a
+			inner join openmps.mp_order_d d on (a.corp_code = d.corp_code 
+									and a.delv_date = d.delv_date 
+									and a.ordr_no = d.ordr_no)
+			left outer join openmps."FN_GET_WMSJAEGO"('1000',a.corp_code,a.delv_date, a.delv_dc,d.pro_code) 
+			stok on (1=1)
+			WHERE a.corp_code=#corpCode#
+				AND a.delv_date=#delvDate#
+				AND a.ordr_no=#ordrNo#
+		<dynamic > 
+	         <isNotEmpty prepend="and" property="delvDate">
+			 a.delv_date = #delvDate#
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<!-- 
+		SD0401 주문현황
+	
+		출고가능량 = 전일재고 + 생산계획 - 출고계획 - 주문집계
+	-->
+	<select id="mpOrderDDAO.selectMpOrderDList_D" parameterClass="mpOrderDSerarchVO" resultClass="egovMap">
+		SELECT
+				d.corp_code
+				, d.delv_date
+				, d.ordr_no
+				, d.ordr_seq
+				, d.pro_code
+				, openmps."FN_GET_PROCODENM"(a.corp_code,a.pro_code) as pro_name
+				, d.sale_group2
+				, d.pro_ukind
+				, d.price_src
+				, d.unit_price
+				, d.ordr_box
+				, d.ordr_weight
+				, d.ordr_amt
+				, d.ordr_vat
+				, d.delv_box
+				, d.delv_weight
+				, d.delv_amt
+				, d.delv_vat
+				, d.weight_comp
+				, d.pm_accept_yn
+				, d.status
+				, d.cust_po_no
+				, d.cust_po_seq
+				, d.cust_pro_code
+				, d.cr_user
+				, d.cr_date
+				, d.md_user
+				, d.md_date
+				, coalesce(stok.last_stokqty,0) 
+					+ coalesce(stok.prod_planqty,0) 
+					- coalesce(stok.out_planqty,0)
+					- coalesce(d.ordr_amt,0)  delvAvail <!--  출고가능 -->
+				, stok.cur_stokqty stock_box <!--  현재고	-->
+				, stok.last_stokqty misu_box <!--  전일재고	-->
+				, stok.out_planqty ordr_plan <!--  출고계획  -->      
+				, stok.prod_planqty work_plan <!--  생산계획   -->     
+		<include refid="selectWhere_fragment"/>
+	</select>	
+	<select id="mpOrderDDAO.selectMpOrderDListTotCnt_S" parameterClass="mpOrderDSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

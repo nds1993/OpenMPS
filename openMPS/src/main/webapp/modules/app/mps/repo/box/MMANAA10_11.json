@@ -1,0 +1,161 @@
+{
+	"module": "WorkAreaRenderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"formBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"proLcode",
+					"proLname",
+					"shortKey",
+					"memo"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">품목코드</label><input type=\"text\" class=\"form-control proLcode\" value=\"\"></div><div class=\"form-group\"><label class=\"required\">품목이름</label><input type=\"text\" class=\"form-control proLname\" value=\"\"></div><div class=\"form-group\"><label>단축기</label><input type=\"text\" class=\"form-control shortKey\" value=\"\"></div></div><div class=\"col-xs-8\"><div class=\"form-group\"><label>비고</label><textarea class=\"form-control memo text3line\" value=\"\"></textarea></div></div></div>",
+					"mode": "form",
+					"items": {
+						"proLcode": {
+							"module": "text",
+							"label": "품목코드",
+							"selector": ".proLcode",
+							"required": true
+						},
+						"proLname": {
+							"module": "text",
+							"label": "품목이름",
+							"selector": ".proLname",
+							"required": true
+						},
+						"shortKey": {
+							"module": "text",
+							"label": "단축키",
+							"selector": ".shortKey",
+							"required": false
+						},
+						"memo": {
+							"module": "textarea",
+							"label": "비고",
+							"selector": ".memo",
+							"required": false
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box",
+				"order": [
+					"searchCondition",
+					"searchKeyword"
+				],
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"form-group form-inline\"><label>검색</label><select class=\"form-control searchCondition\"><option>조건검색</option><option value=\"proLcode\">코드</option><option value=\"proLname\">이름</option></select><input type=\"text\" class=\"form-control searchKeyword\" value=\"\"></div>",
+					"items": {
+						"searchCondition": {
+							"module": "text",
+							"label": "검색",
+							"selector": ".searchCondition",
+							"required": false
+						},
+						"searchKeyword": {
+							"module": "text",
+							"label": "검색 내용 입력",
+							"selector": ".searchKeyword",
+							"required": false
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "result_box grid_box",
+				"gridId": "productlarge",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+							"name": "pro_cate_code",
+							"label": "품목코드",
+							"align": "left",
+							"width": 60
+						},
+						{
+							"name": "pro_cate_name",
+							"label": "품목이름",
+							"align": "left",
+							"width": 120
+						},
+						{
+							"name": "pro_cate_hotkey",
+							"label": "단축키",
+							"align": "center",
+							"width": 60
+						},
+						{
+							"name": "pro_cate_memo",
+							"label": "비고",
+							"align": "left",
+							"width": 300
+						}
+					],
+					"rowNum": 30,
+					"records": 30,
+					"rownumWidth": 20,
+					"rowList": [30, 50, 100, 200, "100000:All"],
+					"viewrecords": true,
+					"rownumbers": false,
+					"toppager": false,
+					"pager": true,
+					"shrinkToFit": false,
+					"multiselect": false,
+					"editurl": "clientArray",
+					"loadonce": true,
+					"width": "auto",
+					"height": 345,
+					"iconSet": "fontAwesome",
+					"autoencode": true,
+					"altRows": true,
+					"altclass": "myAltRowClass",
+					"pagerRightWidth": 140,
+
+					"caption": "",
+					"navOptions": {
+						"del": false
+					},
+					"searching": {
+						"closeAfterSearch": true,
+						"closeAfterReset": true,
+						"closeOnEscape": true,
+						"searchOnEnter": true,
+						"multipleSearch": true,
+						"multipleGroup": true,
+						"showQuery": true
+					},
+					"cellEdit": false
+				}
+			}
+		}
+	}
+}

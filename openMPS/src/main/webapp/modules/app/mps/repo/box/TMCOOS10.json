@@ -1,0 +1,403 @@
+{
+    "module": "TMCOOS10Renderer",
+    "options": {
+        "className": "contents_box",
+        "order": [
+            "queryBox",
+            "resultBox",
+            "formBox"
+        ],
+        "activation": {
+            "defaultWidget": "",
+            "method": "one-page"
+        },
+        "formBox": {
+            "module": "FormBox",
+            "options": {
+                "className": "form_box",
+                "order": [
+                    "corpCode",
+                    "shortName",
+                    "cdate",
+                    "jong",
+                    "uptae",
+                    "numEmp",
+                    "corpSeq",
+                    "corpName",
+                    "edomain",
+                    "ssno",
+                    "phone",
+                    "engName",
+                    "owner",
+                    "lgno",
+                    "fax",
+                    "zipCode",
+                    "addrCode1",
+                    "addrCode2",
+                    "homepage",
+                    "smsYn",
+                    "mailYn",
+                    "personYn",
+                    "useYn",
+                    "address",
+                    "cogrCode"
+                ],
+                "activation": {
+                    "defaultWidget": "",
+                    "method": "one-page"
+                },
+                "custom_form": {
+                	"name": "Form Builder Params",
+                    "template": "<div class=\"row form-group-tmm\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">회사코드</label><input type=\"text\" class=\"form-control corpCode\" value=\"\" placeholder=\"회사코드를 입력해주세요.\"></div><div class=\"form-group\"><label>단축명</label><input type=\"text\" class=\"form-control shortName\" value=\"\" placeholder=\"단축명을 입력해주세요.\"></div><div class=\"form-group\"><label>설립일</label><input type=\"text\" class=\"form-control form_type_date cdate\" placeholder=\"\"></div><div class=\"form-group\"><label>업종</label><input type=\"text\" class=\"form-control jong\" value=\"\"></div><div class=\"form-group\"><label>업태</label><input type=\"text\" class=\"form-control uptae\" value=\"\"></div><div class=\"form-group\"><label>사원수</label><input type=\"text\" class=\"form-control numEmp\" value=\"\" placeholder=\"사원수를 입력해주세요.\"></div><div class=\"form-group\"><label>회사순서</label><input type=\"text\" class=\"form-control corpSeq\" value=\"\" placeholder=\"회사순서를 입력해주세요.\"></div></div><div class=\"col-xs-8\"><div class=\"col-xs-6\"><div class=\"form-group \"><label class=\"required\">회사명</label><input type=\"text\" class=\"form-control corpName\" value=\"\" placeholder=\"회사명을 입력해주세요.\"></div><div class=\"form-group \"><label>소속그룹</label><div class=\"select_design cogrCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group \"><label>사업자번호</label><input type=\"text\" class=\"form-control ssno\" value=\"\" placeholder=\"사업자번호를 입력해주세요.\"></div><div class=\"form-group \"><label>대표전화</label><input type=\"text\" class=\"form-control phone\" value=\"\" placeholder=\"대표전화를 입력해주세요.\"></div><div class=\"form-group \"><label>도메인</label><input type=\"text\" class=\"form-control edomain\" value=\"\" placeholder=\"도메인을 입력해주세요.\"></div></div><div class=\"col-xs-6\"><div class=\"form-group \"><label>회사영문명</label><input type=\"text\" class=\"form-control engName\" value=\"\" placeholder=\"회사영문명을 입력해주세요.\"></div><div class=\"form-group \"><label>대표자명</label><input type=\"text\" class=\"form-control owner\" value=\"\" placeholder=\"대표자명을 입력해주세요.\"></div><div class=\"form-group \"><label>법인번호</label><input type=\"text\" class=\"form-control lgno\" value=\"\" placeholder=\"법인번호를 입력해주세요.\"></div><div class=\"form-group \"><label>팩스번호</label><input type=\"text\" class=\"form-control fax\" value=\"\" placeholder=\"팩스번호를 입력해주세요.\"></div><div class=\"form-group\"><label>홈페이지</label><input type=\"text\" class=\"form-control homepage\" value=\"\" placeholder=\"http://\"></div></div><div class=\"col-xs-12\" style=\"padding-left: 20px;\"><div class=\"form-group\"><label>주소</label><div class=\"col-xs-12\" style=\"padding-left: 0px; padding-right: 0px;\"><input type=\"text\" class=\"form-control zipCode\" style=\"display: none;\" value=\"\" placeholder=\"우편 번호\"><input type=\"text\" class=\"form-control addrCode1\" style=\"display: none;\" value=\"\" placeholder=\"기본 주소\"><input type=\"text\" class=\"form-control addrCode2\" style=\"display: none;\" value=\"\" placeholder=\"상세 주소를 입력해주세요.\"><div class=\"address_region\"></div></div></div></div><div class=\"col-xs-12\" style=\"padding-left: 20px;\"><div class=\"form-group\"><div class=\"form-only form-inline\"><div class=\"checkbox_box\"><div class=\"checkbox\"><label><input type=\"checkbox\" name=\"smsYn\" value=\"Y\"><span class=\"title\">SMS사용여부</span></label><label><input type=\"checkbox\" name=\"mailYn\" value=\"Y\"><span class=\"title\">메일사용여부</span></label><label><input type=\"checkbox\" name=\"personYn\" value=\"Y\"><span class=\"title\">개인화여부</span></label><label><input type=\"checkbox\" name=\"useYn\" value=\"Y\"><span class=\"title\">사용여부</span></label></div></div></div></div></div></div></div>",
+                    "mode": "form",
+                    "items": {
+                        "corpCode": {
+                            "module": "text",
+                            "label": "회사코드",
+                            "selector": ".corpCode",
+                            "required": true
+                        },
+                        "shortName": {
+                            "module": "text",
+                            "label": "단축명",
+                            "selector": ".shortName",
+                            "required": false
+                        },
+                        "cdate": {
+                            "module": "date",
+                            "label": "설립일",
+                            "selector": ".cdate",
+                            "format": "YYYY-MM-DD",
+                            "required": false
+                        },
+                        "jong": {
+                            "module": "text",
+                            "label": "업종",
+                            "selector": ".jong",
+                            "required": false
+                        },
+                        "uptae": {
+                            "module": "text",
+                            "label": "업태",
+                            "selector": ".uptae",
+                            "required": false
+                        },
+                        "numEmp": {
+                            "module": "text",
+                            "label": "사원수",
+                            "selector": ".numEmp",
+                            "required": false
+                        },
+                        "corpSeq": {
+                            "module": "text",
+                            "label": "회사순서",
+                            "selector": ".corpSeq",
+                            "required": false
+                        },
+                        "corpName": {
+                            "module": "text",
+                            "label": "회사명",
+                            "selector": ".corpName",
+                            "required": true
+                        },
+                        "edomain": {
+                            "module": "text",
+                            "label": "도메인",
+                            "selector": ".edomain",
+                            "required": false
+                        },
+                        "ssno": {
+                            "module": "text",
+                            "label": "사업자번호",
+                            "selector": ".ssno",
+                            "required": false
+                        },
+                        "phone": {
+                            "module": "text",
+                            "label": "대표전화",
+                            "selector": ".phone",
+                            "required": false
+                        },
+                        "engName": {
+                            "module": "text",
+                            "label": "회사영문명",
+                            "selector": ".engName",
+                            "required": false
+                        },
+                        "owner": {
+                            "module": "text",
+                            "label": "대표자명",
+                            "selector": ".owner",
+                            "required": false
+                        },
+                        "lgno": {
+                            "module": "text",
+                            "label": "법인번호",
+                            "selector": ".lgno",
+                            "required": false
+                        },
+                        "fax": {
+                            "module": "text",
+                            "label": "팩스번호",
+                            "selector": ".fax",
+                            "required": false
+                        },
+                        "zipCode": {
+                            "module": "text",
+                            "label": "우편번호",
+                            "selector": ".zipCode",
+                            "required": false
+                        },
+                        "addrCode1": {
+                            "module": "text",
+                            "label": "주소",
+                            "selector": ".addrCode1",
+                            "required": false
+                        },
+                        "addrCode2": {
+                            "module": "text",
+                            "label": "주소상세",
+                            "selector": ".addrCode2",
+                            "required": false
+                        },
+                        "homepage": {
+                            "module": "text",
+                            "label": "홈페이지",
+                            "selector": ".homepage",
+                            "required": false
+                        },
+                        "smsYn": {
+                            "module": "checkbox",
+                            "label": "SMS사용여부",
+                            "selector": "[name=smsYn]",
+                            "required": false
+                        },
+                        "mailYn": {
+                            "module": "checkbox",
+                            "label": "메일사용여부",
+                            "selector": "[name=mailYn]",
+                            "required": false
+                        },
+                        "personYn": {
+                            "module": "checkbox",
+                            "label": "개인화여부",
+                            "selector": "[name=personYn]",
+                            "required": false
+                        },
+                        "useYn": {
+                            "module": "checkbox",
+                            "label": "사용여부",
+                            "selector": "[name=useYn]",
+                            "required": false
+                        },
+                        "cogrCode": {
+                            "module": "combobox",
+                            "label": "소속그룹",
+                            "selector": ".cogrCode",
+                            "required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/TM_COGR/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+                        },
+						"address": {
+							"label": "주소"
+						}
+                    },
+                    "data": {}
+                },
+				"address": {
+					"module": "manifest!address-1.3.0",
+					"options": {
+						"label": "주소찾기",
+						"required": false,
+						"template": "#zip_two_html"
+					}
+				}
+            }
+        },
+        "queryBox": {
+            "module": "FormBox",
+            "options": {
+                "module": "FormBox",
+                "className": "query_box",
+                "order": [
+                    "searchKeyword"
+                ],
+                "custom_form": {
+                	"mode": "form",
+                    "template": "<div class=\"form-group form-inline\"><label>회사코드/명</label><input type=\"text\" class=\"form-control searchKeyword\" value=\"\" placeholder=\"회사코드/명 입력\"></div>",
+                    "items": {
+                        "searchKeyword": {
+                            "module": "text",
+                            "label": "회사코드/명",
+                            "selector": ".searchKeyword",
+                            "required": false
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "resultBox": {
+            "module": "manifest!jqGrid4-1.0.0",
+            "options": {
+                "className": "resultBox_box grid_box",
+                "gridId": "TMCOOS10_grid_1",
+                "gridParams": {
+                    "data": [],
+                    "colModel": [
+                    {
+                        "name": "cogrCodeName",
+                        "label": "소속그룹",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                       "name": "corpSeq",
+                        "label": "회사순서",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "corpCode",
+                        "label": "회사코드",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "corpName",
+                        "label": "회사명",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "ssno",
+                        "label": "사업자번호",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "lgno",
+                        "label": "법인번호",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "cdate",
+                        "label": "개업일자",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "uptae",
+                        "label": "업태",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "jong",
+                        "label": "종목",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "owner",
+                        "label": "대표자명",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "edomain",
+                        "label": "도메인",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "mailYn",
+                        "label": "메일사용여부",
+                        "template": "booleanCheckboxFa",
+                        "align": "center",
+                        "width": 80,
+						"formatter": "checkbox"
+                    }, {
+                        "name": "smsYn",
+                        "label": "SMS사용여부",
+                        "template": "booleanCheckboxFa",
+                        "align": "center",
+                        "width": 80,
+						"formatter": "checkbox"
+                    }, {
+                        "name": "personYn",
+                        "label": "개인화여부",
+                        "template": "booleanCheckboxFa",
+                        "align": "center",
+                        "width": 80,
+						"formatter": "checkbox"
+                    }, {
+                        "name": "useYn",
+                        "label": "사용여부",
+                        "template": "booleanCheckboxFa",
+                        "align": "center",
+                        "width": 80,
+						"formatter": "checkbox"
+                    }, {
+                        "name": "shortName",
+                        "label": "단축명",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "numEmp",
+                        "label": "사원수",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "cogrCode",
+                        "label": "소속그룹코드",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "phone",
+                        "label": "대표전화",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "engName",
+                        "label": "회사영문명",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "fax",
+                        "label": "팩스번호",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "homepage",
+                        "label": "홈페이지",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "zipCode",
+                        "label": "우편번호",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "addrCode1",
+                        "label": "주소",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "addrCode2",
+                        "label": "주소상세",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }],
+                    "width": "auto",
+                    "height": "250",
+                    "iconSet": "fontAwesome",
+                    "pager": false,
+                    "cellEdit": false
+                }
+            }
+        }
+    }
+}

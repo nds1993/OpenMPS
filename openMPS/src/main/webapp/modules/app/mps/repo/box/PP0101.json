@@ -1,0 +1,354 @@
+{
+	"name": "공장등록",
+	"module": "PP0101Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["queryBox", "formBox", "resultBox"],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box form-inline",
+				"order": [
+					"plantCode"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"name": "API Runner Form",
+					"mode": "form",
+					"items": {
+						"plantCode": {
+							"label": "공장"
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>공장</label><div class=\"plantCode_region\"></div></div>"
+				},
+				"plantCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "거래처",
+						"required": true,
+						"codeType": "PP0101",
+						"params": {"useYn" : "Y"},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+
+			}
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": ["plantCode", "plantName", "grupPlant", "plantKind", "useYn", "prdtType","phone", "address","memo"],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"name": "Form Builder Params",
+					"mode": "form",
+					"items": {
+						"plantCode": {
+							"module": "text",
+							"selector": ".plantCode",
+							"label": "공장코드",
+							"required": true,
+							"max_size": 2
+						},
+						"plantName": {
+							"module": "text",
+							"selector": ".plantName",
+							"label": "공장명",
+							"required": true
+						},
+						"grupPlant": {
+							"module": "combobox",
+							"selector": ".grupPlant",
+							"label": "공장그룹",
+							"required": true,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP002/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+						},
+						"plantKind": {
+							"module": "combobox",
+							"selector": ".plantKind",
+							"label": "공장구분",
+							"required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP003/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+
+						},
+						"useYn": {
+							"module": "checkbox",
+							"selector": ".useYn",
+							"label": "사용유무",
+							"required": false,
+							"value":true
+						},
+						"prdtType": {
+							"module": "combobox",
+							"selector": ".prdtType",
+							"label": "가공구분",
+							"required": true,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/MP004/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+
+						},
+						"phone": {
+							"module": "text",
+							"selector": ".phone",
+							"label": "전화번호",
+							"required": false
+						},
+						"address": {
+							"label": "주소"
+						},
+						"memo": {
+							"module": "text",
+							"selector": ".memo",
+							"label": "비고",
+							"required": false
+						}
+					},
+					"data": {},
+					"template": "<div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label class=\"required\">공장코드</label><input type=\"text\" class=\"form-control plantCode\"></div><div class=\"form-group\"><div class=\"checkbox\"><label><input type=\"checkbox\" class=\"useYn\">사용유무</label></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label class=\"required\">공장명</label><input type=\"text\" class=\"form-control plantName\"></div><div class=\"form-group\"><label class=\"required\">가공구분</label><div class=\"select_design prdtType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label class=\"required\">공장그룹</label><div class=\"select_design grupPlant\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>전화번호</label><input type=\"text\" class=\"form-control phone\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>공장구분</label><div class=\"select_design plantKind\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label>주소</label><div class=\"address_region\"></div></div><div class=\"form-group\"><label>비고</label><input type=\"text\" class=\"form-control memo\"></div></div></div>"
+				},
+				"address": {
+					"module": "manifest!address-1.3.0",
+					"options": {
+						"label": "주소찾기",
+						"required": false
+					}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "resultBox_box grid_box",
+				"gridId": "PP0101_grid_1",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+							"name": "plantCode",
+							"label": "공장코드",
+							"width": 50,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "plantName",
+							"label": "공장명",
+							"width": 90,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "grupPlantName",
+							"label": "공장그룹",
+							"width": 60,
+							"align": "center"
+						},
+						{
+							"name": "plantKindName",
+							"label": "공장구분",
+							"width": 60,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "prdtTypeName",
+							"label": "가공구분",
+							"width": 60,
+							"align": "center",
+							"editable": false
+						},
+
+						{
+							"name": "grupPlant",
+							"label": "공장그룹코드",
+							"width": 80,
+							"align": "center",
+							"hidden": true
+						},
+						{
+							"name": "plantKind",
+							"label": "공장구분코드",
+							"width": 60,
+							"align": "center",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "prdtType",
+							"label": "가공구분코드",
+							"width": 60,
+							"align": "center",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "zipCode",
+							"label": "우편번호",
+							"width": 60,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "address",
+							"label": "주소",
+							"width": 250,
+							"align": "left",
+							"editable": false,
+							"classes":"grid_ws_normal"
+						},
+						{
+							"name": "phone",
+							"label": "전화번호",
+							"width": 80,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "useYn",
+							"label": "사용유무",
+							"width": 60,
+							"align": "center",
+							"editable": false,
+							"formatter":"checkbox"
+
+						},
+						{
+							"name": "memo",
+							"label": "비고",
+							"width": 150,
+							"align": "left",
+							"editable": false,
+							"classes":"grid_ws_normal"
+						},
+						{
+							"name": "corpCode",
+							"label": "corpCode",
+							"width": 50,
+							"align": "right",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "etc01",
+							"label": "etc01",
+							"width": 50,
+							"align": "left",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "etc02",
+							"label": "etc02",
+							"width": 50,
+							"align": "left",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "etc03",
+							"label": "etc03",
+							"width": 50,
+							"align": "left",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "etc04",
+							"label": "etc04",
+							"width": 50,
+							"align": "left",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "etc05",
+							"label": "etc05",
+							"width": 50,
+							"align": "left",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "deleYn",
+							"label": "deleYn",
+							"width": 50,
+							"align": "left",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "mdUser",
+							"label": "mdUser",
+							"width": 50,
+							"align": "left",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "mdDate",
+							"label": "mdDate",
+							"width": 50,
+							"align": "left",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "crUser",
+							"label": "crUser",
+							"width": 50,
+							"align": "left",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "crDate",
+							"label": "crDate",
+							"width": 50,
+							"align": "right",
+							"editable": false,
+							"hidden": true
+						}
+					],
+					"rowNum":"100000000",
+					"width": "auto",
+					"height": "472",
+					"cellEdit": false,
+					"shrinkToFit": false,
+					"gridview": true,
+					"datatype": "local",
+					"footerrow": false,
+					"multiselect": false,
+					"multiselectWidth": 20,
+					"rownumbers": false,
+					"cellsubmit": "clientArray",
+					"pager": "#PP0101_grid_1_pager",
+					"viewrecords": true,
+					"recordpos":"left",
+					"pgbuttons":false,
+					"pginput":false
+				}
+			}
+		}
+	}
+}

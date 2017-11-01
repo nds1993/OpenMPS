@@ -1,0 +1,62 @@
+{
+  "module": "RowBox",
+  "options": {
+    "order": [
+      "cover",
+      "icon_menu"
+    ],
+    "col_size": {
+      "cover": 5,
+      "icon_menu": 5
+    },
+    "col_option": "xs",
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "cover": {
+      "module": "manifest!cover-0.8.1#widget",
+      "options": {
+        "items": [
+          {
+            "link": "#home",
+            "bg_path": "http://resource.moven.net/themes/base/asset/bg/img_640_025.jpg",
+            "caption": "나를 표현해 보자!"
+          }
+        ],
+        "type": "simple"
+      }
+    },
+    "icon_menu": {
+      "module": "manifest!iconmenu-0.8.1#widget",
+      "options": {
+        "items": [
+          {
+            "box_id": "introMenu",
+            "onclick": "switching",
+            "caption": "About Me",
+            "icon_font": "fa-coffee"
+          },
+          {
+            "box_id": "photoMenu",
+            "onclick": "switching",
+            "caption": "Portfolio",
+            "icon_font": "fa-camera-retro"
+          },
+          {
+            "box_id": "careerMenu",
+            "onclick": "switching",
+            "caption": "Career",
+            "icon_font": "fa-pencil-square"
+          },
+          {
+            "box_id": "contactMenu",
+            "onclick": "switching",
+            "caption": "Contact Me",
+            "icon_font": "fa-at"
+          }
+        ]
+      }
+    }
+  }
+}

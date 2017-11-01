@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PP0702TmPlatxm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="PP0702tmPlatxmSerarchVO" type="nds.mpm.prod.PP0101.vo.TmPlatxmVO"/>
+	
+	<sql id="selectWhere_fragment">	        
+		  FROM openmps.st_stok_mfrde_v AS aa, openmps.sd_dc AS bb, openmps.mp_item_master_m cc
+		 WHERE aa.dc = bb.dc
+		   AND aa.biz = bb.biz
+		   AND aa.client = cc.corp_code
+		   AND aa.sku = cc.pro_code
+		   AND aa.client = #corpCode#
+		   <isNotEmpty property="proCode">
+		   AND (cc.pro_code LIKE '%'|| #proCode# || '%' OR pro_name LIKE '%%')
+		   </isNotEmpty>
+		   AND cc.animal_kind = '9'  
+		   AND cc.sale_group1 IS NULL 
+		   AND aa.dc IN (SELECT wh_code
+		                   FROM openmps.tm_platxm a, tm_plat_warhxm b
+		                  WHERE a.corp_code = #corpCode#
+		                    <isNotEmpty property="grupPlant">
+		                    AND a.grup_plant = #grupPlant#
+		                    </isNotEmpty>
+		                    AND a.corp_code = b.corp_code
+		                    AND a.plant_code = b.plant_code
+			        AND a.use_yn = 'Y')
+			        
+	  	<!-- 
+		<dynamic> 
+			 <isNotEmpty prepend="and" property="plantCode">
+	            a.plant_code = #plantCode#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="plantName">
+	            a.plant_name = #plantName#
+	         </isNotEmpty>
+	          <isNotEmpty prepend="and" property="grupPlant">
+	            a.grup_plant = #grupPlant#
+	         </isNotEmpty>
+		</dynamic>
+		 -->
+	</sql>
+	<select id="PP0702tmPlatxmDAO.selectTmPlatxmList_D" parameterClass="PP0702tmPlatxmSerarchVO" resultClass="egovMap">
+		
+		SELECT aa.sku,
+		       cc.pro_name,
+		       bb.dcnm,
+		       SUM(aa.stokqty) AS STOKQTY,
+		       MAX(cc.pro_ukind) AS PRO_UKIND
+		<include refid="selectWhere_fragment"/>
+		 GROUP BY aa.sku, cc.pro_name, bb.dcnm
+		
+	</select>	
+	<select id="PP0702tmPlatxmDAO.selectTmPlatxmListTotCnt_S" parameterClass="PP0702tmPlatxmSerarchVO" resultClass="int">
+	    
+		SELECT COUNT(*)
+		FROM (
+			   SELECT aa.sku,
+			          cc.pro_name,
+		              bb.dcnm,
+			          SUM(aa.stokqty) AS stokqty,
+			          MAX(cc.pro_ukind) AS uom
+	           <include refid="selectWhere_fragment"/>
+			    GROUP BY aa.sku, cc.pro_name, bb.dcnm
+		) AS DUMMY_A
+				
+	</select>
+	
+</sqlMap>

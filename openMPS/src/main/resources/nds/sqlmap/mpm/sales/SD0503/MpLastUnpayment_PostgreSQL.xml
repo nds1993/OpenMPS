@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD0503MpLastUnpayment">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SD0503mpLastUnpaymentSerarchVO" type="nds.mpm.sales.SD0501.vo.MpLastUnpaymentDefaultVO"/>
+	
+	<!-- <resultMap id="SD0503mpLastUnpayment" class="nds.mpm.sales.SD0503.vo.MpLastUnpaymentVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="unpayYymm" column="unpay_yymm" columnIndex="2"/>
+		<result property="custCode" column="cust_code" columnIndex="3"/>
+		<result property="lastUnpay" column="last_unpay" columnIndex="4"/>
+		<result property="currentUnpay" column="current_unpay" columnIndex="5"/>
+		<result property="headCust" column="head_cust" columnIndex="6"/>
+	</resultMap>
+	
+	<insert id="SD0503mpLastUnpaymentDAO.insertMpLastUnpayment_S">
+		<![CDATA[
+			INSERT INTO mp_last_unpayment 
+				( corp_code
+				  , unpay_yymm
+				  , cust_code
+				  , last_unpay
+				  , current_unpay
+				  , head_cust )
+			VALUES ( #corpCode#
+				  , #unpayYymm#
+				  , #custCode#
+				  , #lastUnpay#
+				  , #currentUnpay#
+				  , #headCust# )
+		]]>
+	</insert>
+	
+	<update id="SD0503mpLastUnpaymentDAO.updateMpLastUnpayment_S">
+		<![CDATA[
+			UPDATE mp_last_unpayment
+			SET corp_code=#corpCode#
+				, unpay_yymm=#unpayYymm#
+				, cust_code=#custCode#
+				, last_unpay=#lastUnpay#
+				, current_unpay=#currentUnpay#
+				, head_cust=#headCust#
+						WHERE corp_code=#corpCode#
+								AND unpay_yymm=#unpayYymm#
+								AND cust_code=#custCode#
+				]]>
+	</update>
+	
+	<delete id="SD0503mpLastUnpaymentDAO.deleteMpLastUnpayment_S">
+		<![CDATA[
+			DELETE FROM mp_last_unpayment 
+						WHERE corp_code=#corpCode#
+								AND unpay_yymm=#unpayYymm#
+								AND cust_code=#custCode#
+				]]>
+	</delete>
+	
+	<select id="SD0503mpLastUnpaymentDAO.selectMpLastUnpayment_S" resultMap="mpLastUnpayment">
+		<![CDATA[
+			SELECT
+				corp_code
+				, unpay_yymm
+				, cust_code
+				, last_unpay
+				, current_unpay
+				, head_cust
+			FROM mp_last_unpayment
+						WHERE corp_code=#corpCode#
+								AND unpay_yymm=#unpayYymm#
+								AND cust_code=#custCode#
+				]]>
+	</select> -->
+	
+	<select id="SD0503mpLastUnpaymentDAO.selectMpLastUnpaymentList_D" parameterClass="SD0503mpLastUnpaymentSerarchVO" resultClass="egovMap">
+	select
+			#receDate# as sale_date
+			,tt.cust_code
+			,openmps."FN_GET_CUSTCODENM"(tt.corp_code,tt.cust_code) as cust_name
+			, jan_amt as rece_amt
+		from
+		(
+			select
+			a.corp_code 
+			,a.cust_code
+			, max(unpay.current_unpay)
+			, coalesce(sum(sale.sale_amt),0)  sale_amt
+			, coalesce(sum(rece_amt),0) rece_amt
+			,max(unpay.current_unpay) + coalesce(sum(sale.sale_amt),0) - coalesce(sum(rece_amt),0) as jan_amt
+			from mp_cust_info a
+			left outer join mp_last_unpayment unpay on (
+				a.corp_code = unpay.corp_code
+				and unpay_yymm = to_char(#receDate#::date  - interval '1 months', 'YYYYMM')
+				and unpay.cust_code = a.rece_comb_cust )
+			left outer join mp_cust_record sale  on
+				( 
+				a.corp_code = sale.corp_code
+				and sale_date between to_char(date_trunc('month',#receDate#::date),'YYYYMMDD' ) and #receDate#
+				and sale.cust_code = a.rece_comb_cust) 
+			left outer join mp_rece_info rece on 
+				(
+				a.corp_code = rece.corp_code
+				and rece_date between to_char(date_trunc('month',#receDate#::date),'YYYYMMDD' )  and #receDate#
+				and rece.cust_code =  a.rece_comb_cust
+				)
+			where 
+			a.corp_code = #corpCode#
+			<isNotEmpty property="custCode" >
+			and a.cust_code = #custCode#
+			</isNotEmpty>
+			and exists ( 
+					select '1' from openmps.mp_salesman_cust sc
+					inner join openmps.tm_userxm usr on (sc.salesman = usr.user_code )
+					inner join openmps.tm_teamxm tm on (usr.team_code = tm.team_code )
+					where sc.corp_code = a.corp_code 
+					and sc.salesman_cust = a.cust_code
+					<isNotEmpty property="headCode" >
+					and tm.head_code = #headCode#
+					</isNotEmpty>
+					<isNotEmpty property="teamCode" >
+					and tm.team_code = #teamCode#
+					</isNotEmpty>
+				     )
+			group by 
+			a.corp_code, a.cust_code
+		) tt
+		<isEqual property="searchCondition" compareValue="1">
+		<![CDATA[ where jan_amt > 0 ]]>
+		</isEqual>
+	</select>	
+	<select id="SD0503mpLastUnpaymentDAO.selectMpLastUnpaymentListTotCnt_S" parameterClass="SD0503mpLastUnpaymentSerarchVO" resultClass="int">
+	select  count(*)
+	</select>
+
+</sqlMap>

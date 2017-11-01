@@ -1,0 +1,1462 @@
+{
+	"name": "출하정산집계표조회",
+	"module": "PO0203Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"resultBox_fac0",
+			"resultBox_date0",
+			"resultBox_fac1",
+			"resultBox_date1"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline form_tight",
+				"order": [
+					"facKind",
+					"buyType",
+					"brandCode",
+					"custCode",
+					"strtDate",
+					"lastDate",
+					"gubun_1",
+					"gubun_2",
+					"gubun_3",
+					"gubun_4"
+
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"facKind": {
+							"selector": ".facKind",
+							"label": "정산구분",
+							"required": false,
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD014/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+						},
+						"custCode": {
+							"label": "농장",
+							"required": false
+						},
+						"buyType": {
+							"selector": ".buyType",
+							"label": "도축장",
+							"required": true,
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/PP006/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+						},
+						"brandCode": {
+							"selector": ".brandCode",
+							"label": "브랜드",
+							"required": true,
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/PP007/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+						},
+						"strtDate": {
+							"module": "date",
+							"selector": ".strtDate",
+							"label": "조회시작일자",
+							"required": true,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"lastDate": {
+							"module": "date",
+							"selector": ".lastDate",
+							"label": "조회종료일자",
+							"required": true,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"gubun_1": {
+							"module": "radiobox",
+							"selector": ".gubun_1",
+							"label": "성별구분",
+							"required": false,
+							"value": 0,
+							"items": [{
+									"label": "전체",
+									"value": 0
+								},
+								{
+									"label": "암",
+									"value": 1
+								},
+								{
+									"label": "수",
+									"value": 2
+								},
+								{
+									"label": "거세",
+									"value": 3
+								}
+							]
+						},
+						"gubun_2": {
+							"module": "radiobox",
+							"selector": ".gubun_2",
+							"label": "농장합계구분",
+							"required": false,
+							"value": 0,
+							"items": [{
+									"label": "농장합계조회",
+									"value": 0
+								},
+								{
+									"label": "개체별조회",
+									"value": 1
+								}
+							]
+						},
+						"gubun_3": {
+							"module": "radiobox",
+							"selector": ".gubun_3",
+							"label": "이상육공제구분",
+							"required": false,
+							"value": 0,
+							"items": [{
+									"label": "이상육공제포함",
+									"value": 0
+								},
+								{
+									"label": "이상육공제제외",
+									"value": 1
+								}
+							]
+						},
+						"gubun_4": {
+							"module": "radiobox",
+							"selector": ".gubun_4",
+							"label": "합계구분",
+							"required": false,
+							"value": 0,
+							"items": [{
+									"label": "농장합계",
+									"value": 0
+								},
+								{
+									"label": "일계",
+									"value": 1
+								}
+							]
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group form_only\"><div class=\"select_design facKind combo_w60\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>도축장</label><div class=\"select_design buyType\"><span class=\"select_label\"></span><select class=\"form-control\" style=\"width:140px\"></select></div></div><div class=\"form-group\"><label>브랜드</label><div class=\"select_design brandCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>농장</label><div class=\"custCode_region equal_width\"></div></div><div class=\"form-group\"><label>도축일자</label><input type=\"text\" class=\"form-control form_type_date strtDate\"> ~ <input type=\"text\" class=\"form-control form_type_date lastDate\"></div><div class=\"divider\"></div><div class=\"form-group form_only\"><div class=\"radio gubun_1\"></div></div><div class=\"form-group form_only\"><div class=\"radio gubun_2\"></div></div><div class=\"form-group form_only\"><div class=\"radio gubun_3\"></div></div><div class=\"form-group\"><label>소계</label><div class=\"radio gubun_4\"></div></div>"
+				},
+				"custCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "농장",
+						"required": false,
+						"codeType": "SD0101",
+						"params": {
+							"custType": "4"
+						},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+			}
+		},
+		"resultBox_fac0": {
+			"backup":{
+				"facCust": "99",
+				"facCustName": "99",
+				"dochId": "99",
+				"sexNo1": "99",
+				"sexNo2": "99",
+				"sexNo3": "99",
+				"totCnt": "99",
+				"pigWeig3": "99",
+
+				"pigWeigAvg": "99",
+
+				"othWeig": "99",
+				"avgOthWeig": "99",
+
+				"pigGrade": "99",
+				"perPigWeig": "99",
+
+				"bpPer": "99",
+
+				"grade1": "99",
+				"dochCnt": "99",
+				"pigPric8": "99",
+				"gongjaeSum": "99",
+				"othKind0": "99",
+				"othKind1": "99",
+				"othKind2": "99",
+				"othKind3": "99",
+				"jigubSum": "99",
+				"pigPric7": "99",
+				"jigubKum": "99",
+				"pigPric9": "99",
+				"pigPric2": "99",
+
+				"applySise": "99",
+
+				"jigubRatio": "99"
+			},
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "grid_box",
+				"gridId": "PO0203_grid_1",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+							"name": "dochDate",
+							"label": "도축일자",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"sorttype": "date" , "formatter": "dateFormatter",
+							"unformat": "dateUnformatter",
+							"formatoptions": {
+								"srcformat": "YYYYMMDD",
+								"newformat": "YYYY-MM-DD"
+							}
+						},
+						{
+							"name": "facCust",
+							"label": "농장코드",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "facCustName",
+							"label": "농장명",
+							"width": 150,
+							"align": "left",
+							"editable": false,
+							"summaryType": "count",
+							"summaryTpl": "소계"
+						},
+						{
+							"name": "sexNo1",
+							"label": "암",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "sexNo2",
+							"label": "수",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "sexNo3",
+							"label": "거세",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "totCnt",
+							"label": "합계",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigWeig3",
+							"label": "등지방",
+							"width": 70,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigWeig2",
+							"label": "지육중",
+							"width": 70,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigWeig2Avg",
+							"label": "<div>평균<br>지육중량</div>",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigWeig1",
+							"label": "생체중",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigWeig1Avg",
+							"label": "평균생체중",
+							"width": 90,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "perPigWeig",
+							"label": "지육율",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						},
+						{
+							"name": "bpPer",
+							"label": "BP율",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						},
+						{
+							"name": "pigGrade1Per",
+							"label": "<div>1등급<br>이상비율</div>",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						},
+						{
+							"name": "dochCnt",
+							"label": "<div>1등급<br>이상두수</div>",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric8",
+							"label": "정산액",
+							"width": 120,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "gongjaeSum",
+							"label": "공제금액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind0",
+							"label": "이상육",
+							"width": 100,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind1",
+							"label": "계류사돈",
+							"width": 100,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind2",
+							"label": "도축사고",
+							"width": 100,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind3",
+							"label": "정산차액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "jigubSum",
+							"label": "<div>지급액<br>(공제후)</div>",
+							"width": 120,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric7",
+							"label": "등판",
+							"width": 70,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "jigubKum",
+							"label": "<div>지급액<br>(회계)</div>",
+							"width": 120,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric9",
+							"label": "자조금",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric2",
+							"label": "농장지급액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric5",
+							"label": "적용시세",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "jigubRatio",
+							"label": "지급율",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						}
+					],
+					"width": "auto",
+					"rowNum": "100000000",
+					"height": "524",
+					"cellEdit": false,
+					"shrinkToFit": true,
+					"gridview": true,
+					"datatype": "local",
+					"cellsubmit": "clientArray",
+					"grouping": true,
+					"groupingView": {
+						"remark": "농장합계",
+						"groupField": ["facCust"],
+						"groupColumnShow": [true],
+						"groupText": ["<b>{0}</b>"],
+						"groupCollapse": false,
+						"groupOrder": ["asc"],
+						"groupSummary": [true],
+						"groupDataSorted": true
+					},
+					"footerrow": true,
+					"userDataOnFooter": true,
+					"pager": "#PO0203_grid_1_pager",
+					"viewrecords": true,
+					"recordpos":"left",
+					"pgbuttons":false,
+					"pginput":false
+				}
+			}
+		}
+		,
+		"resultBox_date0": {
+			"backup":{
+				"dochDate":"19900101",
+				"facCust": "99",
+				"facCustName": "99",
+				"dochId": "99",
+				"sexNo1": "99",
+				"sexNo2": "99",
+				"sexNo3": "99",
+				"totCnt": "99",
+				"pigWeig3": "99",
+
+				"pigWeigAvg": "99",
+
+				"othWeig": "99",
+				"avgOthWeig": "99",
+
+				"pigGrade": "99",
+				"perPigWeig": "99",
+
+				"bpPer": "99",
+
+				"grade1": "99",
+				"dochCnt": "99",
+				"pigPric8": "99",
+				"gongjaeSum": "99",
+				"othKind0": "99",
+				"othKind1": "99",
+				"othKind2": "99",
+				"othKind3": "99",
+				"jigubSum": "99",
+				"pigPric7": "99",
+				"jigubKum": "99",
+				"pigPric9": "99",
+				"pigPric2": "99",
+
+				"applySise": "99",
+
+				"jigubRatio": "99"
+			},
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "grid_box",
+				"gridId": "PO0203_grid_2",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+							"name": "dochDate",
+							"label": "도축일자",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"sorttype": "date" , "formatter": "dateFormatter",
+							"unformat": "dateUnformatter",
+							"formatoptions": {
+								"srcformat": "YYYYMMDD",
+								"newformat": "YYYY-MM-DD"
+							}
+						},
+						{
+							"name": "facCust",
+							"label": "농장코드",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "facCustName",
+							"label": "농장명",
+							"width": 150,
+							"align": "left",
+							"editable": false,
+							"summaryType": "count",
+							"summaryTpl": "소계"
+						},
+						{
+							"name": "sexNo1",
+							"label": "암",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "sexNo2",
+							"label": "수",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "sexNo3",
+							"label": "거세",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "totCnt",
+							"label": "합계",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigWeig3",
+							"label": "등지방",
+							"width": 70,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigWeig2Avg",
+							"label": "<div>평균<br>지육중량</div>",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigWeig1",
+							"label": "생체중",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigWeig1Avg",
+							"label": "평균생체중",
+							"width": 90,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "perPigWeig2",
+							"label": "지육율",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						},
+						{
+							"name": "bpPer",
+							"label": "BP율",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						},
+						{
+							"name": "pigGrade1Per",
+							"label": "<div>1등급<br>이상비율</div>",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						},
+						{
+							"name": "dochCnt",
+							"label": "<div>1등급<br>이상두수</div>",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric8",
+							"label": "정산액",
+							"width": 120,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "gongjaeSum",
+							"label": "공제금액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind0",
+							"label": "이상육",
+							"width": 100,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind1",
+							"label": "계류사돈",
+							"width": 100,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind2",
+							"label": "도축사고",
+							"width": 100,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind3",
+							"label": "정산차액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "jigubSum",
+							"label": "<div>지급액<br>(공제후)</div>",
+							"width": 120,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric7",
+							"label": "등판",
+							"width": 70,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "jigubKum",
+							"label": "<div>지급액<br>(회계)</div>",
+							"width": 120,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric9",
+							"label": "자조금",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric2",
+							"label": "농장지급액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric5",
+							"label": "적용시세",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "jigubRatio",
+							"label": "지급율",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						}
+					],
+					"width": "auto",
+					"rowNum": "100000000",
+					"height": "524",
+					"cellEdit": false,
+					"shrinkToFit": true,
+					"gridview": true,
+					"datatype": "local",
+					"cellsubmit": "clientArray",
+					"grouping": true,
+					"groupingView": {
+						"remark": "도축일자",
+						"groupField": ["dochDate"],
+						"groupColumnShow": [true],
+						"groupText": ["<b>{0}</b>"],
+						"groupCollapse": false,
+						"groupOrder": ["asc"],
+						"groupSummary": [true],
+						"groupDataSorted": true
+					},
+					"footerrow": true,
+					"userDataOnFooter": true,
+					"pager": "#PO0203_grid_2_pager",
+					"viewrecords": true,
+					"recordpos":"left",
+					"pgbuttons":false,
+					"pginput":false
+				}
+			}
+		}
+		,
+		"resultBox_fac1": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "grid_box",
+				"gridId": "PO0203_grid_3",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+							"name": "dochDate",
+							"label": "도축일자",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"sorttype": "date" , "formatter": "dateFormatter",
+							"unformat": "dateUnformatter",
+							"formatoptions": {
+								"srcformat": "YYYYMMDD",
+								"newformat": "YYYY-MM-DD"
+							}
+						},
+						{
+							"name": "facCust",
+							"label": "농장코드",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "facCustName",
+							"label": "농장명",
+							"width": 150,
+							"align": "left",
+							"editable": false,
+							"summaryType": "count",
+							"summaryTpl": "소계"
+						},
+						{
+							"name": "dochId",
+							"label": "도체번호",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "sexNo1",
+							"label": "암",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "sexNo2",
+							"label": "수",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "sexNo3",
+							"label": "거세",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigWeig3",
+							"label": "등지방",
+							"width": 70,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othWeig",
+							"label": "생체중",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigGrade",
+							"label": "등급",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "perPigWeig",
+							"label": "지육율",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						},
+						{
+							"name": "bpPer",
+							"label": "BP율",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						},
+						{
+							"name": "grade1",
+							"label": "<div>1등급<br>이상비율</div>",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						},
+						{
+							"name": "dochCnt",
+							"label": "<div>1등급<br>이상두수</div>",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric8",
+							"label": "정산액",
+							"width": 120,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "gongjaeSum",
+							"label": "공제금액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind0",
+							"label": "이상육",
+							"width": 100,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind1",
+							"label": "계류사돈",
+							"width": 100,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind2",
+							"label": "도축사고",
+							"width": 100,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind3",
+							"label": "정산차액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "jigubSum",
+							"label": "<div>지급액<br>(공제후)</div>",
+							"width": 120,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric7",
+							"label": "등판",
+							"width": 70,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "jigubKum",
+							"label": "<div>지급액<br>(회계)</div>",
+							"width": 120,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric9",
+							"label": "자조금",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric2",
+							"label": "농장지급액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "applySise",
+							"label": "적용시세",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "jigubRatio",
+							"label": "지급율",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						}
+					],
+					"width": "auto",
+					"rowNum": "100000000",
+					"height": "524",
+					"cellEdit": false,
+					"shrinkToFit": true,
+					"gridview": true,
+					"datatype": "local",
+					"cellsubmit": "clientArray",
+					"grouping": true,
+					"groupingView": {
+						"remark": "농장합계",
+						"groupField": ["facCust"],
+						"groupColumnShow": [true],
+						"groupText": ["<b>{0}</b>"],
+						"groupCollapse": false,
+						"groupOrder": ["asc"],
+						"groupSummary": [true],
+						"groupDataSorted": true
+					},
+					"footerrow": true,
+					"userDataOnFooter": true,
+					"pager": "#PO0203_grid_3_pager",
+					"viewrecords": true,
+					"recordpos":"left",
+					"pgbuttons":false,
+					"pginput":false
+				}
+			}
+		}
+		,
+		"resultBox_date1": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "grid_box",
+				"gridId": "PO0203_grid_4",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+							"name": "dochDate",
+							"label": "도축일자",
+							"width": 90,
+							"align": "center",
+							"editable": false,
+							"sorttype": "date" , "formatter": "dateFormatter",
+							"unformat": "dateUnformatter",
+							"formatoptions": {
+								"srcformat": "YYYYMMDD",
+								"newformat": "YYYY-MM-DD"
+							}
+						},
+						{
+							"name": "facCust",
+							"label": "농장코드",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "facCustName",
+							"label": "농장명",
+							"width": 150,
+							"align": "left",
+							"editable": false,
+							"summaryType": "count",
+							"summaryTpl": "소계"
+						},
+						{
+							"name": "dochId",
+							"label": "도체번호",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "sexNo1",
+							"label": "암",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "sexNo2",
+							"label": "수",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "sexNo3",
+							"label": "거세",
+							"width": 60,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigWeig3",
+							"label": "등지방",
+							"width": 70,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othWeig",
+							"label": "생체중",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigGrade",
+							"label": "등급",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "perPigWeig",
+							"label": "지육율",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						},
+						{
+							"name": "bpPer",
+							"label": "BP율",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						},
+						{
+							"name": "pigGrade1Per",
+							"label": "<div>1등급<br>이상비율</div>",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						},
+						{
+							"name": "pigGrade1Tot",
+							"label": "<div>1등급<br>이상두수</div>",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric8",
+							"label": "정산액",
+							"width": 120,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "gongjaeSum",
+							"label": "공제금액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind0",
+							"label": "이상육",
+							"width": 100,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind1",
+							"label": "계류사돈",
+							"width": 100,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind2",
+							"label": "도축사고",
+							"width": 100,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "othKind3",
+							"label": "정산차액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "jigubSum",
+							"label": "<div>지급액<br>(공제후)</div>",
+							"width": 120,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric7",
+							"label": "등판",
+							"width": 70,
+							"align": "right",
+							"sorttype":"integer","formatter":"integer",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "jigubKum",
+							"label": "<div>지급액<br>(회계)</div>",
+							"width": 120,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric9",
+							"label": "자조금",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "pigPric2",
+							"label": "농장지급액",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "applySise",
+							"label": "적용시세",
+							"width": 100,
+							"align": "right",
+							"sorttype": "currency" , "formatter": "currency",
+							"summaryType": "sum",
+							"editable": false
+						},
+						{
+							"name": "jigubRatio",
+							"label": "지급율",
+							"width": 70,
+							"align": "right",
+							"sorttype":"number","formatter":"number",
+							"formatoptions": {
+								"suffix": "%"
+							},
+							"summaryType": "avg",
+							"editable": false
+						}
+					],
+					"width": "auto",
+					"rowNum": "100000000",
+					"height": "524",
+					"cellEdit": false,
+					"shrinkToFit": true,
+					"gridview": true,
+					"datatype": "local",
+					"cellsubmit": "clientArray",
+					"grouping": true,
+					"groupingView": {
+						"remark": "도축일자",
+						"groupField": ["dochDate"],
+						"groupColumnShow": [true],
+						"groupText": ["<b>{0}</b>"],
+						"groupCollapse": false,
+						"groupOrder": ["asc"],
+						"groupSummary": [true],
+						"groupDataSorted": true
+					},
+					"footerrow": true,
+					"userDataOnFooter": true,
+					"pager": "#PO0203_grid_4_pager",
+					"viewrecords": true,
+					"recordpos":"left",
+					"pgbuttons":false,
+					"pginput":false
+				}
+			}
+		}
+	}
+}

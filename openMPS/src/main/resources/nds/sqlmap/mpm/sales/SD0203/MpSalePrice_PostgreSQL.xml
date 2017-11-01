@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpSalePrice">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpSalePriceSerarchVO" type="nds.mpm.sales.SD0203.vo.MpSalePriceVO"/>
+	
+	<resultMap id="mpSalePrice" class="nds.mpm.sales.SD0203.vo.MpSalePriceVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="strtDate" column="strt_date" columnIndex="2"/>
+		<result property="lastDate" column="last_date" columnIndex="3"/>
+		<result property="custCode" column="cust_code" columnIndex="4"/>
+		<result property="proCode" column="pro_code" columnIndex="5"/>
+		<result property="salePrice" column="sale_price" columnIndex="6"/>
+		<result property="approYn" column="appro_yn" columnIndex="7"/>
+		<result property="crUser" column="cr_user" columnIndex="8"/>
+		<result property="crDate" column="cr_date" columnIndex="9"/>
+		<result property="mdUser" column="md_user" columnIndex="10"/>
+		<result property="mdDate" column="md_date" columnIndex="11"/>
+	</resultMap>
+	
+	<insert id="MpSalePriceDAO.insertMpSalePrice">
+		<selectKey keyProperty="proCode" resultClass="string">
+		    select #proCode# as pro_code
+		</selectKey>
+		<![CDATA[
+			INSERT INTO mp_sale_price 
+				( corp_code
+				  , strt_date
+				  , last_date
+				  , cust_code
+				  , pro_code
+				  , sale_price
+				  , appro_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #strtDate#
+				  , #lastDate#
+				  , #custCode#
+				  , #proCode#
+				  , #salePrice#::numeric
+				  , 'N'
+				  , #crUser#
+				  , now() )
+			ON CONFLICT (corp_code, strt_date, last_date, cust_code, pro_code)
+    		DO UPDATE SET
+    			sale_price=#salePrice#::numeric
+				, md_user=#mdUser#
+				, md_date=now()
+    			
+		]]>
+	</insert>
+	
+	<update id="MpSalePriceDAO.updateMpSalePrice">
+		<![CDATA[
+			UPDATE mp_sale_price
+			SET sale_price=#salePrice#::numeric
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND cust_code=#custCode#
+								AND pro_code=#proCode#
+				]]>
+	</update>
+	
+	<update id="MpSalePriceDAO.updateReqApproMpSalePrice">
+		<![CDATA[
+			UPDATE mp_sale_price
+			SET appro_request=now()
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND cust_code=#custCode#
+				]]>
+	</update>
+	
+	<update id="MpSalePriceDAO.updateSD0206MpSalePrice">
+		<![CDATA[
+			UPDATE mp_sale_price
+			SET appro_yn=#approYn#
+				, appro_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND cust_code=#custCode#
+				]]>
+	</update>
+	
+	<delete id="MpSalePriceDAO.deleteMpSalePrice">
+		<![CDATA[
+			DELETE FROM mp_sale_price 
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND cust_code=#custCode#
+								AND pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<select id="MpSalePriceDAO.selectMpSalePrice_S" resultClass="egovMap">
+			
+		select
+			 aa.strt_date
+			, aa.last_date
+			, aa.cust_code
+			, aa.pro_code
+			, aa.sale_price
+			, aa.appro_yn
+			, aa.stnd_price
+			, ( case when stnd_price != 0 then ( aa.stnd_price - aa.last_stnd_price ) else 0 end )
+				as increase
+				
+			, aa.cust_name	
+			, aa.pro_name
+			, aa.large_codename
+			, aa.appro_request
+			, aa.appro_yn_name
+		from
+		(	
+			SELECT
+				a.corp_code
+				, a.strt_date
+				, a.last_date
+				, a.cust_code
+				, a.pro_code
+				, a.sale_price
+				, a.appro_yn
+				, to_char( a.appro_request, 'YYYY-MM-DD') as appro_request
+		
+				
+				, b.cust_name
+				, openmps."FN_GET_TMCODEXDNM"(a.corp_code,'SD025',m.sale_group2) as large_codename
+				, m.pro_name
+		
+				<![CDATA[
+				,(
+					select coalesce(stnd_price,0) 
+					from openmps.mp_stnd_price 
+					where corp_code=a.corp_code 
+					and pro_code=a.pro_code 
+					and strt_date < a.strt_date
+					order by strt_date desc  limit 1) 
+					as last_stnd_price
+				, (
+					select coalesce(stnd_price,0) 
+					from openmps.mp_stnd_price 
+					where corp_code=a.corp_code and pro_code=a.pro_code 
+					and (strt_date >= a.strt_date or last_date >= a.strt_date)
+					order by strt_date desc  limit 1) 
+					as stnd_price  
+			  	]]>
+			  	  
+				,(case when a.appro_yn = 'Y' then '승인' else '대기' end) as appro_yn_name
+			FROM mp_sale_price a
+			left join mp_cust_info b on (a.corp_code = b.corp_code
+					and a.cust_code = b.cust_code )   
+			left join mp_item_master_m m on (a.corp_code = m.corp_code
+				and a.pro_code = m.pro_code )    
+						WHERE a.corp_code=#corpCode#
+								AND a.strt_date=#strtDate#
+								AND a.last_date=#lastDate#
+								AND a.cust_code=#custCode#
+								AND a.pro_code=#proCode#
+		) aa
+	</select>
+	<sql id="selectWhere_fragment">
+		
+	</sql>
+	<select id="MpSalePriceDAO.selectMpSalePriceList_D" parameterClass="mpSalePriceSerarchVO" resultClass="egovMap">
+	select 
+		pro_code
+		,cust_code
+		,cust_name
+		,fax
+		,email
+		,large_code
+		,large_codename
+		,pro_name
+		,price_day
+		,price_type
+		,total_price
+		,sale_price
+		,last_stnd_price
+		,stnd_price
+		,( case when stnd_price != 0 then ( stnd_price - last_stnd_price ) else 0 end )
+			as increase 
+		, strt_date
+		, last_date
+		, appro_yn
+		, appro_yn_name
+		, appro_request
+	from
+	(
+	 	select
+			c.corp_code    
+			,c.pro_code    
+			,c.cust_code    
+			,cust.cust_name    
+			,m.large_code    
+			, openmps."FN_GET_TMCODEXDNM"(c.corp_code,'SD025',m.sale_group2) as large_codename
+			,m.pro_name        
+			, ( 
+			<![CDATA[
+			select 
+				sale_price
+				 from mp_sale_price ina      
+				 where ina.strt_date < c.strt_date
+				 and ina.corp_code = c.corp_code  
+				 and ina.cust_code = c.cust_code   
+				 and ina.pro_code = c.pro_code      order by ina.strt_date desc limit 1 
+			
+			 ) as total_price 
+			    
+			, c.sale_price    
+			, cust.price_day    
+			, cust.price_type 
+			, cust.email
+			, cust.fax   
+			, c.strt_date
+			, c.last_date
+			,(
+				select coalesce(stnd_price,0) 
+				from openmps.mp_stnd_price 
+				where corp_code=c.corp_code 
+				and pro_code=c.pro_code 
+				and strt_date < #strtDate# 
+				order by strt_date desc  limit 1) 
+				as last_stnd_price
+			, (
+				select coalesce(stnd_price,0) 
+				from openmps.mp_stnd_price 
+				where corp_code=c.corp_code and pro_code=c.pro_code 
+				and (strt_date >= #strtDate# or last_date >= #lastDate#)
+				order by strt_date desc  limit 1) 
+				as stnd_price  
+			  ]]>  
+			, c.appro_yn
+			, c.appro_request
+			,(case when c.appro_yn = 'Y' then '승인' else '대기' end) as appro_yn_name
+			from  mp_sale_price c 
+			inner join mp_cust_info cust on (c.corp_code = cust.corp_code
+					and c.cust_code = cust.cust_code )      
+			inner join mp_item_master_m m on (c.corp_code = m.corp_code
+				and c.pro_code = m.pro_code )  
+			left outer join openmps.mp_cust_pro b on (c.corp_code = b.corp_code and c.cust_code=b.salesman_cust and c.pro_code=b.salesman_prod)  
+			where  	
+				c.corp_code = #corpCode#  
+				and c.strt_date between #strtDate# and #lastDate#            
+			<isNotEmpty property="salesman">
+				<isNotEqual property="salesman" compareValue="ALL">
+				and b.salesman = #salesman#
+				</isNotEqual>
+			</isNotEmpty>
+			<isNotEmpty property="custCode">
+			and c.cust_code = #custCode#
+			</isNotEmpty>      
+			<isEqual property="priceDay" compareValue="1">
+			and cust.price_day between '1' and '7'
+			</isEqual>
+			<isEqual property="priceDay" compareValue="2">
+			and cust.price_day = '8'
+			</isEqual>
+			<isEqual property="priceDay" compareValue="3">
+			and cust.price_day = '9'
+			</isEqual> 
+			         
+	   ) aaa 
+		order by aaa.cust_code, aaa.strt_date, aaa.last_date, aaa.pro_code
+	</select>
+	
+	<select id="MpSalePriceDAO.selectNewMpSalePriceList_D" parameterClass="mpSalePriceSerarchVO" resultClass="egovMap">
+	select 
+		pro_code
+		,cust_code
+		,cust_name
+		,large_code
+		,large_codename
+		,pro_name
+		,price_day
+		,price_type
+		,total_price
+		,sale_price
+		,last_stnd_price
+		,stnd_price
+		,( case when stnd_price != 0 then ( stnd_price - last_stnd_price ) else 0 end )
+			as increase 
+		, aaa.strt_date
+		, aaa.last_date
+		, appro_yn
+		, appro_yn_name
+	from
+	(
+	 select
+	 	aa.corp_code
+		,aa.pro_code
+		,aa.cust_code
+		,aa.cust_name
+		,aa.large_code
+		,openmps."FN_GET_TMCODEXDNM"(aa.corp_code,'SD025',aa.sale_group2) as large_codename
+		,aa.pro_name
+		,aa.price_day
+		,aa.price_type
+		,aa.before_price as total_price
+		,aa.sale_price
+		,(
+		<![CDATA[
+			select coalesce(stnd_price,0) 
+			from openmps.mp_stnd_price 
+			where corp_code=aa.corp_code and pro_code=aa.pro_code and strt_date < #strtDate# order by strt_date desc  limit 1) 
+		as last_stnd_price
+		, (
+			select coalesce(stnd_price,0) 
+			from openmps.mp_stnd_price 
+			where corp_code=aa.corp_code and pro_code=aa.pro_code 
+			and (strt_date >= #strtDate# or last_date >= #strtDate#)
+			order by strt_date desc  limit 1) 
+			as stnd_price  
+		]]>
+		, aa.appro_yn
+		, '' as appro_yn_name
+		, #strtDate# strt_date
+		<isEqual property="priceDay" compareValue="1">
+		, to_char( #strtDate#::date + 7 , 'YYYYMMDD' ) as last_date
+		</isEqual>
+		<isEqual property="priceDay" compareValue="2">
+		, to_char( #strtDate#::date + 15 , 'YYYYMMDD' ) as last_date
+		</isEqual>
+		<isEqual property="priceDay" compareValue="3">
+		, to_char( #strtDate#::date + 30 , 'YYYYMMDD' ) as last_date
+		</isEqual>
+	    from    (    
+
+			select     a.corp_code    ,a.pro_code    ,a.cust_code    ,a.cust_name    
+				,a.large_code  ,a.sale_group2  ,a.pro_name        
+			, ( 
+			<![CDATA[
+			select 
+				sale_price
+				 from mp_sale_price ina      
+				 where ina.strt_date < #strtDate#
+				 and ina.corp_code = a.corp_code     
+				 and ina.pro_code = a.pro_code      order by ina.strt_date desc limit 1 
+			
+			 ) as before_price    
+			 ,c.sale_price    ,c.appro_yn    ,a.price_day    ,a.price_type
+			 ]]>
+			from    (     
+		
+				select      
+					distinct      
+					b.corp_code      
+					,b.salesman_prod as pro_code      
+					,b.salesman_cust as cust_code      
+					,c.cust_name      
+					,m.large_code
+					, m.sale_group2      
+					,m.pro_name      
+					,c.price_day      
+					,c.price_type
+				from      openmps.mp_cust_pro b       
+				inner join mp_cust_info c on (b.corp_code = c.corp_code
+					and b.salesman_cust = c.cust_code )      
+				inner join mp_item_master_m m on (b.corp_code = m.corp_code
+					and b.salesman_prod = m.pro_code )    
+				left outer join tm_codexd tday on (tday.corp_code=b.corp_code and tday.group_code='SD010' and tday.code_id=c.price_day)      
+				
+				where      b.corp_code = #corpCode#
+				and c.price_type = '2' <!-- 판매단가 SD009  -->            
+				<isNotEmpty property="salesman">
+					<isNotEqual property="salesman" compareValue="ALL">
+					and b.salesman = #salesman#
+					</isNotEqual>
+				</isNotEmpty>
+				<isNotEmpty property="custCode">
+				and b.salesman_cust = #custCode#
+				</isNotEmpty> 
+			) a    
+			left outer join mp_sale_price c  on (      
+				a.corp_code = c.corp_code
+				and a.cust_code = c.cust_code
+				and a.pro_code = c.pro_code     
+				and c.strt_date between #strtDate# and #lastDate#
+			     )  
+			where c.strt_date is null   
+		) aa   
+		where   aa.corp_code = #corpCode# 
+		
+		<isEqual property="priceDay" compareValue="1">
+		and aa.price_day between '1' and '7'
+		</isEqual>
+		<isEqual property="priceDay" compareValue="2">
+		and aa.price_day = '8'
+		</isEqual>
+		<isEqual property="priceDay" compareValue="3">
+		and aa.price_day = '9'
+		</isEqual> 
+	   ) aaa 
+		order by aaa.cust_code, aaa.strt_date, aaa.last_date, aaa.pro_code
+	</select>
+	
+	<select id="MpSalePriceDAO.selectMpSalePriceListTotCnt_S" parameterClass="mpSalePriceSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<!-- 
+	
+	SD0206 list
+	
+	-->
+	<sql id="selectWhere_SD0206fragment">
+		<![CDATA[
+		from
+	 	(	
+			select 
+				a.corp_code
+				,a.pro_code
+				,a.cust_code
+				,openmps."FN_GET_CUSTCODENM"(a.corp_code,a.cust_code) as cust_name
+				,m.sale_group2 large_code
+				,openmps."FN_GET_PROCODENM"(a.corp_code,a.pro_code) as pro_name
+				, ( select sale_price from mp_sale_price ina 
+						where ina.strt_date < #strtDate#
+						and ina.corp_code = a.corp_code
+						and ina.pro_code = a.pro_code
+						order by ina.cr_date desc limit 1 ) as before_price
+				,a.sale_price
+				,stnd.stnd_price
+				,(a.sale_price - stnd.stnd_price) stnd_gap
+				,a.appro_yn
+				,a.strt_date
+				,a.last_date
+				from
+				openmps.mp_sale_price a
+				inner join openmps.mp_item_master_m m on (a.corp_code = m.corp_code and a.pro_code = m.pro_code)
+				left outer join openmps.mp_stnd_price stnd on (
+				
+					a.corp_code = stnd.corp_code 
+					and a.strt_date = stnd.strt_date
+					and a.last_date = stnd.last_date
+					and a.pro_code = stnd.pro_code)
+					
+				where a.corp_code = #corpCode#
+				and a.strt_date between #strtDate# and #lastDate#
+		]]>
+		) aa
+		where
+		aa.corp_code = #corpCode#
+		<dynamic> 
+	         <isEqual prepend="and" property="status" compareValue="yappro">
+			 aa.appro_yn = 'Y'
+	         </isEqual>
+	         <isEqual prepend="and" property="status" compareValue="nappro">
+			 aa.appro_yn != 'Y'
+	         </isEqual>
+		</dynamic>
+	</sql>
+	<select id="MpSalePriceDAO.selectSD0206MpSalePriceList_D" parameterClass="mpSalePriceSerarchVO" resultClass="egovMap">
+	 select
+	 	aa.corp_code
+		,aa.pro_code
+		,aa.cust_code
+		,aa.cust_name
+		,aa.large_code
+		,openmps."FN_GET_TMCODEXDNM"(aa.corp_code,'SD025',aa.large_code) as large_codename
+		,aa.pro_name
+		,aa.before_price as total_price
+		,aa.sale_price
+		,aa.sale_price
+		,aa.stnd_price
+		,aa.stnd_gap
+		,aa.strt_date
+		,aa.last_date
+		, aa.appro_yn
+		,(case when aa.appro_yn = 'Y' then '승인' else '대기' end) as appro_yn_name
+	    <include refid="selectWhere_SD0206fragment"/>
+		order by aa.cust_code, aa.pro_code
+	</select>	
+	<select id="MpSalePriceDAO.selectSD0206MpSalePriceListTotCnt_S" parameterClass="mpSalePriceSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_SD0206fragment"/>
+	</select>
+	
+	<select id="MpSalePriceDAO.checkNewStrtDateCount" resultClass="int">
+		select count(*)
+		from openmps.mp_sale_price a
+		where corp_code=#corpCode#
+		and cust_code=#custCode#
+		and pro_code=#proCode#
+		<![CDATA[ and ( strt_date <= #strtDate# and last_date >= #strtDate# ) ]]>
+	</select>
+	
+	<update id="MpSalePriceDAO.updateCancelApproMpSalePrice">
+			UPDATE mp_sale_price
+			SET appro_user= null
+				, appro_request=null
+				, appro_yn='N'
+				, md_date=now()
+			WHERE corp_code=#corpCode#
+			AND strt_date=#strtDate#
+			AND last_date=#lastDate#
+			AND cust_code=#custCode#
+	</update>
+	
+	<update id="MpSalePriceDAO.updateSD0206ApproRejectMpSalePrice">
+			UPDATE mp_sale_price
+			SET appro_user= null
+				, appro_yn='N'
+				, md_date=now()
+			WHERE corp_code=#corpCode#
+			AND strt_date=#strtDate#
+			AND last_date=#lastDate#
+			AND cust_code=#custCode#
+	</update>
+</sqlMap>

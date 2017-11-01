@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpYieldInfoM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="MpYieldInfoMSerarchVO" type="nds.mpm.prod.PP0201.vo.MpYieldInfoMVO"/>
+	
+	<resultMap id="MpYieldInfoM" class="nds.mpm.prod.PP0201.vo.MpYieldInfoMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="grupPlant" column="grup_plant" columnIndex="2"/>
+		<result property="workDate" column="work_date" columnIndex="3"/>
+		<result property="suyulDusu" column="suyul_dusu" columnIndex="4"/>
+		<result property="suyulWei1" column="suyul_wei1" columnIndex="5"/>
+		<result property="suyulWei2" column="suyul_wei2" columnIndex="6"/>
+		<result property="jiyukDusu" column="jiyuk_dusu" columnIndex="7"/>
+		<result property="dusu1" column="dusu1" columnIndex="8"/>
+		<result property="dusu2" column="dusu2" columnIndex="9"/>
+		<result property="dusu3" column="dusu3" columnIndex="10"/>
+		<result property="docheQty1" column="doche_qty1" columnIndex="11"/>
+		<result property="docheQty2" column="doche_qty2" columnIndex="12"/>
+		<result property="docheQty3" column="doche_qty3" columnIndex="13"/>
+		<result property="memo" column="memo" columnIndex="14"/>
+		<result property="deleYn" column="dele_yn" columnIndex="15"/>
+		<result property="mdUser" column="md_user" columnIndex="16"/>
+		<result property="mdDate" column="md_date" columnIndex="17"/>
+		<result property="crUser" column="cr_user" columnIndex="18"/>
+		<result property="crDate" column="cr_date" columnIndex="19"/>
+	</resultMap>
+	
+	<insert id="MpYieldInfoMDAO.insertMpYieldInfoM">
+		<selectKey keyProperty="seq" resultClass="string">
+		    select (coalesce(max(seq),0)+1)::varchar as seq
+				  	from openmps.mp_yield_info_m 
+				  	where corp_code = #corpCode# 
+					  	and grup_plant = #grupPlant# 
+					  	and work_date = #workDate#
+		</selectKey>
+		<![CDATA[
+			INSERT INTO openmps.mp_yield_info_m 
+				( corp_code
+				  , grup_plant
+				  , work_date
+				  , seq
+				  , suyul_dusu
+				  , suyul_wei1
+				  , suyul_wei2
+				  , jiyuk_dusu
+				  , dusu1
+				  , dusu2
+				  , dusu3
+				  , doche_qty1
+				  , doche_qty2
+				  , doche_qty3
+				  , memo
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #grupPlant#
+				  , #workDate#
+				  , #seq#::numeric
+				  , #suyulDusu#::numeric
+				  , #suyulWei1#::numeric
+				  , #suyulWei2#::numeric
+				  , #jiyukDusu#::numeric
+				  , #dusu1#::numeric
+				  , #dusu2#::numeric
+				  , #dusu3#::numeric
+				  , #docheQty1#::numeric
+				  , #docheQty2#::numeric
+				  , #docheQty3#::numeric
+				  , #memo#
+				  , 'N'
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="MpYieldInfoMDAO.updateMpYieldInfoM">
+		<![CDATA[
+			UPDATE openmps.mp_yield_info_m
+				set suyul_dusu=#suyulDusu#::numeric
+				, suyul_wei1=#suyulWei1#::numeric
+				, suyul_wei2=#suyulWei2#::numeric
+				, jiyuk_dusu=#jiyukDusu#::numeric
+				, dusu1=#dusu1#::numeric
+				, dusu2=#dusu2#::numeric
+				, dusu3=#dusu3#::numeric
+				, doche_qty1=#docheQty1#::numeric
+				, doche_qty2=#docheQty2#::numeric
+				, doche_qty3=#docheQty3#::numeric
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+			where corp_code=#corpCode#
+				and grup_plant=#grupPlant#
+				and work_date=#workDate#
+				and seq = #seq#::numeric
+			]]>
+	</update>
+	
+	<delete id="MpYieldInfoMDAO.deleteMpYieldInfoM">
+		<![CDATA[
+			update openmps.mp_yield_info_m set dele_yn = 'Y'
+				, md_user=#mdUser#
+				, md_date=now()
+			where corp_code=#corpCode#
+				and grup_plant=#grupPlant#
+				and work_date=#workDate#
+				and seq=#seq#::numeric
+			]]>
+	</delete>
+	
+	<select id="MpYieldInfoMDAO.selectMpYieldInfoM_S" resultMap="MpYieldInfoM">
+		<![CDATA[
+			SELECT
+				corp_code
+				, grup_plant
+				, work_date
+				, suyul_dusu
+				, suyul_wei1
+				, suyul_wei2
+				, jiyuk_dusu
+				, dusu1
+				, dusu2
+				, dusu3
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM openmps.mp_yield_info_m
+			where corp_code=#corpCode#
+				and grup_plant=#grupPlant#
+				and work_date=#workDate#
+				and seq=#seq#::numeric
+			]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	from openmps.mp_yield_info_m a
+	  	where a.corp_code = #corpCode#
+	  	and a.work_date between #strtDate# and #lastDate#
+		<dynamic> 
+	         <isNotEmpty prepend="and" property="grupPlant">
+	            a.grup_plant = #grupPlant#
+	         </isNotEmpty>
+		</dynamic>
+		and a.dele_yn = 'N'
+	</sql>
+	<select id="MpYieldInfoMDAO.selectMpYieldInfoMList_D" parameterClass="MpYieldInfoMSerarchVO" resultClass="egovMap">
+		SELECT
+				a.work_date
+				,openmps."FN_GET_TMCODEXDNM"(a.corp_code,'MP002',a.grup_plant) as grup_plantname
+				, (a.suyul_dusu::numeric(11,0))::varchar
+				, a.suyul_wei1::varchar
+				, a.suyul_wei2::varchar
+				, (a.jiyuk_dusu::numeric(11,0))::varchar
+				, a.dusu1::varchar
+				, a.dusu2::varchar
+				, a.dusu3::varchar
+				, (a.doche_qty1::numeric(11,0))::varchar
+				, (a.doche_qty2::numeric(11,0))::varchar
+				, (a.doche_qty3::numeric(11,0))::varchar
+				, a.memo
+				
+				, a.grup_plant
+				, a.seq
+		<include refid="selectWhere_fragment"/>
+		order by a.work_date desc, a.grup_plant
+	</select>	
+	<select id="MpYieldInfoMDAO.selectMpYieldInfoMListTotCnt_S" parameterClass="MpYieldInfoMSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	
+	<!-- check duplicate work_date grup_plant -->
+	<select id="MpYieldInfoMDAO.checkDupMpYieldInfoM_S" resultClass="int">
+		SELECT
+			count( work_date ) cnt
+		FROM openmps.mp_yield_info_m
+		where corp_code=#corpCode#
+			and grup_plant=#grupPlant#
+			and work_date=#workDate#
+			and dele_yn='N'
+	</select>
+	<!-- 
+		mp_closing_date
+		생산 마감체크 
+		수금월기준 prod_close <= check
+	 -->
+	<select id="MpYieldInfoMDAO.checkProdClosing" resultClass="int">
+		<![CDATA[
+		select count(*)
+		from openmps.mp_closing_date
+		where corp_code = #corpCode#
+		and apply_month = to_char(now(), 'YYYYMM')
+		and prod_close <= to_char(now(), 'YYYYMMDD')
+		limit 1
+		]]>
+	</select>
+</sqlMap>

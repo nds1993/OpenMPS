@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SMS_SqlMap" >
+
+
+<!-- SMS 등록 -->
+  <insert id="SMS_SqlMap.sendSms" parameterClass="nds.core.common.message.MessageBean" >
+  	 
+  	<selectKey resultClass="java.lang.String" keyProperty="msgNo">
+          <![CDATA[
+            SELECT SC_SEQUENCE.NEXTVAL as msgSeq FROM DUAL
+          ]]>
+      </selectKey>
+  	 
+     INSERT INTO SC_TRAN (
+                          TR_NUM 
+                        , TR_SENDDATE 
+                        , TR_ID 
+                        , TR_SENDSTAT 
+                        , TR_PHONE 
+                        , TR_CALLBACK
+                        , TR_MSG
+                        , TR_ETC1
+                        , TR_ETC2
+                        , TR_ETC5
+                        , TR_ETC3
+                        ) 
+                   VALUES (
+                   		  #msgNo# 
+                   		, SYSDATE
+                   		, 'IT_DEV'
+                   		, '0'
+                   		, #msgTo:VARCHAR#
+                   		, #msgFrom:VARCHAR#
+                   		, #cntn:VARCHAR#
+                   		, '927'
+                   		, 'VOC01'
+                   		, '0'
+                   		, '2'
+                   		)
+  </insert>
+  
+  
+</sqlMap>

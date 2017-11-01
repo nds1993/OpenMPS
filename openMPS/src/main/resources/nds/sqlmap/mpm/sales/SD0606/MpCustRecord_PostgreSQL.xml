@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD0606MpCustRecord">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SD0606mpCustRecordSerarchVO" type="nds.mpm.sales.SD0606.vo.MpCustRecordVO"/>
+	
+	<select id="SD0606mpCustRecordDAO.selectMpCustRecordList_D" parameterClass="SD0606mpCustRecordSerarchVO" resultClass="egovMap">
+			SELECT T1.TITLE, T1.mon1, T1.mon2, T1.mon3, T1.mon4, T1.mon5, T1.mon6, T1.mon7, T1.mon8, T1.mon9, T1.mon10, T1.mon11, T1.mon12
+			FROM (
+				SELECT  
+					'1' AS ORDER,
+					'목표중량' AS TITLE,
+					SUM(CASE WHEN A.TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'01' THEN A.TARGET_WEIGHT ELSE 0 END) as mon1,
+					SUM(CASE WHEN A.TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'02' THEN A.TARGET_WEIGHT ELSE 0 END) as mon2,
+					SUM(CASE WHEN A.TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'03' THEN A.TARGET_WEIGHT ELSE 0 END) as mon3,
+					SUM(CASE WHEN A.TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'04' THEN A.TARGET_WEIGHT ELSE 0 END) as mon4,
+					SUM(CASE WHEN A.TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'05' THEN A.TARGET_WEIGHT ELSE 0 END) as mon5,
+					SUM(CASE WHEN A.TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'06' THEN A.TARGET_WEIGHT ELSE 0 END) as mon6,
+					SUM(CASE WHEN A.TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'07' THEN A.TARGET_WEIGHT ELSE 0 END) as mon7,
+					SUM(CASE WHEN A.TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'08' THEN A.TARGET_WEIGHT ELSE 0 END) as mon8,
+					SUM(CASE WHEN A.TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'09' THEN A.TARGET_WEIGHT ELSE 0 END) as mon9,
+					SUM(CASE WHEN A.TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'10' THEN A.TARGET_WEIGHT ELSE 0 END) as mon10,
+					SUM(CASE WHEN A.TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'11' THEN A.TARGET_WEIGHT ELSE 0 END) as mon11,
+					SUM(CASE WHEN A.TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'12' THEN A.TARGET_WEIGHT ELSE 0 END) as mon12
+				FROM MP_CUSTGOAL_YYMM A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+				WHERE A.CORP_CODE = #corpCode#
+							AND A.TARGET_YYMM BETWEEN #strtYyyy#||'01' AND  #strtYyyy#||'12' 
+					<isNotEmpty property="teamCode">
+						<isNotEqual property="teamCode" compareValue="ALL">
+						 	AND B.PART_CODE = #teamCode# 
+						</isNotEqual>
+					</isNotEmpty>
+							AND B.SALESMAN = #salesman# 
+							AND B.CUST_CODE = #custCode# 
+				UNION 
+				SELECT 
+				    '2' AS ORDER,
+					'금년실적' AS TITLE,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'01' THEN A.SALE_WEIGHT ELSE 0 END) as mon1,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'02' THEN A.SALE_WEIGHT ELSE 0 END) as mon2,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'03' THEN A.SALE_WEIGHT ELSE 0 END) as mon3,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'04' THEN A.SALE_WEIGHT ELSE 0 END) as mon4,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'05' THEN A.SALE_WEIGHT ELSE 0 END) as mon5,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'06' THEN A.SALE_WEIGHT ELSE 0 END) as mon6,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'07' THEN A.SALE_WEIGHT ELSE 0 END) as mon7,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'08' THEN A.SALE_WEIGHT ELSE 0 END) as mon8,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'09' THEN A.SALE_WEIGHT ELSE 0 END) as mon9,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'10' THEN A.SALE_WEIGHT ELSE 0 END) as mon10,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'11' THEN A.SALE_WEIGHT ELSE 0 END) as mon11,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'12' THEN A.SALE_WEIGHT ELSE 0 END) as mon12
+				FROM MP_CUST_RECORD A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE 
+				WHERE A.SALE_DATE BETWEEN  #strtYyyy#||'0101' AND  #strtYyyy#||'1231' 
+					<isNotEmpty property="teamCode">
+						<isNotEqual property="teamCode" compareValue="ALL">
+							 AND B.PART_CODE = #teamCode# 
+						</isNotEqual>
+					</isNotEmpty>        
+						AND B.SALESMAN = #salesman#          
+						AND B.CUST_CODE = #custCode#         
+				UNION                                
+				SELECT   
+				    '3' AS ORDER,  
+					'전년실적' AS TITLE,                          
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'01' THEN A.SALE_WEIGHT ELSE 0 END) as mon1,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'02' THEN A.SALE_WEIGHT ELSE 0 END) as mon2,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'03' THEN A.SALE_WEIGHT ELSE 0 END) as mon3,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'04' THEN A.SALE_WEIGHT ELSE 0 END) as mon4,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'05' THEN A.SALE_WEIGHT ELSE 0 END) as mon5,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'06' THEN A.SALE_WEIGHT ELSE 0 END) as mon6,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'07' THEN A.SALE_WEIGHT ELSE 0 END) as mon7,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'08' THEN A.SALE_WEIGHT ELSE 0 END) as mon8,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'09' THEN A.SALE_WEIGHT ELSE 0 END) as mon9,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'10' THEN A.SALE_WEIGHT ELSE 0 END) as mon10,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'11' THEN A.SALE_WEIGHT ELSE 0 END) as mon11,
+					SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'12' THEN A.SALE_WEIGHT ELSE 0 END) as mon12
+				FROM MP_CUST_RECORD A INNER JOIN MP_CUST_HIST B ON  A.CUST_CODE = B.CUST_CODE
+				WHERE A.SALE_DATE BETWEEN  #strtPreYyyy#||'0101' AND  #strtPreYyyy#||'1231' 
+					<isNotEmpty property="teamCode">
+						<isNotEqual property="teamCode" compareValue="ALL">
+						 	 AND B.PART_CODE = #teamCode# 
+						</isNotEqual>
+					</isNotEmpty>
+						AND B.SALESMAN = #salesman#
+						AND B.CUST_CODE = #custCode# 
+			) T1 ORDER BY T1.ORDER
+	</select>	
+	<select id="SD0606mpCustRecordDAO.selectChartMpCustRecordList" parameterClass="SD0606mpCustRecordSerarchVO" resultClass="egovMap">
+			SELECT 
+				(CASE WHEN SUBSTR(A.TITLE, 1, 1) = '0' THEN SUBSTR(A.TITLE, 2, 1) ELSE A.TITLE END) AS TITLE, A.TARGET_WEIGHT, CB.CURYY_WEIGHT, CB.BEFYY_WEIGHT 
+			FROM 
+			(
+			SELECT  
+				'01' AS TITLE,
+				SUM(CASE WHEN TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'01' THEN TARGET_WEIGHT ELSE 0 END) AS TARGET_WEIGHT
+			FROM MP_CUSTGOAL_YYMM A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE TARGET_YYMM BETWEEN  #strtYyyy#||'01' AND  #strtYyyy#||'12'
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+					AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode# 
+			UNION 
+			SELECT  
+				'02' AS TITLE,
+				SUM(CASE WHEN TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'02' THEN TARGET_WEIGHT ELSE 0 END) AS TARGET_WEIGHT
+			FROM MP_CUSTGOAL_YYMM A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE TARGET_YYMM BETWEEN  #strtYyyy#||'01' AND  #strtYyyy#||'12'
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						  AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION 
+			SELECT  
+				'03' AS TITLE,
+				SUM(CASE WHEN TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'03' THEN TARGET_WEIGHT ELSE 0 END) AS TARGET_WEIGHT
+			FROM MP_CUSTGOAL_YYMM A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'12'
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION 
+			SELECT  
+				'04' AS TITLE,
+				SUM(CASE WHEN TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'04' THEN TARGET_WEIGHT ELSE 0 END) AS TARGET_WEIGHT
+			FROM MP_CUSTGOAL_YYMM A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE TARGET_YYMM BETWEEN  #strtYyyy#||'01' AND  #strtYyyy#||'12'
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						  AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode# 
+			UNION 
+			SELECT  
+				'05' AS TITLE,
+				SUM(CASE WHEN TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'05' THEN TARGET_WEIGHT ELSE 0 END) AS TARGET_WEIGHT
+			FROM MP_CUSTGOAL_YYMM A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE TARGET_YYMM BETWEEN  #strtYyyy#||'01' AND  #strtYyyy#||'12'
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						  AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION 
+			SELECT  
+				'06' AS TITLE,
+				SUM(CASE WHEN TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'06' THEN TARGET_WEIGHT ELSE 0 END) AS TARGET_WEIGHT
+			FROM MP_CUSTGOAL_YYMM A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'12'
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						  AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION
+			SELECT  
+				'07' AS TITLE,
+				SUM(CASE WHEN TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'07' THEN TARGET_WEIGHT ELSE 0 END) AS TARGET_WEIGHT
+			FROM MP_CUSTGOAL_YYMM A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE TARGET_YYMM BETWEEN  #strtYyyy#||'01' AND  #strtYyyy#||'12'
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode# 
+			UNION 
+			SELECT  
+				'08' AS TITLE,
+				SUM(CASE WHEN TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'08' THEN TARGET_WEIGHT ELSE 0 END) AS TARGET_WEIGHT
+			FROM MP_CUSTGOAL_YYMM A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE TARGET_YYMM BETWEEN  #strtYyyy#||'01' AND  #strtYyyy#||'12'
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION 
+			SELECT  
+				'09' AS TITLE,
+				SUM(CASE WHEN TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'09' THEN TARGET_WEIGHT ELSE 0 END) AS TARGET_WEIGHT
+			FROM MP_CUSTGOAL_YYMM A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'12'
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION 
+			SELECT  
+				'10' AS TITLE,
+				SUM(CASE WHEN TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'10' THEN TARGET_WEIGHT ELSE 0 END) AS TARGET_WEIGHT
+			FROM MP_CUSTGOAL_YYMM A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE TARGET_YYMM BETWEEN  #strtYyyy#||'01' AND  #strtYyyy#||'12'
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode# 
+			UNION 
+			SELECT  
+			'11' AS TITLE,
+				SUM(CASE WHEN TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'11' THEN TARGET_WEIGHT ELSE 0 END) AS TARGET_WEIGHT
+				FROM MP_CUSTGOAL_YYMM A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE TARGET_YYMM BETWEEN  #strtYyyy#||'01' AND  #strtYyyy#||'12'
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION 
+			SELECT  
+				'12' AS TITLE,
+				SUM(CASE WHEN TARGET_YYMM BETWEEN  #strtYyyy#||'01' AND  #strtYyyy#||'12'THEN TARGET_WEIGHT ELSE 0 END) AS TARGET_WEIGHT
+			FROM MP_CUSTGOAL_YYMM A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE TARGET_YYMM BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'12'
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			)A INNER JOIN 
+			(SELECT  
+				'01' AS TITLE,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'01' THEN SALE_WEIGHT ELSE 0 END) AS CURYY_WEIGHT,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'01' THEN SALE_WEIGHT ELSE 0 END) AS BEFYY_WEIGHT
+			FROM MP_CUST_RECORD  A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE A.SALE_DATE BETWEEN #strtPreYyyy#||'0101' AND #strtYyyy#||'1231' 
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+					 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION 
+			SELECT  
+				'02' AS TITLE,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'02' THEN SALE_WEIGHT ELSE 0 END) AS CURYY_WEIGHT, 
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'02' THEN SALE_WEIGHT ELSE 0 END) AS BEFYY_WEIGHT
+			FROM MP_CUST_RECORD  A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE A.SALE_DATE BETWEEN #strtPreYyyy#||'0101' AND #strtYyyy#||'1231' 
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION 
+			SELECT  
+				'03' AS TITLE,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'03' THEN SALE_WEIGHT ELSE 0 END) AS CURYY_WEIGHT,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'03' THEN SALE_WEIGHT ELSE 0 END) AS BEFYY_WEIGHT 
+			FROM MP_CUST_RECORD  A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE A.SALE_DATE BETWEEN #strtPreYyyy#||'0101' AND #strtYyyy#||'1231' 
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION 
+			SELECT  
+				'04' AS TITLE,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'04' THEN SALE_WEIGHT ELSE 0 END) AS CURYY_WEIGHT,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'04' THEN SALE_WEIGHT ELSE 0 END) AS BEFYY_WEIGHT 
+			FROM MP_CUST_RECORD  A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE A.SALE_DATE BETWEEN #strtPreYyyy#||'0101' AND #strtYyyy#||'1231' 
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode# 
+			UNION 
+			SELECT  
+				'05' AS TITLE,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'05' THEN SALE_WEIGHT ELSE 0 END) AS CURYY_WEIGHT,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'05' THEN SALE_WEIGHT ELSE 0 END) AS BEFYY_WEIGHT 
+			FROM MP_CUST_RECORD  A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE A.SALE_DATE BETWEEN #strtPreYyyy#||'0101' AND #strtYyyy#||'1231' 
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION 
+			SELECT  
+				'06' AS TITLE,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'06' THEN SALE_WEIGHT ELSE 0 END) AS CURYY_WEIGHT,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'06' THEN SALE_WEIGHT ELSE 0 END) AS BEFYY_WEIGHT 
+			FROM MP_CUST_RECORD  A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE A.SALE_DATE BETWEEN #strtPreYyyy#||'0101' AND #strtYyyy#||'1231' 
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION
+			SELECT  
+				'07' AS TITLE,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'07' THEN SALE_WEIGHT ELSE 0 END) AS CURYY_WEIGHT,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'07' THEN SALE_WEIGHT ELSE 0 END) AS BEFYY_WEIGHT
+			FROM MP_CUST_RECORD  A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE A.SALE_DATE BETWEEN #strtPreYyyy#||'0101' AND #strtYyyy#||'1231' 
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode# 
+			UNION 
+			SELECT  
+				'08' AS TITLE,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'08' THEN SALE_WEIGHT ELSE 0 END) AS CURYY_WEIGHT,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'08' THEN SALE_WEIGHT ELSE 0 END) AS BEFYY_WEIGHT 
+			FROM MP_CUST_RECORD  A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE A.SALE_DATE BETWEEN #strtPreYyyy#||'0101' AND #strtYyyy#||'1231' 
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION 
+			SELECT  
+				'09' AS TITLE,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'09' THEN SALE_WEIGHT ELSE 0 END) AS CURYY_WEIGHT,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'09' THEN SALE_WEIGHT ELSE 0 END) AS BEFYY_WEIGHT
+			FROM MP_CUST_RECORD  A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE A.SALE_DATE BETWEEN #strtPreYyyy#||'0101' AND #strtYyyy#||'1231' 
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION 
+			SELECT  
+				'10' AS TITLE,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'10' THEN SALE_WEIGHT ELSE 0 END) AS CURYY_WEIGHT,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'10' THEN SALE_WEIGHT ELSE 0 END) AS BEFYY_WEIGHT
+			FROM MP_CUST_RECORD  A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE A.SALE_DATE BETWEEN #strtPreYyyy#||'0101' AND #strtYyyy#||'1231' 
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+					 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode# 
+			UNION 
+			SELECT  
+				'11' AS TITLE,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtYyyy#||'01' AND #strtYyyy#||'11' THEN SALE_WEIGHT ELSE 0 END) AS CURYY_WEIGHT,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'11' THEN SALE_WEIGHT ELSE 0 END) AS BEFYY_WEIGHT
+			FROM MP_CUST_RECORD  A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE A.SALE_DATE BETWEEN #strtPreYyyy#||'0101' AND #strtYyyy#||'1231' 
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#
+			UNION 
+			SELECT  
+				'12' AS TITLE,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN  #strtYyyy#||'01' AND  #strtYyyy#||'12'THEN SALE_WEIGHT ELSE 0 END) AS CURYY_WEIGHT,
+				SUM(CASE WHEN SUBSTR(A.SALE_DATE, 0, 7) BETWEEN #strtPreYyyy#||'01' AND #strtPreYyyy#||'12' THEN SALE_WEIGHT ELSE 0 END) AS BEFYY_WEIGHT
+			FROM MP_CUST_RECORD  A INNER JOIN MP_CUST_HIST B ON A.CUST_CODE = B.CUST_CODE
+			WHERE A.SALE_DATE BETWEEN #strtPreYyyy#||'0101' AND #strtYyyy#||'1231' 
+				<isNotEmpty property="teamCode">
+					<isNotEqual property="teamCode" compareValue="ALL">
+						 AND B.PART_CODE = #teamCode# 
+					</isNotEqual>
+				</isNotEmpty>
+				AND B.SALESMAN = #salesman# AND B.CUST_CODE = #custCode#) CB ON A.TITLE = CB.TITLE
+			ORDER BY A.TITLE
+	</select>	
+</sqlMap>

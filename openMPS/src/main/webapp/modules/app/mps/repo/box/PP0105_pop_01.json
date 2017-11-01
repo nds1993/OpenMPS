@@ -1,0 +1,312 @@
+{
+	"name": "BOM등록_팝업_BOM 불러오기 찾기",
+	"module": "PP0105LoadPopupRenderer",
+	"options": {
+		"header": {
+			"title": {
+				"label": "BOM 불러오기"
+			},
+			"feature": [{
+				"search": "조회"
+			}, {
+				"confirm": "선택"
+			}]
+		},
+		"content": {
+			"module": "BaroBox",
+			"options": {
+				"className": "contents_box",
+				"order": [
+					"queryBox",
+					"resultBox"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"queryBox": {
+					"module": "FormBox",
+					"options": {
+						"className": "query_box",
+						"order": [
+							"plantCode",
+							"proCode"
+						],
+						"activation": {
+							"defaultWidget": "",
+							"method": "one-page"
+						},
+						"custom_form": {
+							"template": "<div class=\"row\"><div class=\"col-xs-3 label_w2\"><div class=\"form-group\"><label class=\"required\">공장</label><div class=\"select_design plantCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div><div class=\"row\"><div class=\"col-xs-6 label_w2\"><div class=\"form-group\"><label class=\"required\">제품</label><div class=\"proCode_region\"></div></div></div></div><style>.PP0105_pop_01 .keyword {width:115px !important}</style>",
+							"mode": "form",
+							"items": {
+
+								"plantCode": {
+									"required": true,
+									"selector": ".plantCode",
+									"label": "공장",
+									"module": "combobox",
+									"fetcher": {
+										"url": "<%= host %>/rest/mpm/<%= corpCode %>/pp0101/tmplatxm",
+										"parser": "return UCMS.parseComboPlant(arguments[0]);"
+									}
+								},
+								"proCode": {
+									"label": "제품"
+								}
+							},
+							"data": {}
+						},
+						"proCode": {
+							"module": "manifest!CodeSearch-1.0.0",
+							"options": {
+								"label": "제품",
+								"required": false,
+								"codeType": "PP0103",
+								"params": {
+								},
+								"value": {
+									"keyword": null,
+									"result": null
+								}
+							}
+						}
+					}
+				},
+				"resultBox": {
+					"module": "FormBox",
+					"options": {
+						"className": "result_box",
+						"order": ["leftGrid", "rightGrid"],
+						"activation": {
+							"defaultWidget": "",
+							"method": "one-page"
+						},
+						"custom_form": {
+							"mode": "form",
+							"template": "<div class=\"leftGrid_region\"></div><div class=\"rightGrid_region\"></div>",
+							"items": {
+								"leftGrid": {
+									"label": "baseInfo",
+									"required": true
+								},
+								"rightGrid": {
+									"label": "baseItem",
+									"required": true
+								}
+							},
+							"data": {}
+						},
+						"leftGrid": {
+							"module": "SubContainer",
+							"options": {
+								"header": {
+									"title": {
+										"label": "BOM"
+									}
+								},
+								"content": {
+									"module": "manifest!jqGrid4-1.0.0",
+									"options": {
+										"className": "leftGrid_box grid_box gird_btn_hide",
+										"gridId": "PP0105_pop_01_grid_1",
+										"gridParams": {
+											"data": [],
+											"colModel": [
+
+												{
+													"name": "bomCode",
+													"label": "BOM코드",
+													"width": 70,
+													"align": "center",
+													"editable": false,
+													"hidden": false
+												},
+												{
+													"name": "bomVer",
+													"label": "버전",
+													"width": 50,
+													"align": "center",
+													"editable": false,
+													"hidden": false
+												},
+												{
+													"name": "useYn",
+													"label": "사용여부",
+													"width": 60,
+													"align": "center",
+													"editable": false,
+													"hidden": false
+												},
+												{
+													"name": "proCode",
+													"label": "제품코드",
+													"width": 80,
+													"align": "center",
+													"editable": false,
+													"hidden": false
+												},
+												{
+													"name": "proName",
+													"label": "제품명",
+													"width": 150,
+													"align": "center",
+													"editable": false,
+													"hidden": false
+												},
+												{
+													"name": "totWeig",
+													"label": "공박스중량",
+													"width": 70,
+													"align": "right",
+													"editable": false,
+													"hidden": false,
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "boxWeig",
+													"label": "박스중량",
+													"width": 70,
+													"align": "right",
+													"editable": false,
+													"hidden": false,
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "filmWeig",
+													"label": "필름중량",
+													"width": 70,
+													"align": "right",
+													"editable": false,
+													"hidden": false,
+													"sorttype":"number","formatter":"number"
+												}
+											],
+											"pager": false,
+											"width": "auto",
+											"height": "130",
+											"cellEdit": false,
+											"shrinkToFit": true,
+											"gridview": true,
+											"datatype": "local",
+											"viewrecords": true,
+											"footerrow": false,
+											"multiselect": false,
+											"multiselectWidth": 20,
+											"rownumbers": false,
+											"pager": "#PP0105_pop_01_grid_1_pager",
+											"viewrecords": true,
+											"recordpos":"left",
+											"pgbuttons":false,
+											"pginput":false
+
+										}
+									}
+								}
+							}
+						},
+						"rightGrid": {
+							"module": "SubContainer",
+							"options": {
+								"header": {
+									"title": {
+										"label": "BOM 상세"
+									}
+								},
+								"content": {
+									"module": "manifest!jqGrid4-1.0.0",
+									"options": {
+										"className": "rightGrid_box grid_box gird_btn_hide",
+										"gridId": "PP0105_pop_01_grid_2",
+										"gridParams": {
+											"data": [],
+											"colModel": [{
+													"name": "proType",
+													"label": "부자재구분",
+													"width": 75,
+													"align": "center",
+													"editable": false,
+													"hidden": false
+												},
+												{
+													"name": "buProCode",
+													"label": "부자재코드",
+													"width": 80,
+													"align": "center",
+													"editable": false,
+													"hidden": false
+												},
+												{
+													"name": "buProName",
+													"label": "부자재명",
+													"width": 180,
+													"align": "left",
+													"editable": false,
+													"hidden": false
+												},
+												{
+													"name": "qty",
+													"label": "소요량",
+													"width": 65,
+													"align": "right",
+													"editable": false,
+													"hidden": false,
+													"sorttype":"integer","formatter":"integer"
+												},
+												{
+													"name": "proWeig",
+													"label": "단위중량",
+													"width": 80,
+													"align": "right",
+													"editable": false,
+													"hidden": false,
+													"sorttype":"number","formatter":"number"
+												},
+												{
+													"name": "proUnit",
+													"label": "단위",
+													"width": 70,
+													"align": "right",
+													"editable": false,
+													"hidden": false
+												},
+												{
+													"name": "memo",
+													"label": "비고",
+													"width": 100,
+													"align": "left",
+													"editable": false,
+													"hidden": false
+												}
+											],
+											"pager": true,
+											"width": "auto",
+											"height": "130",
+											"cellEdit": false,
+											"shrinkToFit": true,
+											"gridview": true,
+											"datatype": "local",
+											"viewrecords": true,
+											"footerrow": false,
+											"multiselect": false,
+											"multiselectWidth": 20,
+											"rownumbers": true,
+
+											"rownumbersWidth":"19",
+											"pager": "#PP0105_pop_01_grid_2_pager",
+											"viewrecords": true,
+											"recordpos":"left",
+											"pgbuttons":false,
+											"pginput":false
+
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

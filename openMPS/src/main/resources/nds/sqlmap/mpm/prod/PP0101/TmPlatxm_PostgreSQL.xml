@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TmPlatxm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="tmPlatxmSerarchVO" type="nds.mpm.prod.PP0101.vo.TmPlatxmVO"/>
+	
+	<resultMap id="tmPlatxm" class="nds.mpm.prod.PP0101.vo.TmPlatxmVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="plantCode" column="plant_code" columnIndex="2"/>
+		<result property="plantName" column="plant_name" columnIndex="3"/>
+		<result property="grupPlant" column="grup_plant" columnIndex="4"/>
+		<result property="plantKind" column="plant_kind" columnIndex="5"/>
+		<result property="prdtType" column="prdt_type" columnIndex="6"/>
+		<result property="zipCode" column="zip_code" columnIndex="7"/>
+		<result property="address" column="address" columnIndex="8"/>
+		<result property="etc01" column="etc01" columnIndex="9"/>
+		<result property="etc02" column="etc02" columnIndex="10"/>
+		<result property="etc03" column="etc03" columnIndex="11"/>
+		<result property="etc04" column="etc04" columnIndex="12"/>
+		<result property="etc05" column="etc05" columnIndex="13"/>
+		<result property="memo" column="memo" columnIndex="14"/>
+		<result property="useYn" column="use_yn" columnIndex="15"/>
+		<result property="deleYn" column="dele_yn" columnIndex="16"/>
+		<result property="mdUser" column="md_user" columnIndex="17"/>
+		<result property="mdDate" column="md_date" columnIndex="18"/>
+		<result property="crUser" column="cr_user" columnIndex="19"/>
+		<result property="crDate" column="cr_date" columnIndex="20"/>
+	</resultMap>
+	
+	<insert id="tmPlatxmDAO.insertTmPlatxm">
+		<![CDATA[
+			INSERT INTO openmps.tm_platxm 
+				( corp_code
+				  , plant_code
+				  , plant_name
+				  , grup_plant
+				  , plant_kind
+				  , prdt_type
+				  , zip_code
+				  , address
+				  , etc01
+				  , etc02
+				  , etc03
+				  , etc04
+				  , etc05
+				  , memo
+				  , phone
+				  , use_yn
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #plantCode#
+				  , #plantName#
+				  , #grupPlant#
+				  , #plantKind#
+				  , #prdtType#
+				  , #zipCode#
+				  , #address#
+				  , #etc01#
+				  , #etc02#
+				  , #etc03#
+				  , #etc04#
+				  , #etc05#
+				  , #memo#
+				  , #phone#
+				  , 'Y'
+				  , 'N'
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="tmPlatxmDAO.updateTmPlatxm">
+		<![CDATA[
+			UPDATE openmps.tm_platxm
+			SET plant_name=#plantName#
+				, grup_plant=#grupPlant#
+				, plant_kind=#plantKind#
+				, prdt_type=#prdtType#
+				, zip_code=#zipCode#
+				, address=#address#
+				, etc01=#etc01#
+				, etc02=#etc02#
+				, etc03=#etc03#
+				, etc04=#etc04#
+				, etc05=#etc05#
+				, use_yn=#useYn#
+				, dele_yn='N'
+				, memo=#memo#
+				, phone=#phone#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+				]]>
+	</update>
+	
+	<delete id="tmPlatxmDAO.deleteTmPlatxm">
+		<![CDATA[
+			update openmps.tm_platxm set dele_yn = 'Y'
+						, md_user=#mdUser#
+						, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND plant_code=#plantCode#
+				]]>
+	</delete>
+	
+	<select id="tmPlatxmDAO.selectTmPlatxm_S" resultMap="tmPlatxm">
+			SELECT
+				*
+			FROM openmps.tm_platxm a
+			WHERE corp_code=#corpCode#
+			<isNotEmpty property="plantCode">
+	           and (a.plant_code = #plantCode# or a.plant_name = #plantName#)
+	        </isNotEmpty>
+	        <isNotEmpty property="deleYn">
+	            and dele_yn=#deleYn#
+	        </isNotEmpty>
+			limit 1
+	</select>
+	
+	<sql id="selectWhere_fragment">
+	  	from openmps.tm_platxm a
+		where 
+			corp_code=#corpCode#
+			and a.dele_yn = 'N'
+		<dynamic> 
+			 <isNotEmpty prepend="and" property="plantCode">
+	            a.plant_code = #plantCode#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="plantName">
+	            a.plant_name = #plantName#
+	         </isNotEmpty>
+	          <isNotEmpty prepend="and" property="grupPlant">
+	            a.grup_plant = #grupPlant#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="prdtType">
+	            a.prdt_type = #prdtType#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="searchKeyword">
+	            ( a.plant_code like '%' || #searchKeyword# || '%' or a.plant_name like '%' || #searchKeyword# || '%')
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="useYn">
+	            a.use_yn = #useYn#
+	         </isNotEmpty>
+	         <isEqual prepend="and" property="searchCondition" compareValue="real">
+	         	a.plant_kind != '3'
+	         </isEqual>
+		</dynamic>
+	</sql>
+	<select id="tmPlatxmDAO.selectTmPlatxmList_D" parameterClass="tmPlatxmSerarchVO" resultClass="egovMap">
+		SELECT
+				plant_code
+				  , plant_name
+				  , openmps."FN_GET_TMCODEXDNM"(a.corp_code,'MP002',grup_plant) grup_plant_name
+				  , openmps."FN_GET_TMCODEXDNM"(a.corp_code,'MP003',plant_kind) plant_kind_name
+				  , openmps."FN_GET_TMCODEXDNM"(a.corp_code,'MP004',prdt_type) prdt_type_name
+				  , zip_code
+				  , address
+				  , use_yn
+				  , memo
+				  , phone
+				  
+				  , etc01
+				  , etc02
+				  , etc03
+				  , etc04
+				  , etc05
+				  
+				  , prdt_type
+				  , plant_kind
+				  , grup_plant
+				  ,corp_code
+			<include refid="selectWhere_fragment"/>
+		order by plant_code
+	</select>	
+	<select id="tmPlatxmDAO.selectTmPlatxmListTotCnt_S" parameterClass="tmPlatxmSerarchVO" resultClass="int">
+		SELECT
+				count(*)
+		<include refid="selectWhere_fragment"/>		
+	</select>
+	
+	<select id="tmPlatxmDAO.checkDupTmPlatxm_S" resultClass="int">
+			SELECT
+				count(plant_code)
+			FROM openmps.tm_platxm a
+			WHERE corp_code=#corpCode#
+			<dynamic> 
+				 <isNotEmpty prepend="and" property="plantCode">
+		            a.plant_code = #plantCode#
+		         </isNotEmpty>
+		         <isNotEmpty prepend="and" property="plantName">
+		            a.plant_name = #plantName#
+		         </isNotEmpty>
+			</dynamic>
+			limit 1
+	</select>
+	
+	<select id="tmPlatxmDAO.selectGrupTmPlatxmList_D" parameterClass="tmPlatxmSerarchVO" resultClass="egovMap">
+		SELECT
+					code_id as plant_code
+				  , code_name as plant_name
+		from openmps.tm_codexd
+		where corp_code = #corpCode#
+		and group_code = 'MP002'
+		and use_yn = 'Y'
+		and dele_yn = 'N'
+		order by code_id
+	</select>
+</sqlMap>

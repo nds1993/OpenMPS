@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PO0201MpPigdxm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpPigdxmSerarchVO" type="nds.mpm.buy.PO0102.vo.MpPigdxmVO"/>
+	
+	<select id="PO0201MpPigdxmDAO.selectMpPigdxmHeadList_D" parameterClass="mpPigdxmSerarchVO" resultClass="egovMap">
+		select	a.doch_date	<!-- 도축일자 -->
+			,a.cust_code	<!-- 농장거래처코드 -->
+			,b.cust_name as cust_codename	<!-- 농장거래처명 -->
+			,a.pig_gu2 as fac_kindname		<!-- 돈피구분 -->
+			,count(a.doch_id) as do_su	<!-- 두수 -->
+			,a.his_no::varchar		<!-- 이력번호 -->
+			,c.cust_name	rep_custname<!-- 대표농장명 -->
+			,d.code_name	brand_codename<!-- 브랜드명 -->
+			,sum(a.pig_weig1) as pig_weig1	<!-- 생체중 -->
+			
+			,a.brand_code
+			,a.pig_gu2
+			,a.rep_cust
+			,a.fac_kind
+		from	mp_pigdxm a left outer join mp_cust_info b
+					on	a.cust_code	= b.cust_code
+				left outer join mp_cust_info c
+					on	a.rep_cust	= c.cust_code			
+				left outer join tm_codexd	d
+					on	a.brand_code	= d.code_id
+					and	d.group_code	= 'PP007'
+		where
+		a.corp_code = #corpCode#	
+		and a.fac_kind	= '1'
+		and a.dele_yn = 'N'
+		<isEqual property="searchCondition" compareValue="dochDate">
+			and a.doch_date between #strtDate# and #lastDate#
+		</isEqual>
+		<isEqual property="searchCondition" compareValue="ipgoDate">
+			and a.ipgo_date between #strtDate# and #lastDate#
+		</isEqual>
+		<isNotEmpty property="facKind">
+			and a.fac_kind = #facKind#
+		</isNotEmpty>
+		<isNotEmpty property="custCode">
+			and a.cust_code like #custCode# '%'
+		</isNotEmpty>
+		<isNotEmpty property="hisNo">
+			and a.his_no like #hisNo# || '%'
+		</isNotEmpty>
+		group by a.doch_date
+					,a.cust_code
+					,a.pig_gu2
+					,a.his_no
+					,a.rep_cust
+					,a.brand_code
+					,b.cust_name
+					,c.cust_name
+					,d.code_name
+					,a.fac_kind
+		order by doch_date 
+	</select>
+	<select id="PO0201MpPigdxmDAO.selectMpPigdxmDetailList_D" parameterClass="mpPigdxmSerarchVO" resultClass="egovMap">
+	select	a.doch_date,	<!-- 도축일자	-->
+				a.ipgo_date,	<!-- 판정일자	-->
+				a.cust_code,	<!-- 농장거래처코드	-->
+				b.cust_name as cust_codename,	<!-- 농장거래처명	-->
+				a.rep_cust,		<!-- 대표농장	-->
+				c.cust_code as main_custcode,	<!-- 대표농장코드	-->
+				c.cust_name as main_custname,	<!-- 대표농장명	-->
+				a.brand_code,	<!-- 브랜드코드	-->
+				d.code_name as brand_code_name,	<!-- 브랜드명	-->
+				a.his_no,		<!-- 이력번호	-->
+				a.sex_no,		<!-- 성별코드	-->
+				a.sex_name,		<!-- 성별내역	-->
+				a.pig_grade,	<!-- 등급코드	-->
+				a.pig_meat,		<!-- 등급내역	-->
+				a.doch_id,		<!-- 도체번호	-->
+				a.pig_weig1,	<!-- 생체중	-->
+				a.pig_weig2,	<!-- 도체중	-->
+				a.pig_weig3,	<!-- 등지방	-->
+				a.pig_pric4,	<!-- 적용단가	-->
+				a.park_piyul,	<!-- 박피환산율	-->
+				a.pig_pric1,	<!-- 지육금액	-->
+				a.pig_pric3,	<!-- 가산액외	-->
+				a.pig_brpric1,	<!-- 탕박시세조정금	-->
+				a.pig_aspric1,	<!-- 품질유지금외	-->
+				a.pig_pric8,	<!-- 정산액	-->
+				a.pig_pric7,	<!-- 등급수수료	-->
+				a.pig_pric9,	<!-- 자조금	-->
+				a.pig_pric2,	<!-- 농장지급액	-->
+				a.fac_kind,		<!-- 돈피구분	-->
+				a.pig_gu2 as fac_kindname <!-- 돈피구분 -->
+	from	mp_pigdxm a left outer join mp_cust_info b
+				on	a.cust_code	= b.cust_code
+			left outer join mp_cust_info c
+				on	a.rep_cust	= c.cust_code			
+			left outer join tm_codexd	d
+				on	a.brand_code	= d.code_id
+				and	d.group_code	= 'PP007'
+	where
+	a.corp_code = #corpCode#	
+	and a.fac_kind	= '1'
+	and a.his_no like #hisNo# || '%'
+	order by a.doch_id, a.sex_no, a.pig_grade
+	</select>	
+	
+	<update id="PO0201MpPigdxmDAO.updateMpPigdxm">
+	
+		UPDATE	MP_PIGDXM AS U
+		SET		
+				CORP_CODE=AAAA.CORP_CODE
+				<isNotEmpty property="repCust">
+				,REP_CUST = AAAA.REP_CUST 
+				</isNotEmpty>
+				<isNotEmpty property="brandCode">
+				,BRAND_CODE = AAAA.BRAND_CODE
+				</isNotEmpty>
+				<isNotEmpty property="pigWeig1">
+				,PIG_WEIG1 = AAAA.PIG_WEIG1
+				</isNotEmpty>
+		FROM 
+		(
+				SELECT	
+				AAA.CORP_CODE
+				<isNotEmpty property="repCust">
+				, AAA.REP_CUST
+				</isNotEmpty>
+				<isNotEmpty property="brandCode">
+				, AAA.BRAND_CODE
+				</isNotEmpty>
+				<isNotEmpty property="pigWeig1">
+				, AAA.PIG_WEIG1
+				</isNotEmpty>
+				,AAA.DOCH_DATE, AAA.CUST_CODE, AAA.HIS_NO, AAA.DOCH_ID, AAA.FAC_KIND
+				FROM
+					(
+							SELECT		AA.CORP_CODE
+										,AA.DOCH_DATE
+										,AA.CUST_CODE
+										,AA.HIS_NO
+										,AA.DOCH_ID
+										,AA.FAC_KIND
+										<isNotEmpty property="repCust">
+										,#repCust# as	REP_CUST	<!-- 1. 대표농장 변경/업데이트 값 -->
+										</isNotEmpty>
+										<isNotEmpty property="brandCode">
+										,#brandCode#	BRAND_CODE	<!-- 2. 브랜드 변경/업테이트 값 -->
+										</isNotEmpty>
+							<!-- 3.개별 생체중 업테이트 값 = 개별도체중 (전체 생체중 / 전체도체중 ) -->
+										<isNotEmpty property="pigWeig1">
+										, CASE WHEN BB.TOT_WEIG2 = 0 THEN 0
+											ELSE AA.PIG_WEIG2 * (BB.TOT_WEIG1 / BB.TOT_WEIG2)	END PIG_WEIG1
+										</isNotEmpty>
+							FROM	MP_PIGDXM AA,	
+							( 
+								<!-- 도축일자/거래처코드/이력번호/돈피구분 전체 도체중  -->
+								SELECT	DOCH_DATE,	<!-- 도축일자 -->
+											CUST_CODE,	<!-- 거래처코드 -->
+											HIS_NO,		<!-- 이력번호 -->
+											FAC_KIND,	<!-- 돈피구분 -->
+											SUM(PIG_WEIG2)	TOT_WEIG2	<!-- 전체 도체중 -->
+											<isNotEmpty property="pigWeig1">
+											, #pigWeig1#::numeric TOT_WEIG1	<!-- 전체 생체중(4. 생체중 변경값) -->
+											</isNotEmpty>
+								FROM	MP_PIGDXM
+								WHERE	DOCH_DATE	LIKE #dochDate#	<!-- 도축일자 선택 조건 --> 
+								AND	CUST_CODE	= #custCode#		<!-- 거래처 선택 조건 -->
+								<!--AND	FAC_KIND		= '1'					 돈피구분 선택 조건 -->
+								AND	HIS_NO		= #hisNo#	<!-- 이력번호 선택 조건 -->
+								GROUP BY DOCH_DATE,
+											CUST_CODE,
+											HIS_NO,
+											FAC_KIND
+								<!--/* 도축일자/거래처코드/이력번호/돈피구분 전체 도체중 */ -->
+							) BB
+							WHERE	AA.DOCH_DATE	= BB.DOCH_DATE
+							AND	AA.CUST_CODE	= BB.CUST_CODE
+							AND	AA.HIS_NO		= BB.HIS_NO
+							AND	AA.FAC_KIND		= BB.FAC_KIND
+					) AAA
+		) AS AAAA
+		WHERE	U.DOCH_DATE	= AAAA.DOCH_DATE
+		AND	U.CUST_CODE	= AAAA.CUST_CODE
+		AND	U.HIS_NO		= AAAA.HIS_NO
+		AND	U.DOCH_ID	= AAAA.DOCH_ID
+		AND	U.FAC_KIND	= AAAA.FAC_KIND
+	</update>
+	
+	<update id="PO0201MpPigdxmDAO.updateMpPigdxmRepCust">
+		UPDATE mp_pigdxm SET rep_cust = #repCust#
+		WHERE corp_code = #corpCode#
+		AND fac_kind	= '1'
+		AND his_no like #hisNo# || '%'
+	</update>
+	
+</sqlMap>

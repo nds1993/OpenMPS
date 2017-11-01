@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpIbarxm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpIbarxmSerarchVO" type="nds.mpm.prod.base.vo.MpIbarxmVO"/>
+	
+	<resultMap id="mpIbarxm" class="nds.mpm.prod.base.vo.MpIbarxmVO">
+		<result property="barinCode" column="barin_code" columnIndex="1"/>
+		<result property="barinDate" column="barin_date" columnIndex="2"/>
+		<result property="barinGu" column="barin_gu" columnIndex="3"/>
+		<result property="barinNo" column="barin_no" columnIndex="4"/>
+		<result property="proCode" column="pro_code" columnIndex="5"/>
+		<result property="proDate" column="pro_date" columnIndex="6"/>
+		<result property="limiteDate" column="limite_date" columnIndex="7"/>
+		<result property="bunchNo" column="bunch_no" columnIndex="8"/>
+		<result property="gita1" column="gita1" columnIndex="9"/>
+		<result property="gita2" column="gita2" columnIndex="10"/>
+		<result property="gita3" column="gita3" columnIndex="11"/>
+		<result property="gita4" column="gita4" columnIndex="12"/>
+		<result property="gita5" column="gita5" columnIndex="13"/>
+		<result property="gita6" column="gita6" columnIndex="14"/>
+		<result property="gita7" column="gita7" columnIndex="15"/>
+		<result property="gita8" column="gita8" columnIndex="16"/>
+		<result property="gita9" column="gita9" columnIndex="17"/>
+		<result property="gita10" column="gita10" columnIndex="18"/>
+		<result property="deleYn" column="dele_yn" columnIndex="19"/>
+		<result property="memo" column="memo" columnIndex="20"/>
+		<result property="mdDate" column="md_date" columnIndex="21"/>
+		<result property="crDate" column="cr_date" columnIndex="22"/>
+	</resultMap>
+	
+	<insert id="mpIbarxmDAO.insertMpIbarxm_S">
+		<![CDATA[
+			INSERT INTO MP_IBARXM 
+				( barin_code
+				  , barin_date
+				  , barin_gu
+				  , barin_no
+				  , pro_code
+				  , pro_date
+				  , limite_date
+				  , bunch_no
+				  , gita1
+				  , gita2
+				  , gita3
+				  , gita4
+				  , gita5
+				  , gita6
+				  , gita7
+				  , gita8
+				  , gita9
+				  , gita10
+				  , dele_yn
+				  , memo
+				  , md_date
+				  , cr_date )
+			VALUES ( #barinCode#
+				  , #barinDate#
+				  , #barinGu#
+				  , #barinNo#
+				  , #proCode#
+				  , #proDate#
+				  , #limiteDate#
+				  , #bunchNo#
+				  , #gita1#
+				  , #gita2#
+				  , #gita3#
+				  , #gita4#
+				  , #gita5#
+				  , #gita6#
+				  , #gita7#
+				  , #gita8#
+				  , #gita9#
+				  , #gita10#
+				  , #deleYn#
+				  , #memo#
+				  , #mdDate#
+				  , #crDate# )
+		]]>
+	</insert>
+	
+	<update id="mpIbarxmDAO.updateMpIbarxm_S">
+		<![CDATA[
+			UPDATE MP_IBARXM
+			SET barin_code=#barinCode#
+				, barin_date=#barinDate#
+				, barin_gu=#barinGu#
+				, barin_no=#barinNo#
+				, pro_code=#proCode#
+				, pro_date=#proDate#
+				, limite_date=#limiteDate#
+				, bunch_no=#bunchNo#
+				, gita1=#gita1#
+				, gita2=#gita2#
+				, gita3=#gita3#
+				, gita4=#gita4#
+				, gita5=#gita5#
+				, gita6=#gita6#
+				, gita7=#gita7#
+				, gita8=#gita8#
+				, gita9=#gita9#
+				, gita10=#gita10#
+				, dele_yn=#deleYn#
+				, memo=#memo#
+				, md_date=#mdDate#
+				, cr_date=#crDate#
+						WHERE barin_code=#barinCode#
+								AND pro_code=#proCode#
+				]]>
+	</update>
+	
+	<delete id="mpIbarxmDAO.deleteMpIbarxm_S">
+		<![CDATA[
+			DELETE FROM MP_IBARXM 
+						WHERE barin_code=#barinCode#
+								AND pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<select id="mpIbarxmDAO.selectMpIbarxm_S" resultMap="mpIbarxm">
+		<![CDATA[
+			SELECT
+				barin_code
+				, barin_date
+				, barin_gu
+				, barin_no
+				, pro_code
+				, pro_date
+				, limite_date
+				, bunch_no
+				, gita1
+				, gita2
+				, gita3
+				, gita4
+				, gita5
+				, gita6
+				, gita7
+				, gita8
+				, gita9
+				, gita10
+				, dele_yn
+				, memo
+				, md_date
+				, cr_date
+			FROM MP_IBARXM
+						WHERE barin_code=#barinCode#
+								AND pro_code=#proCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM BARIN_PRO A, PRODUCT_INFO E          
+		 WHERE A.BARIN_CODE LIKE #proDate# || '%' 
+		  AND A.PRO_CODE = E.PRO_CODE          
+		  AND A.PRO_DATE = #proDate#
+		  AND A.DELE_YN = 'N' 
+		<dynamic>
+	         <isNotEmpty prepend="and" property="barinGu">
+	         A.BARIN_GU = #barinGu#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="proCode">
+	         A.PRO_CODE = #proCode#
+	         </isNotEmpty>
+		 </dynamic>
+	</sql>
+	<select id="mpIbarxmDAO.selectMpIbarxmList_D" parameterClass="mpIbarxmSerarchVO" resultClass="egovMap">
+		SELECT  A.BARIN_DATE, A.PRO_CODE, A.PRO_DATE, E.PRO_NAME, COUNT(A.PRO_CODE) PRO_CNT, 
+		         A.GITA1 AS DOCHUK_NAME, A.BUNCH_NO,          
+		        CASE WHEN A.BARIN_GU = 'A' THEN '안성1' ELSE CASE WHEN A.BARIN_GU = 'B' THEN '안성2' 
+		                                                ELSE CASE WHEN A.BARIN_GU = 'C' THEN '호남' 
+		                                                ELSE CASE WHEN A.BARIN_GU = 'D' THEN '부광' 
+		                                                ELSE '' 
+		        END END END END AS GONG_NAME 
+		  <include refid="selectWhere_fragment"/>
+		 GROUP BY A.BARIN_DATE, A.PRO_CODE, A.PRO_DATE, E.PRO_NAME,          
+		          A.GITA1, A.BUNCH_NO, A.BARIN_GU 
+		 ORDER BY A.BARIN_DATE, A.BARIN_GU, E.PRO_NAME, A.BUNCH_NO
+	</select>	
+	<select id="mpIbarxmDAO.selectMpIbarxmListTotCnt_S" parameterClass="mpIbarxmSerarchVO" resultClass="int">
+		SELECT  count(A.*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

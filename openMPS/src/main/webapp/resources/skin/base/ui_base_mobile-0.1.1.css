@@ -1,0 +1,49 @@
+@charset "utf-8";
+/**
+ * Project : Mobile Oven
+ * Copyright (c) 2016 FREECORE, Inc. All rights reserved.
+ * @author	escteam
+ *-------------------------------------------------------------
+ * basic mobile CSS  
+ * 2016.04.14
+ * ui_base_mobile-0.1.0 
+ */
+
+/* ---- CSS Base ---- */
+/* 값 변경없이 모든 테마에서 공통으로 사용 */
+/*body:before { content:""; display:block; height:100%; width:100%; background: #f9f9f9;position:fixed;left: 0;top: 0;z-index: 0;}*/
+
+/* alert box*/
+@media screen and (max-width:420px) {
+.modal_box .alert_box { border: 1px solid #999; box-shadow: 0 0 3px rgba(0,0,0,.7); border-radius: 10px; background: #fff; margin: 100px 15px 0 15px; width: auto; text-align: center }
+}
+
+/* 부트스트랩 */
+.container-fix { max-width: 460px; margin: auto; width: 100%;    position: relative; ; }
+
+/* --- CSS UI --- */
+.only_desktop { display:none }
+
+@media screen and (max-width:600px) {
+.intro_box .swiper-slide .title { font-size: 18px; line-height: 20px; padding: 75px 25px 0 25px; }
+.intro_box .swiper-slide .title strong { font-size: 20px }
+}
+#cooker .rule_box {margin:0px}
+.container-fluid .container-fluid { margin:0}
+
+body.fixfixed .header_box, 
+body.fixfixed .menubar_btn,
+body.fixfixed .menubar_list_box,
+body.fixfixed:before,
+body.fixfixed .floating_region  { position:absolute}
+body.fixfixed .footer_box { display:none }
+
+.app_gal_in {white-space: normal;margin:15px}
+.app_gal .app_gal_in li {      width: 32%;
+    margin: 2% 2% 0 0;
+    margin-right: 2%;
+    height: 1px;
+    padding-bottom: 54%;
+    display: block;
+    float: left; }
+.app_gal .app_gal_in li:nth-child(3n) { margin-right:0 }

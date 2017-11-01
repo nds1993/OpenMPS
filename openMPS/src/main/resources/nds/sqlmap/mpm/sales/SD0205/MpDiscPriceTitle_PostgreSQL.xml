@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpDiscPriceTitle">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpDiscPriceTitleSerarchVO" type="nds.mpm.sales.SD0205.vo.MpDiscPriceTitleVO"/>
+	
+	<resultMap id="mpDiscPriceTitle" class="nds.mpm.sales.SD0205.vo.MpDiscPriceTitleVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="custCode" column="cust_code" columnIndex="2"/>
+		<result property="monAgo1" column="mon_ago_1" columnIndex="3"/>
+		<result property="monSale1" column="mon_sale_1" columnIndex="4"/>
+		<result property="monRece1" column="mon_rece_1" columnIndex="5"/>
+		<result property="monMisu1" column="mon_misu_1" columnIndex="6"/>
+		<result property="monTurnover1" column="mon_turnover_1" columnIndex="7"/>
+		<result property="monAgo2" column="mon_ago_2" columnIndex="8"/>
+		<result property="monSale2" column="mon_sale_2" columnIndex="9"/>
+		<result property="monRece2" column="mon_rece_2" columnIndex="10"/>
+		<result property="monMisu2" column="mon_misu_2" columnIndex="11"/>
+		<result property="monTurnover2" column="mon_turnover_2" columnIndex="12"/>
+		<result property="custCode" column="cust_code" columnIndex="14"/>
+		<result property="monAgo3" column="mon_ago_3" columnIndex="15"/>
+		<result property="monSale3" column="mon_sale_3" columnIndex="16"/>
+		<result property="monRece3" column="mon_rece_3" columnIndex="17"/>
+		<result property="monMisu3" column="mon_misu_3" columnIndex="18"/>
+		<result property="monTurnover3" column="mon_turnover_3" columnIndex="19"/>
+	</resultMap>
+	
+	<insert id="mpDiscPriceTitleDAO.insertMpDiscPriceTitle">
+		<selectKey keyProperty="custCode" resultClass="string">
+		    select #custCode# as cust_code
+		</selectKey>
+		<![CDATA[
+			INSERT INTO mp_disc_price_title 
+				( corp_code
+				  , strt_date
+				  , last_date
+				  , cust_code
+				  , disc_title
+				  , mon_ago_3
+				  , mon_sale_3
+				  , mon_rece_3
+				  , mon_misu_3
+				  , mon_turnover_3
+				  , mon_ago_2
+				  , mon_sale_2
+				  , mon_rece_2
+				  , mon_misu_2
+				  , mon_turnover_2
+				  , mon_ago_1
+				  , mon_sale_1
+				  , mon_rece_1
+				  , mon_misu_1
+				  , mon_turnover_1
+				  , salesman
+				  , appro_yn )
+			VALUES ( #corpCode#
+				  , #strtDate#
+				  , #lastDate#
+				  , #custCode#
+				  , #discTitle#
+				  , #monAgo3#
+				  , #monSale3#
+				  , #monRece3#
+				  , #monMisu3#
+				  , #monTurnover3#
+				  , #monAgo2#
+				  , #monSale2#
+				  , #monRece2#
+				  , #monMisu2#
+				  , #monTurnover2#
+				  , #monAgo1#
+				  , #monSale1#
+				  , #monRece1#
+				  , #monMisu1#
+				  , #monTurnover1#
+				  , #salesman#
+				  , #approYn# )
+			ON CONFLICT (corp_code, strt_date, last_date, cust_code)
+    		DO UPDATE SET
+    			  disc_title = #discTitle#
+		]]>
+	</insert>
+	
+	<update id="mpDiscPriceTitleDAO.updateMpDiscPriceTitle">
+		<![CDATA[
+			UPDATE mp_disc_price_title
+			SET disc_title = #discTitle#
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND cust_code=#custCode#
+				]]>
+	</update>
+	
+	<update id="mpDiscPriceTitleDAO.updateMpDiscPriceApproRequest">
+		<![CDATA[
+			UPDATE mp_disc_price_title
+			SET appro_request=now()
+				, appro_yn='N'
+				, part_code = null
+	  			, part_appro = null
+	  			, part_date = null
+	  			, head_code = null
+	  			, head_appro = null
+	  			, head_date = null
+	  			, ceo_appro  = null
+	  			, ceo_date = null
+			WHERE corp_code=#corpCode#
+					AND strt_date=#strtDate#
+					AND last_date=#lastDate#
+					AND cust_code=#custCode#
+				]]>
+	</update>
+	
+	<delete id="mpDiscPriceTitleDAO.deleteMpDiscPriceTitle">
+		<![CDATA[
+			DELETE FROM mp_disc_price_title 
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND cust_code=#custCode#
+				]]>
+	</delete>
+	
+	<delete id="mpDiscPriceTitleDAO.deleteMpDiscPriceOldTitle">
+		<![CDATA[
+			DELETE FROM mp_disc_price_title 
+						WHERE corp_code=#corpCode#
+								AND strt_date=#oldStrtDate#
+								AND last_date=#oldLastDate#
+								AND cust_code=#custCode#
+				]]>
+	</delete>
+	
+	<select id="mpDiscPriceTitleDAO.selectMpDiscPriceTitle_S" resultClass="egovMap">
+		<![CDATA[
+			SELECT
+				corp_code
+				, strt_date
+				, last_date
+				, cust_code
+				, disc_title
+				, mon_ago_3
+				, mon_sale_3
+				, mon_rece_3
+				, mon_misu_3
+				, mon_turnover_3
+				, mon_ago_2
+				, mon_sale_2
+				, mon_rece_2
+				, mon_misu_2
+				, mon_turnover_2
+				, mon_ago_1
+				, mon_sale_1
+				, mon_rece_1
+				, mon_misu_1
+				, mon_turnover_1
+				, salesman
+				, appro_request
+				, appro_yn
+				, appro_memo
+				, part_code
+				, part_appro
+				, part_date
+				, head_code
+				, head_appro
+				, head_date
+				, ceo_appro
+				, ceo_date
+			FROM mp_disc_price_title
+						WHERE corp_code=#corpCode#
+								AND strt_date=#strtDate#
+								AND last_date=#lastDate#
+								AND cust_code=#custCode#
+				]]>
+	</select>
+	
+	<select id="mpDiscPriceTitleDAO.selectMpDiscPriceTitleList_D" parameterClass="mpDiscPriceTitleSerarchVO" resultClass="egovMap">
+		<![CDATA[
+		SELECT a.strt_date
+				, a.last_date
+				, a.cust_code
+				, openmps."FN_GET_CUSTCODENM"(a.corp_code,a.cust_code) as cust_name 
+				, a.disc_title
+				, a.appro_yn
+				, a.appro_memo
+				, to_char(a.appro_request,'YYYYMMDD') as appro_request
+				, a.part_code
+				, a.part_appro
+				, ( case when a.part_date is not null then to_char(a.part_date,'YYYYMMDD') else null end ) part_date
+				, a.head_code
+				, a.head_appro
+				, ( case when a.part_date is not null then to_char(a.head_date,'YYYYMMDD') else null end ) part_date
+				, a.ceo_appro
+				, ( case when a.part_date is not null then to_char(a.ceo_date,'YYYYMMDD') else null end ) ceo_date
+				, a.appro_memo
+				, usr.user_name as salesman
+				
+				, a.strt_date as old_strt_date
+				, a.last_date as old_last_date 
+		from openmps.mp_disc_price_title a
+		left outer join openmps.tm_userxm usr on (a.salesman = usr.user_code)
+		where strt_date between #strtDate# and #lastDate#
+		]]>
+		<isNotEmpty property="custCode">
+		and last_date = #lastDate#
+		</isNotEmpty>
+		<isNotEmpty property="salesman">
+		and salesman = #salesman#
+		</isNotEmpty>
+		<isEqual property="approYn" compareValue="Y">
+		and a.appro_yn = 'Y'
+		</isEqual>
+		<isEqual property="approYn" compareValue="N">
+		and a.appro_yn != 'Y'
+		</isEqual>
+	</select>	
+	
+	<!--
+	 
+	  승인요청시 셋팅할 금액데이터 조회 
+	  매출채권 회전율 = 매출액/당월매출채권(미수액)
+	  매출채권 회전일 = 30/회전율
+	  mon_turnover_2
+	 -->
+	<select id="mpDiscPriceTitleDAO.selectMpDiscPriceTitlePeriodAmt" parameterClass="mpDiscPriceTitleSerarchVO" resultMap="mpDiscPriceTitle">
+	<![CDATA[
+		select
+			before1.corp_code
+			,before1.cust_code
+			,to_char(now() - interval '1 months', 'YYYYMM') mon_ago_1
+			,before1.ordr_amt as mon_sale_1
+			,before1.rece_amt as mon_rece_1
+			,before1.current_unpay as mon_misu_1
+			, ( case when before1.ordr_amt != 0 and 
+				before1.current_unpay != 0 then 
+				(30 / ( before1.ordr_amt / before1.current_unpay)) else 0 end )::numeric(11,0) as mon_turnover_1
+			,to_char(now() - interval '2 months', 'YYYYMM') mon_ago_2
+			,before2.ordr_amt as mon_sale_2
+			,before2.rece_amt as mon_rece_2
+			,before2.current_unpay as mon_misu_2
+			, ( case when before2.ordr_amt != 0 and 
+				before2.current_unpay != 0 then 
+				(30 / ( before2.ordr_amt / before2.current_unpay)) else 0 end )::numeric(11,0) as mon_turnover_2
+			
+			,to_char(now() - interval '3 months', 'YYYYMM') mon_ago_3
+			,before3.ordr_amt as mon_sale_3
+			,before3.rece_amt as mon_rece_3
+			,before3.current_unpay as mon_misu_3
+			, ( case when before3.ordr_amt != 0 and 
+				before3.current_unpay != 0 then 
+				(30 / ( before3.ordr_amt / before3.current_unpay)) else 0 end )::numeric(11,0) as mon_turnover_3
+			
+	from(
+	
+		select 
+			cr.corp_code
+			,cr.cust_code
+			,sum(cr.sale_amt) + sum(cr.sale_vat) as ordr_amt
+			,sum(rec.rece_amt) as rece_amt
+			,sum(unp.current_unpay) as current_unpay
+		from 
+		openmps.mp_cust_record cr
+		left outer join (
+			select sum(rec.rece_amt) as rece_amt, rec.cust_code 
+				from openmps.mp_cust_receipt rec
+				where rec.corp_code = #corpCode#
+				and to_char(rec.rece_date::date, 'YYYYMM') = to_char(now()::date - interval '1 months', 'YYYYMM')
+				group by rec.corp_code,rec.cust_code 
+		) rec on (
+			cr.cust_code= rec.cust_code
+		)
+		left outer join openmps.mp_last_unpayment unp on (
+			cr.corp_code = unp.corp_code
+			and cr.cust_code= unp.cust_code
+			and unp.unpay_yymm = to_char(now()::date - interval '1 months', 'YYYYMM') 
+		)
+		where 
+		cr.corp_code = #corpCode#
+		and cr.cust_code = #custCode#
+		and cr.sale_date between to_char(now()::date - interval '1 months', 'YYYYMM') || '01' and to_char(now()::date - interval '1 months', 'YYYYMM') || '31'
+		group by cr.corp_code
+			,cr.cust_code
+			
+	) before1
+	left outer join 
+	(
+		select 
+			cr.corp_code
+			,cr.cust_code
+			,sum(cr.sale_amt) + sum(cr.sale_vat) as ordr_amt
+			,sum(rec.rece_amt) as rece_amt
+			,sum(unp.current_unpay) as current_unpay
+		from 
+		openmps.mp_cust_record cr
+		left outer join (
+			select sum(rec.rece_amt) as rece_amt, rec.cust_code 
+				from openmps.mp_cust_receipt rec
+				where rec.corp_code = #corpCode#
+				and to_char(rec.rece_date::date, 'YYYYMM') = to_char(now()::date - interval '2 months', 'YYYYMM')
+				group by rec.corp_code,rec.cust_code 
+		) rec on (
+			cr.cust_code= rec.cust_code
+		)
+		left outer join openmps.mp_last_unpayment unp on (
+			cr.corp_code = unp.corp_code
+			and cr.cust_code= unp.cust_code
+			and unp.unpay_yymm = to_char(now()::date - interval '2 months', 'YYYYMM') 
+		)
+		where 
+		cr.corp_code = #corpCode#
+		and cr.cust_code = #custCode#
+		and cr.sale_date between to_char(now()::date - interval '2 months', 'YYYYMM') || '01' and to_char(now()::date - interval '2 months', 'YYYYMM') || '31'
+		group by cr.corp_code
+			,cr.cust_code
+			
+	) before2 on (before1.corp_code = before2.corp_code and before1.cust_code = before2.cust_code)
+	left outer join
+	(
+		select 
+			cr.corp_code
+			,cr.cust_code
+			,sum(cr.sale_amt) + sum(cr.sale_vat) as ordr_amt
+			,sum(rec.rece_amt) as rece_amt
+			,sum(unp.current_unpay) as current_unpay
+		from 
+		openmps.mp_cust_record cr
+		left outer join (
+			select sum(rec.rece_amt) as rece_amt, rec.cust_code 
+				from openmps.mp_cust_receipt rec
+				where rec.corp_code = #corpCode#
+				and to_char(rec.rece_date::date, 'YYYYMM') = to_char(now()::date - interval '3 months', 'YYYYMM')
+				group by rec.corp_code,rec.cust_code 
+		) rec on (
+			cr.cust_code= rec.cust_code
+		)
+		left outer join openmps.mp_last_unpayment unp on (
+			cr.corp_code = unp.corp_code
+			and cr.cust_code= unp.cust_code
+			and unp.unpay_yymm = to_char(now()::date - interval '3 months', 'YYYYMM') 
+		)
+		where 
+		cr.corp_code = #corpCode#
+		and cr.cust_code = #custCode#
+		and cr.sale_date between to_char(now()::date - interval '3 months', 'YYYYMM') || '01' and to_char(now()::date - interval '3 months', 'YYYYMM') || '31'
+		group by cr.corp_code
+			,cr.cust_code
+			
+	) before3 on (before1.corp_code = before3.corp_code and before1.cust_code = before3.cust_code)
+	]]>
+	</select>
+</sqlMap>

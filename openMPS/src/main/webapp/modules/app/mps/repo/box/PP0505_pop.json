@@ -1,0 +1,111 @@
+{
+  "name": "PM라벨실적 입고요청",
+  "module": "PP0505PopupRenderer",
+  "options": {
+      "className": "contents_box",
+      "order": [
+        "formBox",
+        "resultBox"
+      ],
+      "activation": {
+        "defaultWidget": "",
+        "method": "one-page"
+      },
+      "formBox": {
+        "module": "FormBox",
+        "options": {
+          "className": "form_box",
+          "order": [
+            "proName",
+            "printCode",
+            "inStatus"
+          ],
+          "activation": {
+            "defaultWidget": "",
+            "method": "one-page"
+          },
+          "custom_form": {
+            "template": "<div class=\"form-group\"><label>제품명</label><input type=\"text\" class=\"form-control form-control-static  proName\" disabled></div><div class=\"form-group\"><label>생산수량</label><input type=\"text\" class=\"form-control form-control-static printCode\" disabled></div><div class=\"form-group\"><label>입고수량</label><input type=\"text\" class=\"form-control form-control-static inStatus\" disabled></div>",
+            "mode": "form",
+            "items": {
+              "proName": {
+                "required": false,
+                "selector": ".proName",
+                "label": "제품명",
+                "module": "text",
+                "static": true,
+				"dasable": true
+              },
+              "printCode": {
+                "required": false,
+                "selector": ".printCode",
+                "label": "생산수량",
+                "module": "text",
+				"static": true,
+				"dasable": true
+              },
+              "inStatus": {
+                "required": false,
+                "selector": ".inStatus",
+                "label": "입고수량",
+                "module": "text",
+				"static": true,
+				"dasable": true
+              }
+            },
+            "data": {}
+          },
+          "proCode": {
+            "module": "manifest!CodeSearch-1.0.0",
+            "options": {
+              "label": "제품",
+              "required": false,
+              "codeType": "PP0103",
+              "params": {},
+              "value": {
+                "keyword": null,
+                "result": null
+              }
+            }
+          }
+        }
+      },
+	  "resultBox": {
+		"module": "manifest!jqGrid4-1.0.0",
+		"options": {
+		  "className": "leftGrid_box grid_box gird_btn_hide",
+		  "gridId": "PP0505_pop_grid",
+		  "gridParams": {
+			"data": [],
+			"colModel": [
+				{"name": "printCode"	,"label": "라벨발행코드"	,"width": 200,	"align": "center","editable": false,"hidden": false},
+				{"name": "rcptno"		,"label": "입고번호"		,"width": 250,	"align": "center","editable": false,"hidden": false},
+				{"name": "rcptsn"		,"label": "입고순번"		,"width": 170,	"align": "center","editable": false,"hidden": false},
+				{"name": "inStatus"		,"label": "입고상태"		,"width": 70,	"align": "center","editable": false,"hidden": false,"classes":"color_minus", "hidden": true},
+				{"name": "errorMsg"		,"label": "오류내역"		,"width": 150,	"align": "center","editable": false,"hidden": false,"classes":"color_minus", "hidden": true}
+			],
+			"pager": false,
+			"width": "auto",
+			"height": "208",
+			"cellEdit": false,
+			"shrinkToFit": true,
+			"gridview": true,
+			"datatype": "local",
+			"viewrecords": true,
+			"footerrow": false,
+			"rownumbersWidth":6,
+			"rownumbers": true,
+			"recordpos": "left",
+			"pgbuttons": false,
+			"pginput": false,
+			"pager": "#PP0505_pop_grid_pager",
+			"viewrecords": true,
+			"recordpos":"left",
+			"pgbuttons":false,
+			"pginput":false
+		  }
+		}
+	  }
+
+  }
+}

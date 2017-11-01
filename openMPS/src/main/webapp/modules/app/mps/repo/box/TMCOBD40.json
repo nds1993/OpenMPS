@@ -1,0 +1,386 @@
+{
+    "module": "TMCOBD40Renderer",
+    "options": {
+        "className": "contents_box",
+        "order": [
+            "queryBox",
+            "resultBox",
+            "formBox2",
+            "formBox",
+            "formBox3"
+        ],
+        "activation": {
+            "defaultWidget": "",
+            "method": "one-page"
+        },
+        "formBox": {
+            "module": "FormBox",
+            "options": {
+                "order": [
+                    "contId",
+                    "crUser",
+                    "contGrp",
+                    "contLv",
+                    "sortOrder",
+                    "upcontId",
+                    "contReyn",
+                    "fileId",
+                    "title",
+                    "bbsCode",
+                    "content",
+                    "notiYn",
+                    "secretYn",
+                    "periodYn",
+                    "beginDate",
+                    "endDate"
+                ],
+                "activation": {
+                    "defaultWidget": "",
+                    "method": "one-page"
+                },
+                "custom_form": {
+                	"name": "Form Builder Params",
+                    "template": "<div class=\"row\"><div class=\"col-xs-12 text-right\" style=\"padding: 0px;\"><button class=\"btn btn-primary  btn_save\" style=\"display: none;\"><span class=\"btn_label \">저장</span></button><button class=\"btn btn-primary  btn_cancel\" style=\"display: none;\"><span class=\"btn_label \">취소</span></button></div></div><div class=\"form_box form-group-tmm equal_width\"><div class=\"row\"><div class=\"col-xs-9\"><div class=\"form-group\"><label class=\"required\">제목</label><input type=\"text\" class=\"form-control contId\" style=\"display: none;\" value=\"\" placeholder=\"\"><input type=\"text\" class=\"form-control crUser\" style=\"display: none;\" value=\"\" placeholder=\"\"><input type=\"text\" class=\"form-control contGrp\" style=\"display: none;\" value=\"\" placeholder=\"\"><input type=\"text\" class=\"form-control contLv\" style=\"display: none;\" value=\"\" placeholder=\"\"><input type=\"text\" class=\"form-control sortOrder\" style=\"display: none;\" value=\"\" placeholder=\"\"><input type=\"text\" class=\"form-control upcontId\" style=\"display: none;\" value=\"\" placeholder=\"\"><input type=\"text\" class=\"form-control contReyn\" style=\"display: none;\" value=\"\" placeholder=\"\"><input type=\"text\" class=\"form-control fileId\" style=\"display: none;\" value=\"\" placeholder=\"\"><input type=\"text\" class=\"form-control title\" value=\"\" placeholder=\"\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>비밀글</label><input type=\"checkbox\" name=\"secretYn\" value=\"Y\"></div></div><div class=\"col-xs-4\" style=\"display:none;\"><div class=\"form-group\"><label class=\"required\">게시판</label><div class=\"select_design bbsCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">내용</label><textarea rows=\"10\" class=\"form-control content\"></textarea></div></div></div><div class=\"row\"><div class=\"col-xs-3\" style=\"display: none;\"><div class=\"form-group\"><label>공지등록</label><input type=\"checkbox\" name=\"notiYn\" value=\"Y\"></div></div><div class=\"col-xs-6\"><div class=\"form-group form-inline\"><label>게시기간</label><input type=\"checkbox\" name=\"periodYn\" value=\"Y\"><input type=\"text\" class=\"form-control form_type_date beginDate\" placeholder=\"\">~ <input type=\"text\" class=\"form-control form_type_date endDate\" placeholder=\"\"></div></div></div><div class=\"row\"><div class=\"col-xs-3\"><div class=\"form-group\"><label>첨부파일</label><input type=\"file\" name=\"file\"></div></div><div class=\"col-xs-9\"><div class=\"div-file-list\"></div></div></div></div>",
+                    "mode": "form",
+                    "items": {
+                    	"contId": {
+                            "module": "text",
+                            "label": "아이디",
+                            "selector": ".contId",
+                            "required": false
+                        },
+                    	"crUser": {
+                            "module": "text",
+                            "label": "작성자",
+                            "selector": ".crUser",
+                            "required": false
+                        },
+                    	"contGrp": {
+                            "module": "text",
+                            "label": "게시물그룹",
+                            "selector": ".contGrp",
+                            "required": false
+                        },
+                    	"contLv": {
+                            "module": "text",
+                            "label": "게시물레벨",
+                            "selector": ".contLv",
+                            "required": false
+                        },
+                    	"sortOrder": {
+                            "module": "text",
+                            "label": "정렬순서",
+                            "selector": ".sortOrder",
+                            "required": false
+                        },
+                    	"upcontId": {
+                            "module": "text",
+                            "label": "부모아이디",
+                            "selector": ".upcontId",
+                            "required": false
+                        },
+                    	"contReyn": {
+                            "module": "text",
+                            "label": "답변글여부",
+                            "selector": ".contReyn",
+                            "required": false
+                        },
+                        "fileId": {
+                            "module": "text",
+                            "label": "파일아이디",
+                            "selector": ".fileId",
+                            "required": false
+                        },
+                    	"title": {
+                            "module": "text",
+                            "label": "제목",
+                            "selector": ".title",
+                            "required": true
+                        },
+                        "bbsCode": {
+                            "module": "combobox",
+                            "label": "요청유형",
+                            "selector": ".bbsCode",
+                            "required": true,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/TMCOBD10/bbsCode",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+                        },
+                    	"content": {
+                            "module": "textarea",
+                            "label": "내용",
+                            "selector": ".content",
+                            "required": true
+                        },
+                        "notiYn": {
+                            "module": "checkbox",
+                            "label": "공지등록",
+                            "selector": "[name=notiYn]",
+                            "required": false
+                        },
+                        "secretYn": {
+                            "module": "checkbox",
+                            "label": "비밀글",
+                            "selector": "[name=secretYn]",
+                            "required": false
+                        },
+                        "periodYn": {
+                            "module": "checkbox",
+                            "label": "게시기간여부",
+                            "selector": "[name=periodYn]",
+                            "required": false
+                        },
+                        "beginDate": {
+                            "module": "date",
+                            "label": "시작일",
+                            "selector": ".beginDate",
+                            "format": "YYYY-MM-DD",
+                            "required": false
+                        },
+                        "endDate": {
+                            "module": "date",
+                            "label": "종료일",
+                            "selector": ".endDate",
+                            "format": "YYYY-MM-DD",
+                            "required": false
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "formBox2": {
+            "module": "FormBox",
+            "options": {
+                "order": [
+                    "title",
+                    "periodBeginEnd",
+                    "crUserName",
+                    "readCnt",
+                    "content"
+                ],
+                "activation": {
+                    "defaultWidget": "",
+                    "method": "one-page"
+                },
+                "custom_form": {
+                	"name": "Form Builder Params2",
+                    "template": "<div class=\"row\"><div class=\"col-xs-12 text-right\" style=\"padding: 0px;\"><button class=\"btn btn-primary  btn_save_reply\" style=\"display: none;\"><span class=\"btn_label \">답글</span></button><button class=\"btn btn-primary  btn_update\" style=\"display: none;\"><span class=\"btn_label \">수정</span></button><button class=\"btn btn-primary  btn_delete\" style=\"display: none;\"><span class=\"btn_label \">삭제</span></button></div></div><div class=\"form_box form-group-tmm equal_width\"><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label>제목</label><input type=\"text\" class=\"form-control title\" value=\"\" placeholder=\"\" disabled=\"disabled\"></div></div></div><div class=\"row\"><div class=\"col-xs-6\"><div class=\"form-group\"><label>게시기간</label><input type=\"text\" class=\"form-control periodBeginEnd\" value=\"\" placeholder=\"\" disabled=\"disabled\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>작성자</label><input type=\"text\" class=\"form-control crUserName\" value=\"\" placeholder=\"\" disabled=\"disabled\"></div></div><div class=\"col-xs-3\"><div class=\"form-group\"><label>조회수</label><input type=\"text\" class=\"form-control readCnt\" value=\"\" placeholder=\"\" disabled=\"disabled\"></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label>내용</label><textarea rows=\"10\" class=\"form-control content\" disabled=\"disabled\"></textarea></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label>첨부파일</label><div class=\"div-file-list-2\"></div></div></div></div></div>",
+                    "mode": "form",
+                    "items": {
+                    	"title": {
+                            "module": "text",
+                            "label": "제목",
+                            "selector": ".title",
+                            "readonly": true
+                        },
+                    	"periodBeginEnd": {
+                            "module": "text",
+                            "label": "게시기간",
+                            "selector": ".periodBeginEnd",
+                            "readonly": true
+                        },
+                    	"crUserName": {
+                            "module": "text",
+                            "label": "작성자",
+                            "selector": ".crUserName",
+                            "readonly": true
+                        },
+                    	"readCnt": {
+                            "module": "text",
+                            "label": "조회수",
+                            "selector": ".readCnt",
+                            "readonly": true
+                        },
+                    	"content": {
+                            "module": "textarea",
+                            "label": "내용",
+                            "selector": ".content",
+                            "readonly": true
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "formBox3": {
+            "module": "FormBox",
+            "options": {
+                "activation": {
+                    "defaultWidget": "",
+                    "method": "one-page"
+                },
+                "custom_form": {
+                	"name": "Form Builder Params3",
+                    "template": "<div class=\"form_box form-group-tmm equal_width\"><div class=\"div_comt_area\"></div><div class=\"row div_comt_save_area\"><div class=\"col-xs-8\"><div class=\"form-group\"><label class=\"label_comt_curr_user\"></label><input type=\"text\" class=\"form-control comment\" value=\"\" placeholder=\"\"></div></div><div class=\"col-xs-4\"><label style=\"width:94px;\">&nbsp;</label><button class=\"btn btn-primary  btn_comt_save\"><span class=\"btn_label \">저장</span></button></div></div></div>",
+                    "mode": "form",                    
+                    "data": {}
+                }
+            }
+        },
+        "queryBox": {
+            "module": "FormBox",
+            "options": {
+                "module": "FormBox",
+                "className": "query_box form-inline",
+                "order": [
+                    "strtDate",
+                    "lastDate",
+                    "searchCondition",
+                    "searchKeyword"
+                ],
+                "custom_form": {
+                	"mode": "form",
+                    "template": "<div class=\"form-group\"><label>기간</label><input type=\"text\" class=\"form-control form_type_date strtDate\" placeholder=\"\">~ <input type=\"text\" class=\"form-control form_type_date lastDate\" placeholder=\"\"></div><div class=\"form-group\"><label>검색</label><div class=\"select_design searchCondition\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div><input type=\"text\" class=\"form-control searchKeyword\" placeholder=\"\"></div>",
+                    "items": {
+                    	"searchCondition": {
+                            "selector": ".searchCondition",
+                            "label": "검색조건",
+                            "required": false,
+                            "module": "combobox",
+                            "value": "",
+							"items": [
+								{
+									"label": "제목",
+									"value": "20"
+								},
+								{
+									"label": "작성자",
+									"value": "30"
+								}
+							]
+                        },
+                        "strtDate": {
+                            "module": "date",
+                            "label": "시작일",
+                            "selector": ".strtDate",
+                            "format": "YYYY-MM-DD",
+                            "required": false
+                        },
+                        "lastDate": {
+                            "module": "date",
+                            "label": "종료일",
+                            "selector": ".lastDate",
+                            "format": "YYYY-MM-DD",
+                            "required": false
+                        },
+                        "searchKeyword": {
+                            "module": "text",
+                            "label": "검색내용",
+                            "selector": ".searchKeyword",
+                            "required": false
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "resultBox": {
+            "module": "manifest!jqGrid4-1.0.0",
+            "options": {
+                "className": "resultBox_box grid_box",
+                "gridId": "TMCOBD40_grid_1",
+                "gridParams": {
+                    "data": [],
+                    "colModel": [
+                    {
+                        "name": "bbsName",
+                        "label": "게시판명",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                    	"name": "reTitle",
+                        "label": "제목",
+                        "align": "left",
+                        "width": 500
+                    }, {
+                       "name": "crUserName",
+                        "label": "작성자",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "crDate2",
+                        "label": "작성일",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "fileId",
+                        "label": "파일아이디",
+                        "hidden":true
+                    }, {
+                        "name": "readCnt",
+                        "label": "조회수",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "deleYn",
+                        "label": "삭제여부",
+                        "hidden":true
+                    }, {
+                        "name": "content",
+                        "label": "내용",
+                        "hidden":true
+                    }, {
+                        "name": "secretYn",
+                        "label": "비밀글",
+                        "hidden":true
+                    }, {
+                        "name": "notiYn",
+                        "label": "공지등록",
+                        "hidden":true
+                    }, {
+                        "name": "periodYn",
+                        "label": "게시기간",
+                        "hidden":true
+                    }, {
+                        "name": "beginDate",
+                        "label": "내용",
+                        "hidden":true
+                    }, {
+                        "name": "endDate",
+                        "label": "내용",
+                        "hidden":true
+                    }, {
+                        "name": "contId",
+                        "label": "아이디",
+                        "hidden":true
+                    }, {
+                        "name": "bbsCode",
+                        "label": "게시판아이디",
+                        "hidden":true
+                    }, {
+                        "name": "contGrp",
+                        "label": "게시물그룹",
+                        "hidden":true
+                    }, {
+                        "name": "contLv",
+                        "label": "게시판레벨",
+                        "hidden":true
+                    }, {
+                        "name": "sortOrder",
+                        "label": "정렬순서",
+                        "hidden":true
+                    }, {
+                        "name": "title",
+                        "label": "제목",
+                        "hidden":true
+                    }, {
+                        "name": "periodBeginEnd",
+                        "label": "게시기간",
+                        "hidden":true
+                    }, {
+                        "name": "crUser",
+                        "label": "작성자",
+                        "hidden":true
+                    }],
+                    "width": "auto",
+                    "height": "250",
+                    "iconSet": "fontAwesome",
+                    "pager": false,
+                    "cellEdit": false
+                }
+            }
+        }
+    }
+}

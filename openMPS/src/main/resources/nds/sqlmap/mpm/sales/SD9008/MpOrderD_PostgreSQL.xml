@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD9008MpOrderD">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<select id="SD9008MpOrderDDAO.selectMpOrderHList_D" resultClass="egovMap">
+	
+	select *, 
+		openmps."FN_GET_CUSTCODENM"(a.corp_code, a.ordr_cust) as cust_name 
+	from openmps."mp_order_h" a inner join openmps."mp_salesman_cust" b on a.sale_cust = b.salesman_cust
+	where a.corp_code = #corpCode#
+	and b.salesman = #salesman#
+	and a.delv_date = #delvDate#
+	
+	</select>
+	<select id="SD9008MpOrderDDAO.selectMpOrderDList_D" resultClass="egovMap">
+	
+	select b.ordr_no,
+		(select o_remain_amt from openmps."SD_CREDIT_CHECK"('O', #corpCode#, NULL, #delvDate#, #ordrNo#)) as remain_credit,
+		case when b.delv_weight='0' then '출고예정' else '출고완료' end as delv_gubun,
+		b.ordr_amt,
+		b.phone_no,
+		b.arrival_time,
+		openmps."FN_GET_CUSTCODENM"(b.corp_code, b.ordr_cust) as cust_name, 
+		(select pro_name from openmps."mp_item_master_m" c where c.pro_code= a.pro_code) as pro_name, 
+		a.unit_price,
+		case when #displayUnit#='0' then a.ordr_weight when #displayUnit#='1' then a.ordr_box end as ordr_cnt,
+		case when #displayUnit#='0' then (a.delv_weight - a.ordr_weight) when #displayUnit#='1' then (a.delv_box - a.ordr_box) end as ordr_adj
+	from openmps."mp_order_d" a inner join openmps."mp_order_h" b on a.ordr_no = b.ordr_no
+	where a.corp_code = #corpCode#
+	and b.corp_code = #corpCode#
+	and a.ordr_no = #ordrNo#
+	and b.delv_date = #delvDate#
+	and a.delv_date = #delvDate#
+	
+	</select>
+
+</sqlMap>

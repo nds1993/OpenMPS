@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpCustProLimit">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpCustProLimitSerarchVO" type="nds.mpm.sales.SD0101.vo.MpCustProLimitDefaultVO"/>
+	
+	<resultMap id="mpCustProLimit" class="nds.mpm.sales.SD0101.vo.MpCustProLimitVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="custCode" column="cust_code" columnIndex="2"/>
+		<result property="saleGroup2" column="sale_group2" columnIndex="3"/>
+		<result property="limitDay" column="limit_day" columnIndex="4"/>
+		<result property="crUser" column="cr_user" columnIndex="5"/>
+		<result property="crDate" column="cr_date" columnIndex="6"/>
+		<result property="mdUser" column="md_user" columnIndex="7"/>
+		<result property="mdDate" column="md_date" columnIndex="8"/>
+	</resultMap>
+	
+	<insert id="mpCustProLimitDAO.insertMpCustProLimit">
+		<![CDATA[
+			INSERT INTO mp_cust_pro_limit 
+				( corp_code
+				  , cust_code
+				  , sale_group2
+				  , limit_day
+				  , cr_user
+				  , cr_date
+				  , md_user
+				  , md_date )
+			VALUES ( #corpCode#
+				  , #custCode#
+				  , #saleGroup2#
+				  , #limitDay#
+				  , #crUser#
+				  , #crDate#
+				  , #mdUser#
+				  , #mdDate# )
+		]]>
+	</insert>
+	
+	<update id="mpCustProLimitDAO.updateMpCustProLimit">
+		<![CDATA[
+			UPDATE mp_cust_pro_limit
+			SET corp_code=#corpCode#
+				, cust_code=#custCode#
+				, sale_group2=#saleGroup2#
+				, limit_day=#limitDay#
+				, cr_user=#crUser#
+				, cr_date=#crDate#
+				, md_user=#mdUser#
+				, md_date=#mdDate#
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND sale_group2=#saleGroup2#
+				]]>
+	</update>
+	
+	<delete id="mpCustProLimitDAO.deleteMpCustProLimit">
+		<![CDATA[
+			DELETE FROM mp_cust_pro_limit 
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND sale_group2=#saleGroup2#
+				]]>
+	</delete>
+	
+	<select id="mpCustProLimitDAO.selectMpCustProLimit_S" resultMap="mpCustProLimit">
+		<![CDATA[
+			SELECT
+				corp_code
+				, cust_code
+				, sale_group2
+				, limit_day
+				, cr_user
+				, cr_date
+				, md_user
+				, md_date
+			FROM mp_cust_pro_limit
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND sale_group2=#saleGroup2#
+				]]>
+	</select>
+	
+	<select id="mpCustProLimitDAO.selectMpCustProLimitList_D" parameterClass="mpCustProLimitSerarchVO" resultClass="egovMap">
+		SELECT
+				(select etc01 from openmps.tm_codexd where corp_code=a.corp_code and group_code = 'SD024' ) as pro_group
+				,openmps."FN_GET_TMCODEXDNM"(a.corp_code,'MP006',a.sale_group2) as sale_group2_name
+				, limit_day
+				, sale_group2
+				, corp_code
+				, cust_code
+			FROM openmps.mp_cust_pro_limit a
+			WHERE corp_code=#corpCode#
+			AND cust_code=#custCode#
+	</select>	
+	<select id="mpCustProLimitDAO.selectMpCustProLimitListTotCnt_S" parameterClass="mpCustProLimitSerarchVO" resultClass="int">
+
+	</select>
+
+</sqlMap>

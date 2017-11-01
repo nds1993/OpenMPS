@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpPighisBuyM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpPighisBuyMSerarchVO" type="nds.mpm.prod.PP0801.vo.MpPighisBuyMVO"/>
+	
+	<resultMap id="mpPighisBuyM" class="nds.mpm.prod.PP0801.vo.MpPighisBuyMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="buyDate" column="buy_date" columnIndex="2"/>
+		<result property="hisNo" column="his_no" columnIndex="3"/>
+		<result property="dochNo" column="doch_no" columnIndex="4"/>
+		<result property="sumWeig" column="sum_weig" columnIndex="5"/>
+		<result property="gradeGubun1" column="grade_gubun1" columnIndex="6"/>
+		<result property="gradeGubun2" column="grade_gubun2" columnIndex="7"/>
+		<result property="buyType" column="buy_type" columnIndex="8"/>
+		<result property="basePartCode" column="base_part_code" columnIndex="9"/>
+		<result property="basePartName" column="base_part_name" columnIndex="10"/>
+		<result property="compSsno" column="comp_ssno" columnIndex="11"/>
+		<result property="compName" column="comp_name" columnIndex="12"/>
+		<result property="compOwner" column="comp_owner" columnIndex="13"/>
+		<result property="compTel" column="comp_tel" columnIndex="14"/>
+		<result property="compAddr" column="comp_addr" columnIndex="15"/>
+		<result property="custName" column="cust_name" columnIndex="16"/>
+		<result property="gitaPan" column="gita_pan" columnIndex="17"/>
+		<result property="gitaType" column="gita_type" columnIndex="18"/>
+		<result property="gitaSex" column="gita_sex" columnIndex="19"/>
+		<result property="gitaWeig" column="gita_weig" columnIndex="20"/>
+		<result property="gitaFatThick" column="gita_fat_thick" columnIndex="21"/>
+		<result property="apiTime" column="api_time" columnIndex="22"/>
+		<result property="memo" column="memo" columnIndex="23"/>
+		<result property="deleYn" column="dele_yn" columnIndex="24"/>
+		<result property="mdUser" column="md_user" columnIndex="25"/>
+		<result property="mdDate" column="md_date" columnIndex="26"/>
+		<result property="crUser" column="cr_user" columnIndex="27"/>
+		<result property="crDate" column="cr_date" columnIndex="28"/>
+	</resultMap>
+	<!-- 
+	
+		sum_weig ?
+	 -->
+	<insert id="mpPighisBuyMDAO.insertMpPighisBuyM">
+		<selectKey resultClass="java.lang.String" keyProperty="hisNo">
+          <![CDATA[
+            select #hisNo#
+          ]]>
+      	</selectKey>
+			INSERT INTO openmps.mp_pighis_buy_m
+				( corp_code
+				  , buy_date
+				  , his_no
+				  , doch_no
+				  , sum_weig
+				  , grade_gubun1
+				  , grade_gubun2
+				  , buy_type
+				  , base_part_code
+				  , base_part_name
+				  , comp_ssno
+				  , comp_name
+				  , comp_owner
+				  , comp_tel
+				  , comp_addr
+				  , cust_name
+				  , gita_pan
+				  , gita_type
+				  , gita_sex
+				  , gita_weig
+				  , gita_fat_thick
+				  , api_time
+				  , memo
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  <!--,	to_char(now(),'YYYY') || #buyDateM# || #buyDateD# -->
+				  , #buyDate#
+				  , #hisNo#
+				  , #dochNo#
+				  , #gitaWeig#
+				  , #gradeGubun1#
+				  , #gradeGubun2#
+				  , #buyType#
+				  ,	'430410'
+				  , (select code_name from openmps.tm_codexd where corp_code=#corpCode# and group_code='MP006' and code_id='430410' limit 1)
+				  , #compSsno#
+				  , #compName#
+				  , #compOwner#
+				  , #compTel#
+				  , #compAddr#
+				  , #custName#
+				  , #gitaPan#
+				  , #gitaType#
+				  , #gitaSex#
+				  , #gitaWeig#
+				  , #gitaFatThick#
+				  , #apiTime#
+				  , #memo#
+				  , 'N'
+				  , #crUser#
+				  , now() )
+			ON CONFLICT (corp_code, buy_date, his_no, doch_no)
+    		DO UPDATE SET
+				sum_weig=#gitaWeig#
+				, grade_gubun1=#gradeGubun1#
+				, grade_gubun2=#gradeGubun2#
+				, buy_type=#buyType#
+				, base_part_code=#basePartCode#
+				, base_part_name=#basePartName#
+				, comp_ssno=#compSsno#
+				, comp_name=#compName#
+				, comp_owner=#compOwner#
+				, comp_tel=#compTel#
+				, comp_addr=#compAddr#
+				, cust_name=#custName#
+				, gita_pan=#gitaPan#
+				, gita_type=#gitaType#
+				, gita_sex=#gitaSex#
+				, gita_weig=#gitaWeig#
+				, gita_fat_thick=#gitaFatThick#
+				, api_time=#apiTime#
+				, memo=#memo#
+				, dele_yn='N'
+				, md_user=#mdUser#
+				, md_date=now()
+	</insert>
+	
+	<update id="mpPighisBuyMDAO.updateMpPighisBuyM">
+		<![CDATA[
+			UPDATE openmps.mp_pighis_buy_m
+			SET sum_weig=#sumWeig#
+				, grade_gubun1=#gradeGubun1#
+				, grade_gubun2=#gradeGubun2#
+				, buy_type=#buyType#
+				, comp_ssno=#compSsno#
+				, comp_name=#compName#
+				, comp_owner=#compOwner#
+				, comp_tel=#compTel#
+				, comp_addr=#compAddr#
+				, cust_name=#custName#
+				, gita_pan=#gitaPan#
+				, gita_type=#gitaType#
+				, gita_sex=#gitaSex#
+				, gita_weig=#gitaWeig#
+				, gita_fat_thick=#gitaFatThick#
+				, api_time=#apiTime#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND buy_date=#buyDate#
+								AND his_no=#hisNo#
+								AND doch_no=#dochNo#
+				]]>
+	</update>
+	<update id="mpPighisBuyMDAO.updateApiTimeMpPighisBuyM">
+			UPDATE openmps.mp_pighis_buy_m
+			SET 
+				md_user=#mdUser#
+				, md_date=now()
+				<isEqual property="searchCondition" compareValue="success">
+				, api_time=now()
+				</isEqual>
+				, memo=#memo#
+						WHERE corp_code=#corpCode#
+								AND buy_date=#buyDate#
+								AND his_no=#hisNo#
+								AND doch_no=#dochNo#
+	</update>
+	<delete id="mpPighisBuyMDAO.deleteMpPighisBuyM">
+		<![CDATA[
+			update openmps.mp_pighis_buy_m set dele_yn='Y'
+						, md_user=#mdUser#
+						, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND buy_date=#buyDate#
+								AND his_no=#hisNo#
+								AND doch_no=#dochNo#
+				]]>
+	</delete>
+	
+	<select id="mpPighisBuyMDAO.selectMpPighisBuyM_S" resultMap="mpPighisBuyM">
+		<![CDATA[
+			SELECT
+				corp_code
+				, buy_date
+				, his_no
+				, doch_no
+				, sum_weig
+				, grade_gubun1
+				, grade_gubun2
+				, buy_type
+				, base_part_code
+				, base_part_name
+				, comp_ssno
+				, comp_name
+				, comp_owner
+				, comp_tel
+				, comp_addr
+				, cust_name
+				, gita_pan
+				, gita_type
+				, gita_sex
+				, gita_weig::numeric
+				, gita_fat_thick
+				, api_time
+				, memo
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM openmps.mp_pighis_buy_m
+						WHERE corp_code=#corpCode#
+								AND buy_date=#buyDate#
+								AND his_no=#hisNo#
+								AND doch_no=#dochNo#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	from openmps.mp_pighis_buy_m a
+	  	left outer join openmps.tm_userxm usr on (a.corp_code = usr.corp_code and a.md_user = usr.user_code)
+	  	left outer join openmps.tm_codexd grpcd on ( a.corp_code=grpcd.corp_code 
+			and grpcd.group_code='PP011'
+			and grpcd.code_name = a.grade_gubun2 )
+	  	where a.corp_code = #corpCode#
+	  	and a.buy_date = #buyDate#
+	  	and a.dele_yn = 'N'
+		<dynamic>
+			<isNotEmpty property="buyType">
+			and a.buy_type = #buyType#
+			</isNotEmpty>
+			<isNotEmpty property="hisNo">
+			and a.his_no = #hisNo#
+			</isNotEmpty>
+			<isNotEmpty property="dochNo">
+			and a.doch_no = #dochNo#
+			</isNotEmpty>
+			<isEqual property="sendType" compareValue="nsend">
+			and a.api_time is null
+			</isEqual>
+		</dynamic>
+		<isEqual property="searchCondition2" compareValue="test">
+		limit 1
+		</isEqual>
+	</sql>
+	<select id="mpPighisBuyMDAO.selectMpPighisBuyMList_D" parameterClass="mpPighisBuyMSerarchVO" resultClass="egovMap">
+		select
+		openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PP006',a.buy_type) as buy_typename
+		, to_char(a.buy_date::date, 'MM') as buy_date_m
+		, to_char(a.buy_date::date, 'DD') as buy_date_d
+		, a.doch_no::varchar
+		, a.gita_pan
+		, a.gita_type
+		, a.gita_sex
+		, a.gita_weig::varchar
+		, a.gita_fat_thick::varchar
+		, a.grade_gubun2
+		, a.cust_name
+		, a.his_no
+		, to_char(a.api_time, 'YYYY-MM-DD HH:mi:ss') as api_time
+		, usr.user_name as cr_user
+		
+		, grpcd.code_id  as  grade_gubun2_cd
+		, a.corp_code
+		, a.md_user
+		, a.buy_type
+		, a.buy_date
+		, a.grade_gubun1
+		, a.base_part_code
+		, a.base_part_name
+		, a.comp_ssno
+		, a.comp_name
+		, a.comp_owner
+		, a.comp_tel
+		, a.comp_addr
+		<include refid="selectWhere_fragment"/>
+	</select>	
+	<select id="mpPighisBuyMDAO.selectMpPighisBuyMListTotCnt_S" parameterClass="mpPighisBuyMSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<!-- 
+	
+	comp_ssno character varying(10),  (매입처)사업자번호
+  comp_name character varying(50),  (매입처)사업자명
+  comp_owner character varying(25),  (매입처)대표자명
+  comp_tel character varying(20),  (매입처)회사전화번호
+  comp_addr 
+	 -->
+	<select id="mpPighisBuyMDAO.selectMpPighisBuyMBuyTypeInfo" resultClass="egovMap">
+			SELECT
+				etc02 as comp_ssno
+				,etc01 as comp_name
+				,etc03 as comp_owner
+				,etc04 as comp_tel
+				,etc05 as comp_addr
+			from openmps.tm_codexd where group_code = 'PP006'
+					and  code_name = #buyTypename#
+	</select>
+	<!-- 
+	
+	신고파일 포맷으로 조회 
+	 -->
+	<select id="mpPighisBuyMDAO.selectMpPighisBuyMSendFormatList"  resultClass="egovMap">
+		select 
+			title
+			, openmps."FN_GET_TMCODEXDNM"(aa.corp_code,'PP006',aa.buy_type) as buy_typename
+			, aa.corp_code
+			, buy_date 
+			, his_no
+			, doch_no
+			, comp_ssno
+			, comp_name
+			, comp_owner
+			, comp_tel
+			, comp_addr
+			, gita_weig
+			, grpcd.code_id  as  grade_gubun2_cd
+			, base_part_code
+			, base_part_name
+		from
+		(
+		select 
+		'T1' as title
+		, corp_code
+		, buy_date
+		, buy_type
+		, his_no
+		, '' doch_no
+		, comp_ssno
+		,comp_name
+		, comp_owner
+		, comp_tel
+		, comp_addr
+		, sum(gita_weig)::numeric(11,0) as gita_weig
+		, '' grade_gubun2
+		, '' base_part_code
+		, '' base_part_name
+		, his_no as sort1 , 1 sort2
+		from openmps.mp_pighis_buy_m a
+		where
+		a.buy_type = #buyType#
+		and a.buy_date = #buyDate#
+		and a.api_time is null
+		group by corp_code, buy_date, buy_type, his_no, comp_ssno,comp_name, comp_owner, comp_tel, comp_addr
+		union
+		select
+		'T2' as title
+		, corp_code
+		, buy_date
+		, buy_type
+		, his_no
+		, doch_no
+		, '' as comp_ssno
+		, '' as comp_name
+		, '' as comp_owner
+		, '' as ccomp_tel
+		, '' as ccomp_addr
+		, gita_weig
+		, grade_gubun2
+		, base_part_code
+		, base_part_name
+		, his_no sort1 , 2 sort2 
+		from openmps.mp_pighis_buy_m a
+		where
+		a.buy_type = #buyType#
+		and a.buy_date = #buyDate#
+		and a.api_time is null
+		) aa
+		left outer join openmps.tm_codexd grpcd on ( aa.corp_code=grpcd.corp_code 
+			and grpcd.group_code='PP011'
+			and grpcd.code_name = aa.grade_gubun2 )
+		order by sort1, sort2, doch_no
+	</select>
+	
+	<select id="mpPighisBuyMDAO.checkDupBuyDateMpPighisBuyM_S" resultClass="int">
+			SELECT
+				count(*)
+			FROM openmps.mp_pighis_buy_m
+			WHERE corp_code=#corpCode#
+			AND buy_date=#buyDate#
+			AND buy_type=#buyType#
+			limit 1			
+	</select>
+	
+	<delete id="mpPighisBuyMDAO.deleteDupMpPighisBuyM">
+			delete from openmps.mp_pighis_buy_m 
+						WHERE corp_code=#corpCode#
+						AND buy_date=#buyDate#
+						AND buy_type=#buyType#
+	</delete>
+	
+	<select id="mpPighisBuyMDAO.selectBuyTypeMpPighisBuyM_S" resultClass="String">
+			select code_id 
+			from tm_codexd where group_code = 'PP006'
+			and  code_name = #buyTypename#
+			and dele_yn='N'	
+	</select>
+</sqlMap>

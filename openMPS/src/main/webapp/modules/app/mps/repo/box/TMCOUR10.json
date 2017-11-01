@@ -1,0 +1,583 @@
+{
+    "module": "TMCOUR10Renderer",
+    "options": {
+        "className": "contents_box",
+        "order": [
+            "queryBox",
+            "resultBox",
+            "formBox"
+        ],
+        "activation": {
+            "defaultWidget": "",
+            "method": "one-page"
+        },
+        "formBox": {
+            "module": "FormBox",
+            "options": {
+                "className": "form_box",
+                "order": [
+                    "corpCode",
+                    "corpName",
+                    "corpCodeSearch",
+                    "headCode",
+                    "headName",
+                    "headCodeSearch",
+                    "teamCode",
+                    "teamName",
+                    "teamCodeSearch",
+                    "deptCode",
+                    "deptName",
+                    "deptCodeSearch",
+                    "zipCode",
+                    "usdnCode",
+                    "emplNum",
+                    "userName",
+                    "rankCode",
+                    "posiCode",
+                    "birth",
+                    "encoDate",
+                    "retrDate",
+                    "useLang",
+                    "userCode",
+                    "useYn",
+                    "ofceCode",
+                    "dutyCode",
+                    "phone",
+                    "mobile",
+                    "email",
+                    "fax",
+                    "addrCode1",
+                    "addrCode2",
+                    "address",
+                    "userPass"
+                ],
+                "activation": {
+                    "defaultWidget": "",
+                    "method": "one-page"
+                },
+                "custom_form": {
+                    "template": "<div class=\"row form-group-tmm equal_width\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">사용자 구분</label><div class=\"select_design usdnCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label class=\"required\">사원번호</label><input type=\"text\" class=\"form-control emplNum\" value=\"\"></div><div class=\"form-group\"><label class=\"required\">성명</label><input type=\"text\" class=\"form-control userName\" value=\"\"></div><div class=\"form-group\"><label>직급</label><div class=\"select_design rankCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>직위</label><div class=\"select_design posiCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>직책</label><div class=\"select_design ofceCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>직무</label><div class=\"select_design dutyCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">사용자 ID</label><div class=\"col-xs-8\" style=\"padding-left: 0px; padding-right: 2px;\"><input type=\"text\" class=\"form-control userPass\" style=\"display: none;\" value=\"\"><input type=\"text\" class=\"form-control userCode\" value=\"\"></div><div class=\"col-xs-4\" style=\"padding-left: 0px; padding-right: 0px;\"><button type=\"button\" class=\"btn btn-primary btn-xs btn-block btn_user_check\">중복확인</button></div></div><div class=\"form-group\"><label class=\"required\">회사</label><input type=\"text\" class=\"form-control corpCode\" style=\"display: none;\" value=\"\" placeholder=\"회사코드를 입력해주세요.\"><input type=\"text\" class=\"form-control corpName\" value=\"\" style=\"display: none;\" placeholder=\"회사명을 입력해주세요.\"><div class=\"corpCodeSearch_region\"></div></div><div class=\"form-group\"><label>본부</label><input type=\"text\" class=\"form-control headCode\" style=\"display: none;\" value=\"\" placeholder=\"본부코드를 입력해주세요.\"><input type=\"text\" class=\"form-control headName\" value=\"\" style=\"display: none;\" placeholder=\"본부명을 입력해주세요.\"><div class=\"headCodeSearch_region\"></div></div><div class=\"form-group\"><label>팀</label><input type=\"text\" class=\"form-control teamCode\" style=\"display: none;\" value=\"\" placeholder=\"팀코드를 입력해주세요.\"><input type=\"text\" class=\"form-control teamName\" value=\"\" style=\"display: none;\" placeholder=\"팀명을 입력해주세요.\"><div class=\"teamCodeSearch_region\"></div></div><div class=\"form-group\"><label>파트</label><input type=\"text\" class=\"form-control deptCode\" style=\"display: none;\" value=\"\" placeholder=\"파트코드를 입력해주세요.\"><input type=\"text\" class=\"form-control deptName\" value=\"\" style=\"display: none;\" placeholder=\"파트명을 입력해주세요.\"><div class=\"deptCodeSearch_region\"></div></div><div class=\"form-group\"><label>이메일</label><input type=\"text\" class=\"form-control email\" value=\"\"></div><div class=\"form-group\"><label>사용언어</label><div class=\"select_design useLang\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">생년월일</label><input type=\"text\" class=\"form-control form_type_date birth\" placeholder=\"\"></div><div class=\"form-group\"><label>입사일</label><input type=\"text\" class=\"form-control form_type_date encoDate\" placeholder=\"\"></div><div class=\"form-group\"><label>퇴사일</label><input type=\"text\" class=\"form-control form_type_date retrDate\" placeholder=\"\"></div><div class=\"form-group\"><label>전화</label><input type=\"text\" class=\"form-control phone\" value=\"\"></div><div class=\"form-group\"><label>휴대전화</label><input type=\"text\" class=\"form-control mobile\" value=\"\"></div><div class=\"form-group\"><label>팩스</label><input type=\"text\" class=\"form-control fax\" value=\"\"></div><div class=\"form-group\"><label>사용여부</label><input type=\"checkbox\" name=\"useYn\" value=\"1\"></div></div><div class=\"col-xs-12\"><div class=\"col-xs-12\" style=\"padding-left: 0px; padding-right: 0px;\"><div class=\"form-group\"><label>주소</label><div class=\"col-xs-12\" style=\"padding-left: 0px; padding-right: 0px;\"><input type=\"text\" class=\"form-control zipCode\" style=\"display: none;\" value=\"\" placeholder=\"우편 번호\"><input type=\"text\" class=\"form-control addrCode1\" style=\"display: none;\" value=\"\" placeholder=\"기본 주소\"><input type=\"text\" class=\"form-control addrCode2\" style=\"display: none;\" value=\"\" placeholder=\"상세 주소를 입력해주세요.\"><div class=\"address_region\"></div></div></div></div></div></div>",
+                    "mode": "form",
+                    "items": {
+                        "corpCode": {
+                            "module": "text",
+                            "label": "회사코드",
+                            "selector": ".corpCode",
+                            "required": true
+                        },
+                        "corpName": {
+                            "module": "text",
+                            "label": "회사명",
+                            "selector": ".corpName",
+                            "required": false
+                        },
+                        "corpCodeSearch" : {"label": "회사코드검색"},
+                        "headCode": {
+                            "module": "text",
+                            "label": "본부코드",
+                            "selector": ".headCode",
+                            "required": false
+                        },
+                        "headName": {
+                            "module": "text",
+                            "label": "본부명",
+                            "selector": ".headName",
+                            "required": false
+                        },
+                        "headCodeSearch" : {"label": "본부코드검색"},
+                        "teamCode": {
+                            "module": "text",
+                            "label": "팀코드",
+                            "selector": ".teamCode",
+                            "required": false
+                        },
+                        "teamName": {
+                            "module": "text",
+                            "label": "팀명",
+                            "selector": ".teamName",
+                            "required": false
+                        },
+                        "teamCodeSearch" : {"label": "팀코드검색"},
+                        "deptCode": {
+                            "module": "text",
+                            "label": "파트코드",
+                            "selector": ".deptCode",
+                            "required": false
+                        },
+                        "deptName": {
+                            "module": "text",
+                            "label": "파트명",
+                            "selector": ".deptName",
+                            "required": false
+                        },
+                        "deptCodeSearch" : {"label": "파트코드검색"},
+                        "zipCode": {
+                            "module": "text",
+                            "label": "우편번호",
+                            "selector": ".zipCode",
+                            "required": false
+                        },
+                        "addrCode1": {
+                            "module": "text",
+                            "label": "기본주소",
+                            "selector": ".addrCode1",
+                            "required": false
+                        },
+                        "usdnCode": {
+                            "module": "combobox",
+                            "label": "사용자 구분",
+                            "selector": ".usdnCode",
+                            "required": true,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/TM_USDN/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+                        },
+                        "emplNum": {
+                            "module": "text",
+                            "label": "사원번호",
+                            "selector": ".emplNum",
+                            "required": true
+                        },
+                        "userName": {
+                            "module": "text",
+                            "label": "성명",
+                            "selector": ".userName",
+                            "required": true
+                        },
+                        "rankCode": {
+                            "module": "combobox",
+                            "label": "직급",
+                            "selector": ".rankCode",
+                            "required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/TM_RANK/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+                        },
+                        "posiCode": {
+                            "module": "combobox",
+                            "label": "직위",
+                            "selector": ".posiCode",
+                            "required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/TM_POSI/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+                        },
+                        "birth": {
+                            "module": "date",
+                            "label": "생년월일",
+                            "selector": ".birth",
+                            "format": "YYYY-MM-DD",
+                            "required": true
+                        },
+                        "encoDate": {
+                            "module": "date",
+                            "label": "입사일",
+                            "selector": ".encoDate",
+                            "format": "YYYY-MM-DD",
+                            "required": false
+                        },
+                        "retrDate": {
+                            "module": "date",
+                            "label": "퇴사일",
+                            "selector": ".retrDate",
+                            "format": "YYYY-MM-DD",
+                            "required": false
+                        },
+                        "useLang": {
+                            "module": "combobox",
+                            "label": "사용언어",
+                            "selector": ".useLang",
+                            "required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/TM_LANG/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+                        },
+                        "userCode": {
+                            "module": "text",
+                            "label": "사용자 ID",
+                            "selector": ".userCode",
+                            "required": true
+                        },
+                        "useYn": {
+                            "module": "checkbox",
+                            "label": "사용여부",
+                            "selector": "[name=useYn]",
+                            "required": false
+                        },
+                        "ofceCode": {
+                            "module": "combobox",
+                            "label": "직책",
+                            "selector": ".ofceCode",
+                            "required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/TM_OFCE/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+                        },
+                        "dutyCode": {
+                            "module": "combobox",
+                            "label": "직무",
+                            "selector": ".dutyCode",
+                            "required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/TM_DUTY/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+                        },
+                        "phone": {
+                            "module": "text",
+                            "label": "전화",
+                            "selector": ".phone",
+                            "required": false
+                        },
+                        "mobile": {
+                            "module": "text",
+                            "label": "휴대전화",
+                            "selector": ".mobile",
+                            "required": false
+                        },
+                        "email": {
+                            "module": "text",
+                            "label": "이메일",
+                            "selector": ".email",
+                            "required": false
+                        },
+                        "fax": {
+                            "module": "text",
+                            "label": "팩스",
+                            "selector": ".fax",
+                            "required": false
+                        },
+                        "addrCode1": {
+                            "module": "text",
+                            "label": "주소상세",
+                            "selector": ".addrCode1",
+                            "required": false
+                        },
+                        "addrCode2": {
+                            "module": "text",
+                            "label": "주소상세",
+                            "selector": ".addrCode2",
+                            "required": false
+                        },
+                        "userPass": {
+                        	"module": "text",
+                            "label": "비밀번호",
+                            "selector": ".userPass",
+                            "required": false
+                        },
+						"address": {
+							"label": "주소"
+						}
+                    },
+                    "data": {}
+                },
+                "corpCodeSearch": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "회사코드검색",
+						"required": false,
+						"codeType": "TMCOOS10",
+						"params": {},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				},
+                "headCodeSearch": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "본부코드검색",
+						"required": false,
+						"codeType": "TMCOOS50",
+						"params": {},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				},
+                "teamCodeSearch": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "팀코드검색",
+						"required": false,
+						"codeType": "TMCOOS60",
+						"params": {},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				},
+                "deptCodeSearch": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "파트코드검색",
+						"required": false,
+						"codeType": "TMCOOS70",
+						"params": {},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				},
+				"address": {
+					"module": "manifest!address-1.3.0",
+					"options": {
+						"label": "주소찾기",
+						"required": false,
+						"template": "#zip_two_html"
+					}
+				}
+            }
+        },
+        "queryBox": {
+            "module": "FormBox",
+            "options": {
+                "module": "FormBox",
+                "className": "query_box form-inline",
+                "order": [
+                    "searchUserName",
+                    "searchUsdnCode",
+                    "searchUseYn"
+                ],
+                "custom_form": {
+                    "mode": "form",
+                    "template": "<div class=\"form-group \"><label>사용자명</label><input type=\"text\" class=\"form-control searchUserName\" value=\"\" placeholder=\"사용자명 입력\"></div><div class=\"form-group \"><label>사용자구분</label><div class=\"select_design searchUsdnCode\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group \"><label>사용여부</label><div class=\"select_design searchUseYn\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div>",
+                    "items": {
+                        "searchUserName": {
+                            "module": "text",
+                            "label": "사용자명",
+                            "selector": ".searchUserName",
+                            "required": false
+                        },
+                        "searchUsdnCode": {
+                            "module": "combobox",
+                            "label": "사용자구분",
+                            "selector": ".searchUsdnCode",
+                            "required": false,
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/TM_USDN/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+                        },
+                        "searchUseYn": {
+                            "selector": ".searchUseYn",
+                            "label": "사용여부",
+                            "required": false,
+                            "module": "combobox",
+                            "value": "",
+							"items": [{
+									"label": "선택",
+									"value": ""
+								},
+								{
+									"label": "사용",
+									"value": "Y"
+								},
+								{
+									"label": "미사용",
+									"value": "N"
+								}
+							]
+                        }
+                    },
+                    "data": {}
+                }
+            }
+        },
+        "resultBox": {
+            "module": "manifest!jqGrid4-1.0.0",
+            "options": {
+                "className": "resultBox_box grid_box",
+                "gridId": "TMCOUR10_grid_1",
+                "gridParams": {
+                    "data": [],
+                    "colModel": [{
+                        "name": "usdnCode",
+                        "label": "사용자구분",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "userCode",
+                        "label": "사용자 ID",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "emplNum",
+                        "label": "사원번호",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "userName",
+                        "label": "성명",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "headCode",
+                        "label": "본부코드",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "headName",
+                        "label": "본부",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "teamCode",
+                        "label": "팀코드",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "teamName",
+                        "label": "팀",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "deptCode",
+                        "label": "파트코드",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "deptName",
+                        "label": "파트",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                    	"name": "rankCodeName",
+                        "label": "직급",
+                        "align": "center",
+                        "width": 100
+                    }
+                    , {
+                    	"name": "rankCode",
+                        "label": "직급코드",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "phone",
+                        "label": "전화",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "mobile",
+                        "label": "휴대전화",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "email",
+                        "label": "이메일",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "encoDate",
+                        "label": "입사일",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "retrDate",
+                        "label": "퇴사일",
+                        "align": "center",
+                        "width": 100
+                    }, {
+                        "name": "useYn",
+                        "label": "사용여부",
+                        "template": "booleanCheckboxFa",
+						"align": "center",
+						"width": 60,
+						"formatter": "checkbox"
+                    }, {
+                        "name": "ofceCode",
+                        "label": "직책",
+                         "align": "center",
+                         "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "posiCode",
+                        "label": "직위",
+                         "align": "center",
+                         "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "dutyCode",
+                        "label": "직무",
+                         "align": "center",
+                         "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "birth",
+                        "label": "생년월일",
+                         "align": "center",
+                         "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "useLang",
+                        "label": "사용언어",
+                         "align": "center",
+                         "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "fax",
+                        "label": "팩스",
+                         "align": "center",
+                         "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "zipCode",
+                        "label": "우편번호",
+                         "align": "center",
+                         "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "addrCode1",
+                        "label": "주소1",
+                         "align": "center",
+                         "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "addrCode2",
+                        "label": "주소2",
+                         "align": "center",
+                         "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "corpCode",
+                        "label": "회사코드",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "corpName",
+                        "label": "회사명",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }, {
+                        "name": "userPass",
+                        "label": "비밀번호",
+                        "align": "center",
+                        "hidden":true,
+                        "width": 100
+                    }
+                    ],
+                    "width": "auto",
+                    "height": "250",
+                    "iconSet": "fontAwesome",
+                    "pager": false,
+                    "cellEdit": false
+                }
+            }
+        }
+    }
+}

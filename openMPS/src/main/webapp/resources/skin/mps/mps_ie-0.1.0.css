@@ -1,0 +1,20 @@
+@charset "utf-8";
+/**
+ * Project : MPS
+ * Copyright (c) 2016 FREECORE, Inc. All rights reserved.
+ * @author	escteam
+ *------------------------------------------------------------
+/* ---- CSS Base ---- */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+.form-control { min-height: 21px; line-height: 21px; box-shadow: none;}
+select.form-control { min-height: 19px; line-height: 19px; box-shadow: none;}
+.select_design > .select_label {
+    margin-top: -8px;}
+
+
+}
+.form-control { min-height: 21px\9;; line-height: 21px\9;; box-shadow: none\9;;}
+select.form-control { min-height: 19px\9;; line-height: 19px\9;; box-shadow: none\9;;}
+.select_design > .select_label {
+    margin-top: -8px\9;;}
+}

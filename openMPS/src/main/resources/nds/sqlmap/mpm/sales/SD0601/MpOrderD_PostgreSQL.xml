@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD0601MpOrderD">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SD0601mpOrderDSerarchVO" type="nds.mpm.sales.SD0601.vo.MpOrderDVO"/>
+
+	<resultMap id="SD0601MpOrderD" class="nds.mpm.sales.SD0601.vo.MpOrderDVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+	</resultMap>
+
+	
+	<sql id="selectWhere_fragment">
+        SELECT GUBN
+                ,ODER_DATE
+                ,ODER_NO
+                ,GUBN_CODE
+                ,GUBN_NAME
+                ,CASE WHEN MISU_SEQ = 1 THEN SUM(T3.MISU_AMT)  OVER (ORDER BY   T3.ODER_DATE, T3.ODER_NO ROWS  BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)::VARCHAR
+                      ELSE ''
+                 END SELL_AMT
+                ,RECE_AMT
+                ,CASE WHEN MISU_SEQ = 1 THEN SUM(T3.MISU_AMT)  OVER (ORDER BY   T3.ODER_DATE, T3.ODER_NO ROWS  BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)::VARCHAR
+                      ELSE ''
+                 END MISU_AMT
+                ,PRO_CODE
+                ,PRO_NAME
+                ,ODER_AMT
+                ,DELV_WEIGHT
+                ,UNIT_PRICE
+                ,DELV_AMT
+                ,DELV_VAT
+        FROM
+        (
+                /* 전월미수 */
+                SELECT 'LAST'                        GUBN
+                        ,'00000000'                  ODER_DATE
+                        ,''                          ODER_NO
+                        ,''                          GUBN_CODE
+                        ,'전월미수'                     GUBN_NAME
+                        ,''                          ORDR_SEQ
+                        ,1                           MISU_SEQ
+                        ,0                           SELL_AMT
+                        ,0                           RECE_AMT
+                        ,LAST_UNPAY                  MISU_AMT
+                        ,''                          PRO_CODE
+                        ,''                          PRO_NAME
+                        ,0                           ODER_AMT
+                        ,0                           DELV_WEIGHT
+                        ,0                           UNIT_PRICE
+                        ,0                           DELV_AMT
+                        ,0                           DELV_VAT
+                FROM    MP_LAST_UNPAYMENT    T1
+                WHERE  CORP_CODE = #corpCode#
+                AND    UNPAY_YYMM = #sellDate#
+                AND    CUST_CODE = #custCode#
+                UNION ALL
+                /* 매출, 수금 */
+                SELECT GUBN
+                        ,ODER_DATE
+                        ,ODER_NO
+                        ,GUBN_CODE
+                        ,GUBN_NAME
+                        <isEqual property="detailYn" compareValue="Y">
+                        ,ORDR_SEQ
+                        ,MISU_SEQ
+                        ,PRO_CODE
+                        ,"FN_GET_PROCODENM"(t2.CORP_CODE, PRO_CODE)                    PRO_NAME
+                        </isEqual>
+                        <isEqual property="detailYn" compareValue="N">
+                        ,'' ORDR_SEQ
+                        ,1 MISU_SEQ
+                        ,''                           PRO_CODE
+                        ,''                           PRO_NAME
+                        </isEqual>
+                        ,SUM(SELL_AMT)                SELL_AMT
+                        ,SUM(RECE_AMT)                RECE_AMT
+                        ,SUM(MISU_AMT)                MISU_AMT
+                        ,SUM(DELV_AMT)                ODER_AMT
+                        ,SUM(DELV_WEIGHT)             DELV_WEIGHT
+                        ,SUM(UNIT_PRICE)              UNIT_PRICE
+                        ,SUM(DELV_AMT)                DELV_AMT
+                        ,SUM(DELV_VAT)                DELV_VAT
+                FROM
+                (
+                        /* 주문전표 */
+                        SELECT    'ODER'                                                                GUBN
+                                    ,CORP_CODE
+                                    ,ODER_DATE
+                                    ,ODER_NO
+                                    ,GUBN_CODE
+                                    ,GUBN_NAME
+                                    ,ORDR_SEQ
+                                    ,MISU_SEQ
+                                    ,PRO_CODE
+                                    ,CASE WHEN MISU_SEQ = 1 THEN SELL_AMT
+                                            ELSE 0
+                                     END SELL_AMT
+                                    ,RECE_AMT
+                                    ,DELV_WEIGHT
+                                    ,UNIT_PRICE
+                                    ,DELV_AMT
+                                    ,DELV_VAT
+                                    ,CASE WHEN MISU_SEQ = 1 THEN MISU_AMT
+                                            ELSE 0
+                                     END MISU_AMT
+                        FROM
+                        (
+                                SELECT    CORP_CODE                                                            CORP_CODE
+                                            ,DELV_DATE                                                         ODER_DATE
+                                            ,ORDR_NO                                                           ODER_NO
+                                            ,ORDR_TYPE                                                         GUBN_CODE
+                                            ,ORDR_SEQ                                                          ORDR_SEQ
+                                            ,"FN_GET_TMCODEXDNM"(CORP_CODE, 'SD017', ORDR_TYPE)                GUBN_NAME
+                                            ,PRO_CODE                                                          PRO_CODE
+                                            ,SELL_AMT * CAL                                                    SELL_AMT
+                                            ,0                                                                 RECE_AMT
+                                            ,DELV_WEIGHT * CAL                                                 DELV_WEIGHT
+                                            ,UNIT_PRICE * CAL                                                  UNIT_PRICE
+                                            ,DELV_AMT * CAL                                                    DELV_AMT
+                                            ,DELV_VAT * CAL                                                    DELV_VAT
+                                            ,SUM(SELL_AMT * CAL) OVER (PARTITION BY CORP_CODE, DELV_DATE, ORDR_NO)    MISU_AMT
+                                            ,RANK() OVER (PARTITION BY CORP_CODE, DELV_DATE, ORDR_NO ORDER BY CORP_CODE, DELV_DATE, ORDR_NO, ORDR_SEQ) MISU_SEQ
+                                FROM
+                                (
+                                        SELECT ODERH.CORP_CODE
+                                                ,ODERH.DELV_DATE
+                                                ,ODERH.ORDR_NO
+                                                ,ODERH.ORDR_TYPE
+                                                ,ODERD.ORDR_SEQ
+                                                ,ODERD.PRO_CODE
+                                                ,ODERD.DELV_AMT
+                                                ,ODERD.DELV_VAT
+                                                ,ODERD.DELV_AMT + ODERD.DELV_VAT    SELL_AMT
+                                                ,ODERD.DELV_WEIGHT
+                                                ,ODERD.UNIT_PRICE
+                                        FROM    MP_ORDER_H     ODERH
+                                               ,MP_ORDER_D  ODERD
+                                        WHERE    ODERH.CORP_CODE = ODERD.CORP_CODE
+                                        AND    ODERH.DELV_DATE = ODERD.DELV_DATE
+                                        AND    ODERH.ORDR_NO   = ODERD.ORDR_NO
+                                        AND    ODERH.CORP_CODE = #corpCode#
+                                        AND    ODERH.DELV_DATE >= #sellDate# || '01'    -- 해당월 시작일
+                                        AND    ODERH.DELV_DATE <![CDATA[<=]]> TO_CHAR(DATE_TRUNC('MONTH', TO_DATE(#sellDate# || '01','yyyymmdd')) + INTERVAL '1 MONTH - 1 DAY', 'yyyymmdd')    -- 해당월 마지막요일
+                                        AND   ODERH.SALE_CUST = #custCode#
+                                        AND    ODERH.STATUS IN ('I', 'U')
+                                        AND    ODERD.STATUS IN ('I', 'U')
+                                )    ODER,
+                                (
+                                        SELECT    CODE_ID
+                                                    ,TO_NUMBER(ETC02 || 1,'9')        CAL
+                                        FROM        TM_CODEXD
+                                        WHERE        GROUP_CODE = 'SD017'
+                                )    CDT
+                                WHERE    ODER.ORDR_TYPE = CDT.CODE_ID
+                        )    ODER
+                        UNION ALL
+                        /* 수금전표 */
+                        SELECT 'RECE'                                                                 GUBN
+                                ,CORP_CODE                                                            CORP_CODE
+                                ,RECE_DATE                                                            ODER_DATE
+                                ,RECE_CODE                                                            ODER_NO
+                                ,RECE_TYPE                                                            GUBN_CODE
+                                ,"FN_GET_TMCODEXDNM"(CORP_CODE, 'SD015', RECE_TYPE)                   GUBN_NAME
+                                ,''                                                                   ORDR_SEQ
+                                ,1                                                                    MISU_SEQ
+                                ,''                                                                   PRO_CODE
+                                ,0                                                                    SELL_AMT
+                                ,RECE_AMT                                                             RECE_AMT
+                                ,0                                                                    DELV_WEIGHT
+                                ,0                                                                    UNIT_PRICE
+                                ,RECE_AMT                                                             DELV_AMT
+                                ,0                                                                    DELV_VAT
+                                ,RECE_AMT * -1                                                        MISU_AMT
+                        FROM     MP_RECE_INFO
+                        WHERE    CORP_CODE = #CORP_CODE#
+                        AND    RECE_DATE >= #sellDate# || '01'    -- 해당월 시작일
+                        AND    RECE_DATE <![CDATA[<=]]> TO_CHAR(DATE_TRUNC('MONTH', TO_DATE(#sellDate# || '01','yyyymmdd')) + INTERVAL '1 MONTH - 1 DAY', 'yyyymmdd')    -- 해당월 마지막요일
+                        AND    CUST_CODE = #custCode#
+                        AND    DELE_YN = 'N'
+                ) T2
+                GROUP
+                BY        GUBN
+                        ,CORP_CODE
+                        ,ODER_DATE
+                        ,ODER_NO
+                        ,GUBN_CODE
+                        ,GUBN_NAME
+                        <isEqual property="detailYn" compareValue="N">
+                        ,ORDR_SEQ
+                        ,MISU_SEQ
+                        ,PRO_CODE
+                        </isEqual>
+                UNION ALL
+                /* 당월미수 */
+                SELECT 'CNFM'                          GUBN
+                        ,'99991231'                    ODER_DATE
+                        ,''                            ODER_NO
+                        ,''                            GUBN_CODE
+                        ,'당월미수'                       GUBN_NAME
+                        ,''                            ORDR_SEQ
+                        ,1                             MISU_SEQ
+                        ,0                             SELL_AMT
+                        ,0                             RECE_AMT
+                        ,0                             MISU_AMT
+                        ,''                            PRO_CODE
+                        ,''                            PRO_NAME
+                        ,0                             ODER_AMT
+                        ,0                             DELV_WEIGHT
+                        ,0                             UNIT_PRICE
+                        ,0                             DELV_AMT
+                        ,0                             DELV_VAT
+        ) T3
+        ORDER
+        BY        ODER_DATE
+                ,ODER_NO
+                <isEqual property="detailYn" compareValue="N">
+                ,ORDR_SEQ
+                </isEqual>
+	</sql>
+	
+	<select id="SD0601mpOrderDDAO.selectMpOrderDList_D" parameterClass="SD0601mpOrderDSerarchVO" resultClass="egovMap">
+		/* 구분에 따른 포맷 변경 */
+		SELECT CASE WHEN GUBN = 'ODER' OR GUBN = 'RECE' THEN SUBSTR(ODER_DATE,0,5) || '-' || SUBSTR(ODER_DATE,5,2) || '-' || SUBSTR(ODER_DATE,7,2)::VARCHAR
+		                 ELSE ''
+		         END    ODER_DATE
+		        ,CASE WHEN GUBN = 'ODER' OR GUBN = 'RECE' THEN ODER_NO::VARCHAR
+		                 ELSE ''
+		         END    ODER_NO
+		        ,GUBN_NAME
+		        ,CASE WHEN GUBN = 'ODER' THEN SELL_AMT::VARCHAR
+		              ELSE ''
+		         END SELL_AMT
+		        ,CASE WHEN GUBN = 'RECE' THEN RECE_AMT::VARCHAR
+		              ELSE ''
+		         END RECE_AMT
+		        ,MISU_AMT
+		        ,CASE WHEN GUBN = 'ODER' THEN PRO_NAME::VARCHAR
+		              ELSE ''
+		         END PRO_NAME
+		        ,CASE WHEN GUBN = 'ODER' OR GUBN = 'RECE' THEN ODER_AMT::VARCHAR
+		              ELSE ''
+		         END ODER_AMT
+		        ,CASE WHEN GUBN = 'ODER' THEN DELV_WEIGHT::VARCHAR
+		              ELSE ''
+		         END DELV_WEIGHT
+		        ,CASE WHEN GUBN = 'ODER' THEN UNIT_PRICE::VARCHAR
+		              ELSE ''
+		         END UNIT_PRICE
+		        ,CASE WHEN GUBN = 'ODER' THEN DELV_AMT::VARCHAR
+		              ELSE ''
+		         END DELV_AMT
+		        ,CASE WHEN GUBN = 'ODER' THEN DELV_VAT::VARCHAR
+		              ELSE ''
+		         END DELV_VAT
+		FROM
+		(
+		<include refid="selectWhere_fragment"/>
+		)    T
+	</select>	
+
+	<select id="SD0601mpOrderDDAO.selectMpOrderDListTotCnt_S" parameterClass="SD0601mpOrderDSerarchVO" resultClass="int">
+		SELECT count(T.*)
+		FROM(
+		<include refid="selectWhere_fragment"/>
+		) T
+	</select>
+</sqlMap>

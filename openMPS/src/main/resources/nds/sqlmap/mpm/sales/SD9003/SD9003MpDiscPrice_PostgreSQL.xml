@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD9003MpDiscPrice">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SD9003MpDiscPriceSerarchVO" type="nds.mpm.sales.SD0205.vo.MpDiscPriceVO"/>
+	<!-- 로그인 사용자 직책별 결재처리 partAppro(파트장) < headAppro(부문장) < ceoAppro(대표) Y승인 X반려 -->
+	<sql id="selectWhere_fragment">
+		from
+		(
+			select 
+			a.cust_code
+			, b.salesman
+			, b.mon_ago_3 as mon_ago
+			, b.mon_sale_3 as mon_sale
+			, b.mon_rece_3 as mon_rece
+			, b.mon_misu_3 as mon_misu
+			, b.mon_turnover_3 as mon_turnover
+			, b.appro_request
+			, b.appro_yn
+			, b.appro_memo
+			, b.part_code
+			, b.part_appro
+			, b.part_date
+			, b.head_code
+			, b.head_appro
+			, b.head_date
+			, b.ceo_appro
+			, b.ceo_date
+			from openmps.mp_disc_price a
+			inner join openmps.mp_disc_price_title b on ( a.corp_code = b.corp_code
+			and a.strt_date = b.strt_date
+			and a.last_date = b.last_date
+			and a.cust_code = b.cust_code)
+			union
+			select 
+			a.cust_code
+			, b.salesman
+			, b.mon_ago_2
+			, b.mon_sale_2
+			, b.mon_rece_2
+			, b.mon_misu_2
+			, b.mon_turnover_2
+			, b.appro_request
+			, b.appro_yn
+			, b.appro_memo
+			, b.part_code
+			, b.part_appro
+			, b.part_date
+			, b.head_code
+			, b.head_appro
+			, b.head_date
+			, b.ceo_appro
+			, b.ceo_date
+			from openmps.mp_disc_price a
+			inner join openmps.mp_disc_price_title b on ( a.corp_code = b.corp_code
+			and a.strt_date = b.strt_date
+			and a.last_date = b.last_date
+			and a.cust_code = b.cust_code)
+			union
+			select 
+			a.cust_code
+			, b.salesman
+			, b.mon_ago_1
+			, b.mon_sale_1
+			, b.mon_rece_1
+			, b.mon_misu_1
+			, b.mon_turnover_1
+			, b.appro_request
+			, b.appro_yn
+			, b.appro_memo
+			, b.part_code
+			, b.part_appro
+			, b.part_date
+			, b.head_code
+			, b.head_appro
+			, b.head_date
+			, b.ceo_appro
+			, b.ceo_date
+			from openmps.mp_disc_price a
+			inner join openmps.mp_disc_price_title b on ( a.corp_code = b.corp_code
+			and a.strt_date = b.strt_date
+			and a.last_date = b.last_date
+			and a.cust_code = b.cust_code)
+		) aa
+	</sql>
+	<select id="SD9003MpDiscPriceDAO.selectMpDiscPriceList" parameterClass="SD9003MpDiscPriceSerarchVO" resultClass="egovMap">
+		select
+			distinct
+			cust_code
+			, openmps."FN_GET_CUSTCODENM"(#corpCode#,cust_code) as cust_name
+		<include refid="selectWhere_fragment"/>
+		order by cust_code
+	</select>
+	<select id="SD9003MpDiscPriceDAO.selectMpDiscPriceListTotCnt" parameterClass="SD9003MpDiscPriceSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	
+</sqlMap>

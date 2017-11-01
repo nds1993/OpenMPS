@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpPigdxm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpPigdxmSerarchVO" type="nds.mpm.buy.PO0102.vo.MpPigdxmVO"/>
+	
+	<resultMap id="mpPigdxm" class="nds.mpm.buy.PO0102.vo.MpPigdxmVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="dochCode" column="doch_code" columnIndex="2"/>
+		<result property="hisNo" column="his_no" columnIndex="3"/>
+		<result property="ipgoDate" column="ipgo_date" columnIndex="4"/>
+		<result property="dochDate" column="doch_date" columnIndex="5"/>
+		<result property="dochId" column="doch_id" columnIndex="6"/>
+		<result property="buyType" column="buy_type" columnIndex="7"/>
+		<result property="facCust" column="fac_cust" columnIndex="8"/>
+		<result property="brandCode" column="brand_code" columnIndex="9"/>
+		<result property="custCode" column="cust_code" columnIndex="10"/>
+		<result property="repCust" column="rep_cust" columnIndex="11"/>
+		<result property="comCode" column="com_code" columnIndex="12"/>
+		<result property="suCode" column="su_code" columnIndex="13"/>
+		<result property="nongCode" column="nong_code" columnIndex="14"/>
+		<result property="facKind" column="fac_kind" columnIndex="15"/>
+		<result property="facCode" column="fac_code" columnIndex="16"/>
+		<result property="pigGrade" column="pig_grade" columnIndex="17"/>
+		<result property="sexNo" column="sex_no" columnIndex="18"/>
+		<result property="sexName" column="sex_name" columnIndex="19"/>
+		<result property="pigMeat" column="pig_meat" columnIndex="20"/>
+		<result property="pigGu1" column="pig_gu1" columnIndex="21"/>
+		<result property="pigGu2" column="pig_gu2" columnIndex="22"/>
+		<result property="pigWeig1" column="pig_weig1" columnIndex="23"/>
+		<result property="pigWeig2" column="pig_weig2" columnIndex="24"/>
+		<result property="pigWeig3" column="pig_weig3" columnIndex="25"/>
+		<result property="pigPric1" column="pig_pric1" columnIndex="26"/>
+		<result property="pigPric2" column="pig_pric2" columnIndex="27"/>
+		<result property="pigPric3" column="pig_pric3" columnIndex="28"/>
+		<result property="pigPric4" column="pig_pric4" columnIndex="29"/>
+		<result property="pigPric5" column="pig_pric5" columnIndex="30"/>
+		<result property="pigPric6" column="pig_pric6" columnIndex="31"/>
+		<result property="pigPric7" column="pig_pric7" columnIndex="32"/>
+		<result property="pigPric8" column="pig_pric8" columnIndex="33"/>
+		<result property="pigPric9" column="pig_pric9" columnIndex="34"/>
+		<result property="pigPric10" column="pig_pric10" columnIndex="35"/>
+		<result property="pigPric11" column="pig_pric11" columnIndex="36"/>
+		<result property="pigPric12" column="pig_pric12" columnIndex="37"/>
+		<result property="pigPric13" column="pig_pric13" columnIndex="38"/>
+		<result property="parkPiyul" column="park_piyul" columnIndex="39"/>
+		<result property="carNo" column="car_no" columnIndex="40"/>
+		<result property="brandYn" column="brand_yn" columnIndex="41"/>
+		<result property="transYn" column="trans_yn" columnIndex="42"/>
+		<result property="pigBrpric1" column="pig_brpric1" columnIndex="43"/>
+		<result property="pigTrpric1" column="pig_trpric1" columnIndex="44"/>
+		<result property="pigAspric1" column="pig_aspric1" columnIndex="45"/>
+		<result property="memo" column="memo" columnIndex="46"/>
+		<result property="deleYn" column="dele_yn" columnIndex="47"/>
+		<result property="pumNo" column="pum_no" columnIndex="48"/>
+		<result property="pumName" column="pum_name" columnIndex="49"/>
+		<result property="pigWeig4" column="pig_weig4" columnIndex="50"/>
+		<result property="pigWeig5" column="pig_weig5" columnIndex="51"/>
+		<result property="pigWeig6" column="pig_weig6" columnIndex="52"/>
+		<result property="pigPan1" column="pig_pan1" columnIndex="53"/>
+		<result property="pigPan2" column="pig_pan2" columnIndex="54"/>
+		<result property="pigPan3" column="pig_pan3" columnIndex="55"/>
+		<result property="pigPan4" column="pig_pan4" columnIndex="56"/>
+		<result property="pigPan5" column="pig_pan5" columnIndex="57"/>
+		<result property="pigPan6" column="pig_pan6" columnIndex="58"/>
+		<result property="mdUser" column="md_user" columnIndex="59"/>
+		<result property="mdDate" column="md_date" columnIndex="60"/>
+		<result property="crUser" column="cr_user" columnIndex="61"/>
+		<result property="crDate" column="cr_date" columnIndex="62"/>
+	</resultMap>
+	
+	<insert id="mpPigdxmDAO.insertMpPigdxm">
+		<!-- 
+			DOCH_CODE YYYYMMDD(doch_date)+P(박피) 또는 T(탕박)+doch_id
+		 -->
+		<selectKey resultClass="java.lang.String" keyProperty="dochId">
+          select lpad( #dochId#, 5, '0')
+      	</selectKey>
+			INSERT INTO mp_pigdxm
+				( corp_code
+				  , doch_code
+				  , his_no
+				  , ipgo_date
+				  , doch_date
+				  , doch_id
+				  , buy_type
+				  , fac_cust
+				  , brand_code
+				  , cust_code
+				  , rep_cust
+				  , com_code
+				  , su_code
+				  , nong_code
+				  , fac_kind
+				  , fac_code
+				  , pig_grade
+				  , sex_no
+				  , sex_name
+				  , pig_meat
+				  , pig_gu1
+				  , pig_gu2
+				  , pig_weig1
+				  , pig_weig2
+				  , pig_weig3
+				  , pig_pric1
+				  , pig_pric2
+				  , pig_pric3
+				  , pig_pric4
+				  , pig_pric5
+				  , pig_pric6
+				  , pig_pric7
+				  , pig_pric8
+				  , pig_pric9
+				  , pig_pric10
+				  , pig_pric11
+				  , pig_pric12
+				  , pig_pric13
+				  , park_piyul
+				  , car_no
+				  , brand_yn
+				  , trans_yn
+				  , pig_brpric1
+				  , pig_trpric1
+				  , pig_aspric1
+				  , memo
+				  , dele_yn
+				  , pum_no
+				  , pum_name
+				  , pig_weig4
+				  , pig_weig5
+				  , pig_weig6
+				  , pig_pan1
+				  , pig_pan2
+				  , pig_pan3
+				  , pig_pan4
+				  , pig_pan5
+				  , pig_pan6
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  <isEqual property="facKind" compareValue="3">
+		          , #dochDate# || 'P' || #dochId# 
+		          </isEqual>
+		          <isEqual property="facKind" compareValue="1">
+		          , #dochDate# || 'T' || #dochId#
+		          </isEqual>
+				  , #hisNo#
+				  , to_char(now(),'YYYY') || #crDatemonth# || #crDateday#
+				  , #dochDate#
+				  , lpad( #dochId#, 5, '0')
+				  , (select code_id from tm_codexd where group_code = 'PP006' and code_name = #buyTypeName#)
+				  , #facCust#
+				  , #brandCode#
+				  , #custCode#
+				  , #repCust#
+				  , #comCode#
+				  , #suCode#
+				  , #nongCode#
+				  , #facKind#
+				  , #facCode#
+				  , #pigGrade#
+				  , #sexNo#::numeric
+				  , #sexName#
+				  , #pigMeat#
+				  , #pigGu1#
+				  , #pigGu2#
+				  , #pigWeig1#
+				  , #pigWeig2#
+				  , #pigWeig3#
+				  , #pigPric1#
+				  , #pigPric2#
+				  , #pigPric3#
+				  , #pigPric4#
+				  , #pigPric5#
+				  , #pigPric6#
+				  , #pigPric7#
+				  , #pigPric8#
+				  , #pigPric9#
+				  , #pigPric10#
+				  , #pigPric11#
+				  , #pigPric12#
+				  , #pigPric13#
+				  , #parkPiyul#
+				  , #carNo#
+				  , #brandYn#
+				  , #transYn#
+				  , #pigBrpric1#
+				  , #pigTrpric1#
+				  , #pigAspric1#
+				  , #memo#
+				  , 'N'
+				  , #pumNo#
+				  , #pumName#
+				  , #pigWeig4#
+				  , #pigWeig5#
+				  , #pigWeig6#
+				  , #pigPan1#
+				  , #pigPan2#
+				  , #pigPan3#
+				  , #pigPan4#
+				  , #pigPan5#
+				  , #pigPan6#
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , now() )
+	</insert>
+	
+	<update id="mpPigdxmDAO.updateMpPigdxm">
+		<![CDATA[
+			UPDATE mp_pigdxm
+			SET ipgo_date=#ipgoDate#
+				, doch_date=#dochDate#
+				, doch_id=#dochId#
+				, buy_type=#buyType#
+				, fac_cust=#facCust#
+				, brand_code=#brandCode#
+				, cust_code=#custCode#
+				, rep_cust=#repCust#
+				, com_code=#comCode#
+				, su_code=#suCode#
+				, nong_code=#nongCode#
+				, fac_kind=#facKind#
+				, fac_code=#facCode#
+				, pig_grade=#pigGrade#
+				, sex_no=#sexNo#
+				, sex_name=#sexName#
+				, pig_meat=#pigMeat#
+				, pig_gu1=#pigGu1#
+				, pig_gu2=#pigGu2#
+				, pig_weig1=#pigWeig1#
+				, pig_weig2=#pigWeig2#
+				, pig_weig3=#pigWeig3#
+				, pig_pric1=#pigPric1#
+				, pig_pric2=#pigPric2#
+				, pig_pric3=#pigPric3#
+				, pig_pric4=#pigPric4#
+				, pig_pric5=#pigPric5#
+				, pig_pric6=#pigPric6#
+				, pig_pric7=#pigPric7#
+				, pig_pric8=#pigPric8#
+				, pig_pric9=#pigPric9#
+				, pig_pric10=#pigPric10#
+				, pig_pric11=#pigPric11#
+				, pig_pric12=#pigPric12#
+				, pig_pric13=#pigPric13#
+				, park_piyul=#parkPiyul#
+				, car_no=#carNo#
+				, brand_yn=#brandYn#
+				, trans_yn=#transYn#
+				, pig_brpric1=#pigBrpric1#
+				, pig_trpric1=#pigTrpric1#
+				, pig_aspric1=#pigAspric1#
+				, memo=#memo#
+				, pum_no=#pumNo#
+				, pum_name=#pumName#
+				, pig_weig4=#pigWeig4#
+				, pig_weig5=#pigWeig5#
+				, pig_weig6=#pigWeig6#
+				, pig_pan1=#pigPan1#
+				, pig_pan2=#pigPan2#
+				, pig_pan3=#pigPan3#
+				, pig_pan4=#pigPan4#
+				, pig_pan5=#pigPan5#
+				, pig_pan6=#pigPan6#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND doch_code=#dochCode#
+								AND his_no=#hisNo#
+				]]>
+	</update>
+	
+	<delete id="mpPigdxmDAO.deleteMpPigdxm">
+		<![CDATA[
+			DELETE FROM mp_pigdxm 
+						WHERE corp_code=#corpCode#
+								AND doch_code=#dochCode#
+								AND his_no=#hisNo#
+				]]>
+	</delete>
+	
+	<delete id="mpPigdxmDAO.deleteMpPigdxmForHisNo">
+			DELETE FROM mp_pigdxm 
+						WHERE corp_code=#corpCode#
+						AND doch_date=#dochDate#
+						AND his_no=#hisNo#
+	</delete>
+	
+	<select id="mpPigdxmDAO.selectMpPigdxm_S" resultMap="mpPigdxm">
+		<![CDATA[
+			SELECT
+				corp_code
+				, doch_code
+				, his_no
+				, ipgo_date
+				, doch_date
+				, doch_id
+				, buy_type
+				, fac_cust
+				, brand_code
+				, cust_code
+				, rep_cust
+				, com_code
+				, su_code
+				, nong_code
+				, fac_kind
+				, fac_code
+				, pig_grade
+				, sex_no
+				, sex_name
+				, pig_meat
+				, pig_gu1
+				, pig_gu2
+				, pig_weig1
+				, pig_weig2
+				, pig_weig3
+				, pig_pric1
+				, pig_pric2
+				, pig_pric3
+				, pig_pric4
+				, pig_pric5
+				, pig_pric6
+				, pig_pric7
+				, pig_pric8
+				, pig_pric9
+				, pig_pric10
+				, pig_pric11
+				, pig_pric12
+				, pig_pric13
+				, park_piyul
+				, car_no
+				, brand_yn
+				, trans_yn
+				, pig_brpric1
+				, pig_trpric1
+				, pig_aspric1
+				, memo
+				, dele_yn
+				, pum_no
+				, pum_name
+				, pig_weig4
+				, pig_weig5
+				, pig_weig6
+				, pig_pan1
+				, pig_pan2
+				, pig_pan3
+				, pig_pan4
+				, pig_pan5
+				, pig_pan6
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM mp_pigdxm
+						WHERE corp_code=#corpCode#
+								AND doch_code=#dochCode#
+								AND his_no=#hisNo#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	FROM 
+			openmps.mp_pigdxm a
+			left outer join openmps.mp_cust_info cust on (a.corp_code = cust.corp_code and a.cust_code = cust.cust_code)
+		where 
+			a.corp_code = #corpCode#
+			and a.dele_yn = 'N'
+			<isEqual property="searchCondition" compareValue="dochDate">
+				and a.doch_date between #strtDate# and #lastDate#
+			</isEqual>
+			<isEqual property="searchCondition" compareValue="ipgoDate">
+				and a.ipgo_date between #strtDate# and #lastDate#
+			</isEqual>	
+			<isNotEmpty property="dochDate">
+				and a.doch_date = #dochDate#	
+			</isNotEmpty>
+			<isNotEmpty property="hisNo">
+				and a.his_no like #hisNo# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="facKind">
+				and a.fac_kind = #facKind#	
+			</isNotEmpty>
+			<isNotEmpty property="facCode">
+				and a.fac_code = #facCode#	
+			</isNotEmpty>
+		<dynamic>
+		</dynamic>
+	</sql>
+	<select id="mpPigdxmDAO.selectMpPigdxmList_D" parameterClass="mpPigdxmSerarchVO" resultClass="egovMap">
+		select
+			a.buy_type
+			,openmps."FN_GET_TMCODEXDNM"(a.corp_code,'PP006',a.buy_type) buy_type_name
+			,to_char(a.ipgo_date::date,'MM') as cr_datemonth
+			,to_char(a.ipgo_date::date,'DD') as cr_dateday
+			,a.doch_id
+			,a.pig_gu1
+			,a.pig_gu2
+			,a.sex_name
+			,a.pig_weig1::varchar
+			,a.pig_weig2::varchar
+			,a.pig_weig3::varchar
+			,a.pig_meat
+			,a.cust_code
+			,openmps."FN_GET_CUSTCODENM"(a.corp_code,a.cust_code) cust_codename
+			,cust.rece_comb_cust
+			,a.rep_cust main_custcode
+			,openmps."FN_GET_CUSTCODENM"(a.corp_code,a.rep_cust) main_custname
+			,a.his_no::varchar
+			,a.brand_code
+			,openmps."FN_GET_TMCODEXDNM"(a.corp_code,'MP020',a.brand_code) brand_code_name
+			,a.fac_kind
+			,openmps."FN_GET_TMCODEXDNM"(a.corp_code,'SD014',a.fac_kind) fac_kindname
+			,a.fac_code
+			,a.fac_code as fac_codename
+			,a.doch_date
+			,a.ipgo_date
+			,a.doch_code
+			,a.pig_weig1::varchar
+			,a.pig_pric4::varchar
+			,a.park_piyul::varchar
+			,a.pig_pric1::varchar
+			,a.pig_pric3::varchar
+			,pig_brpric1::varchar
+			,pig_aspric1::varchar
+			,pig_pric8::varchar
+			,pig_pric7::varchar
+			,pig_pric9::varchar
+			,pig_pric2::varchar
+		<include refid="selectWhere_fragment"/>
+	</select>	
+	<select id="mpPigdxmDAO.selectMpPigdxmListTotCnt_S" parameterClass="mpPigdxmSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<!-- 
+		농장정보 조회  
+		hisNo 앞 6자리
+	-->
+	<select id="mpPigdxmDAO.selectFacInfo" resultClass="egovMap">
+			SELECT
+				cust_code
+				,cust_name
+				,fac_kind
+				,fac_code
+				,brand_code
+				,openmps."FN_GET_TMCODEXDNM"(corp_code,'PP007',brand_code) brand_code_name
+				,(select code_id from tm_codexd where group_code = 'PP006' and code_name = #buyTypeName#) as buy_type
+				,rece_comb_cust
+				,openmps."FN_GET_CUSTCODENM"(a.corp_code,a.rece_comb_cust) rece_comb_cust_name
+				,openmps."FN_GET_TMCODEXDNM"(corp_code,'PO001',a.fac_kind) fac_kind_name
+				,(select fac_name from mp_pigexm where corp_code = a.corp_code and fac_code = a.fac_code limit 1) fac_code_name
+			from mp_cust_info a
+			where fac_cust = substr(#hisNo#,2,6)
+	</select>
+	
+	<select id="mpPigdxmDAO.selectBuyType" resultClass="egovMap">
+			select code_id as buy_type from tm_codexd where group_code = 'PP006' and code_name = #buyTypeName# and corp_code = #corpCode#
+	</select>
+	
+	
+</sqlMap>

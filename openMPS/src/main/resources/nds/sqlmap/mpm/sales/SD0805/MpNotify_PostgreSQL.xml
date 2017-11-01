@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpNotify">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpNotifySerarchVO" type="nds.mpm.sales.SD0805.vo.MpNotifyVO"/>
+	
+	<resultMap id="mpNotify" class="nds.mpm.sales.SD0805.vo.MpNotifyVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="startDate" column="start_date" columnIndex="2"/>
+		<result property="lastDate" column="last_date" columnIndex="3"/>
+		<result property="seqNo" column="seq_no" columnIndex="4"/>
+		<result property="title" column="title" columnIndex="5"/>
+		<result property="openGubn" column="open_gubn" columnIndex="6"/>
+		<result property="notify" column="notify" columnIndex="7"/>
+		<result property="deleYn" column="dele_yn" columnIndex="8"/>
+		<result property="mdUser" column="md_user" columnIndex="9"/>
+		<result property="mdDate" column="md_date" columnIndex="10"/>
+		<result property="crUser" column="cr_user" columnIndex="11"/>
+		<result property="crDate" column="cr_date" columnIndex="12"/>
+	</resultMap>
+	
+	<insert id="mpNotifyDAO.insertMpNotify_S">
+		<selectKey keyProperty="seqNo" resultClass="string">
+		    select (max(#seqNo#::numeric) + 1)::varchar as seqNo from mp_notify
+		</selectKey>
+		<![CDATA[
+			INSERT INTO mp_notify 
+				( corp_code
+				  , start_date
+				  , last_date
+				  , seq_no
+				  , title
+				  , open_gubn
+				  , notify
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #startDate#
+				  , #lastDate#
+				  , #seqNo#
+				  , #title#
+				  , #openGubn#
+				  , #notify#
+				  , 'N'
+				  , #mdUser#
+				  , #mdDate#
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="mpNotifyDAO.updateMpNotify_S">
+		<![CDATA[
+			UPDATE mp_notify
+			SET title=#title#
+				, open_gubn=#openGubn#
+				, notify=#notify#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND start_date=#startDate#
+								AND last_date=#lastDate#
+								AND seq_no=#seqNo#
+				]]>
+	</update>
+	
+	<delete id="mpNotifyDAO.deleteMpNotify_S">
+		<![CDATA[
+			update mp_notify set dele_yn='Y'
+						, md_user=#mdUser#
+						, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND start_date=#startDate#
+								AND last_date=#lastDate#
+								AND seq_no=#seqNo#
+				]]>
+	</delete>
+	
+	<select id="mpNotifyDAO.selectMpNotify_S" resultMap="mpNotify">
+		<![CDATA[
+			SELECT
+				corp_code
+				, start_date
+				, last_date
+				, seq_no
+				, title
+				, open_gubn
+				, notify
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM mp_notify
+						WHERE corp_code=#corpCode#
+								AND start_date=#startDate#
+								AND last_date=#lastDate#
+								AND seq_no=#seqNo#
+				]]>
+	</select>
+	
+	<sql id="selectWhere_fragment">
+		<![CDATA[
+			FROM  MP_NOTIFY
+			WHERE CORP_CODE = #corpCode#
+			AND   OPEN_GUBN = #openGubn#
+			AND   DELE_YN = 'N'
+		]]>	
+		<isEmpty property="strtDate">
+			<![CDATA[AND   START_DATE <= TO_CHAR(NOW(),'YYYYMMDD')]]>
+		</isEmpty>
+		<isNotEmpty property="strtDate">
+			<![CDATA[AND   START_DATE >= #strtDate#]]>
+		</isNotEmpty>
+		<isEmpty property="lastDate">
+			<![CDATA[AND   LAST_DATE >= TO_CHAR(NOW(),'YYYYMMDD')]]>
+		</isEmpty>
+		<isNotEmpty property="lastDate">
+			<![CDATA[AND   LAST_DATE <= #lastDate#]]>
+		</isNotEmpty>
+	</sql>
+	
+	<select id="mpNotifyDAO.selectMpNotifyList_D" parameterClass="mpNotifySerarchVO" resultClass="egovMap">
+			SELECT 
+       				CORP_CODE
+				   ,START_DATE
+				   ,LAST_DATE
+				   ,SEQ_NO
+				   ,TITLE
+				   ,OPEN_GUBN
+				   ,NOTIFY
+				   ,DELE_YN
+				   ,MD_USER
+				   ,MD_DATE
+				   ,CR_USER
+				   ,CR_DATE
+			<include refid="selectWhere_fragment"/>
+			ORDER BY START_DATE DESC
+	</select>	
+	<select id="mpNotifyDAO.selectMpNotifyListTotCnt_S" parameterClass="mpNotifySerarchVO" resultClass="int">
+			SELECT COUNT(SEQ_NO) AS CNT
+			<include refid="selectWhere_fragment"/>
+	</select>
+</sqlMap>

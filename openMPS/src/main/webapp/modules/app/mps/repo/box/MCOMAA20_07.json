@@ -1,0 +1,351 @@
+{
+	"module": "WorkAreaRenderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"formBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"formBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"headCode",
+					"headName",
+					"headMemo",
+					"teamCode",
+					"teamName",
+					"teamMemo",
+					"deptCode",
+					"deptName",
+					"deptMemo"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div class=\"row\"><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">본부코드</label><input type=\"text\" class=\"form-control headCode\" value=\"\"></div><div class=\"form-group\"><label class=\"required\">본부명</label><input type=\"text\" class=\"form-control headName\" value=\"\"></div><div class=\"form-group\"><label>메모</label><textarea type=\"text\" class=\"form-control headMemo\" value=\"\"></textarea></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">팀코드</label><input type=\"text\" class=\"form-control teamCode\" value=\"\"></div><div class=\"form-group\"><label class=\"required\">팀명</label><input type=\"text\" class=\"form-control teamName\" value=\"\"></div><div class=\"form-group\"><label>메모</label><textarea type=\"text\" class=\"form-control teamMemo\" value=\"\"></textarea></div></div><div class=\"col-xs-4\"><div class=\"form-group\"><label class=\"required\">부서코드</label><input type=\"text\" class=\"form-control deptCode\" value=\"\"></div><div class=\"form-group\"><label class=\"required\">부서명</label><input type=\"text\" class=\"form-control deptName\" value=\"\"></div><div class=\"form-group\"><label>메모</label><textarea type=\"text\" class=\"form-control deptMemo\" value=\"\"></textarea></div></div></div>",
+					"mode": "form",
+					"items": {
+						"headCode": {
+							"module": "text",
+							"label": "본부코드",
+							"selector": ".headCode",
+							"required": true
+						},
+						"headName": {
+							"module": "text",
+							"label": "본부명",
+							"selector": ".headName",
+							"required": true
+						},
+						"headMemo": {
+							"module": "textarea",
+							"label": "메모",
+							"selector": ".headMemo",
+							"required": false
+						},
+						"teamCode": {
+							"module": "text",
+							"label": "팀코드",
+							"selector": ".teamCode",
+							"required": true
+						},
+						"teamName": {
+							"module": "text",
+							"label": "팀명",
+							"selector": ".teamName",
+							"required": true
+						},
+						"teamMemo": {
+							"module": "textarea",
+							"label": "메모",
+							"selector": ".teamMemo",
+							"required": false
+						},
+						"deptCode": {
+							"module": "text",
+							"label": "부서코드",
+							"selector": ".deptCode",
+							"required": true
+						},
+						"deptName": {
+							"module": "text",
+							"label": "본부명",
+							"selector": ".deptName",
+							"required": true
+						},
+						"deptMemo": {
+							"module": "textarea",
+							"label": "메모",
+							"selector": ".deptMemo",
+							"required": false
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box",
+				"order": [
+					"searchCondition",
+					"searchCondition2",
+					"searchKeyword"
+				],
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"form-group form-inline\"><label>검색</label><select class=\"form-control searchCondition\"><option value=\"1\">본부</option><option value=\"2\">팀</option><option value=\"3\">부서</option></select><select class=\"form-control searchCondition2\"><option>조건선택</option><option value=\"headCode\">코드</option><option value=\"headName\">이름</option><option value=\"teamCode\">코드</option><option value=\"teamName\">이름</option><option value=\"deptCode\">코드</option><option value=\"deptName\">이름</option></select><input type=\"text\" class=\"form-control searchKeyword\" value=\"\"></div>",
+					"items": {
+						"searchCondition": {
+							"module": "combobox",
+							"label": "검색",
+							"selector": ".searchCondition",
+							"required": true
+						},
+						"searchCondition2": {
+							"module": "combobox",
+							"label": "검색",
+							"selector": ".searchCondition2",
+							"required": true
+						},
+						"searchKeyword": {
+							"module": "text",
+							"label": "검색 내용 입력",
+							"selector": ".searchKeyword",
+							"required": true
+						}
+					},
+					"data": {}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "result_box",
+				"order": [
+					"headinfo",
+					"teaminfo",
+					"deptinfo"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"row\"><div class=\"col-xs-4 headinfo_region\"></div><div class=\"col-xs-4 teaminfo_region\"></div><div class=\"col-xs-4 deptinfo_region\"></div></div>",
+					"items": {
+						"head_code": {
+							"label": "headinfo",
+							"required": true
+						},
+						"team_code": {
+							"label": "teaminfo",
+							"required": true
+						},
+						"part_code": {
+							"label": "deptinfo",
+							"required": true
+						}
+					},
+					"data": {}
+				},
+				"headinfo": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "headinfo grid_box",
+						"gridId": "headinfo",
+						"gridParams": {
+							"data": [{
+								"code": "11",
+								"name": "홍길동"
+							}],
+							"colModel": [{
+									"name": "headCode",
+									"label": "본부코드",
+									"width": 40,
+									"align": "center"
+								},
+								{
+									"name": "headName",
+									"label": "본부명",
+									"align": "center",
+									"width": 40
+								}
+							],
+							"rowNum": 30,
+							"records": 30,
+							"rownumWidth": 20,
+							"rowList": [30, 50, 100, 200, "100000:All"],
+							"viewrecords": true,
+							"rownumbers": false,
+							"toppager": false,
+							"pager": true,
+							"shrinkToFit": false,
+							"multiselect": false,
+							"editurl": "clientArray",
+							"loadonce": true,
+							"width": "auto",
+							"height": 327,
+
+							"iconSet": "fontAwesome",
+							"autoencode": true,
+							"altRows": true,
+							"altclass": "myAltRowClass",
+							"pagerRightWidth": 140,
+
+							"caption": "",
+							"navOptions": {
+								"del": false
+							},
+							"searching": {
+								"closeAfterSearch": true,
+								"closeAfterReset": true,
+								"closeOnEscape": true,
+								"searchOnEnter": true,
+								"multipleSearch": true,
+								"multipleGroup": true,
+								"showQuery": true
+							},
+							"cellEdit": false
+						}
+					}
+				},
+				"teaminfo": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "teaminfo grid_box",
+						"gridId": "teaminfo",
+						"gridParams": {
+							"data": [{
+								"code": "11",
+								"name": "홍길동"
+							}],
+							"colModel": [{
+									"name": "teamCode",
+									"label": "팀코드",
+									"width": 40,
+									"align": "center"
+								},
+								{
+									"name": "teamName",
+									"label": "코드명",
+									"align": "center",
+									"width": 40
+								}
+							],
+							"rowNum": 30,
+							"records": 30,
+							"rownumWidth": 20,
+							"rowList": [30, 50, 100, 200, "100000:All"],
+							"viewrecords": true,
+							"rownumbers": false,
+							"toppager": false,
+							"pager": true,
+							"shrinkToFit": false,
+							"multiselect": false,
+							"editurl": "clientArray",
+							"loadonce": true,
+							"width": "auto",
+							"height": 327,
+
+							"iconSet": "fontAwesome",
+							"autoencode": true,
+							"altRows": true,
+							"altclass": "myAltRowClass",
+							"pagerRightWidth": 140,
+
+							"caption": "",
+							"navOptions": {
+								"del": false
+							},
+							"searching": {
+								"closeAfterSearch": true,
+								"closeAfterReset": true,
+								"closeOnEscape": true,
+								"searchOnEnter": true,
+								"multipleSearch": true,
+								"multipleGroup": true,
+								"showQuery": true
+							}
+							,
+							"cellEdit": false
+						}
+					}
+				},
+				"deptinfo": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "deptinfo grid_box",
+						"gridId": "deptinfo",
+						"gridParams": {
+							"data": [{
+								"code": "11",
+								"name": "홍길동"
+							}],
+							"colModel": [{
+									"name": "deptCode",
+									"label": "부서코드",
+									"width": 40,
+									"align": "center"
+								},
+								{
+									"name": "deptName",
+									"label": "부서명",
+									"align": "center",
+									"width": 40
+								}
+							],
+							"rowNum": 30,
+							"records": 30,
+							"rownumWidth": 20,
+							"rowList": [30, 50, 100, 200, "100000:All"],
+							"viewrecords": true,
+							"rownumbers": false,
+							"toppager": false,
+							"pager": true,
+							"shrinkToFit": false,
+							"multiselect": false,
+							"editurl": "clientArray",
+							"loadonce": true,
+							"width": "auto",
+							"height": 327,
+							"iconSet": "fontAwesome",
+							"autoencode": true,
+							"altRows": true,
+							"altclass": "myAltRowClass",
+							"pagerRightWidth": 140,
+
+							"caption": "",
+							"navOptions": {
+								"del": false
+							},
+							"searching": {
+								"closeAfterSearch": true,
+								"closeAfterReset": true,
+								"closeOnEscape": true,
+								"searchOnEnter": true,
+								"multipleSearch": true,
+								"multipleGroup": true,
+								"showQuery": true
+							}
+							,
+							"cellEdit": false
+						}
+					}
+				}
+			}
+		}
+	}
+}

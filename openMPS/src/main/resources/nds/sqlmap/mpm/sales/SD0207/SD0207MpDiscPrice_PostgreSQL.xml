@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD0207MpDiscPrice">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SD0207MpDiscPriceSerarchVO" type="nds.mpm.sales.SD0205.vo.MpDiscPriceTitleVO"/>
+	<!-- 로그인 사용자 직책별 결재처리 partAppro(파트장) < headAppro(부문장) < ceoAppro(대표) Y승인 X반려 -->
+	<update id="SD0207MpDiscPriceDAO.updateMpDiscPriceConfirm">
+			UPDATE mp_disc_price_title
+			SET 
+				 appro_memo = #approMemo#
+				<isEqual property="partAppro" compareValue="Y">
+				,part_code = #mdUser# 
+	  			,part_appro = #partAppro# 
+	  			,part_date = now()
+	  			</isEqual>
+	  			<isEqual property="partAppro" compareValue="X">
+	  			,appro_request = null
+	  			,part_code = null
+	  			,part_appro = #partAppro# 
+	  			,part_date = null
+	  			</isEqual>
+	  			<isEqual property="headAppro" compareValue="Y">
+	  			,head_code = #mdUser# 
+	  			,head_appro = #headAppro# 
+	  			,head_date = now()
+	  			</isEqual>
+	  			<isEqual property="headAppro" compareValue="X">
+	  			,appro_request = null
+	  			,part_code = null
+	  			,part_appro = null
+	  			,part_date = null
+	  			,head_code = null
+	  			,head_appro = #headAppro# 
+	  			,head_date = null
+	  			</isEqual>
+	  			<isEqual property="ceoAppro" compareValue="Y">
+	  			, appro_yn = 'Y'
+	  			,ceo_appro  = #mdUser#
+	  			,ceo_date = now()
+	  			</isEqual>
+	  			<isEqual property="ceoAppro" compareValue="X">
+	  			,appro_request = null
+	  			,part_code = null
+	  			,part_appro = null
+	  			,part_date = null
+	  			,head_code = null
+	  			,head_appro = null
+	  			,head_date = null
+	  			,ceo_appro  = #ceoAppro#
+	  			,ceo_date = null
+	  			</isEqual>
+			WHERE corp_code=#corpCode#
+					AND strt_date=#strtDate#
+					AND last_date=#lastDate#
+					AND cust_code=#custCode#
+	</update>
+	<sql id="selectWhere_fragment">
+		from
+		(
+			select 
+			b.strt_date
+			,b.last_date
+			,b.cust_code
+			, b.salesman
+			, b.mon_ago_3 as mon_ago
+			, b.mon_sale_3 as mon_sale
+			, b.mon_rece_3 as mon_rece
+			, b.mon_misu_3 as mon_misu
+			, b.mon_turnover_3 as mon_turnover
+			, b.appro_request
+			, b.appro_yn
+			, b.appro_memo
+			, b.part_code
+			, b.part_appro
+			, b.part_date
+			, b.head_code
+			, b.head_appro
+			, b.head_date
+			, b.ceo_appro
+			, b.ceo_date
+			from openmps.mp_disc_price_title b
+			where b.corp_code = #corpCode#
+			and appro_yn != 'Y'
+			and b.strt_date between #strtDate# and #lastDate#
+			union
+			select 
+			b.strt_date
+			,b.last_date
+			,b.cust_code
+			, b.salesman
+			, b.mon_ago_2
+			, b.mon_sale_2
+			, b.mon_rece_2
+			, b.mon_misu_2
+			, b.mon_turnover_2
+			, b.appro_request
+			, b.appro_yn
+			, b.appro_memo
+			, b.part_code
+			, b.part_appro
+			, b.part_date
+			, b.head_code
+			, b.head_appro
+			, b.head_date
+			, b.ceo_appro
+			, b.ceo_date
+			from openmps.mp_disc_price_title b
+			where b.corp_code = #corpCode#
+			and  b.strt_date between #strtDate# and #lastDate#
+			union
+			select 
+			b.strt_date
+			,b.last_date
+			,b.cust_code
+			, b.salesman
+			, b.mon_ago_1
+			, b.mon_sale_1
+			, b.mon_rece_1
+			, b.mon_misu_1
+			, b.mon_turnover_1
+			, b.appro_request
+			, b.appro_yn
+			, b.appro_memo
+			, b.part_code
+			, b.part_appro
+			, b.part_date
+			, b.head_code
+			, b.head_appro
+			, b.head_date
+			, b.ceo_appro
+			, b.ceo_date
+			from openmps.mp_disc_price_title b 
+			where b.corp_code = #corpCode#
+			and b.strt_date between #strtDate# and #lastDate#
+		) aa
+		inner join openmps.mp_disc_price_title tt on (
+			tt.corp_code=#corpCode# 
+			and aa.strt_date=tt.strt_date and aa.last_date=tt.last_date 
+			and aa.cust_code=tt.cust_code)
+		inner join openmps.tm_userxm usr on (usr.corp_code=#corpCode# and aa.salesman = usr.user_code)
+		left outer join openmps.tm_teamxm team on (team.corp_code=#corpCode# and usr.team_code = team.team_code)
+		left outer join openmps.tm_deptxm dept on (dept.corp_code=#corpCode# and dept.dept_code = usr.dept_code 
+			and dept.team_code = usr.team_code)
+		where tt.corp_code=#corpCode#
+		<!-- 
+		
+		권한레벨에 맞는 결재대상목록 조회.
+		대표 ceo salesmanLevel = 1
+		부문장 head salesmanLevel = 2
+		파트장 part salesmanLevel = 3
+		팀장 part salesmanLevel = 4
+		-->
+		<isEqual property="salesmanLevel" compareValue="1">
+		and aa.head_date is not null
+		</isEqual>
+		<isEqual property="salesmanLevel" compareValue="2">
+		and dept.head_code = #headCode#
+		and dept.dept_code = #deptCode#
+		and aa.part_date is not null
+		</isEqual>
+		<isEqual property="salesmanLevel" compareValue="3">
+		and dept.head_code = #headCode#
+		and dept.team_code = #teamCode#
+		and aa.appro_request is not null
+		</isEqual>
+		<isEqual property="salesmanLevel" compareValue="4">
+		and dept.head_code = #headCode#
+		and dept.team_code = #teamCode#
+		and aa.appro_request is not null
+		</isEqual>
+		<isEqual property="salesmanLevel" compareValue="5">
+		and aa.salesman = #userCode#
+		</isEqual>
+		<isEqual property="approYn" compareValue="Y">
+		and aa.appro_yn = 'Y'
+		</isEqual>
+		<isEqual property="approYn" compareValue="N">
+		and ( aa.appro_yn is null or aa.appro_yn = 'N')
+		</isEqual>
+		<isEqual property="approYn" compareValue="X">
+		and aa.appro_yn = 'X'
+		</isEqual>
+	</sql>
+	<!-- 
+	0ffe1abd1a08215353c233d6e009613e95eec4253832a761af28ff37ac5a150c
+		할인단가승인 화면 헤더리스트 
+	
+	 -->
+	<select id="SD0207MpDiscPriceDAO.selectMpDiscPriceTitleList" parameterClass="SD0207MpDiscPriceSerarchVO" resultClass="egovMap">
+		select
+			aa.cust_code
+			,openmps."FN_GET_CUSTCODENM"(#corpCode#,aa.cust_code) as cust_name
+			,dept.dept_name
+			,aa.salesman
+			,usr.user_name as salesman_name
+			,aa.mon_ago
+			,aa.mon_sale
+			,aa.mon_rece
+			,aa.mon_misu
+			,aa.mon_turnover
+			,aa.appro_yn
+			,aa.appro_memo
+			,aa.part_code
+			,aa.part_appro
+			,( case when aa.part_date is not null then to_char(aa.part_date,'YYYYMMDD') else null end ) part_date
+			,aa.head_code
+			,aa.head_appro
+			,( case when aa.part_date is not null then to_char(aa.head_date,'YYYYMMDD') else null end ) head_date
+			,aa.ceo_appro
+			,( case when aa.part_date is not null then to_char(aa.ceo_date,'YYYYMMDD') else null end ) ceo_date
+			
+			,tt.disc_title
+			,aa.strt_date
+			,aa.last_date
+		<include refid="selectWhere_fragment"/>
+		order by aa.salesman,aa.cust_code, aa.mon_ago
+	</select>
+	<select id="SD0207MpDiscPriceDAO.selectMpDiscPriceListTotCnt" parameterClass="SD0207MpDiscPriceSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	
+	<select id="SD0207MpDiscPriceDAO.selectMpDiscPriceDetailList" parameterClass="SD0207MpDiscPriceSerarchVO" resultClass="egovMap">
+		SELECT
+				tt.cust_code     
+				, discp.pro_code   
+				, openmps."FN_GET_PROCODENM"(tt.corp_code, discp.pro_code) as pro_name     
+			 	, discp.disc_price     
+			 	, openmps."FN_GET_PROPRICE"(tt.corp_code, #strtDate#,tt.cust_code, discp.pro_code) as sale_price 
+				, discp.week_ago_3
+				, discp.week_ago_2
+				, discp.week_ago_1
+				, discp.target_box
+				, usr.user_name salesman
+				
+				, #strtDate# strt_date
+				, #lastDate# last_date
+	  	FROM 
+	  		openmps.mp_disc_price_title tt      
+			left outer join openmps.mp_disc_price discp on (
+	  			tt.corp_code = discp.corp_code 
+	  			and tt.cust_code = discp.cust_code 
+	  			and tt.strt_date = discp.strt_date 
+	  			and tt.last_date = discp.last_date 
+	  			and tt.strt_date = discp.strt_date
+				and tt.last_date = discp.last_date
+  			)
+  			left outer join openmps.tm_userxm usr on (tt.corp_code=usr.corp_code and tt.salesman=usr.user_code)
+		where tt.corp_code = #corpCode#
+		and tt.cust_code = #custCode#	
+		and tt.strt_date = #strtDate#
+		and tt.last_date = #lastDate#
+		<isNotEmpty property="salesman" >
+			<isNotEqual property="salesman" compareValue="ALL">
+			and tt.salesman = #salesman#	
+			</isNotEqual>
+		</isNotEmpty>
+		order by discp.pro_code
+	</select>
+</sqlMap>

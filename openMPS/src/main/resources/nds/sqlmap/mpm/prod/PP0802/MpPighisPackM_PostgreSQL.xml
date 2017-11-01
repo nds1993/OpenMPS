@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpPighisPackM">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpPighisPackMSerarchVO" type="nds.mpm.prod.PP0802.vo.MpPighisPackMVO"/>
+	
+	<resultMap id="mpPighisPackM" class="nds.mpm.prod.PP0802.vo.MpPighisPackMVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="packDate" column="pack_date" columnIndex="2"/>
+		<result property="bunchNo" column="bunch_no" columnIndex="3"/>
+		<result property="basePartCode" column="base_part_code" columnIndex="4"/>
+		<result property="basePartName" column="base_part_name" columnIndex="5"/>
+		<result property="packWeig" column="pack_weig" columnIndex="6"/>
+		<result property="memo" column="memo" columnIndex="7"/>
+		<result property="apiTime" column="api_time" columnIndex="8"/>
+		<result property="deleYn" column="dele_yn" columnIndex="9"/>
+		<result property="mdUser" column="md_user" columnIndex="10"/>
+		<result property="mdDate" column="md_date" columnIndex="11"/>
+		<result property="crUser" column="cr_user" columnIndex="12"/>
+		<result property="crDate" column="cr_date" columnIndex="13"/>
+	</resultMap>
+	
+	<insert id="mpPighisPackMDAO.insertMpPighisPackM">
+		<selectKey keyProperty="basePartCode" resultClass="string">
+		    select #basePartCode# as base_part_code
+		</selectKey>
+		<![CDATA[
+			INSERT INTO openmps.mp_pighis_pack_m 
+				( corp_code
+				  , pack_date
+				  , bunch_no
+				  , base_part_code
+				  , base_part_name
+				  , pack_weig
+				  , memo
+				  , api_time
+				  , dele_yn
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #packDate#
+				  , #bunchNo#
+				  , #basePartCode#
+				  , #basePartName#
+				  , #packWeig#::numeric(11,2)
+				  , #memo#
+				  , #apiTime#
+				  , 'N'
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="mpPighisPackMDAO.updateMpPighisPackM">
+		<![CDATA[
+			UPDATE openmps.mp_pighis_pack_m
+			SET base_part_name=#basePartName#
+				, pack_weig=#packWeig#
+				, memo=#memo#
+				, api_time=#apiTime#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND pack_date=#packDate#
+								AND bunch_no=#bunchNo#
+								AND base_part_code=#basePartCode#
+				]]>
+	</update>
+	<update id="mpPighisPackMDAO.updateApiTimeMpPighisPackM">
+			UPDATE openmps.mp_pighis_pack_m
+			SET md_user=#mdUser#
+				, md_date=now()
+				<isEqual property="searchCondition" compareValue="success">
+				, api_time=now()
+				</isEqual>
+				, memo=#memo#
+						WHERE corp_code=#corpCode#
+						AND pack_date=#packDate#
+						AND bunch_no=#bunchNo#
+						AND base_part_code=#basePartCode#
+	</update>
+	
+	<select id="mpPighisPackMDAO.checkDupPackDateMpPighisPackM" resultClass="int">
+			SELECT
+				count(*)
+			FROM openmps.mp_pighis_pack_m
+			WHERE corp_code=#corpCode#
+			AND pack_date=#packDate#
+			limit 1			
+	</select>
+	<delete id="mpPighisPackMDAO.deleteMpPighisPackM">
+		<![CDATA[
+			delete from openmps.mp_pighis_pack_m 
+						WHERE corp_code=#corpCode#
+								AND pack_date=#packDate#
+				]]>
+	</delete>
+	
+	<select id="mpPighisPackMDAO.selectMpPighisPackM_S" resultMap="mpPighisPackM">
+		<![CDATA[
+			SELECT
+				pack_date
+				, bunch_no
+				, base_part_code
+				, base_part_name
+				, pack_weig::varchar
+				, api_time
+				, usr.user_name
+								
+				, md_user
+				, corp_code
+				, memo
+				, dele_yn
+				, md_date
+				, cr_user
+				, cr_date
+			FROM openmps.mp_pighis_pack_m a
+			left outer join openmps.tm_userxm usr on (a.corp_code = usr.corp_code and a.md_user = usr.user_code)
+						WHERE corp_code=#corpCode#
+								AND pack_date=#packDate#
+								AND bunch_no=#bunchNo#
+								AND base_part_code=#basePartCode#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	from openmps.mp_pighis_pack_m a
+	  	left outer join openmps.tm_userxm usr on (a.corp_code=usr.corp_code and a.md_user=usr.user_code)
+	  	where a.corp_code = #corpCode#
+	  	and a.pack_date = #packDate#
+	  	and a.dele_yn = 'N'
+		<dynamic> 
+			<isNotEmpty property="basePartCode" >
+				and a.base_part_code = #basePartCode#
+			</isNotEmpty> 
+	        <isEqual property="searchCondition" compareValue="nsend">
+	            and a.api_time is null
+	        </isEqual>
+		</dynamic>
+		<isEqual property="searchCondition2" compareValue="test">
+		limit 1
+		</isEqual>
+	</sql>
+	<select id="mpPighisPackMDAO.selectMpPighisPackMList_D" parameterClass="mpPighisPackMSerarchVO" resultClass="egovMap">
+		select 
+			a.corp_code
+				, pack_date
+				, bunch_no
+				, base_part_code
+				, base_part_name
+				, pack_weig
+				, a.memo
+				, to_char(api_time, 'YYYY-MM-DD HH:mi:ss') as api_time
+				, usr.user_name as cr_user
+		<include refid="selectWhere_fragment"/>
+		order by bunch_no
+	</select>	
+	<select id="mpPighisPackMDAO.selectMpPighisPackMListTotCnt_S" parameterClass="mpPighisPackMSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<!-- 
+	
+	신고파일 포맷으로 조회 
+	 -->
+	<select id="mpPighisPackMDAO.selectMpPighisPackMSendFormatList" resultClass="egovMap">
+		select 
+		title
+		,pack_date
+		,bunch_no
+		,base_part_code
+		,base_part_name
+		,pack_weig
+		from
+		(
+		select 
+		'T1' as title , pack_date, bunch_no, '' as base_part_code, '' as base_part_name
+		,sum(pack_weig)::numeric(11,0) as pack_weig
+		, bunch_no as sort1 , 1 sort2
+		from openmps.mp_pighis_pack_m a
+		where a.pack_date = #packDate#
+		and a.api_time is null
+		group by pack_date, bunch_no
+		union
+		select
+		'T2' as title, pack_date, bunch_no, base_part_code, base_part_name
+		, pack_weig::numeric(11,1) as pack_weig
+		, bunch_no sort1 , 2 sort2 
+		from mp_pighis_pack_m a
+		where a.pack_date = #packDate#
+		and a.api_time is null
+		union
+		select
+		'T3' as title, pack_date, bunch_no, '' base_part_code,  '' base_part_name
+		, 0 pack_weig
+		, bunch_no sort1 , 2 sort2 
+		from mp_pighis_pack_m a
+		where a.pack_date = #packDate#
+		and a.api_time is null
+		group by pack_date, bunch_no
+		) aa
+		order by sort1, title, sort2
+	</select>
+	
+	<!-- 
+	
+	신고대상  조회 mp_bar_pro_m
+	 -->
+	<sql id="selectWhere_BarProfragment">
+	  	FROM openmps.mp_bar_pro_m a, openmps.mp_item_master_m b
+		 WHERE 1 = 1
+		   AND a.pro_date = #packDate#
+		   AND a.corp_code = b.corp_code
+		   AND a.pro_code = b.pro_code
+		   AND a.dele_yn = 'N'
+		   AND a.prdt_type = '1' 
+		   AND b.meat_type = '1' 
+		   AND NOT (b.std_code IS NULL OR b.std_code = '')
+		   AND a.plant_code IN (SELECT plant_code
+		                          FROM openmps.tm_platxm
+		                         WHERE corp_code = #corpCode#
+		                           AND prdt_type = '1') 
+		<dynamic>
+		</dynamic>
+		 GROUP BY a.corp_code, pro_date, a.bunch_no, b.std_code, b.std_name
+		<isEqual property="searchCondition2" compareValue="test">
+		limit 1
+		</isEqual>
+		
+	</sql>
+	<select id="mpPighisPackMDAO.selectMpBarProMList_D" parameterClass="mpPighisPackMSerarchVO" resultClass="egovMap">
+		SELECT a.corp_code
+		, pro_date as pack_date
+		, a.bunch_no
+		, b.std_code as base_part_code
+		, b.std_name as base_part_name
+		, SUM(a.box_weig) as pack_weig
+		<include refid="selectWhere_BarProfragment"/>
+	</select>	
+	<select id="mpPighisPackMDAO.selectMpBarProMListTotCnt_S" parameterClass="mpPighisPackMSerarchVO" resultClass="int">
+		select count(*)
+		<include refid="selectWhere_BarProfragment"/>
+	</select>
+</sqlMap>

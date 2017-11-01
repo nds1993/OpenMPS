@@ -1,0 +1,123 @@
+{
+  "name": "권한관리",
+  "module": "TMCOUR40Renderer",
+  "options": {
+    "className": "contents_box",
+    "order": [
+      "queryBox",
+      "resultBox"
+    ],
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "queryBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "query_box form-inline",
+        "order": [
+          "searchKeyword"
+        ],
+        "activation": {
+          "method": "one-page"
+        },
+        "custom_form": {
+          "name": "API Runner Form",
+          "mode": "form",
+          "items": {
+            "searchKeyword": {
+              "module": "text",
+              "selector": ".searchKeyword",
+              "label": "권한그룹코드/명",
+              "required": false
+            }
+          },
+          "data": {},
+          "template": null
+        }
+      }
+    },
+ 		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "mesgInfo_box grid_box grid_btn_hide",
+				"gridId": "TMCOUR40_grid_1",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+						"name": "groupCode",
+						"label": "<div class=\"editable_mark\"></div><span class=\"required\">권한그룹코드</span>",
+						"width": 80,
+						"align": "center",
+						"editoption": {
+							"required": true
+						},
+						"edittype": "text",
+						"editable": true,
+						"classes":"editable"
+					}, {
+						"name": "groupName",
+						"label": "<div class=\"editable_mark\"></div><span class=\"required\">권한그룹명</span>",
+						"width": 200,
+						"align": "left",
+						"editoption": {
+							"required": true
+						},
+						"edittype": "text",
+						"editable": true,
+						"classes":"editable"
+					}, {
+						"name": "sortOrder",
+						"label": "<div class=\"editable_mark\"></div>정렬순서",
+						"width": 60,
+						"align": "center",
+						"editoption": {
+							"required": true
+						},
+						"edittype": "text",
+						"editable": true,
+						"classes":"editable"
+
+					}, {
+						"name": "useYn",
+						"label": "<div class=\"editable_mark\"></div>사용여부 ",
+						"template": "booleanCheckboxFa",
+						"align": "center",
+						"width": 60,
+						"editable": true,
+						"edittype" :"checkbox",
+						"editoptions":{"value": "1:Y; 2:N"},
+						"formatter": "checkbox",
+						"classes":"editable"
+					}, {
+						"name": "memo",
+						"label": "<div class=\"editable_mark\"></div>설명",
+						"width": 300,
+						"align": "left",
+						"editoption": {
+							"required": false
+						},
+						"edittype": "text",
+						"editable": true,
+						"classes":"editable"
+					}],
+                    "rowNum":"100000000",
+					"width": "auto",
+					"height": "597",
+					"cellEdit": true,
+					"shrinkToFit": true,
+					"gridview": true,
+					"datatype": "local",
+					"rownumbers": false,
+					"cellsubmit": "clientArray",
+							"pager": "#TMCOUR40_grid_1_pager",
+							"viewrecords": true,
+							"recordpos": "left",
+							"pgbuttons": false,
+							"pginput": false
+				}
+			}
+		}
+
+  }
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD9009MpOrderD">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<select id="SD9009MpOrderDDAO.selectMpOrderDList_D" resultClass="egovMap">
+		select
+			  c.sku as pro_code
+			, c.pro_name as pro_name
+			, c.sale_group1 as proType
+			, c.sale_group2 as proLcode
+			, c.dc as whcode
+			, c.whcode_name as whcode_name
+			, sum(case when #proGubun#='0' then c.stokqty when #proGubun#='1' then c.wt end) as pro_stok
+		from 
+		(
+			select a.*
+			, (select dcnm from openmps."sd_dc" where dc = a.dc) as whcode_name
+			, b.*
+			from openmps."st_stok_mfrde_v" a inner join openmps."mp_item_master_m" b
+			on a.sku = b.pro_code 
+			where a.biz = '1000' 
+			and b.corp_code = #corpCode#
+			and a.dc = #whcode#
+			<dynamic>
+			<isNotEmpty prepend="and" property="proType">
+				b.sale_group1 = #proType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="proLcode">
+				b.sale_group2 = #proLcode#
+			</isNotEmpty>
+			</dynamic>
+		) c 
+		group by c.sku, c.pro_name, c.sale_group1, c.sale_group2, c.dc, c.whcode_name
+		order by c.sku
+		
+	</select>	
+	<select id="SD9009MpOrderDDAO.selectProcodeMpOrderDList_D" resultClass="egovMap">
+		select
+			  c.sku as pro_code
+			, c.pro_name as pro_name
+			, c.sale_group1 as proType
+			, c.sale_group2 as proLcode
+			, c.dc as whcode
+			, c.whcode_name as whcode_name
+			, c.mfrde as mfrde
+			, sum(case when #proGubun#='0' then c.stokqty when #proGubun#='1' then c.wt end) as pro_stok
+		from 
+		(
+			select a.*
+			, (select dcnm from openmps."sd_dc" where dc = a.dc) as whcode_name
+			, b.*
+			from openmps."st_stok_mfrde_v" a inner join openmps."mp_item_master_m" b
+			on a.sku = b.pro_code 
+			where a.biz = '1000' 
+			and b.corp_code = #corpCode#
+			and a.dc = #whcode#
+			and a.sku = #proCode#
+		) c 
+		group by c.sku, c.pro_name, c.sale_group1, c.sale_group2, c.dc, c.whcode_name, c.mfrde
+		order by c.sku
+		
+	</select>	
+</sqlMap>

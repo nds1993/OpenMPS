@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpOrderH">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpOrderHSerarchVO" type="nds.mpm.sales.SD0405.vo.MpOrderHVO"/>
+	
+	<resultMap id="mpOrderH" class="nds.mpm.sales.SD0405.vo.MpOrderHVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="delvDate" column="delv_date" columnIndex="2"/>
+		<result property="ordrNo" column="ordr_no" columnIndex="3"/>
+		<result property="ordrType" column="ordr_type" columnIndex="4"/>
+		<result property="ordrCust" column="ordr_cust" columnIndex="5"/>
+		<result property="delvCust" column="delv_cust" columnIndex="6"/>
+		<result property="saleCust" column="sale_cust" columnIndex="7"/>
+		<result property="aggreGubn" column="aggre_gubn" columnIndex="8"/>
+		<result property="delvDc" column="delv_dc" columnIndex="9"/>
+		<result property="amtDisplay" column="amt_display" columnIndex="10"/>
+		<result property="limitYn" column="limit_yn" columnIndex="11"/>
+		<result property="occurSrc" column="occur_src" columnIndex="12"/>
+		<result property="ordrWeight" column="ordr_weight" columnIndex="13"/>
+		<result property="ordrAmt" column="ordr_amt" columnIndex="14"/>
+		<result property="delvWeight" column="delv_weight" columnIndex="15"/>
+		<result property="delvAmt" column="delv_amt" columnIndex="16"/>
+		<result property="phoneNo" column="phone_no" columnIndex="17"/>
+		<result property="arrivalTime" column="arrival_time" columnIndex="18"/>
+		<result property="memo" column="memo" columnIndex="19"/>
+		<result property="status" column="status" columnIndex="20"/>
+		<result property="crUser" column="cr_user" columnIndex="21"/>
+		<result property="crDate" column="cr_date" columnIndex="22"/>
+		<result property="mdUser" column="md_user" columnIndex="23"/>
+		<result property="mdDate" column="md_date" columnIndex="24"/>
+	</resultMap>
+	<select id="MpOrderHDAO.selectMpOrderNo" parameterClass="egovMap" resultClass="string">
+		select lpad( (coalesce(max(ordr_no::integer),0) + 1)::varchar, 5, '0') as ordr_no
+				  	from openmps.mp_order_h where corp_code = #corpCode# and delv_date = #delvDate#
+	</select>
+	<insert id="MpOrderHDAO.insertMpOrderH" >
+		<selectKey keyProperty="orderNo" resultClass="string">
+		    select #ordrNo# as ordr_no
+		</selectKey>
+		<![CDATA[
+			INSERT INTO openmps.mp_order_h 
+				( corp_code
+				  , delv_date
+				  , ordr_no
+				  , ordr_type
+				  , ordr_cust
+				  , delv_cust
+				  , sale_cust
+				  , aggre_gubn
+				  , delv_type
+				  , delv_dc
+				  , amt_display
+				  , limit_yn
+				  , occur_src
+				  
+				  , appro_yn
+				  , ordr_weight
+				  , ordr_amt
+				  , delv_weight
+				  , delv_amt
+				  , phone_no
+				  , arrival_time
+				  , memo
+				  , status
+				  , cr_user
+				  , cr_date
+				  , md_user
+				  , md_date )
+			VALUES ( #corpCode#
+				  , #delvDate#
+				  , #ordrNo#
+				  , #ordrType#
+				  , #ordrCust#
+				  , #delvCust#
+				  , #saleCust#
+				  , #aggreGubn#
+				  , #delvType#
+				  , #delvDc#
+				  , #amtDisplay#
+				  , #limitYn#
+				  , #occurSrc#
+				  , #approYn#
+				  , #ordrWeight#
+				  , #ordrAmt#
+				  , #delvWeight#
+				  , #delvAmt#
+				  , #phoneNo#
+				  , #arrivalTime#
+				  , #memo#
+				  , #status#
+				  , #crUser#
+				  , now()
+				  , #mdUser#
+				  , now() )
+			ON CONFLICT (corp_code, delv_date, ordr_no)
+    		DO UPDATE SET
+				ordr_type=#ordrType#
+				, ordr_cust=#ordrCust#
+				, delv_cust=#delvCust#
+				, sale_cust=#saleCust#
+				, aggre_gubn=#aggreGubn#
+				, delv_dc=#delvDc#
+				, amt_display=#amtDisplay#
+				, limit_yn=#limitYn#
+				, occur_src=#occurSrc#
+				, ordr_weight=#ordrWeight#
+				, ordr_amt=#ordrAmt#
+				, delv_weight=#delvWeight#
+				, delv_amt=#delvAmt#
+				, phone_no=#phoneNo#
+				, arrival_time=#arrivalTime#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=#mdTime#
+		]]>
+	</insert>
+	
+	<update id="MpOrderHDAO.updateMpOrderH">
+		<![CDATA[
+			UPDATE openmps.mp_order_h
+			SET 
+				ordr_type=#ordrType#
+				, ordr_cust=#ordrCust#
+				, delv_cust=#delvCust#
+				, sale_cust=#saleCust#
+				, aggre_gubn=#aggreGubn#
+				, delv_dc=#delvDc#
+				, amt_display=#amtDisplay#
+				, limit_yn=#limitYn#
+				, occur_src=#occurSrc#
+				, ordr_weight=#ordrWeight#
+				, ordr_amt=#ordrAmt#
+				, delv_weight=#delvWeight#
+				, delv_amt=#delvAmt#
+				, phone_no=#phoneNo#
+				, arrival_time=#arrivalTime#
+				, memo=#memo#
+				, md_user=#mdUser#
+				, md_date=#mdTime#
+				WHERE corp_code=#corpCode#
+					AND delv_date=#delvDate#
+					AND ordr_no=#ordrNo#
+				]]>
+	</update>
+	<update id="MpOrderHDAO.updateMpOrderHAmt">
+		<![CDATA[
+			UPDATE openmps.mp_order_h
+			SET 
+				ordr_weight=d.ordr_weight
+				, ordr_amt=d.ordr_weight
+			from ( 
+				select 
+				sum(ordr_weight) as  ordr_weight
+				, sum(ordr_amt) as delv_weight
+				from openmps.mp_order_d 
+				WHERE corp_code=#corpCode#
+					AND delv_date=#delvDate#
+					AND ordr_no=#ordrNo#
+				group by corp_code, delv_date, ordr_no
+			) d
+				WHERE corp_code=#corpCode#
+					AND delv_date=#delvDate#
+					AND ordr_no=#ordrNo#
+				]]>
+	</update>
+	<delete id="MpOrderHDAO.deleteMpOrderH">
+		<![CDATA[
+			DELETE FROM openmps.mp_order_h 
+						WHERE corp_code=#corpCode#
+								AND delv_date=#delvDate#
+								AND ordr_no=#ordrNo#
+				]]>
+	</delete>
+	
+	<delete id="MpOrderHDAO.deleteClearDevDateMpOrderH">
+		<![CDATA[
+			DELETE FROM openmps.mp_order_h 
+						WHERE corp_code=#corpCode#
+								AND delv_date=#delvDate#
+								AND ordr_cust=#ordrCust#
+				]]>
+	</delete>
+	
+	<delete id="MpOrderHDAO.deleteClearDevDateMpOrderD">
+		<![CDATA[
+			DELETE FROM openmps.mp_order_d
+						WHERE corp_code=#corpCode#
+								AND delv_date=#delvDate#
+								AND ordr_cust=#ordrCust#
+				]]>
+	</delete>
+	
+	<select id="MpOrderHDAO.selectMpOrderH_S" resultMap="mpOrderH">
+		<![CDATA[
+			SELECT
+				corp_code
+				, delv_date
+				, ordr_no
+				, ordr_type
+				, ordr_cust
+				, delv_cust
+				, sale_cust
+				, aggre_gubn
+				, delv_dc
+				, amt_display
+				, limit_yn
+				, occur_src
+				, ordr_weight
+				, ordr_amt
+				, delv_weight
+				, delv_amt
+				, phone_no
+				, arrival_time
+				, memo
+				, status
+				, cr_user
+				, cr_date
+				, md_user
+				, md_date
+			FROM openmps.mp_order_h
+						WHERE corp_code=#corpCode#
+								AND delv_date=#delvDate#
+								AND ordr_no=#ordrNo#
+				]]>
+	</select>
+	<sql id="selectWhere_fragment">
+	  	from openmps.mp_order_h a
+	  	left outer join openmps.mp_order_d b on ( 
+									  	a.corp_code =b.corp_code 
+									  	and a.delv_date = b.delv_date 
+									  	and a.ordr_no = b.ordr_no )
+		left outer join openmps.mp_cust_info c on a.ordr_cust = c.cust_code	
+		inner join openmps.mp_item_master_m m on (b.corp_code = m.corp_code and b.pro_code = m.pro_code )						  	
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="custCode">
+			 a.ordr_cust = #custCode#
+	         </isNotEmpty> 
+			 <isNotEmpty prepend="and" property="delvDate">
+			 a.delv_date = #delvDate#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="proUkind">
+			 m.pro_ukind = #proUkind#
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="MpOrderHDAO.selectMpOrderHList_D" parameterClass="mpOrderHSerarchVO" resultClass="egovMap">
+		select 
+			a.corp_code
+				, a.delv_date
+				, a.ordr_no
+				, a.ordr_type
+				, a.ordr_cust as cust_code
+				, c.cust_name
+				, a.delv_cust
+				, a.sale_cust
+				, a.aggre_gubn
+				, a.delv_dc
+				, a.amt_display
+				, a.limit_yn
+				, a.occur_src
+				, a.ordr_weight
+				, a.delv_box
+				, a.delv_amt
+				, a.phone_no
+				, a.arrival_time
+				, a.memo
+				, a.status
+				, b.pro_code
+				, m.pro_name
+				, b.unit_price <!-- 단가 -->
+				, b.ordr_box  <!-- 주문수량 -->
+				, b.ordr_weight  <!-- 주문중량 -->
+				, b.ordr_amt  <!-- 주문공급가 -->
+				, b.ordr_vat  <!-- 주문부가세 -->
+		<include refid="selectWhere_fragment"/>
+		order by a.ordr_no, a.ordr_cust, b.pro_code
+	</select>	
+	<select id="MpOrderHDAO.selectMpOrderHListTotCnt_S" parameterClass="mpOrderHSerarchVO" resultClass="int">
+		select 
+			count(*)
+		<include refid="selectWhere_fragment"/>
+	</select>
+	<!-- 제품단가조회 -->
+	<select id="MpOrderHDAO.selectMpOrderPrice" resultClass="int">
+	select "FN_GET_PROPRICE"(#delvDate#,#corpCode#,#priceCust#,#proCode#) as sale_price
+	</select>
+	
+	<!-- SD0406 주문현황조회 -->
+	<sql id="selectSD0406Where_fragment">
+	  	from
+		(
+			select h.delv_date, usr.team_code, team.team_name, custp.salesman, usr.user_name, sum(ordr_weight) as ordr_weight
+			from openmps.mp_order_h h
+			left outer join openmps.mp_salesman_cust custp on ( h.ordr_cust = custp.salesman_cust )
+			left outer join openmps.tm_userxm usr on ( custp.salesman  = usr.user_code )
+			left outer join openmps.tm_teamxm team on ( team.team_code = usr.team_code )
+			where h.delv_date = #strtDate#
+			<isNotEmpty prepend="and" property="teamCode">
+			usr.team_code = #teamCode#
+	        </isNotEmpty>
+	        <isNotEmpty prepend="and" property="ofceCode">
+			usr.ofce_code = #ofceCode#
+	        </isNotEmpty>
+			<isNotEmpty prepend="and" property="salesman">
+			usr.user_code = #salesman#
+	        </isNotEmpty>
+			group by h.delv_date, usr.team_code, team.team_name, custp.salesman, usr.user_name
+		) curday
+		left outer join
+		(
+			select h.delv_date, usr.team_code, custp.salesman, sum(ordr_weight) as ordr_weight
+			from openmps.mp_order_h h
+			left outer join openmps.mp_salesman_cust custp on ( h.ordr_cust = custp.salesman_cust )
+			left outer join openmps.tm_userxm usr on ( custp.salesman  = usr.user_code )
+			left outer join openmps.tm_teamxm team on ( team.team_code = usr.team_code )
+			where h.delv_date = to_char(#strtDate#::date - 1, 'YYYYMMDD')
+			<isNotEmpty prepend="and" property="teamCode">
+			usr.team_code = #teamCode#
+	        </isNotEmpty>
+	        <isNotEmpty prepend="and" property="ofceCode">
+			usr.ofce_code = #ofceCode#
+	        </isNotEmpty>
+			<isNotEmpty prepend="and" property="salesman">
+			usr.user_code = #salesman#
+	        </isNotEmpty>
+			group by h.delv_date, usr.team_code, custp.salesman
+		) preday on (1=1)
+		left outer join
+		(
+			select h.delv_date, usr.team_code, custp.salesman, sum(ordr_weight) as ordr_weight
+			from openmps.mp_order_h h
+			left outer join openmps.mp_salesman_cust custp on ( h.ordr_cust = custp.salesman_cust )
+			left outer join openmps.tm_userxm usr on ( custp.salesman  = usr.user_code )
+			left outer join openmps.tm_teamxm team on ( team.team_code = usr.team_code )
+			where h.delv_date = to_char(#strtDate#::date - 1, 'YYYYMMDD')
+			<isNotEmpty prepend="and" property="teamCode">
+			usr.team_code = #teamCode#
+	        </isNotEmpty>
+	        <isNotEmpty prepend="and" property="ofceCode">
+			usr.ofce_code = #ofceCode#
+	        </isNotEmpty>
+			<isNotEmpty prepend="and" property="salesman">
+			usr.user_code = #salesman#
+	        </isNotEmpty>
+			group by h.delv_date, usr.team_code, custp.salesman
+		) premon on (1=1)						  	
+	</sql>
+	<select id="MpOrderHDAO.selectSD0406List" parameterClass="mpOrderHSerarchVO" resultClass="egovMap">
+		select
+			curday.delv_date
+			,curday.team_code
+			,curday.team_name
+			,curday.salesman
+			,curday.user_name
+			,preday.ordr_weight as yesterday_weight
+			,(curday.ordr_weight - curday.ordr_weight) as variation_day_weight
+			,0 total_weight
+			,0 plan_weight
+			,0 comp_rate
+			,premon.ordr_weight as month_sync
+			,(curday.ordr_weight - premon.ordr_weight) as variation_mon_weight
+		<include refid="selectSD0406Where_fragment"/>
+		order by curday.delv_date
+			,curday.team_code
+			,curday.salesman
+	</select>	
+	<select id="MpOrderHDAO.selectSD0406ListTotCnt_S" parameterClass="mpOrderHSerarchVO" resultClass="int">
+		select 
+			count(*)
+		<include refid="selectSD0406Where_fragment"/>
+	</select>
+	<!-- SD0406 주문현황조회 where ordr_cusr and salesman -->
+	<select id="MpOrderHDAO.selectSD0406CustList" parameterClass="mpOrderHSerarchVO" resultClass="egovMap">
+		select
+			curday.corp_code
+			,curday.delv_date
+			,curday.ordr_no
+			,curday.ordr_type
+			, openmps."FN_GET_TMCODEXDNM"(curday.corp_code,'SD017',curday.ordr_type) as ordr_typename
+			,curday.ordr_cust
+			, openmps."FN_GET_CUSTCODENM"(curday.corp_code,curday.ordr_cust) as ordr_custname 
+			,curday.ordr_weight
+			,curday.ordr_amt
+			,0 plan_weight
+			,0 foreper
+		from
+		(
+			select h.corp_code, h.delv_date, h.ordr_no, h.ordr_cust, h.ordr_type, ordr_weight, h.ordr_amt
+			from openmps.mp_order_h h
+			left outer join openmps.mp_salesman_cust custp on ( h.ordr_cust = custp.salesman_cust )
+			left outer join openmps.tm_userxm usr on ( custp.salesman  = usr.user_code )
+			left outer join openmps.tm_teamxm team on ( team.team_code = usr.team_code )
+			where h.delv_date = #strtDate#
+			and custp.salesman = #salesman#
+		) curday
+		order by curday.delv_date
+			,curday.delv_date
+			,curday.ordr_cust
+	</select>
+	<!-- 
+		SD0406
+	 -->
+	<select id="MpOrderHDAO.selectSD0406OrdrProList" parameterClass="mpOrderHSerarchVO" resultClass="egovMap">
+		select
+			m.large_code
+			,m.pro_code
+			,m.pro_name
+			,curday.ordr_weight
+			,preday.ordr_weight as yesterday_weight
+			,(curday.ordr_weight - curday.ordr_weight)  as yesterday_weight
+			,0 total_weight
+			,0 plan_weight
+			,0 comp_rate
+			,premon.ordr_weight
+			,(curday.ordr_weight - premon.ordr_weight) as variation_mon_weight
+		from
+		(
+			select d.corp_code, d.pro_code, d.ordr_no, ordr_weight
+			from openmps.mp_order_d d
+			where d.delv_date = #delvDate#
+			and exists ( select '1' from openmps.mp_order_h 
+					where delv_date = d.delv_date
+					and ordr_no = d.ordr_no
+					and ordr_cust in (select salesman_cust from  mp_salesman_cust where salesman = #salesman# ) 
+			)
+		) curday
+		left outer join openmps.mp_item_master_m m on (
+				curday.corp_code = m.corp_code 
+				and curday.pro_code = m.pro_code)
+		left outer join
+		(
+			select d.pro_code, ordr_weight
+			from openmps.mp_order_d d
+			where d.delv_date = to_char(#delvDate#::date - 1, 'YYYYMMDD')
+			and exists ( select '1' from openmps.mp_order_h 
+					where delv_date = d.delv_date
+					and ordr_no = d.ordr_no
+					and ordr_cust in (select salesman_cust from  mp_salesman_cust where salesman = #salesman# ) 
+			)
+		) preday on (curday.pro_code = preday.pro_code)
+		left outer join
+		(
+			select d.pro_code, ordr_weight
+			from openmps.mp_order_d d
+			where d.delv_date = to_char(#delvDate#::date - 1, 'YYYYMMDD')
+			and exists ( select '1' from openmps.mp_order_h 
+					where delv_date = d.delv_date
+					and ordr_no = d.ordr_no
+					and ordr_cust in (select salesman_cust from  mp_salesman_cust where salesman = #salesman# ) 
+			)
+		) premon on (curday.pro_code = premon.pro_code)
+		order by m.large_code, m.pro_code
+	</select>
+	
+	<!-- 온라인 주문 배송처검색 -->
+	<select id="MpOrderHDAO.selectSD0405DelvCust" resultClass="egovMap">
+		select
+			cust_code
+			,cust_name
+		from openmps.mp_cust_info 
+		where corp_code=#corpCode# and rece_comb_cust=#receCombCust#
+		limit 1
+	</select>
+	
+	<!-- excel upload order biz  -->
+	
+	<select id="MpOrderHDAO.selectUploadCustMpOrderNo" resultClass="egovMap">
+		select 
+			ordr_no
+			,ordr_seq
+		from openmps.mp_order_h
+		where corp_code=#corpCode#
+		and delv_date=#delvDate#
+		and ordr_cust=#ordrCust#
+		and cr_user='upload'
+	</select>
+	
+	<update id="MpOrderHDAO.updateUploadMpOrderHCustAmt">
+		<![CDATA[
+			UPDATE openmps.mp_order_h
+			SET 
+				ordr_weight=d.ordr_weight
+				, ordr_amt=d.ordr_weight
+			from ( 
+				select 
+				sum(ordr_weight) as  ordr_weight
+				, sum(ordr_amt) as delv_weight
+				from openmps.mp_order_d 
+				WHERE corp_code=#corpCode#
+					AND delv_date=#delvDate#
+					AND ordr_cust=#ordrCust#
+					AND cr_user='upload'
+				group by corp_code, delv_date, ordr_no
+			) d
+				WHERE corp_code=#corpCode#
+					AND delv_date=#delvDate#
+					AND ordr_cust=#ordrCust#
+					AND cr_user='upload'
+				]]>
+	</update>
+	<delete id="MpOrderHDAO.deleteUploadClearCustMpOrderH">
+		<![CDATA[
+			DELETE FROM openmps.mp_order_h 
+			WHERE corp_code=#corpCode#
+					AND delv_date=#delvDate#
+					AND ordr_cust=#ordrCust#
+					AND cr_user = 'upload'
+				]]>
+	</delete>
+	
+	<delete id="MpOrderHDAO.deleteUploadClearCustMpOrderD">
+		<![CDATA[
+			DELETE FROM openmps.mp_order_d
+			WHERE corp_code=#corpCode#
+					AND delv_date=#delvDate#
+					AND ordr_cust=#ordrCust#
+					AND cr_user = 'upload'
+				]]>
+	</delete>
+	
+	
+	<!--  -->
+	
+</sqlMap>

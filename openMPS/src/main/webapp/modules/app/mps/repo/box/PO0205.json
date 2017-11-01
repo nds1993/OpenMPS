@@ -1,0 +1,273 @@
+{
+	"name": "더느림지급액 조회",
+	"module": "PO0205Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["queryBox", "resultBox"],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline form_tight",
+				"order": [
+					"buyType",
+					"custCode",
+					"buyDateM"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"facKind": {
+							"selector": ".facKind",
+							"label": "정산구분",
+							"required": false,
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/SD014/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+						},
+						"custCode": {
+							"label": "농장",
+							"required": false
+						},
+						"buyType": {
+							"selector": ".buyType",
+							"label": "도축장",
+							"required": false,
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/PP006/tmcodexd",
+								"parser": "return UCMS.parseComboAll( UCMS.parseComboItems(arguments[0]));"
+							}
+						},
+						"brandCode": {
+							"selector": ".brandCode",
+							"label": "브랜드",
+							"required": true,
+							"module": "combobox",
+							"fetcher": {
+								"url": "<%= host %>/rest/tmm/<%= corpCode %>/tmcocd10/PP007/tmcodexd",
+								"parser": "return UCMS.parseComboItems(arguments[0]);"
+							}
+						},
+						"buyDateM": {
+							"module": "date",
+							"selector": ".buyDateM",
+							"label": "조회월",
+							"required": true,
+							"format": "YYYY-MM",
+							"useCurrent": true,
+							"defaultDate": true
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>도축장</label><div class=\"select_design buyType\"><span class=\"select_label\"></span><select class=\"form-control\"  style=\"width:140px\"></select></div></div><div class=\"form-group\"><label>농장</label><div class=\"custCode_region equal_width\"></div></div><div class=\"form-group\"><label>도축월</label><input type=\"text\" class=\"form-control form_type_date buyDateM\"> </div>"
+				},
+				"custCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "농장",
+						"required": false,
+						"codeType": "SD0101",
+						"params": {
+							"custType": "4"
+						},
+						"value": {
+							"keyword": null,
+							"result": null
+						}
+					}
+				}
+			}
+		},
+		"resultBox": {
+			"module": "SubContainer",
+			"options": {
+				"header": {
+					"title": {
+						"className": "contnet_header_box no_label",
+						"label": "반영 버튼"
+					}
+				},
+				"content": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "grid_box",
+						"gridId": "PO0205_grid_1",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+									"name": "custName",
+									"label": "출하농장명",
+									"width": 150,
+									"align": "left",
+									"editable": false
+								},
+								{
+									"name": "owner",
+									"label": "대표자",
+									"width": 60,
+									"align": "center",
+									"editable": false
+								},
+								{
+									"name": "haccp",
+									"label": "HACCP",
+									"width": 60,
+									"align": "center",
+									"editable": false,
+									"summaryType": "count",
+									"summaryTpl": "합계"
+								},
+								{
+									"name": "useRate",
+									"label": "<div>비육후기<br>사용비율</div>",
+									"width": 70,
+									"align": "right",
+									"sorttype":"number","formatter":"number",
+									"editable": false,
+									"summaryType": "avg",
+									"formatoptions": {
+										"suffix": "%"
+									}
+								},
+								{
+									"name": "sex1Dosu",
+									"label": "두수",
+									"width": 70,
+									"align": "right",
+									"sorttype":"number","formatter":"number",
+									"editable": false,
+									"summaryType": "sum"
+								},
+								{
+									"name": "sex1Price",
+									"label": "단가",
+									"width": 70,
+									"align": "right",
+									"sorttype": "currency" , "formatter": "currency",
+									"editable": false,
+									"summaryType": "sum"
+								},
+								{
+									"name": "sex1PigPric8",
+									"label": "금액",
+									"width": 70,
+									"align": "right",
+									"sorttype": "currency" , "formatter": "currency",
+									"editable": false,
+									"summaryType": "sum"
+								},
+								{
+									"name": "sex3Dosu",
+									"label": "두수",
+									"width": 70,
+									"align": "right",
+									"sorttype":"number","formatter":"number",
+									"editable": false,
+									"summaryType": "sum"
+								},
+								{
+									"name": "sex3Price",
+									"label": "단가",
+									"width": 70,
+									"align": "right",
+									"sorttype": "currency" , "formatter": "currency",
+									"editable": false,
+									"summaryType": "sum"
+								},
+								{
+									"name": "sex3PigPric8",
+									"label": "금액",
+									"width": 70,
+									"align": "right",
+									"sorttype": "currency" , "formatter": "currency",
+									"editable": false,
+									"summaryType": "sum"
+								},
+								{
+									"name": "applyDosu",
+									"label": "두수",
+									"width": 70,
+									"align": "right",
+									"sorttype":"number","formatter":"number",
+									"editable": false,
+									"summaryType": "sum"
+								},
+								{
+									"name": "applyAmt",
+									"label": "금액",
+									"width": 70,
+									"align": "right",
+									"sorttype": "currency" , "formatter": "currency",
+									"editable": false,
+									"summaryType": "sum"
+								},
+								{
+									"name": "dochCnt",
+									"label": "<div>출하두수</div>",
+									"width": 70,
+									"align": "right",
+									"sorttype":"number","formatter":"number",
+									"editable": false,
+									"summaryType": "sum"
+								},
+								{
+									"name": "totRate",
+									"label": "비율",
+									"width": 70,
+									"align": "right",
+									"sorttype":"number","formatter":"number",
+									"editable": false,
+									"summaryType": "avg",
+									"formatoptions": {
+										"suffix": "%"
+									}
+								}
+							],
+							"width": "auto",
+							"rowNum": "100000000",
+							"height": "531",
+							"cellEdit": false,
+							"shrinkToFit": true,
+							"gridview": true,
+							"datatype": "local",
+							"cellsubmit": "clientArray",
+							"pager": "#PO0205_grid_1_pager",
+							"viewrecords": true,
+							"recordpos": "left",
+							"pgbuttons": false,
+							"pginput": false,
+							"footerrow": true,
+							"userDataOnFooter": true
+						},
+						"setGroupHeaders": {
+							"useColSpanStyle": true,
+							"groupHeaders": [{
+								"startColumnName": "sex1Dosu",
+								"numberOfColumns": 3,
+								"titleText": "<div class=\"text-center\">암돈</div>"
+							}, {
+								"startColumnName": "sex3Dosu",
+								"numberOfColumns": 3,
+								"titleText": "<div class=\"text-center\">거세돈</div>"
+							}, {
+								"startColumnName": "applyDosu",
+								"numberOfColumns": 2,
+								"titleText": "<div class=\"text-center\">규격돈</div>"
+							}]
+						}
+					}
+				}
+			}
+		}
+	}
+}

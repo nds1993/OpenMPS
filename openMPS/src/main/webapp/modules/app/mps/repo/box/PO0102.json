@@ -1,0 +1,274 @@
+{
+	"name": "등판자료 등록",
+	"module": "PO0102Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"exUpload",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": [
+					"dochDate"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"dochDate": {
+							"module": "date",
+							"selector": ".dochDate",
+							"label": "도축일자",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						}
+					},
+					"data": {},
+					"template": null
+				}
+			}
+		},
+		"exUpload": {
+			"module": "FormBox",
+			"options": {
+				"className": "exUpload_box",
+				"order": [
+					"exFileUpload_p","exFileUpload_a"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"items": {
+						"exFileUpload_p": {
+							"module": "text",
+							"selector": ".exFileUpload_p",
+							"label": "엑셀파일",
+							"required": false
+						},
+						"exFileUpload_a": {
+							"module": "text",
+							"selector": ".exFileUpload_a",
+							"label": "엑셀파일",
+							"required": false
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group form-inline form_only text-right\" ><form style=\"width:120px\" class=\"upload_btn\" title=\"엑셀업로드(개별)\"><input type=\"file\" class=\"form-control exFileUpload exFileUpload_p\" style=\"display:inline\"></form> <form style=\"width:120px; margin-left:8px\" class=\"upload_btn\" title=\"엑셀업로드(전체)\"><input type=\"file\" class=\"form-control exFileUpload exFileUpload_a\" style=\"display:inline\"></form></div>"
+
+				}
+			}
+		}
+		,
+		"resultBox": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "grid_box",
+				"gridId": "PO0102_grid_1",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+							"name": "buyType",
+							"label": "도축장코드",
+							"width": 80,
+							"align": "left",
+							"editable": false,
+							"frozen":true
+						},
+						{
+							"name": "buyTypeName",
+							"label": "도축장명",
+							"width": 120,
+							"align": "left",
+							"editable": false,
+							"frozen":true
+						},
+						{
+							"name": "crDatemonth",
+							"label": "판정월",
+							"width": 50,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "crDateday",
+							"label": "판정일",
+							"width": 50,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "dochId",
+							"label": "도체번호",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "pigGu1",
+							"label": "방법",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "pigGu2",
+							"label": "구분",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "sexNo",
+							"label": "성별코드",
+							"width": 60,
+							"align": "center",
+							"editable": false,
+							"hidden": true
+						},
+						{
+							"name": "sexName",
+							"label": "성별",
+							"width": 50,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "pigWeig2",
+							"label": "도체중",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "pigWeig3",
+							"label": "등지방",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "pigMeat",
+							"label": "등급",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "hisNo",
+							"label": "이력번호",
+							"width": 150,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "custCode",
+							"label": "농장",
+							"width": 120,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "custName",
+							"label": "농장명",
+							"width": 100,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "brandCode",
+							"label": "브랜드코드",
+							"width": 90,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "brandCodeName",
+							"label": "브랜드명",
+							"width": 120,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "repCust",
+							"label": "대표농장",
+							"width": 100,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "repCustName",
+							"label": "대표농장명",
+							"width": 120,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "facKindName",
+							"label": "정산구분",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						},
+						{
+							"name": "facCodeName",
+							"label": "정산방법",
+							"width": 70,
+							"align": "center",
+							"editable": false
+						}
+						,
+						{
+							"name": "facKind",
+							"label": "facKind",
+							"width": 90,
+							"align": "center",
+							"hidden": true
+						},
+						{
+							"name": "facCode",
+							"label": "facCode",
+							"width": 90,
+							"align": "center",
+							"hidden": true
+						}
+					],
+
+
+					"rowNum":"100000000",
+					"width": "auto",
+					"height": "568",
+					"cellEdit": false,
+					"shrinkToFit": false,
+					"gridview": true,
+					"datatype": "local",
+					"multiselect": false,
+					"multiselectWidth": 20,
+					"rownumbers": true,
+					"cellsubmit": "clientArray",
+					"pager": "#PO0102_grid_1_pager",
+					"viewrecords": true,
+					"recordpos":"left",
+					"pgbuttons":false,
+					"pginput":false,
+					"footerrow": false,
+					"userDataOnFooter": false
+				}
+			}
+		}
+	}
+}

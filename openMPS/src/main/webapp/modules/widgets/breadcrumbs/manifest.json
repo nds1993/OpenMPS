@@ -1,0 +1,18 @@
+{
+  "name": "Breadcrumbs",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "breadcrumbs-1.0.0.js",
+  	"manager": "breadcrumbs.manager-1.0.0.js"
+  },
+  "resource": {
+  },
+  "dependencies":
+  [
+	"BaroPanelBase", "Logger"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  },
+  "tag":["breadcrumbs","widget"]
+}

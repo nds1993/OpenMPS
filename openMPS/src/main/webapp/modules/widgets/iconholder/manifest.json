@@ -1,0 +1,21 @@
+{
+  "name": "IconHolder",
+  "version": "1.0.0",
+  "startup": {
+  	"widget": "icon.holder-1.0.0.js",
+  	"manager": "icon.holder.manager-1.0.0.js"
+  },
+  "resource": {
+  	"template": "icon.holder-1.0.0.html"
+  },
+  "dependencies":
+  [
+	"Logger",
+	"BaroFloating",
+	"FormItemPanel",
+	"manifest!IconPicker-1.0.0"
+  ],
+  "platform": {
+	"spa.platform": "1.5.0"
+  }
+}

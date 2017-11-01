@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TmLablxm">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="tmLablxmSerarchVO" type="nds.tmm.common.TMCOCD20.vo.TmLablxmDefaultVO"/>
+	
+	<resultMap id="tmLablxm" class="nds.tmm.common.TMCOCD20.vo.TmLablxmVO">
+		<result property="menuCode" column="menu_code" columnIndex="1"/>
+		<result property="labelCode" column="label_code" columnIndex="2"/>
+		<result property="labelName" column="label_name" columnIndex="3"/>
+		<result property="useYn" column="use_yn" columnIndex="4"/>
+		<result property="deleYn" column="dele_yn" columnIndex="5"/>
+		<result property="mdUser" column="md_user" columnIndex="6"/>
+		<result property="mdDate" column="md_date" columnIndex="7"/>
+		<result property="crUser" column="cr_user" columnIndex="8"/>
+		<result property="crDate" column="cr_date" columnIndex="9"/>
+	</resultMap>
+	
+	<!-- paging parameter Global include -->
+	<sql id="pagingParam_fragment">
+		<isNotEqual property="pageSize" compareValue="0">
+		         LIMIT #pageSize#
+		</isNotEqual>
+		<isNotEqual property="firstIndex" compareValue="0">
+		         OFFSET #firstIndex#
+		</isNotEqual>
+	</sql>
+	
+	<insert id="tmLablxmDAO.insertTmLablxm">
+		<![CDATA[
+			INSERT INTO tm_lablxm 
+				( menu_code
+				  , label_code
+				  , label_name
+				  , use_yn
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date )
+			VALUES ( #menuCode#
+				  , #labelCode#
+				  , #labelName#
+				  , #useYn#
+				  , #deleYn#
+				  , null
+				  , null
+				  , #crUser#
+				  , now() )
+		]]>
+	</insert>
+	
+	<update id="tmLablxmDAO.updateTmLablxm">
+		<![CDATA[
+			UPDATE tm_lablxm
+			SET 
+				label_name=#labelName#
+				, use_yn=#useYn#
+				, dele_yn=#deleYn#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE menu_code=#menuCode#
+								AND label_code=#labelCode#
+				]]>
+	</update>
+	
+	<delete id="tmLablxmDAO.deleteTmLablxm">
+		<![CDATA[
+			DELETE FROM tm_lablxm 
+						WHERE menu_code=#menuCode#
+								AND label_code=#labelCode#
+				]]>
+	</delete>
+	
+	<select id="tmLablxmDAO.selectTmLablxm_S" resultMap="tmLablxm">
+		<![CDATA[
+			SELECT
+				menu_code
+				, label_code
+				, label_name
+				, use_yn
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM tm_lablxm
+						WHERE menu_code=#menuCode#
+				]]>
+	</select>
+	<select id="tmLablxmDAO.selectTmLablxmList_D" parameterClass="tmLablxmSerarchVO" resultClass="egovMap">
+		SELECT * from tm_lablxm WHERE menu_code=#menuCode#
+			<include refid="pagingParam_fragment"/>
+	</select>	
+	<select id="tmLablxmDAO.selectTmLablxmListTotCnt_S" parameterClass="tmLablxmSerarchVO" resultClass="int">
+		SELECT count(*) from tm_lablxm WHERE menu_code=#menuCode#
+			<include refid="pagingParam_fragment"/>
+	</select>
+
+</sqlMap>

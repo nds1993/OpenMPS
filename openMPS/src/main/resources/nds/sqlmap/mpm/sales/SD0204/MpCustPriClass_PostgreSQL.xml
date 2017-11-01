@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MpCustPriClass">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="mpCustPriClassSerarchVO" type="nds.mpm.sales.SD0204.vo.MpCustPriClassVO"/>
+	
+	<resultMap id="mpCustPriClass" class="nds.mpm.sales.SD0204.vo.MpCustPriClassVO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="custCode" column="cust_code" columnIndex="2"/>
+		<result property="proCode" column="pro_code" columnIndex="3"/>
+		<result property="priceClass" column="price_class" columnIndex="4"/>
+		<result property="crUser" column="cr_user" columnIndex="5"/>
+		<result property="crDate" column="cr_date" columnIndex="6"/>
+		<result property="mdUser" column="md_user" columnIndex="7"/>
+		<result property="mdDate" column="md_date" columnIndex="8"/>
+	</resultMap>
+	
+	<insert id="mpCustPriClassDAO.insertMpCustPriClass">
+		<selectKey keyProperty="proCode" resultClass="string">
+		    select #proCode# as pro_code
+		</selectKey>
+		<![CDATA[
+			INSERT INTO mp_cust_pri_class 
+				( corp_code
+				  , cust_code
+				  , pro_code
+				  , price_class
+				  , cr_user
+				  , cr_date )
+			VALUES ( #corpCode#
+				  , #custCode#
+				  , #proCode#
+				  , #priceClass#
+				  , #crUser#
+				  , now() )
+			ON CONFLICT (corp_code, cust_code, pro_code)
+    		DO UPDATE SET
+    			price_class=#priceClass#
+				, md_user=#mdUser#
+				, md_date=now()
+		]]>
+	</insert>
+	
+	<update id="mpCustPriClassDAO.updateMpCustPriClass">
+		<![CDATA[
+			UPDATE mp_cust_pri_class
+			SET price_class=#priceClass#
+				, md_user=#mdUser#
+				, md_date=now()
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND pro_code=#proCode#
+				]]>
+	</update>
+	
+	<delete id="mpCustPriClassDAO.deleteMpCustPriClass">
+		<![CDATA[
+			DELETE FROM mp_cust_pri_class 
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND pro_code=#proCode#
+				]]>
+	</delete>
+	
+	<select id="mpCustPriClassDAO.selectMpCustPriClass_S" resultMap="mpCustPriClass">
+		<![CDATA[
+			SELECT
+				corp_code
+				, cust_code
+				, pro_code
+				, price_class
+				, cr_user
+				, cr_date
+				, md_user
+				, md_date
+			FROM mp_cust_pri_class
+						WHERE corp_code=#corpCode#
+								AND cust_code=#custCode#
+								AND pro_code=#proCode#
+				]]>
+	</select>
+	
+	<sql id="selectWhere_fragment">
+	  	FROM 
+			openmps.mp_salesman_cust c 
+			left outer join openmps.mp_cust_info d on ( d.corp_code = #corpCode# and c.salesman_cust = d.cust_code )
+			left outer join openmps.tm_userxm usr on ( c.salesman = usr.user_code )
+			left outer join openmps.tm_deptxm tm on ( tm.corp_code = #corpCode# and tm.dept_code = usr.dept_code )
+			where c.corp_code = #corpCode#
+		<dynamic> 
+			 <isNotEmpty prepend="and" property="partCode">
+			 tm.dept_code = #partCode#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="salesman">
+			 c.salesman = #salesman#
+	         </isNotEmpty>
+		</dynamic>
+	</sql>
+	<select id="mpCustPriClassDAO.selectMpSalesmanCustList_D" parameterClass="mpCustPriClassSerarchVO" resultClass="egovMap">
+		SELECT
+				c.corp_code
+				, tm.team_code
+				, tm.dept_name team_name
+				, c.salesman
+				, usr.user_name salesman_name
+				, c.salesman_cust as cust_code
+				, openmps."FN_GET_CUSTCODENM"(c.corp_code,c.salesman_cust) as cust_name 
+				, d.price_type
+				, ( case when d.price_type = '1' then 'Y' else 'N' end ) stnd_price_yn
+				, ( case when d.price_type = '2' then 'Y' else 'N' end ) sale_price_yn
+		<include refid="selectWhere_fragment"/>
+	</select>	
+	<select id="mpCustPriClassDAO.selectMpSalesmanCustListTotCnt_S" parameterClass="mpCustPriClassSerarchVO" resultClass="int">
+		select count(*)
+			<include refid="selectWhere_fragment"/>
+	</select>
+	
+	<select id="mpCustPriClassDAO.selectMpCustPriClassList_D" parameterClass="mpCustPriClassSerarchVO" resultClass="egovMap">
+		SELECT
+				c.corp_code
+				, tm.team_code
+				, tm.dept_name team_name
+				, c.salesman
+				, usr.user_name salesman_name
+				, c.salesman_cust as cust_code
+				, c.salesman_prod as pro_code
+				, openmps."FN_GET_PROCODENM"(c.corp_code,c.salesman_prod) as pro_name 
+				, openmps."FN_GET_CUSTCODENM"(c.corp_code,c.salesman_cust) as cust_name 
+				, d.price_type
+				, pc.price_class
+				, pc.price_class || '등급' as price_class_name
+		FROM 
+			openmps.mp_cust_pro c 
+			left outer join openmps.mp_cust_info d on 
+				( d.corp_code = #corpCode# and c.salesman_cust = d.cust_code )
+			left outer join openmps.mp_cust_pri_class pc on 
+				( c.corp_code = pc.corp_code 
+					and pc.cust_code = c.salesman_cust
+					and pc.pro_code = c.salesman_prod )
+			left outer join openmps.tm_userxm usr on ( c.corp_code = usr.corp_code and c.salesman = usr.user_code )
+			left outer join openmps.tm_deptxm tm on ( tm.corp_code = #corpCode# and tm.dept_code = usr.dept_code )
+		where c.corp_code = #corpCode#
+		and c.salesman_cust = #custCode#
+		and d.price_type = '1'
+		<isNotEmpty property="salesman">
+		and c.salesman = #salesman#
+		</isNotEmpty>
+	</select>	
+	
+</sqlMap>

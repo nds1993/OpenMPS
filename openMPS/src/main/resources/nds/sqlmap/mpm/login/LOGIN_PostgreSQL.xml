@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MPMLOGIN">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<resultMap id="MPMLOGINVO" class="nds.mpm.login.vo.LoginVO">
+		<result property="userCode" column="user_code" columnIndex="1"/>
+		<result property="userName" column="user_name" columnIndex="2"/>
+		<result property="corpCode" column="corp_code" columnIndex="3"/>
+		<result property="usdnCode" column="usdn_code" columnIndex="4"/>
+		<result property="userPass" column="user_pass" columnIndex="5"/>
+		<result property="emplNum" column="empl_num" columnIndex="6"/>
+		<result property="headCode" column="dept_code" columnIndex="7"/>
+		<result property="deptCode" column="dept_code" columnIndex="8"/>
+		<result property="rankCode" column="rank_code" columnIndex="9"/>
+		<result property="ofceCode" column="ofce_code" columnIndex="10"/>
+		<result property="posiCode" column="posi_code" columnIndex="11"/>
+		<result property="dutyCode" column="duty_code" columnIndex="12"/>
+		<result property="useLang" column="use_lang" columnIndex="13"/>
+		<result property="phone" column="phone" columnIndex="14"/>
+		<result property="mobile" column="mobile" columnIndex="15"/>
+		<result property="fax" column="fax" columnIndex="16"/>
+		<result property="email" column="email" columnIndex="17"/>
+		<result property="birth" column="birth" columnIndex="18"/>
+		<result property="zipCode" column="zip_code" columnIndex="19"/>
+		<result property="addrCode1" column="addr_code1" columnIndex="20"/>
+		<result property="addrCode2" column="addr_code2" columnIndex="21"/>
+		<result property="encoDate" column="enco_date" columnIndex="22"/>
+		<result property="retrDate" column="retr_date" columnIndex="23"/>
+		<result property="teamName" column="team_name" columnIndex="24"/>
+		<result property="ofceName" column="ofce_name" columnIndex="25"/>
+		<result property="dutyName" column="duty_name" columnIndex="26"/>
+		<result property="headName" column="head_name" columnIndex="27"/>
+	</resultMap>
+	
+	<select id="MPMLOGINDAO.selectTMCOUR10_S" resultMap="MPMLOGINVO">
+		<![CDATA[
+			SELECT
+				usr.user_code
+				, usr.user_name
+				, usr.corp_code
+				, usr.usdn_code
+				, usr.user_pass
+				, usr.empl_num
+				, usr.head_code
+				, orgu.head_name
+				, usr.team_code
+				, tm.team_name
+				, usr.dept_code
+				, dept.dept_name
+				, usr.rank_code
+				, usr.ofce_code
+				, ofce.code_name as ofce_name
+				, usr.posi_code
+				, usr.duty_code
+				, duty.code_name as duty_name
+				, usr.use_lang
+				, usr.phone
+				, usr.mobile
+				, usr.fax
+				, usr.email
+				, usr.birth
+				, usr.zip_code
+				, usr.addr_code1
+				, usr.addr_code2
+				, usr.enco_date
+				, usr.retr_date
+			FROM tm_userxm usr
+			left outer join openmps.tm_teamxm tm on ( usr.corp_code = tm.corp_code and usr.team_code = tm.team_code )
+			left outer join openmps.tm_orguxm orgu on ( usr.corp_code = orgu.corp_code and usr.head_code = orgu.head_code )
+			left outer join openmps.tm_deptxm dept on ( dept.corp_code = usr.corp_code and dept.dept_code = usr.dept_code )
+			left outer join openmps.tm_codexd ofce on ( ofce.corp_code = usr.corp_code and ofce.group_code = 'TM_OFCE' and ofce.code_id=usr.ofce_code and ofce.dele_yn = 'N')
+			left outer join openmps.tm_codexd duty on ( duty.corp_code = usr.corp_code and duty.group_code = 'TM_DUTY' and duty.code_id=usr.duty_code and duty.dele_yn = 'N' )
+			WHERE usr.user_code=#userCode#
+			and usr.use_yn = 'Y'
+			and usr.dele_yn = 'N'
+				]]>
+	</select>
+
+</sqlMap>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TMCOOS10">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="TMCOOS10SerarchVO" type="nds.tmm.common.TMCOOS10.vo.TMCOOS10DefaultVO"/>
+	
+	<resultMap id="TMCOOS10" class="nds.tmm.common.TMCOOS10.vo.TMCOOS10VO">
+		<result property="corpCode" column="corp_code" columnIndex="1"/>
+		<result property="corpName" column="corp_name" columnIndex="2"/>
+		<result property="shortName" column="short_name" columnIndex="3"/>
+		<result property="engName" column="eng_name" columnIndex="4"/>
+		<result property="owner" column="owner" columnIndex="5"/>
+		<result property="ssno" column="ssno" columnIndex="6"/>
+		<result property="lgno" column="lgno" columnIndex="7"/>
+		<result property="cdate" column="cdate" columnIndex="8"/>
+		<result property="uptae" column="uptae" columnIndex="9"/>
+		<result property="jong" column="jong" columnIndex="10"/>
+		<result property="phone" column="phone" columnIndex="11"/>
+		<result property="fax" column="fax" columnIndex="12"/>
+		<result property="numEmp" column="num_emp" columnIndex="13"/>
+		<result property="edomain" column="edomain" columnIndex="14"/>
+		<result property="zipCode" column="zip_code" columnIndex="15"/>
+		<result property="addrCode1" column="addr_code1" columnIndex="16"/>
+		<result property="addrCode2" column="addr_code2" columnIndex="17"/>
+		<result property="smsYn" column="sms_yn" columnIndex="18"/>
+		<result property="mailYn" column="mail_yn" columnIndex="19"/>
+		<result property="personYn" column="person_yn" columnIndex="20"/>
+		<result property="memo" column="memo" columnIndex="21"/>
+		<result property="corpSeq" column="corp_seq" columnIndex="22"/>
+		<result property="useYn" column="use_yn" columnIndex="23"/>
+		<result property="deleYn" column="dele_yn" columnIndex="24"/>
+		<result property="mdUser" column="md_user" columnIndex="25"/>
+		<result property="mdDate" column="md_date" columnIndex="26"/>
+		<result property="crUser" column="cr_user" columnIndex="27"/>
+		<result property="crDate" column="cr_date" columnIndex="28"/>
+		<result property="cogrCode" column="cogr_code" columnIndex="29"/>
+		<result property="homepage" column="homepage" columnIndex="30"/>
+		<result property="cogrCodeName" column="cogr_code_name" columnIndex="31"/>
+	</resultMap>
+	
+	<insert id="TMCOOS10DAO.insertTMCOOS10">
+			INSERT INTO tm_corpxm 
+				( corp_code
+				  , corp_name
+				  , cogr_code
+				  , short_name
+				  , eng_name
+				  , owner
+				  , ssno
+				  , lgno
+				  , cdate
+				  , uptae
+				  , jong
+				  , phone
+				  , fax
+				  , edomain
+				  , zip_code
+				  , addr_code1
+				  , addr_code2
+				  , sms_yn
+				  , mail_yn
+				  , person_yn
+				  , memo
+				  , homepage
+				  , use_yn
+				  , dele_yn
+				  , md_user
+				  , md_date
+				  , cr_user
+				  , cr_date 
+		<dynamic>
+			 <isNotEmpty  property="numEmp">
+			 	, num_emp
+			 </isNotEmpty>
+			 <isNotEmpty  property="corpSeq">
+			 	, corp_seq
+			 </isNotEmpty>
+		</dynamic>
+		) VALUES ( #corpCode#
+				  , #corpName#
+				  , #cogrCode#
+				  , #shortName#
+				  , #engName#
+				  , #owner#
+				  , #ssno#
+				  , #lgno#
+				  , to_date(#cdate#,'YYYY-MM-DD')
+				  , #uptae#
+				  , #jong#
+				  , #phone#
+				  , #fax#
+				  , #edomain#
+				  , #zipCode#
+				  , #addrCode1#
+				  , #addrCode2#
+				  , #smsYn#
+				  , #mailYn#
+				  , #personYn#
+				  , #memo#
+				  , #homepage#
+				  , #useYn#
+				  , 'N'
+				  , #mdUser#
+				  , NOW()
+				  , #crUser#
+				  , NOW()
+		<dynamic>
+			 <isNotEmpty  property="numEmp">
+			 	, to_number(#numEmp#, '9999999999999')
+			 </isNotEmpty>
+			 <isNotEmpty  property="corpSeq">
+			 	, to_number(#corpSeq#, '9999999999999')
+			 </isNotEmpty>
+		</dynamic>
+)
+	</insert>
+	
+	<update id="TMCOOS10DAO.updateTMCOOS10">
+			UPDATE tm_corpxm
+			SET corp_code=#corpCode#
+				, corp_name=#corpName#
+				, cogr_code=#cogrCode#
+				, short_name=#shortName#
+				, eng_name=#engName#
+				, owner=#owner#
+				, ssno=#ssno#
+				, lgno=#lgno#
+				, cdate=to_date(#cdate#,'YYYY-MM-DD')
+				, uptae=#uptae#
+				, jong=#jong#
+				, phone=#phone#
+				, fax=#fax#
+				, edomain=#edomain#
+				, zip_code=#zipCode#
+				, addr_code1=#addrCode1#
+				, addr_code2=#addrCode2#
+				, sms_yn=#smsYn#
+				, mail_yn=#mailYn#
+				, person_yn=#personYn#
+				, memo=#memo#
+				, homepage=#homepage#
+				, use_yn=#useYn#
+				, md_user=#mdUser#
+				, md_date=NOW()
+	  	<dynamic>
+			 <isNotEmpty  property="numEmp">
+			 	, num_emp=to_number(#numEmp#, '9999999999999')
+			 </isNotEmpty>
+			 <isNotEmpty  property="corpSeq">
+			 	, corp_seq=to_number(#corpSeq#, '9999999999999')
+			 </isNotEmpty>
+		</dynamic>
+			WHERE corp_code=#corpCode#
+	</update>
+	
+	<delete id="TMCOOS10DAO.deleteTMCOOS10">
+		<![CDATA[
+			UPDATE tm_corpxm
+			SET dele_yn = 'Y'
+				, md_user=#mdUser#
+				, md_date=NOW()			
+			WHERE corp_code=#corpCode#
+				]]>
+	</delete>
+	
+	<select id="TMCOOS10DAO.selectTMCOOS10_S" resultMap="TMCOOS10">
+		<![CDATA[
+			SELECT
+				corp_code
+				, corp_name
+				, cogr_code
+				, short_name
+				, eng_name
+				, owner
+				, ssno
+				, lgno
+				, cdate
+				, uptae
+				, jong
+				, phone
+				, fax
+				, num_emp
+				, edomain
+				, zip_code
+				, addr_code1
+				, addr_code2
+				, sms_yn
+				, mail_yn
+				, person_yn
+				, memo
+				, corp_seq
+				, homepage
+				, use_yn
+				, dele_yn
+				, md_user
+				, md_date
+				, cr_user
+				, cr_date
+			FROM tm_corpxm
+						WHERE corp_code=#corpCode#
+						AND dele_yn = 'N'
+				]]>
+	</select>
+	
+	<sql id="selectWhere_fragment">
+		FROM tm_corpxm A
+		WHERE A.dele_yn = 'N'
+	  	<dynamic>
+			 <isNotEmpty  property="searchKeyword">
+	     		AND (     A.corp_code like '%' || #searchKeyword# || '%'
+	    		        OR A.corp_name like '%' || #searchKeyword# || '%')
+	   		</isNotEmpty >
+		 </dynamic>
+	</sql>
+	
+	<select id="TMCOOS10DAO.selectTMCOOS10List_D" parameterClass="TMCOOS10SerarchVO" resultClass="egovMap">
+		SELECT A.*
+					,openmps."FN_GET_TMCODEXDNM"(a.corp_code,'TM_COGR',a.cogr_code) cogr_code_name
+		<include refid="selectWhere_fragment"/>
+		ORDER BY A.corp_code 
+	</select>	
+	<select id="TMCOOS10DAO.selectTMCOOS10ListTotCnt_S" parameterClass="TMCOOS10SerarchVO" resultClass="int">
+		SELECT count(A.corp_code)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

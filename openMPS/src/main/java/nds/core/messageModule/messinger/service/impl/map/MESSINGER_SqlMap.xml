@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MESSINGER_SqlMap" >
+
+
+  <!-- SMS 등록 -->
+  <insert id="MESSINGER_SqlMap.sendMessinger" parameterClass="nds.core.common.message.BaseMessingerVO" >
+  	 
+  	<selectKey resultClass="java.lang.String" keyProperty="msgSeq">
+          <![CDATA[
+            SELECT CLT_MESSINGER_DATA_SEQ.NEXTVAL as msgSeq FROM DUAL
+          ]]>
+      </selectKey>
+  	 
+     INSERT INTO CLT_MESSINGER_DATA (
+                        MSG_SEQ 
+                        , CUR_STATE 
+                        , SEND_DATE 
+                        , CALL_TO 
+                        , CALL_FROM 
+                        , MSG_TXT
+                        ) 
+                   VALUES (
+                   		#msgSeq# 
+                   		, 0
+                   		, SYSDATE
+                   		, #msgTo:VARCHAR#
+                   		, #msgFrom:VARCHAR#
+                   		, #msgCntn:VARCHAR#
+                   		)
+  </insert>
+  
+</sqlMap>

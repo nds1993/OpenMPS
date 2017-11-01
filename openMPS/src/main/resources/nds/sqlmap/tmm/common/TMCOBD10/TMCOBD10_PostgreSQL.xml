@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TMCOBD10">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="TMCOBD10VO" type="nds.tmm.common.TMCOBD10.vo.TMCOBD10VO"/>
+	
+	<resultMap id="TMCOBD10" class="nds.tmm.common.TMCOBD10.vo.TMCOBD10VO">
+		<result property="bbsCode" column="bbs_code" columnIndex="1"/>
+		<result property="bbsName" column="bbs_name" columnIndex="2"/>
+		<result property="corpCode" column="corp_code" columnIndex="3"/>
+		<result property="bbsMemo" column="bbs_memo" columnIndex="4"/>
+		<result property="writeAuth" column="write_auth" columnIndex="5"/>
+		<result property="replyYn" column="reply_yn" columnIndex="6"/>
+		<result property="commentYn" column="comment_yn" columnIndex="7"/>
+		<result property="attachYn" column="attach_yn" columnIndex="8"/>
+		<result property="attachCnt" column="attach_cnt" columnIndex="9"/>
+		<result property="useYn" column="use_yn" columnIndex="10"/>
+		<result property="deleYn" column="dele_yn" columnIndex="11"/>
+		<result property="mdUser" column="md_user" columnIndex="12"/>
+		<result property="mdDate" column="md_date" columnIndex="13"/>
+		<result property="crUser" column="cr_user" columnIndex="14"/>
+		<result property="crDate" column="cr_date" columnIndex="15"/>
+		<result property="crUserName" column="cr_user_name" columnIndex="16"/>
+		<result property="crDate2" column="cr_date2" columnIndex="17"/>
+		<result property="codeId" column="code_id" columnIndex="18"/>
+		<result property="codeName" column="code_name" columnIndex="19"/>
+	</resultMap>
+	
+	<insert id="TMCOBD10DAO.insertTMCOBD10">
+INSERT INTO tm_bdcaxm (
+	bbs_code, 
+	bbs_name, 
+	corp_code, 
+	bbs_memo, 
+	write_auth, 
+	reply_yn, 
+	comment_yn, 
+	attach_yn, 
+	attach_cnt, 
+	use_yn, 
+	dele_yn, 
+	cr_user, 
+	cr_date)
+select (select 'TMCOBD' || to_char((select count(*) + 1 from tm_bdcaxm), 'FM0000')) as bbs_code,
+	#bbsName#,
+	#corpCode#,
+	#bbsMemo#,
+	#writeAuth#,
+	#replyYn#,
+	#commentYn#,
+	#attachYn#,
+	to_number(#attachCnt#, '9999999999999'),
+	#useYn#,
+	'N',
+	#crUser#,
+	NOW()
+	</insert>
+
+	<update id="TMCOBD10DAO.updateTMCOBD10">
+UPDATE tm_bdcaxm
+	SET
+		bbs_name=#bbsName#,
+		corp_code=#corpCode#,
+		bbs_memo=#bbsMemo#,
+		write_auth=#writeAuth#,
+		reply_yn=#replyYn#,
+		comment_yn=#commentYn#,
+		attach_yn=#attachYn#,
+		attach_cnt=to_number(#attachCnt#, '9999999999999'),
+		use_yn=#useYn#,
+		md_user=#mdUser#,
+		md_date=NOW()
+	WHERE bbs_code=#bbsCode#
+	</update>
+	
+	<update id="TMCOBD10DAO.deleteTMCOBD10">
+		<![CDATA[
+UPDATE tm_bdcaxm
+SET dele_yn = 'Y',
+	md_user=#mdUser#,			
+	md_date=NOW()
+WHERE bbs_code=#bbsCode#
+		]]>
+	</update>
+	
+	<select id="TMCOBD10DAO.selectTMCOBD10_S" resultMap="TMCOBD10">
+		<![CDATA[
+			SELECT *
+			FROM tm_bdcaxm
+			WHERE bbs_code=#bbsCode#
+				]]>
+	</select>
+	
+	<sql id="selectWhere_fragment">
+		FROM tm_bdcaxm A
+		LEFT OUTER JOIN tm_userxm B on B.user_code = A.cr_user
+		WHERE 1=1
+		<dynamic>
+			<isEqual property="searchMode" compareValue="USER">
+				and A.dele_yn = 'N'
+			</isEqual>
+			<isNotEmpty property="corpCode">
+				and A.corp_code = #corpCode#
+			</isNotEmpty>
+			<isNotEmpty property="useYn">
+				and A.use_yn = #useYn#
+			</isNotEmpty>
+			<isNotEmpty property="searchKeyword">
+				and a.bbs_name like '%' || #searchKeyword# || '%'
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<select id="TMCOBD10DAO.selectTMCOBD10List_D" parameterClass="TMCOBD10VO" resultClass="egovMap">
+		SELECT
+					A.*,
+					B.user_name cr_user_name,
+					A.bbs_code as code_id, 
+					A.bbs_name as code_name,
+					to_char(a.cr_date, 'YYYY-MM-DD') cr_date2
+		<include refid="selectWhere_fragment"/>
+		ORDER BY bbs_code desc
+	</select>	
+	<select id="TMCOBD10DAO.selectTMCOBD10ListTotCnt_S" parameterClass="TMCOBD10VO" resultClass="int">
+		SELECT count(A.bbs_code)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>
