@@ -3,6 +3,7 @@ package nds.tmm.common.TMCOBD30.vo;
 import nds.mpm.common.vo.SearchCommonVO;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.web.multipart.MultipartFile;
 
 public class TMCOBD30VO extends SearchCommonVO {
 
@@ -60,6 +61,8 @@ public class TMCOBD30VO extends SearchCommonVO {
 	private String readDate;
 
 	private String isFile;
+
+	private MultipartFile file;
 
 	public String getSearchCondition() {
 		return searchCondition;
@@ -315,6 +318,14 @@ public class TMCOBD30VO extends SearchCommonVO {
 
 	public void setIsFile(String isFile) {
 		this.isFile = isFile;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 
 }

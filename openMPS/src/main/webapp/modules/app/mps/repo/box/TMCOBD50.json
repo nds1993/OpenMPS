@@ -15,7 +15,8 @@
             "module": "FormBox",
             "options": {
                 "order": [
-                    "faqId",
+                    "faqId",                    
+                    "fileId",
                     "faqTitle",
                     "question",
                     "answer"
@@ -26,7 +27,7 @@
                 },
                 "custom_form": {
                 	"name": "Form Builder Params",
-                    "template": "<div class=\"form_box form-group-tmm\"><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">제목</label><input type=\"text\" class=\"form-control faqId\" value=\"\" placeholder=\"\" style=\"display:none;\"><input type=\"text\" class=\"form-control faqTitle\" value=\"\" placeholder=\"\"></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">질문</label><textarea rows=\"10\" class=\"form-control question\"></textarea></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">답변</label><textarea rows=\"10\" class=\"form-control answer\"></textarea></div></div></div></div></div>",
+                    "template": "<div class=\"form_box form-group-tmm\"><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">제목</label><input type=\"text\" class=\"form-control faqId\" value=\"\" placeholder=\"\" style=\"display:none;\"><input type=\"text\" class=\"form-control fileId\" style=\"display: none;\" value=\"\" placeholder=\"\"><input type=\"text\" class=\"form-control faqTitle\" value=\"\" placeholder=\"\"></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">질문</label><textarea rows=\"10\" class=\"form-control question\"></textarea></div></div></div><div class=\"row\"><div class=\"col-xs-12\"><div class=\"form-group\"><label class=\"required\">답변</label><textarea rows=\"10\" class=\"form-control answer\"></textarea></div></div></div><div class=\"row\"><div class=\"col-xs-1\"><div class=\"form-group\"><label>첨부파일</label></div></div><div class=\"col-xs-9\"><div class=\"div-file-list\"></div></div></div></div>",
                     "mode": "form",
                     "items": {
                     	"faqId": {
@@ -35,6 +36,12 @@
                             "selector": ".faqId",
                             "required": false,
 							"readonly": true
+                        },
+                        "fileId": {
+                            "module": "text",
+                            "label": "파일아이디",
+                            "selector": ".fileId",
+                            "required": false
                         },
                     	"faqTitle": {
                             "module": "text",
@@ -182,6 +189,10 @@
                         "label": "정렬순서",
                         "align": "center",
                         "width": 100,
+                        "hidden":true
+                    }, {
+                        "name": "fileId",
+                        "label": "파일아이디",
                         "hidden":true
                     }],
                     "width": "auto",

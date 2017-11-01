@@ -5,14 +5,19 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import nds.mpm.common.user.web.UserInfoController;
+import nds.mpm.common.util.FileUtil;
+import nds.mpm.common.vo.CommonFileVO;
 import nds.mpm.common.vo.PageSet;
 import nds.mpm.common.vo.ResultEx;
 import nds.mpm.common.web.Consts;
 import nds.mpm.common.web.CorsFilter;
 import nds.mpm.common.web.TMMBaseController;
 import nds.mpm.login.vo.MPUserSession;
+import nds.tmm.common.TMCOBD20.service.TMCOBD20Service;
+import nds.tmm.common.TMCOBD20.vo.TMCOBD20VO;
 import nds.tmm.common.TMCOSM10.service.TMCOSM10Service;
 import nds.tmm.common.TMCOSM10.vo.TMCOSM10VO;
 
@@ -22,12 +27,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 
@@ -52,9 +59,12 @@ public class TMCOSM10Controller extends TMMBaseController {
 	
 	@Autowired
 	protected CorsFilter	_filter;	
-
+	
     @Resource(name = "TMCOSM10Service")
     private TMCOSM10Service TMCOSM10Service;
+    
+    @Resource(name = "TMCOBD20Service")
+    private TMCOBD20Service TMCOBD20Service;
     
     /** EgovPropertyService */
     @Resource(name = "propertiesService")
@@ -194,7 +204,8 @@ public class TMCOSM10Controller extends TMMBaseController {
     		@PathVariable("corpCode") String corpCode,
     		@ModelAttribute TMCOSM10VO TMCOSM10VO,
     		HttpServletRequest req,
-    		HttpServletResponse res)
+    		HttpServletResponse res,
+    		HttpSession jsession)
             throws Exception {
     	
     	ResultEx result = new ResultEx( Consts.ResultCode.RC_OK );
@@ -205,6 +216,39 @@ public class TMCOSM10Controller extends TMMBaseController {
     	TMCOSM10VO.setProcUser(sess.getUser().getId());
     	TMCOSM10VO.setProcStatus("SAVE");
     	TMCOSM10VO.setCorpCode(corpCode);
+    	
+    	//파일 저장
+		String userPath = sess.getUser().getId();
+		String contextroot = jsession.getServletContext().getRealPath("/");
+		CommonFileVO ufile;
+		
+		if (TMCOSM10VO.getFile() != null) {
+			if (!TMCOSM10VO.getFile().isEmpty()) {		
+				
+				TMCOBD20VO TMCOBD20VO = new TMCOBD20VO();
+				
+				TMCOBD20VO.setFile(TMCOSM10VO.getFile());
+				TMCOBD20VO.setCrUser(sess.getUser().getId());
+				
+				MultipartFile file = TMCOBD20VO.getFile();
+				
+				String uploadPath = TMCOBD20VO.getFileBasePath() + userPath;
+				
+				ufile = uploadAndFileInfo(file, uploadPath);
+				
+				// 파일 정보 설정
+				TMCOBD20VO.setFileId(TMCOBD20Service.selectNextFileId(TMCOBD20VO));
+				TMCOBD20VO.setFilePath(uploadPath);
+				TMCOBD20VO.setSaveFlnm(ufile.getNewName());
+				TMCOBD20VO.setOriginFlnm(ufile.getOrginalName());
+				TMCOBD20VO.setFileExt(new FileUtil().getExtension(ufile.getOrginalName()));
+				
+				TMCOBD20Service.insertFileMaster(TMCOBD20VO);
+				TMCOBD20Service.insertFileDetail(TMCOBD20VO);
+				
+				TMCOSM10VO.setFileId(TMCOBD20VO.getFileId());
+			}
+		}
     	
     	TMCOSM10Service.insertTMCOSM10(TMCOSM10VO);
     	TMCOSM10Service.insertTmSvpcmx(TMCOSM10VO);
@@ -282,9 +326,52 @@ public class TMCOSM10Controller extends TMMBaseController {
     public ResponseEntity<ResultEx> updateTMCOSM10(
     		@PathVariable("corpCode") String corpCode,
     		@ModelAttribute TMCOSM10VO TMCOSM10VO,
-            SessionStatus status)
+    		HttpServletRequest req,
+    		HttpServletResponse res,
+            SessionStatus status,
+    		HttpSession jsession)
             throws Exception {
     	ResultEx result = new ResultEx( Consts.ResultCode.RC_OK );
+    	
+    	MPUserSession sess = getSession(req);
+    	
+    	//파일 저장
+		String userPath = sess.getUser().getId();
+		String contextroot = jsession.getServletContext().getRealPath("/");
+		CommonFileVO ufile;
+		
+		if (TMCOSM10VO.getFile() != null) {
+			if (!TMCOSM10VO.getFile().isEmpty()) {		
+				
+				TMCOBD20VO TMCOBD20VO = new TMCOBD20VO();
+				
+				TMCOBD20VO.setFile(TMCOSM10VO.getFile());
+				TMCOBD20VO.setMdUser(sess.getUser().getId());
+				TMCOBD20VO.setCrUser(sess.getUser().getId());
+				
+				MultipartFile file = TMCOBD20VO.getFile();
+				
+				String uploadPath = TMCOBD20VO.getFileBasePath() + userPath;
+				
+				ufile = uploadAndFileInfo(file, uploadPath);
+				
+				// 파일 정보 설정
+				if(StringUtils.isEmpty(TMCOSM10VO.getFileId())) {					
+					TMCOBD20VO.setFileId(TMCOBD20Service.selectNextFileId(TMCOBD20VO));
+					TMCOBD20Service.insertFileMaster(TMCOBD20VO);
+					TMCOSM10VO.setFileId(TMCOBD20VO.getFileId());
+				} else {
+					TMCOBD20VO.setFileId(TMCOSM10VO.getFileId());
+				}
+				
+				TMCOBD20VO.setFilePath(uploadPath);
+				TMCOBD20VO.setSaveFlnm(ufile.getNewName());
+				TMCOBD20VO.setOriginFlnm(ufile.getOrginalName());
+				TMCOBD20VO.setFileExt(new FileUtil().getExtension(ufile.getOrginalName()));
+				
+				TMCOBD20Service.insertFileDetail(TMCOBD20VO);
+			}
+		}
     	
         TMCOSM10Service.updateTMCOSM10(TMCOSM10VO);
         status.setComplete();

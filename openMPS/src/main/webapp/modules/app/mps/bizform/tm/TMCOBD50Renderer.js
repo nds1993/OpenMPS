@@ -68,6 +68,8 @@ define([
 				{
 					self.clearForm();
 					self.hideLoading();
+					
+					self.setFile();
 				});
 			};
 			
@@ -109,6 +111,9 @@ define([
 			{
 				formItem.setData( selected.data, true );
 				formItem.getItem().disabled(false);
+				
+				// 파일 세팅
+				this.setFile();
 				
 				this.saveReadCnt();
 			}
@@ -251,6 +256,7 @@ define([
 			self.$el.find("textarea.question").val("");
 			self.$el.find("textarea.answer").val("");
 			self.$el.find("input.rqfnDate").val("");
+			self.$el.find("input.fileId").val("");
 			
 		}
 		,getParamData: function() {
@@ -264,10 +270,82 @@ define([
 			formData.append("question", self.$el.find("textarea.question").val());
 			formData.append("answer", self.$el.find("textarea.answer").val());
 			formData.append("rqfnDate", self.$el.find("input.rqfnDate").val());
+			formData.append("fileId", self.$el.find("input.fileId").val());
 			
 			return formData;
 		}
-		
+		,
+		setFile: function() 
+		{
+			
+			var self = this;
+			var formData = new FormData();
+			
+			var paramFileId = self.$el.find(".formBox_region input.fileId").val();
+			formData.append("fileId", paramFileId);
+			
+			var apiPath = "";
+			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/selectFileList";
+			
+			// 코멘트 영역 초기화
+			self.$el.find(".div-file-list").html("");
+			
+			if(paramFileId != "") {
+				
+				$.ajax(
+				{
+					url:  apiPath,
+					data: formData, 
+					processData: false,
+					contentType: false, 
+					type: 'POST',
+					success: function (data)
+	                {
+						//self.onQuery();
+						var result = data.extraData.result;
+						var commentRow = "";
+
+						for(i=0; i < result.length; i++) {							
+							commentRow += "<button class=\"btn btn-primary  btn_file_down\" fileNo=\"" + result[i].fileNo + "\" style=\"border:0px;\"><span class=\"btn_label\">" + result[i].originFlnm + "</span></button>";
+						}
+						
+						self.$el.find(".div-file-list").html(commentRow);
+						
+						// 삭제 기능 수행
+						self.$el.find("button.btn_file_delete").click(function()
+						{
+							self.deleteFile($(this).attr("fileNo"));
+						});
+						
+						// 다운 기능 수행
+						self.$el.find("button.btn_file_down").click(function()
+						{
+							self.downloadFile($(this).attr("fileNo"));
+						});
+	                },
+	                error: function(XHR, textStatus, errorThrown) 
+	                {
+	                	UCMS.alert("저장중 오류가 발생하였습니다.");
+	                	Logger.error("fetchMyApp() - Error : "+textStatus);
+	                	self.hideLoading();
+	                }
+	            });
+				
+			}
+		}
+		,
+		downloadFile: function(fileNo) 
+		{
+			var self = this;
+			var formData = new FormData();
+			var apiPath = "";
+			
+			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/downloadFile";
+			
+			formData.append("fileNo", fileNo);
+			
+			window.open( apiPath + "?fileNo=" + fileNo , "_download_" );
+		}
 	};
 	
 	var Renderer = WorkAreaRenderer2.extend

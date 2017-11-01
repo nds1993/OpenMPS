@@ -3,6 +3,7 @@ package nds.tmm.common.TMCOSM10.vo;
 import nds.mpm.common.vo.SearchCommonVO;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.web.multipart.MultipartFile;
 
 public class TMCOSM10VO extends SearchCommonVO {
 
@@ -58,6 +59,8 @@ public class TMCOSM10VO extends SearchCommonVO {
 	private String finishDate;
 
 	private String procMode;
+
+	private MultipartFile file;
 
 	public int getFirstIndex() {
 		return firstIndex;
@@ -301,6 +304,14 @@ public class TMCOSM10VO extends SearchCommonVO {
 
 	public void setFinishDate(String finishDate) {
 		this.finishDate = finishDate;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 
 }
