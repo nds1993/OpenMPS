@@ -1,0 +1,403 @@
+{
+	"name": "할인단가 입력",
+	"module": "SD0205Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["queryBox",
+			"resultBox_1",
+			"purposeBox",
+			"resultBox_2"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": ["strtDate", "lastDate", "salesman"],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"strtDate": {
+							"module": "date",
+							"selector": ".strtDate",
+							"label": "strtDate",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true,
+							"locale": "ko"
+						},
+						"lastDate": {
+							"module": "date",
+							"selector": ".lastDate",
+							"label": "lastDate",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true,
+							"locale": "ko"
+						},
+						"salesman": {
+							"selector": ".salesman",
+							"label": "영업사원",
+							"required": false,
+							"module": "combobox",
+							"fetcher": "return UCMS.parseSessionUser();"
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>시작일자</label><input type=\"text\" class=\"form-control form_type_date strtDate\" placeholder=\"\"> ~ <input type=\"text\" class=\"form-control form_type_date lastDate\" placeholder=\"\"></div><div class=\"form-group\"><label>영업사원</label><div class=\"select_design salesman\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div>"
+				}
+			}
+		},
+		"resultBox_1": {
+			"module": "SubContainer",
+			"options": {
+				"header": {
+					"title": {
+						"className": "contnet_header_box no_label",
+						"label": "할인단가 입력"
+					},
+					"feature": [{
+						"confirm": "승인요청"
+					}
+					,
+					{
+						"reqcancel": "요청취소"
+					}]
+				},
+				"content": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "upGrid_box grid_box",
+						"gridId": "SD0205_grid_1",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+								"name": "custCode",
+								"label": "<div class=\"editable_mark\"></div>거래처",
+								"width": 80,
+								"align": "center",
+								"editable": true,
+								"edittype": "text",
+								"classes": "editable codesearch"
+							}, {
+								"name": "custName",
+								"label": "거래처명",
+								"width": 150,
+								"align": "left",
+								"editable": false,
+								"edittype": "text",
+								"editrules": {
+									"required": false,
+									"readonly": true
+								},
+								"editoptions": {},
+								"classes": "editable"
+							}, {
+								"name": "discTitle",
+								"label": "목적",
+								"width": 50,
+								"align": "center",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "strtDate",
+								"label": "<div class=\"editable_mark\"></div>시작일자",
+								"editable": true,
+								"classes": "editable form_type_date",
+								"width": 90,
+								"align": "center",
+								"sorttype": "date" , "formatter": "dateFormatter",
+								"unformat": "dateUnformatter",
+								"formatoptions": {
+									"srcformat": "YYYYMMDD",
+									"newformat": "YYYY-MM-DD"
+								}
+							}, {
+								"name": "lastDate",
+								"label": "<div class=\"editable_mark\"></div>종료일자",
+								"editable": true,
+								"classes": "editable form_type_date",
+								"width": 90,
+								"align": "center",
+								"sorttype": "date" , "formatter": "dateFormatter",
+								"unformat": "dateUnformatter",
+								"formatoptions": {
+									"srcformat": "YYYYMMDD",
+									"newformat": "YYYY-MM-DD"
+								}
+							}, {
+								"name": "approRequest",
+								"label": "담당자",
+								"editable": false,
+								"width": 90,
+								"align": "center",
+								"sorttype": "date" , "formatter": "dateFormatter",
+								"unformat": "dateUnformatter",
+								"formatoptions": {
+									"srcformat": "YYYYMMDD",
+									"newformat": "YYYY-MM-DD"
+								}
+							}, {
+								"name": "partDate",
+								"label": "파트장",
+								"editable": false,
+								"width": 90,
+								"align": "center",
+								"formatter": "SD0205_DateFormatter",
+								"unformat": "dateUnformatter",
+								"formatoptions": {
+									"srcformat": "YYYYMMDD",
+									"newformat": "YYYY-MM-DD"
+								}
+							}, {
+								"name": "partAppro",
+								"label": "승인여부",
+								"width": 50,
+								"align": "center",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "headDate",
+								"label": "본부장",
+								"editable": false,
+								"width": 90,
+								"align": "center",
+								"formatter": "SD0205_DateFormatter",
+								"unformat": "dateUnformatter",
+								"formatoptions": {
+									"srcformat": "YYYYMMDD",
+									"newformat": "YYYY-MM-DD"
+								}
+							}, {
+								"name": "headAppro",
+								"label": "승인여부",
+								"width": 50,
+								"align": "center",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "ceoDate",
+								"label": "대표이사",
+								"editable": false,
+								"width": 90,
+								"align": "center",
+								"formatter": "SD0205_DateFormatter",
+								"unformat": "dateUnformatter",
+								"formatoptions": {
+									"srcformat": "YYYYMMDD",
+									"newformat": "YYYY-MM-DD"
+								}
+							}
+							, {
+								"name": "approYn",
+								"label": "approYn",
+								"editable": false,
+								"width": 30,
+								"align": "center",
+								"hidden" : true
+							}
+							, {
+								"name": "approYnName",
+								"label": "확인",
+								"editable": false,
+								"width": 50,
+								"align": "center"
+							}, {
+								"name": "ceoAppro",
+								"label": "승인여부",
+								"width": 50,
+								"align": "center",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "oldStrtDate",
+								"label": "oldStrtDate",
+								"width": 60,
+								"align": "right",
+								"hidden": true
+							}, {
+								"name": "oldLastDate",
+								"label": "oldLastDate",
+								"width": 60,
+								"align": "right",
+								"hidden": true
+							}
+							, {
+								"name": "approMemo",
+								"label": "approMemo",
+								"width": 60,
+								"align": "right",
+								"hidden": true
+							}],
+							"rowNum":"100000000",
+							"width": "auto",
+							"height": "230",
+							"cellEdit": true,
+							"shrinkToFit": true,
+							"gridview": true,
+							"datatype": "local",
+							"footerrow": false,
+							"userDataOnFooter": false,
+							"multiselect": true,
+							"multiselectWidth": 10,
+							"rownumbers": false,
+							"cellsubmit": "clientArray",
+							"pager": "#SD0205_grid_1_pager",
+							"viewrecords": true,
+							"recordpos": "left",
+							"pgbuttons": false,
+							"pginput": false
+						}
+					}
+				}
+			}
+		},
+
+		"purposeBox": {
+			"remark": "값이 직접 들어와야 합니다.",
+			"module": "BaroBox",
+			"options": {
+				"className": "purpose_box",
+				"order": [
+					"discTitle"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"discTitle": {
+					"module": "manifest!DesignItem-1.0.0",
+					"options": {
+						"html": "<table class=\"table table-bordered\"><col width=\"100px\"><tbody><th style=\"background-color:#f9f9f9\">목적</th><td><textarea rows=3 class=\"form-control  discTitle\" placeholder=\"할인단가 목적을 입력해 주세요.\"></textarea></td></tbody></table>"
+					}
+				}
+			}
+		},
+		"resultBox_2": {
+			"module": "manifest!jqGrid4-1.0.0",
+			"options": {
+				"className": "downGrid_box grid_box",
+				"gridId": "SD0205_grid_2",
+				"gridParams": {
+					"data": [],
+					"colModel": [{
+						"name": "proCode",
+						"label": "제품",
+						"width": 60,
+						"align": "center",
+						"editable": false
+					}, {
+						"name": "proName",
+						"label": "제품명",
+						"width": 150,
+						"align": "left",
+						"editable": false
+					}, {
+						"name": "stndPrice",
+						"label": "금주가격",
+						"width": 60,
+						"align": "right",
+						"editable": false,
+						"sorttype": "currency","formatter": "currency"
+					}, {
+						"name": "discPrice",
+						"label": "<div class=\"editable_mark\"></div>할인가격",
+						"width": 60,
+						"align": "right",
+						"editable": true,
+						"sorttype": "currency" , "formatter": "currency",
+						"classes": "editable",
+						"editrules":{"number":true}
+					}, {
+						"name": "increasePrice",
+						"label": "증감액",
+						"width": 60,
+						"align": "right",
+						"sorttype": "currency" , "formatter": "currency",
+						"editable": false
+					}, {
+						"name": "targetBox",
+						"label": "<div class=\"editable_mark\"></div>예상물량",
+						"width": 60,
+						"align": "right",
+						"editable": true,
+						"sorttype": "currency" , "formatter": "currency",
+						"classes": "editable",
+						"editrules":{"number":true}
+					}, {
+						"name": "weekAgo0",
+						"label": "판매누계",
+						"width": 60,
+						"align": "right",
+						"editable": false,
+						"sorttype":"integer","formatter":"integer"
+					}, {
+						"name": "weekAgo3",
+						"label": "3주전",
+						"width": 60,
+						"align": "right",
+						"editable": false,
+						"sorttype":"integer","formatter":"integer"
+					}, {
+						"name": "weekAgo2",
+						"label": "2주전",
+						"width": 60,
+						"align": "right",
+						"editable": false,
+						"sorttype":"integer","formatter":"integer"
+					}, {
+						"name": "weekAgo1",
+						"label": "1주전",
+						"width": 60,
+						"align": "right",
+						"sorttype":"integer","formatter":"integer"
+					}, {
+						"name": "custCode",
+						"label": "custCode",
+						"width": 60,
+						"align": "right",
+						"hidden": true
+					}, {
+						"name": "strtDate",
+						"label": "strtDate",
+						"width": 60,
+						"align": "right",
+						"hidden": true
+					}, {
+						"name": "lastDate",
+						"label": "lastDate",
+						"width": 60,
+						"align": "right",
+						"hidden": true
+					}],
+					"rowNum":"100000000",
+					"width": "auto",
+					"height": "230",
+					"cellEdit": true,
+					"shrinkToFit": true,
+					"datatype": "local",
+					"footerrow": false,
+					"userDataOnFooter": false,
+					"multiselect": false,
+					"multiselectWidth": 19,
+					"rownumbers": false,
+					"cellsubmit": "clientArray",
+					"pager": "#SD0205_grid_2_pager",
+					"viewrecords": true,
+					"recordpos": "left",
+					"pgbuttons": false,
+					"pginput": false
+				}
+			}
+		}
+
+	}
+}

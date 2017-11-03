@@ -1,0 +1,358 @@
+{
+	"name": "판매단가_주간",
+	"module": "SD0203Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": [
+			"queryBox",
+			"strtDateBox",
+			"resultBox"
+		],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": [
+					"strtDate",
+					"lastDate",
+					"priceDay",
+					"salesman",
+					"custCode"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"strtDate": {
+							"module": "date",
+							"selector": ".strtDate",
+							"label": "strtDate",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"locale": "ko",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"lastDate": {
+							"module": "date",
+							"selector": ".lastDate",
+							"label": "lastDate",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"locale": "ko",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"priceDay":{
+								"selector": ".searchType",
+								"label": "검색조건",
+								"required": false,
+								"module": "combobox",
+								"items":
+								[
+							   		{"label":"주간","value":1},
+							   		{"label":"보름","value":2},
+									{"label":"월간","value":3}
+							   	]
+						},
+						"salesman": {
+							"selector": ".salesman",
+							"label": "영업사원",
+							"required": false,
+							"module": "combobox",
+							"fetcher": "return UCMS.parseSessionUser();"
+						},
+						"custCode": {
+							"label": "거래처",
+							"required": false
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>시작일자</label><input type=\"text\" class=\"form-control form_type_date strtDate\" placeholder=\"\">~ <input type=\"text\" class=\"form-control form_type_date lastDate\" placeholder=\"\"></div><div class=\"form-group no_label\"><div class=\"select_design searchType\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>영업사원</label><div class=\"select_design salesman\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div></div><div class=\"form-group\"><label>거래처</label><div class=\"custCode_region\"></div></div>"
+				},
+				"custCode": {
+					"module": "manifest!CodeSearch-1.0.0",
+					"options": {
+						"label": "거래처",
+						"required": false,
+						"value": {},
+						"codeType": "SD0101",
+						"params": {}
+					}
+				}
+			}
+		},
+		"strtDateBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "form-inline",
+				"order": [
+					"strtDate"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"strtDate": {
+							"module": "date",
+							"selector": ".strtDate",
+							"label": "기준일자",
+							"required": true,
+							"format": "YYYY-MM-DD",
+							"locale": "ko",
+							"useCurrent": true,
+							"defaultDate": true
+						}
+					},
+					"data": {},
+					"template": null
+				}
+			}
+		},
+		"resultBox": {
+			"module": "SubContainer",
+			"options": {
+				"header": {
+					"title": {
+						"className": "contnet_header_box no_label",
+						"label": "주간 판매단가"
+					},
+					"feature": [{
+							"request": "승인요청"
+						},
+						{
+							"reqcancel": "요청취소"
+						},
+						{
+							"fax": "팩스전송"
+						},
+						{
+							"email": "메일전송"
+						}
+					]
+				},
+				"content": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "grid_box",
+						"gridId": "SD0203_grid_1",
+						"gridParams": {
+							"data": [
+
+							],
+							"colModel": [{
+									"name": "custCode",
+									"label": "거래처",
+									"width": 100,
+									"align": "left",
+									"editable": false,
+									"hidden": true
+								},
+								{
+									"name": "custName",
+									"label": "거래처",
+									"width": 150,
+									"align": "left",
+									"editable": false
+								},
+								{
+									"name": "strtDate",
+									"label": "시작일자",
+									"align": "center",
+									"editable": false,
+									"width": 40,
+									"sorttype": "date",
+									"formatter": "dateFormatter",
+									"unformat": "dateUnformatter",
+									"formatoptions": {
+										"srcformat": "YYYYMMDD",
+										"newformat": "YYYY-MM-DD"
+									}
+								},
+								{
+									"name": "lastDate",
+									"label": "종료일자",
+									"align": "center",
+									"editable": false,
+									"width": 40,
+									"sorttype": "date",
+									"formatter": "dateFormatter",
+									"unformat": "dateUnformatter",
+									"formatoptions": {
+										"srcformat": "YYYYMMDD",
+										"newformat": "YYYY-MM-DD"
+									}
+								},
+								{
+									"name": "largeCodename",
+									"label": "품목",
+									"width": 40,
+									"align": "left",
+									"editable": false
+								},
+								{
+									"name": "proCode",
+									"label": "제품명",
+									"width": 80,
+									"align": "left",
+									"editable": false,
+									"hidden": true
+								},
+								{
+									"name": "proName",
+									"label": "제품명",
+									"width": 120,
+									"align": "left",
+									"editable": false
+								},
+								{
+									"name": "totalPrice",
+									"label": "최종가격",
+									"width": 40,
+									"align": "right",
+									"sorttype": "currency",
+									"formatter": "currency",
+									"editable": false
+								},
+								{
+									"name": "increase",
+									"label": "<div class=\"editable_mark\"></div>증감",
+									"width": 40,
+									"align": "right",
+									"editable": true,
+									"sorttype": "currency",
+									"formatter": "currency",
+									"editrules": {
+										"number": true
+									},
+									"classes": "editable"
+								},
+								{
+									"name": "salePrice",
+									"label": "변경가격",
+									"width": 40,
+									"align": "right",
+									"sorttype": "currency",
+									"formatter": "currency",
+									"editable": false
+								},
+								{
+									"name": "stndPrice",
+									"label": "표준가격",
+									"width": 40,
+									"align": "right",
+									"sorttype": "currency",
+									"formatter": "currency",
+									"editable": false
+								},
+								{
+									"name": "increasePrice",
+									"label": "증감차액",
+									"width": 40,
+									"align": "right",
+									"sorttype": "currency",
+									"formatter": "currency",
+									"editable": false
+								},
+								{
+									"name": "discPer",
+									"label": "할인율",
+									"width": 30,
+									"align": "right",
+									"sorttype": "number",
+									"formatter": "number",
+									"formatoptions": {
+										"suffix": "%"
+									},
+									"editable": false
+								},
+								{
+									"name": "approYnName",
+									"label": "확인",
+									"width": 30,
+									"align": "center",
+									"editable": false
+								},
+								{
+									"name": "approYn",
+									"label": "approYn",
+									"width": 40,
+									"align": "center",
+									"hidden": true
+								},
+								{
+									"name": "custCode",
+									"label": "custCode",
+									"width": 40,
+									"align": "center",
+									"hidden": true
+								},
+								{
+									"name": "proCode",
+									"label": "proCode",
+									"width": 40,
+									"align": "center",
+									"hidden": true
+								},
+								{
+									"name": "lastStndPrice",
+									"label": "lastStndPrice",
+									"width": 40,
+									"align": "center",
+									"hidden": true
+								},
+								{
+									"name": "fax",
+									"label": "fax",
+									"width": 40,
+									"align": "center",
+									"hidden": true
+								},
+								{
+									"name": "email",
+									"label": "email",
+									"width": 40,
+									"align": "center",
+									"hidden": true
+								}
+								,
+								{
+									"name": "firstInc",
+									"label": "firstInc",
+									"width": 40,
+									"align": "center",
+									"hidden": true
+								}
+							],
+							"rowNum": "100000000",
+							"width": "auto",
+							"height": 572,
+							"pager": false,
+							"gridview": true,
+							"datatype": "local",
+							"cellEdit": true,
+							"multiselect": true,
+							"multiselectWidth": 9,
+							"cellsubmit": "clientArray",
+							"pager": "#SD0203_grid_1_pager",
+							"viewrecords": true,
+							"recordpos": "left",
+							"pgbuttons": false,
+							"pginput": false
+						}
+					}
+				}
+			}
+		}
+	}
+}

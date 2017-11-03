@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import nds.mpm.api.openApi.service.OpenapiVO;
 import nds.mpm.buy.PO0101.service.MpPigixmService;
 import nds.mpm.buy.PO0101.vo.MpPigixmDefaultVO;
 import nds.mpm.buy.PO0101.vo.MpPigixmVO;
@@ -29,7 +28,6 @@ import nds.mpm.common.web.Consts;
 import nds.mpm.common.web.TMMBaseController;
 import nds.mpm.excel.PO;
 import nds.mpm.login.vo.MPUserSession;
-import nds.mpm.prod.PP0801.web.MpPighisBuyMController;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -50,8 +48,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import egovframework.rte.fdl.excel.EgovExcelService;
@@ -83,7 +79,7 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 @RequestMapping("/mpm/{corpCode}/po0101")
 public class MpPigixmController extends TMMBaseController{
 	
-    private static final Logger LOGGER = LoggerFactory.getLogger(MpPighisBuyMController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MpPigixmController.class);
 
     @Resource(name = "mpPigixmService")
     private MpPigixmService mpPigixmService;

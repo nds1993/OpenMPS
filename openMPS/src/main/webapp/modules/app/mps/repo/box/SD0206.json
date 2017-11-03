@@ -1,0 +1,243 @@
+{
+	"name": "판매단가 승인",
+	"module": "SD0206Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["queryBox", "resultBox"],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": ["strtDate", "lastDate", "status"],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"strtDate": {
+							"module": "date",
+							"selector": ".strtDate",
+							"label": "strtDate",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"lastDate": {
+							"module": "date",
+							"selector": ".lastDate",
+							"label": "lastDate",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"status": {
+							"selector": ".status",
+							"label": "확인상태",
+							"required": false,
+							"module": "combobox",
+							"items": [
+							{
+								"label": "전체",
+								"value": "0"
+							},{
+								"label": "대기",
+								"value": "nappro"
+							}, {
+								"label": "승인",
+								"value": "yappro"
+							}]
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>시작일자</label><input type=\"text\" class=\"form-control form_type_date strtDate\" placeholder=\"\">~ <input type=\"text\" class=\"form-control form_type_date lastDate\" placeholder=\"\"></div><div class=\"form-group\"><label>확인상태</label><div class=\"select_design status\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div>"
+				}
+			}
+		},
+		"resultBox": {
+			"module": "SubContainer",
+			"options": {
+				"header": {
+					"title": {
+						"className": "contnet_header_box no_label",
+						"label": "판매단가승인"
+					},
+					"feature": [{"confirm": "단가승인"},
+						{"reject": "승인취소"}
+					]
+				},
+				"content": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "grid_box",
+						"gridId": "SD0206_grid_1",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+								"name": "custCode",
+								"label": "거래처",
+								"width": 170,
+								"align": "left",
+								"editable": false,
+								"hidden":true
+							}, {
+								"name": "custName",
+								"label": "거래처",
+								"width": 170,
+								"align": "left",
+								"editable": false
+							}, {
+								"name": "strtDate",
+								"label": "시작일자",
+								"width": 90,
+								"align": "center",
+								"editable": false,
+								"sorttype": "date" , "formatter": "dateFormatter",
+				                "unformat": "dateUnformatter",
+				                "formatoptions": {
+				                    "srcformat": "YYYYMMDD",
+				                    "newformat": "YYYY-MM-DD"
+				                }
+							}, {
+								"name": "lastDate",
+								"label": "종료일자",
+								"width": 90,
+								"align": "center",
+								"editable": false,
+								"sorttype": "date" , "formatter": "dateFormatter",
+				                "unformat": "dateUnformatter",
+				                "formatoptions": {
+				                    "srcformat": "YYYYMMDD",
+				                    "newformat": "YYYY-MM-DD"
+				                }
+
+							}, {
+								"name": "largeCodename",
+								"label": "품목",
+								"width": 90,
+								"align": "left",
+								"editable": false,
+								"edittype": "text",
+								"editrules": {
+									"required": false
+								},
+								"editoptions": {},
+								"classes": "editable"
+							}, {
+								"name": "proCode",
+								"label": "제품코드",
+								"hidden": true
+							}, {
+								"name": "proName",
+								"label": "제품명",
+								"width": 150,
+								"align": "left",
+								"editable": false,
+								"edittype": "text",
+								"editrules": {
+									"required": false
+								},
+								"editoptions": {},
+								"classes": "editable"
+							}, {
+								"name": "totalPrice",
+								"label": "최종가격",
+								"width": 80,
+								"align": "right",
+								"editable": false,
+								"sorttype": "currency" , "formatter": "currency"
+
+							}, {
+								"name": "salePrice",
+								"label": "변경가격",
+								"width": 80,
+								"align": "right",
+								"editable": false,
+								"sorttype": "currency" , "formatter": "currency"
+
+							}, {
+								"name": "stndPrice",
+								"label": "표준가격",
+								"width": 80,
+								"align": "right",
+								"editable": false,
+								"sorttype": "currency" , "formatter": "currency"
+							}, {
+								"name": "stndIncr",
+								"label": "표준증감",
+								"width": 80,
+								"align": "right",
+								"editable": false,
+								"sorttype": "currency" , "formatter": "currency"
+							}, {
+								"name": "increase",
+								"label": "<div class=\"editable_mark\"></div>증감",
+								"width": 80,
+								"align": "right",
+								"editable": true,
+								"edittype":"text",
+								"sorttype": "currency" , "formatter": "currency",
+								"classes":"editable",
+								"editrules":{ "number":true}
+							}, {
+								"name": "increasePrice",
+								"label": "증감차액",
+								"width": 80,
+								"align": "right",
+								"editable": false,
+								"sorttype": "currency" , "formatter": "currency",
+								"classes":"color_minus"
+
+							}, {
+								"name": "discPer",
+								"label": "할인율",
+								"width": 80,
+								"align": "right",
+								"editable": false,
+								"sorttype":"number","formatter":"number"
+							}, {
+								"name": "approYnName",
+								"label": "확인",
+								"width": 60,
+								"align": "center",
+								"editable": false
+							},
+			                {
+			                  "name": "approYn",
+			                  "label": "approYn",
+			                  "width": 40,
+			                  "align": "center",
+			                  "hidden": true
+			                }],
+							"rowNum":"100000000",
+							"width": "auto",
+							"height": "572",
+							"cellEdit": true,
+							"shrinkToFit": true,
+							"gridview": true,
+							"datatype": "local",
+							"footerrow": false,
+							"multiselect": true,
+							"multiselectWidth": 19,
+							"rownumbers": false,
+							"cellsubmit": "clientArray",
+							"pager": "#SD0206_grid_1_pager",
+							"viewrecords": true,
+							"recordpos": "left",
+							"pgbuttons": false,
+							"pginput": false
+
+						}
+					}
+				}
+			}
+		}
+	}
+}

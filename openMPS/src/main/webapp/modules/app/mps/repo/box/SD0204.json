@@ -1,0 +1,234 @@
+{
+  "name": "거래처단가등급",
+  "module": "SD0204Renderer",
+  "options": {
+    "className": "contents_box",
+    "order": [
+      "queryBox",
+      "gridBox1",
+      "gridBox2"
+    ],
+    "activation": {
+      "defaultWidget": "",
+      "method": "one-page"
+    },
+    "queryBox": {
+      "module": "FormBox",
+      "options": {
+        "className": "query_box form-inline",
+        "order": [
+          "partCode",
+          "salesman"
+        ],
+        "activation": {
+          "method": "one-page"
+        },
+        "custom_form": {
+          "mode": "form",
+          "items": {
+            "salesman": {
+              "selector": ".salesman",
+              "label": "영업사원",
+              "required": false,
+              "module": "combobox",
+              "fetcher": "return UCMS.parseSessionUser();"
+            },
+            "partCode": {
+              "selector": ".partCode",
+              "label": "영업파트",
+              "required": false,
+              "module": "combobox",
+              "fetcher": {
+					"url": "<%= host %>/rest/mpm/<%= corpCode %>/auth/dept",
+					"parser": "return UCMS.parseComboAll( UCMS.parseComboItems(arguments[0]));"
+				}
+            }
+          },
+          "data": {},
+          "template": null
+        }
+      }
+    },
+    "gridBox1": {
+      "module": "manifest!jqGrid4-1.0.0",
+      "options": {
+        "className": "grid_box mw70p",
+        "gridId": "SD0204_grid_1",
+        "gridParams": {
+          "data": [],
+          "colModel": [
+            {
+              "name": "partCode",
+              "label": "영업파트코드",
+              "width": 150,
+              "align": "left",
+              "editable": false,
+              "hidden": true
+            },
+            {
+              "name": "teamName",
+              "label": "파트",
+              "width": 120,
+              "align": "left",
+              "editable": false
+            },
+            {
+              "name": "salesmanName",
+              "label": "담당",
+              "width": 70,
+              "align": "left",
+              "editable": false
+            },
+            {
+              "name": "custName",
+              "label": "거래처",
+              "width": 150,
+              "align": "left",
+              "editable": false
+            },
+            {
+              "name": "stndPriceYn",
+              "label": "표준단가",
+              "width": 90,
+              "align": "center",
+              "editable": false,
+			  "formatter": "checkbox"
+            },
+            {
+              "name": "salePriceYn",
+              "label": "판매단가",
+              "width": 90,
+              "align": "center",
+              "editable": false,
+			  "formatter": "checkbox"
+            }
+            ,
+            {
+              "name": "custCode",
+              "label": "custCode",
+              "width": 60,
+              "align": "center",
+              "hidden": true
+            }
+          ],
+          "rowNum": "100000000",
+          "width": "auto",
+          "height": "259",
+          "cellEdit": false,
+          "shrinkToFit": true,
+          "gridview": true,
+          "datatype": "local",
+          "multiselect": false,
+          "multiselectWidth": 20,
+          "rownumbers": false,
+          "cellsubmit": "clientArray",
+          "pager": "#SD0204_grid_1_pager",
+          "viewrecords": true,
+          "recordpos": "left",
+          "pgbuttons": false,
+          "pginput": false
+        }
+      }
+    },
+    "gridBox2": {
+      "module": "SubContainer",
+      "options": {
+        "header": {
+          "title": {
+            "className": "contnet_header_box",
+            "label": "단가등급"
+          }
+        },
+        "content": {
+          "module": "manifest!jqGrid4-1.0.0",
+          "options": {
+            "className": "grid_box mw70p",
+            "gridId": "SD0204_grid_2",
+            "gridParams": {
+              "data": [],
+              "colModel": [
+                {
+                  "name": "partCode",
+                  "label": "영업파트코드",
+                  "width": 150,
+                  "align": "left",
+                  "editable": false,
+                  "hidden": true
+                },
+                {
+                  "name": "teamName",
+                  "label": "파트",
+                  "width": 120,
+                  "align": "left",
+                  "editable": false
+                },
+                {
+                  "name": "salesmanName",
+                  "label": "담당",
+                  "width": 70,
+                  "align": "left",
+                  "editable": false
+                },
+                {
+                  "name": "custName",
+                  "label": "거래처",
+                  "width": 150,
+                  "align": "left",
+                  "editable": false
+                },
+                {
+                  "name": "proCode",
+                  "hidden": true,
+                  "label": "제품",
+                  "width": 200,
+                  "align": "left",
+                  "editable": false
+                },
+                {
+                  "name": "proName",
+                  "label": "제품명",
+                  "width": 90,
+                  "align": "left",
+                  "editable": false
+                },
+                {
+                  "name": "priceClass",
+                  "label": "<div class=\"editable_mark\"></div>등급",
+                  "width": 90,
+                  "align": "right",
+                  "editable": true,
+                  "classes": "editable",
+                  "sorttype":"integer","formatter":"integer"
+                }
+                ,
+                {
+                  "name": "custCode",
+                  "label": "custCode",
+                  "width": 200,
+                  "align": "left",
+                  "hidden": true
+                }
+              ],
+              "rowNum": "100000000",
+              "width": "auto",
+              "height": "259",
+              "cellEdit": true,
+              "shrinkToFit": true,
+              "gridview": true,
+              "datatype": "local",
+              "multiselect": false,
+              "multiselectWidth": 20,
+              "rownumbers": false,
+              "cellsubmit": "clientArray",
+              "pager": "#SD0204_grid_2_pager",
+              "viewrecords": true,
+              "recordpos": "left",
+              "pgbuttons": false,
+              "pginput": false
+            }
+          }
+        }
+      }
+    }
+  }
+}

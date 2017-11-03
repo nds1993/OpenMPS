@@ -1,0 +1,68 @@
+{
+	"name": "메일전송",
+	"module": "SD0203MailPopupRenderer",
+	"options": {
+		"header": {
+			"title": {
+				"label": "메일전송"
+			},
+			"feature": [{
+				"confirm": "전송"
+			}]
+		},
+		"content": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"custCode",
+					"custName",
+					"email",
+					"exFileUpload"
+				],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"custCode": {
+							"module": "text",
+							"selector": ".custCode",
+							"label": "거래처코드",
+							"disabled": true,
+							"required": false,
+							"value": "12345-000"
+						},
+						"custName": {
+							"module": "text",
+							"selector": ".custName",
+							"label": "거래처명",
+							"disabled": true,
+							"required": false,
+							"value": ""
+						},
+						"email": {
+							"module": "text",
+							"selector": ".custName",
+							"label": "메일주소",
+							"required": true,
+							"placeholder": "이메일주소를 입력해 주세요",
+							"value": ""
+						},
+						"exFileUpload": {
+							"module": "file",
+							"selector": ".exFileUpload",
+							"label": "파일선택",
+							"required": false
+						}
+
+					},
+					"data": {},
+					"template": "<div class=\"form-group label_w6\"><label><input type=\"text\" class=\"form-control form-control-static custCode\" disabled style=\"margin:-2px 0\"></label><input type=\"text\" class=\"form-control form-control-static custName\" disabled></div><div class=\"form-group label_w6\"><label class=\"required\">이메일주소</label><input type=\"text\" class=\"form-control email\" placeholder=\"이메일주소를 입력해 주세요.\"></div><div class=\"form-group label_w6\"><label>파일선택</label><form style=\"display:inline\" class=\"upload_btn\"><input type=\"file\" class=\" exFileUpload\" style=\"display:inline\"></form><input type=\"text\" class=\"form-control exFileName\" style=\"width: 164px;position: absolute;right: 0;top: 0;\" disabled></div>"
+				}
+			}
+		}
+	}
+}

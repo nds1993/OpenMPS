@@ -1,0 +1,415 @@
+{
+	"name":"사원별 주문목록",
+	"module": "SD0103Renderer",
+	"options": {
+		"order": ["queryBox", "resultBox"],
+		"className": "contents_box",
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box form-inline",
+				"order": ["salesman"],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"name": "API Runner Form",
+					"mode": "form",
+					"items": {
+						"salesman": {
+							"module":"combobox",
+							"selector":".salesman",
+							"label": "영업사원",
+							"required": false,
+							"fetcher": "return UCMS.parseSessionUser();"
+						}
+					},
+					"data": {},
+					"template":null
+				}
+			}
+		},
+		"resultBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "result_box",
+				"order": ["leftGrid", "centerUpGrid", "centerDownGrid", "rightGrid"],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"template": "<div class=\"row\"><div class=\"col-xs-4 leftGrid_region\"></div><div class=\"col-xs-4 trans_item_left\"><div class=\"centerUpGrid_region\"></div><div class=\"centerDownGrid_region\"></div></div><div class=\"col-xs-4 trans_item_right\"><div class=\"trans_btn_box\"><button class=\"btn btn_trans_right btn-primary\"><i class=\"fa fa-chevron-right\"></i></button><button class=\"btn btn_trans_left btn-primary\"><i class=\"fa fa-chevron-left\"></i></button></div><div class=\"rightGrid_region\"></div></div></div>",
+					"items": {
+						"leftGrid": {
+							"label": "leftGrid",
+							"required": true
+						},
+						"centerUpGrid": {
+							"label": "centerUpGrid",
+							"required": true
+						},
+						"centerDownGrid": {
+							"label": "centerDownGrid",
+							"required": true
+						},
+						"rightGrid": {
+							"label": "rightGrid",
+							"required": true
+						}
+					},
+					"data": {}
+				},
+				"leftGrid": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"className": "contnet_header_box no_label",
+								"label": "거래처"
+							},
+							"feature": [{
+								"leftcreate": "행추가"
+							}, {
+								"leftdelete": "행삭제"
+							}]
+						},
+						"content": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "leftGrid_box grid_box",
+								"gridId": "SD0103_grid_1",
+								"gridParams": {
+									"data": [],
+									"colModel": [{
+										"name": "salesmanCust",
+										"label": "<div class=\"editable_mark\"></div>거래처",
+										"width": 60,
+										"align": "center",
+										"editable": true,
+										"classes":"editable codesearch"
+									}, {
+										"name": "salesmanCustname",
+										"label": "거래처명",
+										"width": 120,
+										"align": "left",
+										"editable": false
+									}, {
+										"name": "priceTypeName",
+										"label": "단가유형",
+										"width": 50,
+										"align": "left",
+										"editable": false
+									}, {
+										"name": "priceType",
+										"label": "단가유형코드",
+										"width": 50,
+										"align": "left",
+										"editable": false,
+										"hidden": true
+									}, {
+										"name": "priceClass",
+										"label": "단가등급",
+										"width": 50,
+										"align": "left",
+										"editable": false,
+										"hidden": true
+									}, {
+										"name": "corpCode",
+										"label": "corpCode",
+										"width": 50,
+										"align": "right",
+										"editable": false,
+										"hidden": true
+									}, {
+										"name": "salesman",
+										"label": "salesman",
+										"width": 50,
+										"align": "left",
+										"editable": false,
+										"hidden": true
+									}, {
+										"name": "crDate",
+										"label": "crDate",
+										"width": 50,
+										"align": "right",
+										"editable": false,
+										"hidden": true
+									}, {
+										"name": "crUser",
+										"label": "crUser",
+										"width": 50,
+										"align": "left",
+										"editable": false,
+										"hidden": true
+									}],
+	"rowNum":"100000000",									"width": "auto",
+									"height": "570",
+									"cellEdit": true,
+									"shrinkToFit": true,
+									"gridview": true,
+									"datatype": "local",
+									"viewrecords": true,
+									"footerrow": false,
+									"userDataOnFooter": false,
+									"multiselect": true,
+									"multiselectWidth": 10,
+									"rownumbers": false,
+									"cellsubmit": "clientArray",
+									"pager": "#SD0103_grid_1_pager",
+									"viewrecords": true,
+									"recordpos":"left",
+									"pgbuttons":false,
+									"pginput":false
+
+								}
+							}
+						}
+					}
+				},
+				"centerUpGrid": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+								"className": "contnet_header_box no_label h35",
+								"label": "거래처명"
+							}
+						},
+						"content": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "centerUpGrid_box grid_box",
+								"gridId": "SD0103_grid_2",
+								"gridParams": {
+									"data": [],
+									"colModel": [
+									{
+										"name": "salesmanCust",
+										"label": "거래처코드",
+										"width": 80,
+										"align": "center",
+										"editable": false,
+										"hidden":true
+									},
+									{
+										"name": "salesmanCustname",
+										"label": "거래처명",
+										"width": 80,
+										"align": "left",
+										"editable": false
+									}],
+									"pager": false,
+									"width": "auto",
+									"height": "28",
+									"cellEdit": false,
+									"shrinkToFit": true,
+									"gridview": true,
+									"datatype": "local",
+									"viewrecords": true,
+									"footerrow": false,
+									"userDataOnFooter": false,
+									"multiselect": false,
+									"multiselectWidth": 19,
+									"rownumbers": false,
+									"cellsubmit": "clientArray"
+								}
+							}
+						}
+					}
+				},
+				"centerDownGrid": {
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "centerDownGrid_box grid_box",
+						"gridId": "SD0103_grid_3",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+								"name": "salesmanProdname",
+								"label": "제품명",
+								"width": 150,
+								"align": "left",
+								"editable": false
+							}, {
+								"name": "priceClass",
+								"label": "단가등급",
+								"width": 50,
+								"align": "center",
+								"editable": false
+							}, {
+								"name": "salesmanProd",
+								"label": "제품코드",
+								"width": 100,
+								"align": "center",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "corpCode",
+								"label": "corpCode",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "salesman",
+								"label": "salesman",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "salesmanCust",
+								"label": "salesmanCust",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "priceType",
+								"label": "priceType",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "crUser",
+								"label": "crUser",
+								"width": 50,
+								"align": "left",
+								"editable": false,
+								"hidden": true
+							}, {
+								"name": "crDate",
+								"label": "crDate",
+								"width": 50,
+								"align": "right",
+								"editable": false,
+								"hidden": true
+							}],
+							"rowNum":"100000000",
+							"pager": false,
+							"width": "auto",
+							"height": "503",
+							"cellEdit": true,
+							"shrinkToFit": true,
+							"gridview": true,
+							"datatype": "local",
+							"viewrecords": true,
+							"footerrow": false,
+							"userDataOnFooter": false,
+							"multiselect": true,
+							"multiselectWidth": 10,
+							"rownumbers": false,
+							"cellsubmit": "clientArray",
+							"pager": "#SD0103_grid_3_pager",
+							"viewrecords": true,
+							"recordpos":"left",
+							"pgbuttons":false,
+							"pginput":false
+
+						}
+					}
+
+				},
+				"rightGrid": {
+					"module": "SubContainer",
+					"options": {
+						"header": {
+							"title": {
+							 "className": "contnet_header_box no_label",
+							 "label": "주문목록"
+							},
+							"feature": [{
+							 "rightcreate": "행추가"},{
+							 "rightdelete": "행삭제"}]
+						},
+						"content": {
+							"module": "manifest!jqGrid4-1.0.0",
+							"options": {
+								"className": "rightGrid_box grid_box",
+								"gridId": "SD0103_grid_4",
+								"gridParams": {
+									"data": [],
+									"colModel": [{
+										"name": "salesmanProd",
+										"label": "<div class=\"editable_mark\"></div>제품",
+										"width": 50,
+										"align": "center",
+										"editable": true,
+										"classes":"editable codesearch"
+									}, {
+										"name": "salesmanProdname",
+										"label": "제품명",
+										"width": 200,
+										"align": "left",
+										"editable": false
+									}, {
+										"name": "intetestPro",
+										"label": "<div class=\"editable_mark\"></div>관심제품",
+										"width": 70,
+										"align": "left",
+										"editable": true
+									}, {
+										"name": "corpCode",
+										"label": "corpCode",
+										"width": 50,
+										"align": "right",
+										"editable": false,
+										"hidden": true
+									}, {
+										"name": "salesman",
+										"label": "salesman",
+										"width": 50,
+										"align": "left",
+										"editable": false,
+										"hidden": true
+									}, {
+										"name": "crUser",
+										"label": "crUser",
+										"width": 50,
+										"align": "left",
+										"editable": false,
+										"hidden": true
+									}, {
+										"name": "crDate",
+										"label": "crDate",
+										"width": 50,
+										"align": "right",
+										"editable": false,
+										"hidden": true
+									}],
+	"rowNum":"100000000",
+		"width": "auto",
+									"height": "570",
+									"cellEdit": true,
+									"shrinkToFit": true,
+									"gridview": true,
+									"datatype": "local",
+									"viewrecords": true,
+									"footerrow": false,
+									"userDataOnFooter": false,
+									"multiselect": true,
+									"multiselectWidth": 15,
+									"rownumbers": false,
+									"cellsubmit": "clientArray",
+									"pager": "#SD0103_grid_4_pager",
+									"viewrecords": true,
+									"recordpos":"left",
+									"pgbuttons":false,
+									"pginput":false
+
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

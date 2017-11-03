@@ -43,9 +43,7 @@
 				  , salesman
 				  , appro_yn
 				  , cr_user
-				  , cr_date
-				  , md_user
-				  , md_date )
+				  , cr_date)
 			VALUES ( #corpCode#
 				  , #delvDate#
 				  , #ordrNo#
@@ -55,9 +53,7 @@
 				  , #salesman#
 				  , 'N'
 				  , #crUser#
-				  , now()
-				  , #mdUser#
-				  , #mdDate# )
+				  , now() )
 			ON CONFLICT (corp_code, delv_date, ordr_no)
     		DO UPDATE SET
 				md_user=#crUser#
@@ -119,11 +115,12 @@
 	<sql id="selectWhere_fragment">
 		<![CDATA[
 		FROM openmps.mp_order_h ordrtb
-		left outer join openmps."FN_GET_CUSTLIMIT"(
+		left outer join openmps.SD_CREDIT_CHECK(
+			'O',
 		    ordrtb.corp_code,
 		    ordrtb.ordr_cust,
 		    ordrtb.delv_date,
-		    ordrtb.ordr_amt
+		    ordrtb.ordr_no
 		) custlimit on (1=1)
 		left outer join openmps.mp_salesman_cust sc on ( 
 			ordrtb.corp_code = sc.corp_code 
@@ -135,10 +132,8 @@
 				and ordrtb.ordr_no = da.ordr_no
 		)
 		WHERE ordrtb.corp_code=#corpCode#
-		and ordrtb.delv_date >= #strtDate# 
-		and ordrtb.delv_date <= #lastDate#
-		and custlimit.o_remaining_limit < 0
-		and da.appro_request is null
+		and ordrtb.delv_date between #strtDate# and #lastDate#
+		and custlimit.o_remain_amt < 0
 		]]>
 		<dynamic > 
 	         <isNotEmpty prepend="and" property="salesman">
@@ -182,13 +177,17 @@
 			ordrtb.corp_code
 			,ordrtb.delv_date
 			,ordrtb.ordr_no
+			, ordrtb.delv_date || ordrtb.ordr_no as ordr_num
 			,ordrtb.ordr_cust
-			,da.appro_request
-			,o_cust_limit as credit_price 
+			, openmps."FN_GET_CUSTCODENM"(ordrtb.corp_code, ordrtb.ordr_cust) as ordr_cust_name 
+			, to_char( da.appro_request, 'YYYY-MM-DD') as appro_request
+			,o_credit_limit as credit_price 
 			,ordrtb.ordr_amt
-			,o_remaining_limit as credit_over
+			,o_remain_amt as credit_over
 			,sc.salesman
   			,da.appro_yn 
+  			, ( case when da.appro_yn='Y' then '출고승인'
+  					when da.appro_yn='X' then '반려' else '' end ) as appro_yn_name 
   			,da.appro_memo 
   			,da.part_code 
   			,da.part_appro 
@@ -198,6 +197,7 @@
   			,da.head_date 
   			,da.ceo_appro 
   			,da.ceo_date 
+  			,to_char(da.cr_date, 'yyyy-MM-dd HH24:mi:ss') cr_date
 		<include refid="selectWhere_fragment"/>
 	</select>
 	<select id="SD0402DAO.selectSD0402ListTotCnt_S" parameterClass="SD0402SerarchVO" resultClass="int">
@@ -220,8 +220,8 @@
 		)
 	-->
 	<sql id="selectWhere_SD0403fragment">
-		FROM openmps.mp_order_h ordrtb
-		inner join openmps.mp_delv_approval da on (
+		FROM openmps.mp_delv_approval da 
+		inner join openmps.mp_order_h ordrtb on (
 				ordrtb.corp_code = da.corp_code 
 				and ordrtb.delv_date = da.delv_date 
 				and ordrtb.ordr_no = da.ordr_no
@@ -230,26 +230,36 @@
 			ordrtb.corp_code = sc.corp_code 
 			and ordrtb.ordr_cust = sc.salesman_cust 
 			)
-		left outer join openmps."SD_CREDIT_CHECK"(
-		    'C',
+		left outer join openmps.SD_CREDIT_CHECK(
+		    'O',
 		    ordrtb.corp_code,
 		    ordrtb.ordr_cust,
 		    ordrtb.delv_date,
-		    NULL
+		    ordrtb.ordr_no
 		) custlimit on (1=1)
+		left outer join openmps.tm_userxm usr on ( usr.corp_code = da.corp_code 
+					and usr.user_code = da.salesman )
+		left outer join openmps.tm_deptxm dept on ( 
+					dept.corp_code = usr.corp_code 
+					and dept.dept_code = usr.dept_code 
+					and dept.team_code = usr.team_code)
+		left outer join openmps.mp_last_unpayment unpay on 
+					( 
+					unpay.corp_code = da.corp_code 
+					and unpay.unpay_yymm = to_char(da.delv_date::date, 'YYYYMM')
+					and unpay.cust_code = ordrtb.ordr_cust)
 		WHERE ordrtb.corp_code=#corpCode#
 		<isNotEmpty property="strtDate">
 			<isNotEmpty property="lastDate">
-			<![CDATA[ and ordrtb.delv_date >= #strtDate# ]]> 
-			<![CDATA[ and ordrtb.delv_date <= #lastDate# ]]>
+			<![CDATA[ and da.delv_date >= #strtDate# ]]> 
+			<![CDATA[ and da.delv_date <= #lastDate# ]]>
 			</isNotEmpty>
 		</isNotEmpty>
 		<isNotEmpty property="strtDate">
 			<isEmpty property="lastDate">
-				and ordrtb.delv_date = #strtDate#
+				and da.delv_date = #strtDate#
 			</isEmpty>
 		</isNotEmpty>
-		<![CDATA[ and custlimit.o_remaining_limit < 0 ]]>
 		
 		<!-- 
 		
@@ -279,10 +289,15 @@
 		select
 			ordrtb.ordr_no
 			,ordrtb.ordr_cust
-			,da.appro_request
-			,o_credit_limit as credit_price
+			, dept.dept_name
+			, usr.user_name as salesman
+			, openmps."FN_GET_CUSTCODENM"(ordrtb.corp_code, ordrtb.ordr_cust) as ordr_cust_name 
+			
+			,to_char( da.appro_request, 'YYYYMMDD') as appro_request
+			,custlimit.o_credit_limit as credit_price
 			,ordrtb.ordr_amt
-			,o_remain_amt as credit_over
+			,custlimit.o_remain_amt as credit_over
+			,unpay.current_unpay
   			,da.appro_yn 
   			,da.appro_memo 
   			,da.part_code 

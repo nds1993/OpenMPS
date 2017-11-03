@@ -84,7 +84,7 @@
 				and h.delv_date=d.delv_date 
 				and h.ordr_no=d.ordr_no
 				)
-			left outer join openmps."SD_CREDIT_CHECK"(
+			left outer join openmps.SD_CREDIT_CHECK(
 			    'O',
 			    h.corp_code,
 			    NULL,
@@ -204,7 +204,7 @@
 			, credit.o_credit_limit as o_cust_limit 
 			, 0 as o_cur_unpay 
 			, credit.o_remain_amt as o_remaining_limit	
-		from openmps."SD_CREDIT_CHECK"(
+		from openmps.SD_CREDIT_CHECK(
 			    'C',
 			    #corpCode#,
 			    #custCode#,

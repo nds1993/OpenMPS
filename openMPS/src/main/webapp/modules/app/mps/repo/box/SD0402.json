@@ -1,0 +1,225 @@
+{
+	"name": "출고승인요청",
+	"module": "SD0402Renderer",
+	"options": {
+		"className": "contents_box",
+		"order": ["queryBox", "resultBox"],
+		"activation": {
+			"defaultWidget": "",
+			"method": "one-page"
+		},
+		"queryBox": {
+			"module": "FormBox",
+			"options": {
+				"className": "query_box  form-inline",
+				"order": ["strtDate", "lastDate", "salesman"],
+				"activation": {
+					"method": "one-page"
+				},
+				"custom_form": {
+					"mode": "form",
+					"name": "API Runner Form",
+					"items": {
+						"strtDate": {
+							"module": "date",
+							"selector": ".strtDate",
+							"label": "dateSrart",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"lastDate": {
+							"module": "date",
+							"selector": ".lastDate",
+							"label": "dateEnd",
+							"required": false,
+							"format": "YYYY-MM-DD",
+							"useCurrent": true,
+							"defaultDate": true
+						},
+						"salesman": {
+							"selector": ".salesman",
+							"label": "영업사원",
+							"required": false,
+							"module": "combobox",
+							"fetcher": "return UCMS.parseSessionUser();"
+						}
+					},
+					"data": {},
+					"template": "<div class=\"form-group\"><label>출고일자</label><input type=\"text\" class=\"form-control form_type_date strtDate\" placeholder=\"\">~ <input type=\"text\" class=\"form-control form_type_date lastDate\" placeholder=\"\"></div><div class=\"form-group\"><label>영업사원</label><div class=\"select_design salesman\"><span class=\"select_label\"></span><select class=\"form-control\"></select></div>"
+				}
+			}
+		},
+		"resultBox": {
+			"module": "SubContainer",
+			"options": {
+				"header": {
+					"title": {
+						"className": "contnet_header_box no_label",
+						"label": "출고승인 요청"
+					},
+					"feature": [{
+						"request": "승인요청"
+					}
+					,{
+						"reqcancel": "요청취소"
+					}]
+				},
+				"content": {
+					"backup": {
+						"data": []
+					},
+					"module": "manifest!jqGrid4-1.0.0",
+					"options": {
+						"className": "upGrid_box grid_box",
+						"gridId": "SD0402_grid_1",
+						"gridParams": {
+							"data": [],
+							"colModel": [{
+								"name": "ordrNum",
+								"label": "출고번호",
+								"width": 100,
+								"align": "center",
+								"editable": true,
+								"edittype": "text",
+								"editrules": {
+									"required": false
+								},
+								"editoptions": {},
+								"classes": "editable"
+							}, {
+								"name": "ordrCust",
+								"label": "거래처코드",
+								"hidden": true
+							}, {
+								"name": "ordrCustName",
+								"label": "거래처명",
+								"width": 180,
+								"align": "left",
+								"editable": false,
+								"edittype": "text",
+								"editrules": {
+									"required": false
+								},
+								"editoptions": {},
+								"classes": "editable"
+							}, {
+								"name": "creditPrice",
+								"label": "여신한도",
+								"width": 90,
+								"align": "right",
+								"editable": false,
+								"sorttype": "currency",
+								"formatter": "currency"
+							}, {
+								"name": "ordrAmt",
+								"label": "주문금액",
+								"width": 90,
+								"align": "right",
+								"editable": false,
+								"sorttype": "currency",
+								"formatter": "currency"
+							}, {
+								"name": "creditOver",
+								"label": "잔여한도",
+								"width": 90,
+								"align": "right",
+								"editable": false,
+								"classes": "color_minus",
+								"sorttype": "currency",
+								"formatter": "currency"
+							}, {
+								"name": "approYnName",
+								"label": "결재상태",
+								"width": 60,
+								"align": "center",
+								"editable": false
+							}, {
+								"name": "approRequest",
+								"label": "승인요청",
+								"width": 60,
+								"align": "center",
+								"editable": false
+							}, {
+								"name": "crDate",
+								"label": "요청일자",
+								"width": 80,
+								"align": "center",
+								"sorttype": "date",
+								"formatter": "dateFormatter",
+								"unformat": "dateUnformatter",
+								"formatoptions": {
+									"srcformat": "YYYYMMDD",
+									"newformat": "YYYY-MM-DD"
+								}
+							}, {
+								"name": "partDate",
+								"label": "파트장",
+								"width": 80,
+								"align": "center",
+								"sorttype": "date",
+								"formatter": "dateFormatter",
+								"unformat": "dateUnformatter",
+								"formatoptions": {
+									"srcformat": "YYYYMMDD",
+									"newformat": "YYYY-MM-DD"
+								}
+							}, {
+								"name": "headDate",
+								"label": "부문장",
+								"width": 80,
+								"align": "center",
+								"sorttype": "date",
+								"formatter": "dateFormatter",
+								"unformat": "dateUnformatter",
+								"formatoptions": {
+									"srcformat": "YYYYMMDD",
+									"newformat": "YYYY-MM-DD"
+								}
+							}, {
+								"name": "ceoDate",
+								"label": "대표이사",
+								"width": 80,
+								"align": "center",
+								"sorttype": "date",
+								"formatter": "dateFormatter",
+								"unformat": "dateUnformatter",
+								"formatoptions": {
+									"srcformat": "YYYYMMDD",
+									"newformat": "YYYY-MM-DD"
+								}
+							}, {
+								"name": "delvDate",
+								"label": "delvDate",
+								"hidden": true
+							}, {
+								"name": "ordrNo",
+								"label": "ordrNo",
+								"hidden": true
+							}, {
+								"name": "approYn",
+								"label": "approYn",
+								"width": 60,
+								"align": "center",
+								"hidden": true
+							}],
+							"rowNum": "100000000",
+							"width": "auto",
+							"height": 572,
+							"multiselect": true,
+							"multiselectWidth": 15,
+							"gridview": true,
+							"datatype": "local",
+							"pager": "#SD0402_grid_1_pager",
+							"viewrecords": true,
+							"recordpos": "left",
+							"pgbuttons": false,
+							"pginput": false
+						}
+					}
+				}
+			}
+		}
+	}
+}
