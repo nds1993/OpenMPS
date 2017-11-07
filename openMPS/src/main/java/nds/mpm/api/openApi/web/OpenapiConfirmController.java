@@ -27,7 +27,7 @@ import com.google.gson.Gson;
 @Controller
 public class OpenapiConfirmController {
  
-    public static final String KEY = "XVDRBSRzu3xzEuhxcLgYaQ6TKfYD2gaVEgc%2FgvLomZ6M%2BLkuYV1soAIhVKQTTaRWbZ2M2R0VUR9Ubitwx3MoAg%3D%3D";
+    public static final String KEY = "";	//발급필요
     public static final String URL = "http://data.ekape.or.kr/openapi-data/service/user/grade/confirm/pig";
     
     /** RoleService */
