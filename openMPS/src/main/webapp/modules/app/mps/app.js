@@ -183,7 +183,12 @@ define(
 						{
 							app._mainBox = box;
 							app.body.show( box );
-							UCMS.onMenuSlide();
+							
+							setTimeout(function()
+							{
+								UCMS.onMenuSlide();
+							}
+							, 500);
 						});
 					}
 					else

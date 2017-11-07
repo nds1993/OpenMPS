@@ -63,7 +63,7 @@ define([
 			
 			setTimeout(function()
 			{
-				self.$el.find(".top_button_region").prepend ("<button class=\"btn btn-primary pass-reset\" style=\"float: left; margin-left: 200px;\"><span class=\"btn_label \">비밀번호 초기화</span></button><button class=\"btn btn-primary pass-change\" style=\"float: left;\"><span class=\"btn_label \">비밀번호 변경</span></button>");
+				self.$el.find(".top_button_region").prepend ("<button class=\"btn btn-primary pass-reset\" style=\"float: left; margin-left: 0px;\"><span class=\"btn_label \">비밀번호 초기화</span></button><button class=\"btn btn-primary pass-change\" style=\"float: left;\"><span class=\"btn_label \">비밀번호 변경</span></button>");
 				
 				self.$el.find("button.pass-change").click(function()
 				{

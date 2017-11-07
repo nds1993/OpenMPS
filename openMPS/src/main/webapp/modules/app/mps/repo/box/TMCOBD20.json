@@ -220,7 +220,7 @@
         "resultBox": {
             "module": "manifest!jqGrid4-1.0.0",
             "options": {
-                "className": "resultBox_box grid_box",
+                "className": "resultBox_box grid_box grid_btn_hide",
                 "gridId": "TMCOBD20_grid_1",
                 "gridParams": {
                     "data": [],
@@ -316,8 +316,13 @@
                     "width": "auto",
                     "height": "250",
                     "iconSet": "fontAwesome",
-                    "pager": false,
-                    "cellEdit": false
+                    "cellEdit": false,
+                    "pager": "#TMCOBD20_grid_1_pager",
+                    "datatype": "local",
+					"viewrecords": true,
+					"recordpos":"left",
+					"pgbuttons":false,
+					"pginput":false
                 }
             }
         }

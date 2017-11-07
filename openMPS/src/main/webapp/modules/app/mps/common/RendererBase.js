@@ -1380,7 +1380,6 @@ define(["Logger",
         						"save",
         						"delete",
         						"cancel",
-        						"manual",
         						"close"
         					],
 

@@ -120,7 +120,6 @@ define([
         						"save",
         						"delete",
         						"cancel",
-        						"manual",
         						"close"
         					],
 
