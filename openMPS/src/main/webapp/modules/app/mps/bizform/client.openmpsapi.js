@@ -758,7 +758,24 @@ function(ClientBase, AResult, NDSProps, Logger)
 					path += "/mporderupload/"+params.ordrCust;
 				}
 				break;
-
+			case "SD0501":
+				// 클레임 요청
+				path = '/rest/mpm/'+this.get("corpCode")+'/SD0501';
+				break;
+			case "SD0502":
+				// 클레임 요청 승인
+				path = '/rest/mpm/'+this.get("corpCode")+'/SD0501';
+				break;
+			case "SD0503":
+				// 클레임 요청 처리
+				path = '/rest/mpm/'+this.get("corpCode")+'/SD0501';
+				break;
+			case "SD0504":
+				// 클레임 요청 처리
+				path = '/rest/mpm/'+this.get("corpCode")+'/SD0501';
+				break;
+				
+/*
 			case "SD0501": // 수금입력조회
 				// /mpreceinfo//{strtDate}/{lastDate}
 				path += "/mpreceinfo/"+params.strtDate +"/"+params.lastDate;
@@ -768,11 +785,10 @@ function(ClientBase, AResult, NDSProps, Logger)
 				// /mpreceinfo/{strtDate}/{lastDate}
 				path += "/mpreceinfo/"+params.strtDate + "/"+params.lastDate;
 				break;
-/*
+
 			case "SD0503": // 잔액조회서
 				path += "/mplastunpayment/"+params.saleDate;
 				break;
-*/
 
 			case "SD0503": // 미수현황_영업파트
 				path += "/mpcustrecord/"+params.strtDate +"/"+params.lastDate;
@@ -789,7 +805,8 @@ function(ClientBase, AResult, NDSProps, Logger)
 			case "SD0505": // 미수현황_거래처
 				path += "/mporderh/"+params.strtDate +"/"+params.lastDate+"/"+params.teamCode;
 				break;
-
+*/
+			
 			case "SD0601": // 거래원장
 				path += "/mporderd/"+params.sellDate +"/"+params.custCode;
 				break;

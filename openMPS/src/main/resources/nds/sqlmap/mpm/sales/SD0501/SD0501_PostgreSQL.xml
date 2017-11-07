@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SD0501">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SD0501VO" type="nds.mpm.sales.SD0501.vo.SD0501VO"/>
+	
+	<resultMap id="SD0501" class="nds.mpm.sales.SD0501.vo.SD0501VO">
+		<result property="servId" column="serv_id" columnIndex="1"/>
+		<result property="corpCode" column="corp_code" columnIndex="2"/>
+		<result property="rqstType" column="rqst_type" columnIndex="3"/>
+		<result property="servTitle" column="serv_title" columnIndex="4"/>
+		<result property="servCont" column="serv_cont" columnIndex="5"/>
+		<result property="fileId" column="file_id" columnIndex="6"/>
+		<result property="rqfnDate" column="rqfn_date" columnIndex="7"/>
+		<result property="applUser" column="appl_user" columnIndex="8"/>
+		<result property="procStatus" column="proc_status" columnIndex="9"/>
+		<result property="rqstUser" column="rqst_user" columnIndex="10"/>
+		<result property="crDate" column="cr_date" columnIndex="11"/>
+		<result property="mdDate" column="md_date" columnIndex="12"/>
+		<result property="deleYn" column="dele_yn" columnIndex="13"/>
+		<result property="crDate2" column="cr_date2" columnIndex="14"/>
+		<result property="procStatusName" column="proc_status_name" columnIndex="14"/>
+		<result property="procUser" column="proc_user" columnIndex="15"/>
+		<result property="procCont" column="proc_cont" columnIndex="16"/>
+		<result property="procDate" column="proc_date" columnIndex="17"/>
+		<result property="procUserName" column="proc_user_name" columnIndex="17"/>
+		<result property="finishDate" column="finish_date" columnIndex="18"/>
+	</resultMap>
+	
+	<insert id="SD0501DAO.insertSD0501">
+INSERT INTO sd_claimrqxm (
+	 serv_id, 
+     corp_code, 
+     rqst_type, 
+     serv_title, 
+     serv_cont, 
+     file_id, 
+     appl_user, 
+     proc_status, 
+     rqst_user, 
+     dele_yn,
+	<dynamic>
+		 <isNotEmpty  property="rqfnDate">
+		 	rqfn_date, 
+		 </isNotEmpty>
+	</dynamic>     
+     cr_date, 
+     md_date
+) 
+select (select COALESCE(max(serv_id), 0) + 1 from sd_claimrqxm) serv_id, 
+       #corpCode#, 
+       #rqstType#,
+       #servTitle#, 
+       #servCont#, 
+       #fileId#, 
+       (SELECT A.user_code
+        FROM tm_userxm A,
+                (SELECT *
+                 FROM tm_userxm
+                 WHERE user_code = #rqstUser#) B
+        WHERE A.corp_code = B.corp_code AND A.dept_code = B.dept_code AND A.ofce_code = '40' AND A.use_yn = 'Y' AND A.dele_yn != 'Y'
+        LIMIT 1), 
+       #procStatus#, 
+       #rqstUser#, 
+       'N', 
+       <dynamic>
+		 <isNotEmpty  property="rqfnDate">
+		 	to_date(#rqfnDate#,'YYYY-MM-DD'), 
+		 </isNotEmpty>
+		</dynamic>    
+       NOW(), 
+       NOW()
+	</insert>
+	
+	<insert id="SD0501DAO.insertSdClaimpcxm">
+INSERT INTO sd_claimpcxm (
+	serv_id, 
+	proc_seq, 
+	proc_status, 
+	proc_user, 
+	proc_cont, 
+	proc_date
+) 
+select 
+		<dynamic>
+		<isNotEmpty  property="servId">
+	to_number(#servId#, '9999999999999'),
+	(select  COALESCE(max(proc_seq), 0) + 1 from sd_claimpcxm where serv_id = to_number(#servId#, '9999999999999')) proc_seq, 
+		</isNotEmpty>
+		<isEmpty  property="servId">
+	(select max(serv_id) from sd_claimrqxm) serv_id,
+	1,  
+		</isEmpty>
+		</dynamic>    
+	#procStatus#, 
+	#procUser#,
+	#procCont#,  
+	NOW()
+	</insert>
+	
+	<update id="SD0501DAO.updateSD0501">
+            UPDATE sd_claimrqxm
+            SET corp_code = #corpCode#, 
+                rqst_type = #rqstType#, 
+                serv_title = #servTitle#, 
+                serv_cont = #servCont#, 
+                file_id = #fileId#, 
+                <dynamic>
+					 <isNotEmpty  property="rqfnDate">
+					 	rqfn_date = to_date(#rqfnDate#,'YYYY-MM-DD'), 
+					 </isNotEmpty>
+				</dynamic>    
+                md_date = NOW()
+            WHERE serv_id=to_number(#servId#, '9999999999999')
+	</update>
+	
+	<update id="SD0501DAO.deleteSD0501">
+		<![CDATA[
+			UPDATE sd_claimrqxm
+			SET dele_yn = 'Y'
+				, md_date=NOW()			
+			WHERE serv_id=to_number(#servId#, '9999999999999')
+				]]>
+	</update>
+	
+	<update id="SD0501DAO.updateProcStatusSD0501">
+		<![CDATA[
+			UPDATE sd_claimrqxm
+			SET proc_status = #procStatus#
+				, md_date=NOW()			
+			WHERE serv_id=to_number(#servId#, '9999999999999')
+				]]>
+	</update>
+	
+	<select id="SD0501DAO.selectSD0501_S" resultMap="SD0501">
+		<![CDATA[
+			SELECT *
+			FROM sd_claimrqxm
+			WHERE serv_id=to_number(#servId#, '9999999999999')
+				]]>
+	</select>
+	
+	<sql id="selectWhere_fragment">
+		FROM sd_claimrqxm A
+		LEFT OUTER JOIN (
+			SELECT A2.*
+			FROM sd_claimpcxm A2,
+			(SELECT serv_id, MAX(proc_seq) proc_seq FROM sd_claimpcxm GROUP BY serv_id) B2
+			WHERE A2.serv_id = B2.serv_id 
+			AND A2.proc_seq = B2.proc_seq
+		) B
+		ON A.serv_id = B.serv_id
+		LEFT OUTER JOIN tm_userxm C on C.user_code = B.proc_user
+		LEFT OUTER JOIN (
+			select serv_id, max(proc_date) proc_date from sd_claimpcxm where proc_status = 'APPROVAL' GROUP BY serv_id
+		) D 
+		ON A.serv_id = D.serv_id
+		LEFT OUTER JOIN tm_userxm E on E.user_code = A.rqst_user
+		WHERE A.dele_yn = 'N'
+		<dynamic>
+			<isNotEmpty property="corpCode">
+				and A.corp_code = #corpCode#
+			</isNotEmpty>
+			<isNotEmpty property="rqstUser">
+				and A.rqst_user = #rqstUser#
+			</isNotEmpty>
+			<isNotEmpty property="procUser">
+				and B.proc_user = #procUser#
+			</isNotEmpty>
+			<isNotEmpty property="strtDate">
+				<![CDATA[
+				and to_char(D.proc_date,'YYYY-MM-DD') >= #strtDate#
+				]]>
+			</isNotEmpty>
+			<isNotEmpty property="lastDate">
+				<![CDATA[
+				and to_char(D.proc_date,'YYYY-MM-DD') <= #lastDate#
+				]]>
+			</isNotEmpty>
+			<isEqual property="procMode" compareValue="APPROVAL">
+				<![CDATA[
+				and COALESCE(B.proc_status, 'SAVE') not in ('SAVE')
+				]]>
+			</isEqual>
+			<isEqual property="procMode" compareValue="RECIPT">
+				<![CDATA[
+				and COALESCE(B.proc_status, 'SAVE') in ('RECIPT', 'PROCESS')
+				]]>
+			</isEqual>
+			<isNotEmpty property="searchKeyword">
+				<isEqual property="searchCondition" compareValue="10">
+					and a.serv_title like '%' || #searchKeyword# || '%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="20">
+					and a.serv_cont like '%' || #searchKeyword# || '%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="30">
+					and E.user_name like '%' || #searchKeyword# || '%'
+				</isEqual>
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<select id="SD0501DAO.selectSD0501List_D" parameterClass="SD0501VO" resultClass="egovMap">
+		SELECT
+					A.serv_id, 
+					A.corp_code, 
+					A.rqst_type, 
+					A.serv_title, 
+					A.serv_cont, 
+					A.file_id, 
+					A.rqfn_date, 
+					A.appl_user, 
+					A.rqst_user, 
+					A.cr_date, 
+					A.md_date, 
+					A.dele_yn, 
+					B.proc_seq, 
+					B.proc_status, 
+					B.proc_user, 
+					B.proc_cont, 
+					to_char(B.proc_date, 'YYYY-MM-DD') proc_date,
+					CASE WHEN B.proc_status = 'FINISH' THEN to_char(B.proc_date, 'YYYY-MM-DD') END finish_date,
+					CASE WHEN B.proc_status = 'SAVE' THEN '저장' WHEN B.proc_status = 'APPROVAL' THEN '결재대기' WHEN B.proc_status = 'RECIPT' THEN '접수대기' WHEN B.proc_status = 'PROCESS' THEN '처리중' WHEN B.proc_status = 'FINISH' THEN '완료' WHEN B.proc_status = 'RETURN' THEN '반려' WHEN B.proc_status = 'REAPPROVAL' THEN '재상신' END AS proc_status_name,
+					C.user_name proc_user_name,
+					to_char(D.proc_date, 'YYYY-MM-DD') cr_date2
+		<include refid="selectWhere_fragment"/>
+		ORDER BY A.serv_id desc
+	</select>	
+	<select id="SD0501DAO.selectSD0501ListTotCnt_S" parameterClass="SD0501VO" resultClass="int">
+		SELECT count(A.serv_id)
+		<include refid="selectWhere_fragment"/>
+	</select>
+
+</sqlMap>

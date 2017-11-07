@@ -1,0 +1,43 @@
+{
+	"name": "클레임 처리요청 반려 팝업",
+	"module": "SD0502PopupRenderer",
+	"options": {
+		"header": {
+			"title": {
+				"label": "반려사유"
+			}
+		},
+		"content": {
+			"module": "FormBox",
+			"options": {
+				"className": "form_box",
+				"order": [
+					"servId", "procCont"
+				],
+				"activation": {
+					"defaultWidget": "",
+					"method": "one-page"
+				},
+				"custom_form": {
+					"template": "<div style=\"margin-right:10px;\"><input type=\"text\" class=\"form-control servId\" style=\"display:none;\"><textarea rows=\"5\" class=\"form-control procCont\"></textarea></div><div class=\"text-center\" style=\"margin:10px 0px;\"><button type=\"button\" class=\"btn btn-primary btn-xs btnConfirm\">확인</button><button type=\"button\" class=\"btn btn-primary btn-xs btnCancel\">취소</button></div>",
+					"mode": "form",
+					"items": {
+						"servId": {
+							"module": "text",
+							"selector": ".servId",
+							"label": "요청서ID",
+							"required": true
+						},
+						"procCont": {
+							"module": "textarea",
+							"selector": ".procCont",
+							"label": "반려사유",
+							"required": true
+						}
+					},
+					"data": {}
+				}
+			}
+		}
+	}
+}

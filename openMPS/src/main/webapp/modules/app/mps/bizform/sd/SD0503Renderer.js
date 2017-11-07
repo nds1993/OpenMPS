@@ -1,0 +1,373 @@
+/**
+ * Project : NDS MPS
+ * 
+ * 클레임 처리 화면을 구현한다.
+ * ID : SD0503
+ * 
+ */
+
+define([
+	"Logger",
+	"NDSProps",
+	"RendererBase",
+	"BaroBox",
+	"FormBox",
+	"WorkAreaHeader",
+	"manifest!jqGrid4-1.0.0#widget",
+	"WorkAreaRenderer2"
+], function(Logger, NDSProps, RendererBase, BaroBox, FormBox, WorkAreaHeader, JQGrid, WorkAreaRenderer2)
+{
+	var OverridingMethod =
+	{
+		/**
+		 * 1. 헤더 기능 버튼 초기화
+		 */
+		initSubHeader: function() 
+		{
+			Logger.debug("Renderer.initSubHeader()");
+	
+			var self = this;
+			return this.queryHeaderInfo().then(function(headerParams) 
+			{
+				//
+				headerParams.options.feature = 
+				[
+					{"query":"조회"},
+					"close"
+				];
+				
+				RendererBase.Method.initSubHeader.call( self, headerParams );
+			});
+		}
+		,
+		/**
+		 * 5. 랜더러 아이템 관계성 초기화
+		 */
+		onInitRendererItemEvents: function()
+		{
+			var self = this;
+
+			this.attachFormItem("queryBox");
+			
+			//
+			var gridItem = this.attachGridItem("resultBox");
+			gridItem.getItem().on(JQGrid.EVENT.SELECT, function(item)
+			{
+				self.onSelectRow( item );
+			});
+			
+			this.onQuery();
+			
+			self.$el.find("button.btn_recipt").click(function()
+			{
+				
+				var servId = self.$el.find("input.servId").val();
+				
+				if (servId == "") {
+					UCMS.alert("요청서를 선택하세요!");
+					return;
+				}
+		
+				UCMS.confirm("접수 하시겠습니까?", { confirm: "확인", cancel: "취소" })
+				.done(function()
+				{
+					self.reciptSD0503();
+				});
+		
+			});
+			
+			self.$el.find("button.btn_finish").click(function()
+			{
+				
+				var servId = self.$el.find("input.servId").val();
+				
+				if (servId == "") {
+					UCMS.alert("요청서를 선택하세요!");
+					return;
+				}
+				
+				if (self.$el.find("textarea.procCont").val() == "") {
+					UCMS.alert("처리 내역을 입력하세요!");
+					return;
+				}
+		
+				UCMS.confirm("완료 하시겠습니까?", { confirm: "확인", cancel: "취소" })
+				.done(function()
+				{
+					self.finishSD0503();
+				});
+		
+			});
+			
+			self.$el.find("button.btn_reject").click(function()
+			{
+		
+				var servId = self.$el.find("input.servId").val();
+				
+				if (servId == "") {
+					UCMS.alert("요청서를 선택하세요!");
+					return;
+				}
+				
+				self.popupBox("TMCOSM20_pop",
+				{
+					"params": {
+						// 사용자 ID
+						servId: servId
+					},
+					"callback": function(result)
+					{
+						Logger.debug(result);
+						
+						if (result) {							
+							self.onQuery();
+						}
+					}
+				});
+		
+			});
+		}
+		,onSelectRow: function(selected)
+		{
+			var self = this;
+			self.initParamData();
+			
+			var formItem = this.getActiveForm();
+			if( formItem )
+			{
+				formItem.setData( selected.data, true );
+				formItem.getItem().disabled(false);
+			}
+			this.contentShow();
+			
+			// 파일 세팅
+			this.setFile();
+		}
+		,
+		/**
+		 * 그리드 데이타를 조회한다.
+		 * @param {string} featureId - 조회 기능 식별자
+		 */
+		onQuery: function(featureId, options)
+		{
+			var self = this;
+			var fetching = function()
+			{
+				self.showLoading();
+				self.fetchingGrid(featureId, options)
+				.always(function(e)
+				{
+					self.allButtonHide();
+					self.clearForm();
+					self.initParamData();
+					self.hideLoading();
+					self.setFile();
+				});
+			};
+			
+			Logger.info("Renderer.onQuery");
+			
+			fetching();
+		}
+	
+	}
+	
+	var WorkAreaMethod = 
+	{
+		allButtonHide: function() 
+		{
+			var self = this;
+			self.$el.find("button.btn_recipt").hide();
+			self.$el.find("button.btn_finish").hide();
+			self.$el.find("button.btn_reject").hide();
+		}
+		,
+		contentShow: function() 
+		{
+			
+			var self = this;
+			self.allButtonHide();
+			
+			var procStatus = self.$el.find("input.procStatus").val();
+			
+			if (procStatus != "PROCESS") {				
+				self.$el.find("button.btn_recipt").show();
+				self.$el.find("button.btn_reject").show();
+			}
+			
+			if (procStatus == "PROCESS") {				
+				self.$el.find("button.btn_finish").show();
+			}
+			
+		}
+		,
+		reciptSD0503: function() 
+		{
+			
+			var self = this;
+			
+			var apiPath = "";
+			
+			apiPath = "/rest/mpm/" + NDSProps.get("corpCode") + "/SD0503/reciptSD0503";
+			
+			self.submitSD0503(apiPath, "recipt");
+		}
+		,
+		finishSD0503: function() 
+		{
+			
+			var self = this;
+			
+			var apiPath = "";
+			
+			apiPath = "/rest/mpm/" + NDSProps.get("corpCode") + "/SD0503/finishSD0503";
+			
+			self.submitSD0503(apiPath, "finish");
+		}
+		,
+		submitSD0503: function(apiPath, mode) 
+		{
+			
+			var self = this;
+		
+			self.showLoading();
+
+			$.ajax(
+			{
+				url:  apiPath,
+				data: self.getParamData(), 
+				processData: false,
+				contentType: false, 
+				type: 'POST',
+				success: function (data)
+                {
+					if(mode == "recipt") {
+						UCMS.alert("접수되었습니다.");
+					} else if(mode == "finish") {
+						UCMS.alert("완료되었습니다.");
+					}
+					self.onQuery();
+                },
+                error: function(XHR, textStatus, errorThrown) 
+                {
+                	UCMS.alert("저장중 오류가 발생하였습니다.");
+                	Logger.error("fetchMyApp() - Error : "+textStatus);
+                	self.hideLoading();
+                }
+            });
+		}
+		,initParamData: function() {
+			
+			var self = this;
+			
+			self.$el.find("input.servId").val("");
+			self.$el.find("input.procStatus").val("");
+			self.$el.find("input.servTitle").val("");
+			self.$el.find("textarea.servCont").val("");
+			self.$el.find("textarea.procCont").val("");
+			self.$el.find("input.rqfnDate").val("");
+			
+			self.$el.find("div.rqstType select option:eq(0)").prop("selected", true);
+			self.$el.find("div.rqstType select").change();
+			
+			self.$el.find("input.fileId").val("");
+			
+		}
+		,getParamData: function() {
+			
+			var self = this;
+			var formData = new FormData();
+			
+			formData.append("servId", self.$el.find("input.servId").val());
+			formData.append("servTitle", self.$el.find("input.servTitle").val());
+			formData.append("rqstType", self.$el.find("div.rqstType select").val());
+			formData.append("servCont", self.$el.find("textarea.servCont").val());
+			formData.append("procCont", self.$el.find("textarea.procCont").val());
+			formData.append("rqfnDate", self.$el.find("input.rqfnDate").val());
+			
+			formData.append("fileId", self.$el.find("input.fileId").val());
+			
+			return formData;
+			
+		}
+		,
+		setFile: function() 
+		{
+			
+			var self = this;
+			var formData = new FormData();
+			
+			var paramFileId = self.$el.find(".formBox_region input.fileId").val();
+			formData.append("fileId", paramFileId);
+			
+			var apiPath = "";
+			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/selectFileList";
+			
+			// 코멘트 영역 초기화
+			self.$el.find(".div-file-list").html("");
+			
+			if(paramFileId != "") {
+				
+				$.ajax(
+				{
+					url:  apiPath,
+					data: formData, 
+					processData: false,
+					contentType: false, 
+					type: 'POST',
+					success: function (data)
+	                {
+						//self.onQuery();
+						var result = data.extraData.result;
+						var commentRow = "";
+
+						for(i=0; i < result.length; i++) {							
+							commentRow += "<button class=\"btn btn-primary  btn_file_down\" fileNo=\"" + result[i].fileNo + "\" style=\"border:0px;\"><span class=\"btn_label\">" + result[i].originFlnm + "</span></button>";
+						}
+						
+						self.$el.find(".div-file-list").html(commentRow);
+						
+						// 삭제 기능 수행
+						self.$el.find("button.btn_file_delete").click(function()
+						{
+							self.deleteFile($(this).attr("fileNo"));
+						});
+						
+						// 다운 기능 수행
+						self.$el.find("button.btn_file_down").click(function()
+						{
+							self.downloadFile($(this).attr("fileNo"));
+						});
+	                },
+	                error: function(XHR, textStatus, errorThrown) 
+	                {
+	                	UCMS.alert("저장중 오류가 발생하였습니다.");
+	                	Logger.error("fetchMyApp() - Error : "+textStatus);
+	                	self.hideLoading();
+	                }
+	            });
+				
+			}
+		}
+		,
+		downloadFile: function(fileNo) 
+		{
+			var self = this;
+			var formData = new FormData();
+			var apiPath = "";
+			
+			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/downloadFile";
+			
+			formData.append("fileNo", fileNo);
+			
+			window.open( apiPath + "?fileNo=" + fileNo , "_download_" );
+		}
+	};
+	
+	var Renderer = WorkAreaRenderer2.extend
+	(
+		_.extend(OverridingMethod, WorkAreaMethod)
+	);
+	 
+	return Renderer;
+});
