@@ -27,6 +27,7 @@
 		<result property="procDate" column="proc_date" columnIndex="17"/>
 		<result property="procUserName" column="proc_user_name" columnIndex="17"/>
 		<result property="finishDate" column="finish_date" columnIndex="18"/>
+		<result property="rqustUserName" column="rqust_user_name" columnIndex="19"/>
 	</resultMap>
 	
 	<insert id="SD0501DAO.insertSD0501">
@@ -225,7 +226,8 @@ select
 					CASE WHEN B.proc_status = 'FINISH' THEN to_char(B.proc_date, 'YYYY-MM-DD') END finish_date,
 					CASE WHEN B.proc_status = 'SAVE' THEN '저장' WHEN B.proc_status = 'APPROVAL' THEN '결재대기' WHEN B.proc_status = 'RECIPT' THEN '접수대기' WHEN B.proc_status = 'PROCESS' THEN '처리중' WHEN B.proc_status = 'FINISH' THEN '완료' WHEN B.proc_status = 'RETURN' THEN '반려' WHEN B.proc_status = 'REAPPROVAL' THEN '재상신' END AS proc_status_name,
 					C.user_name proc_user_name,
-					to_char(D.proc_date, 'YYYY-MM-DD') cr_date2
+					to_char(D.proc_date, 'YYYY-MM-DD') cr_date2,
+					E.user_name rqust_user_name
 		<include refid="selectWhere_fragment"/>
 		ORDER BY A.serv_id desc
 	</select>	

@@ -57,6 +57,7 @@ public class TMCOSM10VO extends SearchCommonVO {
 	private String procCont;
 	private String procDate;
 	private String finishDate;
+	private String rqustUserName;
 
 	private String procMode;
 
@@ -312,6 +313,14 @@ public class TMCOSM10VO extends SearchCommonVO {
 
 	public void setFile(MultipartFile file) {
 		this.file = file;
+	}
+
+	public String getRqustUserName() {
+		return rqustUserName;
+	}
+
+	public void setRqustUserName(String rqustUserName) {
+		this.rqustUserName = rqustUserName;
 	}
 
 }

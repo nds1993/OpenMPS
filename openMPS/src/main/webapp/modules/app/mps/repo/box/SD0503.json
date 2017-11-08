@@ -197,7 +197,12 @@
                        "name": "servTitle",
                         "label": "클레임 요약 내용",
                         "align": "left",
-                        "width": 60
+                        "width": 50
+                    }, {
+                        "name": "rqustUserName",
+                        "label": "요청자",
+                        "align": "center",
+                        "width": 10                        
                     }, {
                         "name": "crDate2",
                         "label": "요청일",

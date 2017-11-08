@@ -214,27 +214,32 @@
                         "name": "procStatusName",
                         "label": "진행상태",
                         "align": "center",
-                        "width": 100
+                        "width": 10
                     }, {
                        "name": "servTitle",
                         "label": "클레임 요약",
                         "align": "left",
-                        "width": 600
+                        "width": 50
+                    }, {
+                        "name": "rqustUserName",
+                        "label": "요청자",
+                        "align": "center",
+                        "width": 10                        
                     }, {
                         "name": "crDate2",
                         "label": "요청일",
                         "align": "center",
-                        "width": 100
+                        "width": 10
                     }, {
                         "name": "rqfnDate",
                         "label": "완료요구일",
                         "align": "center",
-                        "width": 100
+                        "width": 10
                     }, {
                         "name": "finishDate",
                         "label": "처리완료일",
                         "align": "center",
-                        "width": 100
+                        "width": 10
                     }, {
                         "name": "servCont",
                         "label": "클레임 상세",
