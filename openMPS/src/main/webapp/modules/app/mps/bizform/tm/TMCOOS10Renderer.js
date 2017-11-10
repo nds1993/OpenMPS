@@ -71,6 +71,23 @@ define([
 			
 			formItem.getItem().disabled(false);
 		}
+		,
+		onSave: function()
+		{
+			var self = this;
+			
+			if (self.$el.find("input.corpCode").val() == "" || self.$el.find("input.corpName").val() == ""){
+				UCMS.alert("필수입력값을 입력하세요!");
+			} else {
+				self._hisNo = undefined;
+				self.saveTransaction()
+				.then(function(data)
+				{
+					self.onCancel(true);
+					self.onQuery();
+				});
+			}
+		}
 	};
 	
 	var Renderer = WorkAreaRenderer2.extend
