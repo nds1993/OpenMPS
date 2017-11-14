@@ -593,14 +593,7 @@
 							"title": {
 								"className": "contnet_header_box tab_header_btn",
 								"label": "관할조직"
-							},
-							"feature": [{
-									"copy_fs": "복사"
-								},
-								{
-									"copy_food": "복사"
-								}
-							]
+							}
 						},
 						"content": {
 							"module": "FormBox",

@@ -77,14 +77,6 @@ define([
 				{
 					self.onCancelApproval();
 				}
-				else if(evt.cmd == "content:fax")
-				{
-					self.onSendFAX();
-				}
-				else if(evt.cmd == "content:email")
-				{
-					self.onSendEmail();
-				}
 			});
 			//
 			var gridItem = this.attachGridItem("resultBox.content");
@@ -346,54 +338,6 @@ define([
 			return retData;
 		}
 		,
-		onSendFAX: function()
-		{
-			var retData = this.getSelRowData();
-			
-			if(!retData) return;
-			if(retData.length == 0) return;
-			if( retData.length > 1 )
-			{
-				UCMS.alert("팩스발송은 1건씩만 가능합니다.");
-				return;
-			}
-			
-			Logger.debug("onSendFAX ::: ");
-			Logger.debug(retData);
-			
-			this.popupBox("SD0203_pop_1",
-			{
-				data : retData[0],
-				callback: function(selected)
-				{
-				}
-			});
-		}
-		,
-		onSendEmail: function()
-		{
-			var retData = this.getSelRowData();
-				
-			if(!retData) return;
-			if(retData.length == 0) return;
-			if( retData.length > 1 )
-			{
-				UCMS.alert("메일발송은 1건씩만 가능합니다.");
-				return;
-			}
-			
-			Logger.debug("onSendEmail ::: ");
-			Logger.debug(retData);
-			
-			this.popupBox("SD0203_pop_2",
-			{
-				data : retData[0],
-				callback: function(selected)
-				{
-				}
-			});
-		}
-		,
 		onQuery: function(newGugun)
 		{
 		    var self = this;
@@ -522,18 +466,7 @@ define([
 			else
 			{
 			}
-			
-			if(newGubun == "new")
-			{
-				self.$el.find(".top_button_region button.email").attr("disabled", true);
-				self.$el.find(".top_button_region button.fax").attr("disabled", true);
-			}
-			else
-			{
-				self.$el.find(".top_button_region button.email").attr("disabled", false);
-				self.$el.find(".top_button_region button.fax").attr("disabled", false);
-			}
-			
+
 		}
 		,
 		onCreate : function()

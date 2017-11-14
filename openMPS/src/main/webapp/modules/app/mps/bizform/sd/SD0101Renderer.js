@@ -271,14 +271,6 @@ define([
 
 			switch( evt.cmd )
 			{
-			case "content:copy_fs":
-				self.onCopyFS();
-				break;
-
-			case "content:copy_food":
-				self.onCopyFood();
-				break;
-
 			case "content:tab_organ_create": // 관할조직 행추가
 				self.onCreateOrgan();
 				break;
@@ -633,16 +625,6 @@ define([
 			};
 
 			return gd;
-		}
-		,
-		onCopyFS: function()
-		{
-			UCMS.alert("onCopyFS");
-		}
-		,
-		onCopyFood: function()
-		{
-			UCMS.alert("onCopyFood");
 		}
 		,
 		onCreateOrgan: function()
