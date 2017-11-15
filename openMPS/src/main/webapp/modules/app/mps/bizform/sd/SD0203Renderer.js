@@ -16,6 +16,17 @@ define([
 {
 	var Renderer = WorkAreaRenderer2.extend(
 	{
+		constructor: function(options)
+		{
+			var gridOptions = options.resultBox.options.content.options.gridParams;
+			_.extend
+			(
+				gridOptions,
+				this.makeAutoScrollingOptions2_local(50)
+			);
+			Renderer.__super__.constructor.call(this, options);
+		}
+		,
 		initialize: function()
 		{
 			Renderer.__super__.initialize.apply( this, arguments );
@@ -408,7 +419,7 @@ define([
 							
 						}
 						
-						gridItem.setData(applyData);
+						gridItem.setData( applyData, "local" );
 						
 						if(params.newGubun == "new")
 						{

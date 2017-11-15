@@ -331,7 +331,6 @@
 							"rowNum": "100000000",
 							"width": "auto",
 							"height": 572,
-							"pager": false,
 							"gridview": true,
 							"datatype": "local",
 							"cellEdit": true,
