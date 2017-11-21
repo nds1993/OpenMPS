@@ -101,7 +101,7 @@
     "resultBox": {
       "module": "manifest!jqGrid4-1.0.0",
       "options": {
-        "className": "result_box grid_box exex",
+        "className": "result_box grid_box exex grid_btn_hide",
         "gridId": "outputinfoJanak",
         "gridParams": {
           "data": [

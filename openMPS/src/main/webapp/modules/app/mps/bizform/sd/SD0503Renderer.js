@@ -109,7 +109,7 @@ define([
 					return;
 				}
 				
-				self.popupBox("TMCOSM20_pop",
+				self.popupBox("SD0502_pop",
 				{
 					"params": {
 						// 사용자 ID

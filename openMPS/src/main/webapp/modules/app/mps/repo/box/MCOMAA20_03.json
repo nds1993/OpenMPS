@@ -169,7 +169,7 @@
 						"custmhis": {
 							"module": "manifest!jqGrid4-1.0.0",
 							"options": {
-								"className": "custmhis_box grid_box",
+								"className": "custmhis_box grid_box grid_btn_hide",
 								"gridId": "custmhis",
 								"gridParams": {
 									"data": [{
@@ -221,7 +221,7 @@
 						"custmhisdetail": {
 							"module": "manifest!jqGrid4-1.0.0",
 							"options": {
-								"className": "custmhisdetail_box grid_box",
+								"className": "custmhisdetail_box grid_box grid_btn_hide",
 								"gridId": "custmhisdetail",
 								"gridParams": {
 									"data": [{
@@ -279,7 +279,7 @@
 				"tab_custmhismodify": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "custmhismodify_box grid_box",
+						"className": "custmhismodify_box grid_box grid_btn_hide",
 						"gridId": "custmhismodify",
 						"gridParams": {
 							"data": [],

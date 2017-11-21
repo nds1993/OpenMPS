@@ -110,7 +110,7 @@
 				"content": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "grid_box",
+						"className": "result_box grid_box grid_btn_hide",
 						"gridId": "PO0201_grid_1",
 						"gridParams": {
 							"cmTemplate":{"sortable":false},
@@ -262,7 +262,7 @@
 		"resultBox_2": {
 			"module": "manifest!jqGrid4-1.0.0",
 			"options": {
-				"className": "grid_box",
+				"className": "result_box grid_box grid_btn_hide",
 				"gridId": "PO0201_grid_2",
 				"gridParams": {
 					"data": [],

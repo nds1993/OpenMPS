@@ -59,7 +59,7 @@
 				"leftGrid": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "plantInfo_box grid_box mt27",
+						"className": "plantInfo_box grid_box grid_btn_hide mt27",
 						"gridId": "PP0107_leftGrid_1",
 						"gridParams": {
 							"data": [],
@@ -112,7 +112,7 @@
 						"content": {
 							"module": "manifest!jqGrid4-1.0.0",
 							"options": {
-								"className": "plantSetUp_box grid_box",
+								"className": "plantSetUp_box grid_box grid_btn_hide",
 								"gridId": "PP0107_rightGrid_1",
 								"gridParams": {
 									"data": [],

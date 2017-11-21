@@ -226,7 +226,7 @@ public class MpCustInfoController extends TMMBaseController{
      * **/
     @RequestMapping(value="/dup/{custCode}",method=RequestMethod.GET)
     public ResponseEntity<ResultEx> selectMpCustInfo(
-    		@RequestParam("corpCode") java.lang.String corpCode ,
+    		@PathVariable("corpCode") String corpCode,
             @RequestParam("custCode") java.lang.String custCode ,
             MpCustInfoVO mpCustInfoVO
             ) throws Exception {
@@ -236,7 +236,9 @@ public class MpCustInfoController extends TMMBaseController{
     	mpCustInfoVO.setCorpCode(corpCode);
     	mpCustInfoVO.setCustCode(custCode);
     	
-    	if( mpCustInfoService.selectMpCustInfo(mpCustInfoVO) != null){
+    	MpCustInfoVO dupMpCustInfoVO = mpCustInfoService.selectDupMpCustInfo(mpCustInfoVO); 
+    	
+    	if( !(dupMpCustInfoVO == null) ){
     		return _filter.makeCORSEntity( new ResultEx( Consts.ResultCode.RC_DUPLICATE ) );
     	}
         return _filter.makeCORSEntity( result );

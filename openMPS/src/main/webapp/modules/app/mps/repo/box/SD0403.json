@@ -97,7 +97,7 @@
             "content": {
               "module": "manifest!jqGrid4-1.0.0",
               "options": {
-                "className": "upGrid_box grid_box",
+                "className": "upGrid_box grid_box grid_btn_hide",
                 "gridId": "SD0403_grid_1",
                 "gridParams": {
                   "data": [],
@@ -257,7 +257,7 @@
         "rightGrid": {
           "module": "manifest!jqGrid4-1.0.0",
           "options": {
-            "className": "upGrid_box grid_box",
+            "className": "upGrid_box grid_box grid_btn_hide",
             "gridId": "SD0403_grid_2",
 			"gridParams": {
 			  "data": [],

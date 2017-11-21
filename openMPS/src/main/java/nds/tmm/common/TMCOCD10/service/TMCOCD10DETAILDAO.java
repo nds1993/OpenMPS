@@ -2,7 +2,9 @@ package nds.tmm.common.TMCOCD10.service;
 
 import java.util.List;
 
+import nds.core.operation.surveytmpl.service.SurveyTemplateVO;
 import nds.mpm.common.service.TMMPPBaseDAO;
+import nds.mpm.common.vo.MultiDSTypeVO;
 import nds.tmm.common.TMCOCD10.vo.TMCOCD10DETAILDefaultVO;
 import nds.tmm.common.TMCOCD10.vo.TMCOCD10DETAILVO;
 
@@ -82,6 +84,10 @@ public class TMCOCD10DETAILDAO extends TMMPPBaseDAO {
 	 */
     public int selectTMCOCD10DETAILListTotCnt(TMCOCD10DETAILDefaultVO searchVO) {
         return (Integer)select("TMCOCD10DETAILDAO.selectTMCOCD10DETAILListTotCnt_S", searchVO);
+    }
+    
+    public void functionTMCOCD10DETAIL(TMCOCD10DETAILVO vo) throws Exception{
+        selectByPk("TMCOCD10DETAILDAO.functionTMCOCD10DETAIL", vo);
     }
     
     public int executeBatchInsert(List<Object> vos) throws Exception{

@@ -981,7 +981,11 @@ define(["Logger",
 				// 제품 마스터 필드
 				rowData.setYn = (new Boolean(rowData.setYn) == true ? "1" : "0");
 			}
-			if( typeof rowData.useYn != undefined )
+			if( typeof rowData.dfvYn == "boolean" )
+			{
+				rowData.dfvYn = (new Boolean(rowData.dfvYn) == true ? "Y" : "N");
+			}
+			if( typeof rowData.useYn == "boolean" )
 			{
 				rowData.useYn = (new Boolean(rowData.useYn) == true ? "Y" : "N");
 			}

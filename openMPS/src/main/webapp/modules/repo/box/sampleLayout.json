@@ -199,7 +199,7 @@
     "resultBox_single": {
       "module": "manifest!jqGrid-1.0.0",
       "options": {
-        "className": "result_box grid_box",
+        "className": "result_box grid_box grid_btn_hide",
         "gridId": "userReg",
         "gridParams": {
           "data": [

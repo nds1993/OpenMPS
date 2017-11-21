@@ -125,7 +125,7 @@
 				"userinfo": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "userinfo_box grid_box",
+						"className": "userinfo_box grid_box grid_btn_hide",
 						"gridId": "userinfo",
 						"gridParams": {
 							"data": [{
@@ -187,7 +187,7 @@
 				"screuser": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "screuser_box grid_box",
+						"className": "screuser_box grid_box grid_btn_hide",
 						"gridId": "screuser",
 						"gridParams": {
 							"data": [],

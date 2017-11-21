@@ -34,7 +34,8 @@
 	<insert id="TMCOUR30DAO.insertTMCOUR30">
 		<![CDATA[
 			INSERT INTO openmps.tm_menuxm 
-				( menu_code
+				( system_code
+				  , menu_code
 				  , menu_name
 				  , up_code
 				  , sort_order
@@ -45,7 +46,8 @@
 				  , md_date
 				  , cr_user
 				  , cr_date )
-			VALUES ( #menuCode#
+			VALUES ( 'MPS' 
+			      , #menuCode#
 				  , #menuName#
 				  , #upCode#
 				  , #sortOrder#

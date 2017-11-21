@@ -1,16 +1,18 @@
 package nds.tmm.common.TMCOUR30.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nds.mpm.common.exception.TMMControllerExcepHndlr;
 import nds.mpm.common.vo.PageSet;
 import nds.mpm.common.vo.ResultEx;
 import nds.mpm.common.web.Consts;
 import nds.mpm.common.web.CorsFilter;
+import nds.mpm.common.web.TMMBaseController;
+import nds.mpm.login.vo.MPUserSession;
 import nds.tmm.common.TMCOUR30.service.TMCOUR30Service;
 import nds.tmm.common.TMCOUR30.vo.TMCOUR30DefaultVO;
 import nds.tmm.common.TMCOUR30.vo.TMCOUR30VO;
@@ -33,6 +35,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 
 /**
@@ -57,7 +60,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 @Controller
 @RequestMapping("/tmm/{corpCode}/tmcour30/tmmenuxm")
 @SessionAttributes(types=TMCOUR30VO.class)
-public class TMCOUR30Controller extends TMMControllerExcepHndlr{
+public class TMCOUR30Controller extends TMMBaseController{
 	
 	private static final Logger _logger = LoggerFactory.getLogger(TMCOUR30Controller.class);
 	
@@ -167,6 +170,19 @@ public class TMCOUR30Controller extends TMMControllerExcepHndlr{
         
     	ResultEx result = new ResultEx( Consts.ResultCode.RC_OK );
 		
+    	MPUserSession sess = getSession(req);
+    	
+    	if(tMCOUR30VOs != null)
+    	{
+    		for(TMCOUR30VO vo : tMCOUR30VOs)
+        	{
+    			if(sess != null)
+    			{
+            		vo.setCrUser(sess.getUser().getId());
+    			}
+        	}
+    	}
+    	
     	int nRet = 0;
         if((nRet = TMCOUR30Service.insertTMCOUR30(tMCOUR30VOs)) < 0)
         {

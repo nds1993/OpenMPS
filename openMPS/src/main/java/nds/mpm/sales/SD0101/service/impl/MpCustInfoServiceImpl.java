@@ -330,6 +330,17 @@ public class MpCustInfoServiceImpl extends EgovAbstractServiceImpl implements
             throw processException("info.nodata.msg");
         return resultVO;
     }
+    
+    /**
+	 * mp_cust_info을 조회한다.
+	 * @param vo - 조회할 정보가 담긴 MpCustInfoVO
+	 * @return 조회한 mp_cust_info
+	 * @exception Exception
+	 */
+    public MpCustInfoVO selectDupMpCustInfo(MpCustInfoVO vo) throws Exception {
+        MpCustInfoVO resultVO = mpCustInfoDAO.selectMpCustInfo(vo);        
+        return resultVO;
+    }
 
     /**
 	 * mp_cust_info 목록을 조회한다.

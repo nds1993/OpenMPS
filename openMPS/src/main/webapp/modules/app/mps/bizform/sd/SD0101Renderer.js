@@ -47,11 +47,7 @@ define([
  				//
  				headerParams.options.feature =
  				[
-					{"query":"조회"},
-					{"create":"신규"},
-					{"save":"저장"},
-					{"delete":"삭제"},
-					{"cancel":"취소"}
+					{"query":"조회"}
  				];
  				Renderer.__super__.initSubHeader.call( self, headerParams );
  			});
@@ -271,14 +267,6 @@ define([
 
 			switch( evt.cmd )
 			{
-			case "content:copy_fs":
-				self.onCopyFS();
-				break;
-
-			case "content:copy_food":
-				self.onCopyFood();
-				break;
-
 			case "content:tab_organ_create": // 관할조직 행추가
 				self.onCreateOrgan();
 				break;
@@ -633,16 +621,6 @@ define([
 			};
 
 			return gd;
-		}
-		,
-		onCopyFS: function()
-		{
-			UCMS.alert("onCopyFS");
-		}
-		,
-		onCopyFood: function()
-		{
-			UCMS.alert("onCopyFood");
 		}
 		,
 		onCreateOrgan: function()

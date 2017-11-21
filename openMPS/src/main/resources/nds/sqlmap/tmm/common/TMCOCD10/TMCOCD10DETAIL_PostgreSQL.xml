@@ -124,14 +124,13 @@
 	</update>
 	
 	<delete id="TMCOCD10DETAILDAO.deleteTMCOCD10DETAIL">
-		<![CDATA[
-			UPDATE openmps.tm_codexd SET dele_yn = 'Y' 
-					, md_date=now()
-						WHERE corp_code=#corpCode#
+<![CDATA[
+			DELETE FROM openmps.tm_codexd
+				WHERE corp_code=#corpCode#
 								AND group_code=#groupCode#
 								AND code_id=#codeId#
 				]]>
-	</delete>
+</delete>
 	
 	<select id="TMCOCD10DETAILDAO.selectTMCOCD10DETAIL_S" resultMap="TMCOCD10DETAIL">
 		<![CDATA[
@@ -181,6 +180,9 @@
 	         </isNotEmpty>
 	         <isNotEmpty prepend="and" property="etc02">
 	         a.etc02 = #etc02#
+	         </isNotEmpty>
+	         <isNotEmpty prepend="and" property="useYn">
+	         a.use_yn = #useYn#
 	         </isNotEmpty>
 		 </dynamic>
 		 and a.dele_yn = 'N'
@@ -238,7 +240,7 @@
 				, dcnm as label
 				, useyn as use_yn
 				, 1 as sort_order
-			from openmps.sd_dc
+			from ddrwms.sd_dc
 			where useyn = 'Y'
 			<isNotEmpty property="searchKeyword">
 			and ( dc like '%' || #searchKeyword# || '%' or dcnm like '%' || #searchKeyword# || '%') 
@@ -250,5 +252,13 @@
 				count(*)
 			<include refid="selectWhere_fragment"/> 
 	</select>
-
+	<parameterMap id="FunWmsParamMap" class="nds.tmm.common.TMCOCD10.vo.TMCOCD10DETAILVO" >
+    	<parameter property="codeId" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    	<parameter property="dsType" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+  	</parameterMap>
+	<procedure id="TMCOCD10DETAILDAO.functionTMCOCD10DETAIL" parameterMap="FunWmsParamMap">
+		<![CDATA[
+				SELECT ddrwms.set_dcskuctgr( ?, ?)
+		]]>
+	</procedure>
 </sqlMap>

@@ -130,7 +130,7 @@
 				"setitem": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "setitem_box grid_box",
+						"className": "setitem_box grid_box grid_btn_hide",
 						"gridId": "setitem",
 						"gridParams": {
 							"data": [],
@@ -189,7 +189,7 @@
 				"setdetail": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "setdetail_box grid_box",
+						"className": "setdetail_box grid_box grid_btn_hide",
 						"gridId": "setdetail",
 						"gridParams": {
 							"data": [],

@@ -72,7 +72,7 @@
 					},
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "upGrid_box grid_box",
+						"className": "upGrid_box grid_box grid_btn_hide",
 						"gridId": "SD0402_grid_1",
 						"gridParams": {
 							"data": [],

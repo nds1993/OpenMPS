@@ -81,7 +81,7 @@
         "upGrid": {
           "module": "manifest!jqGrid4-1.0.0",
           "options": {
-            "className": "upGrid_box grid_box",
+            "className": "upGrid_box grid_box grid_btn_hide",
             "gridId": "PP0303_upGrid_1",
             "gridParams": {
               "data": [],
@@ -146,7 +146,7 @@
         "downGrid": {
           "module": "manifest!jqGrid4-1.0.0",
           "options": {
-            "className": "downGrid_box grid_box",
+            "className": "downGrid_box grid_box grid_btn_hide",
             "gridId": "PP0303_downGrid_1",
             "gridParams": {
               "data": [],

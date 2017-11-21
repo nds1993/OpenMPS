@@ -530,7 +530,7 @@
 		"resultBox": {
 			"module": "manifest!jqGrid4-1.0.0",
 			"options": {
-				"className": "result_box grid_box",
+				"className": "result_box grid_box grid_btn_hide",
 				"gridId": "userinfo",
 				"gridParams": {
 					"data": [{}],

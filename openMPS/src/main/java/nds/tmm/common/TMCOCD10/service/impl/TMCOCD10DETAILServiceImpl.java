@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import nds.core.operation.holiday.service.HolidayVO;
+import nds.core.operation.surveytmpl.service.SurveyTemplateVO;
+import nds.frm.exception.ExceptionHelper;
 import nds.mpm.common.service.TMMPPBaseService;
 import nds.mpm.common.vo.MultiDSTypeVO;
 import nds.mpm.common.web.Consts;
@@ -49,7 +52,7 @@ public class TMCOCD10DETAILServiceImpl extends TMMPPBaseService implements
 	 * @return 등록 결과
 	 * @exception Exception
 	 */
-    public int insertTMCOCD10DETAIL(List<TMCOCD10DETAILVO> vos) throws Exception {
+    public int insertTMCOCD10DETAIL(List<TMCOCD10DETAILVO> vos, String groupCode) throws Exception {
     	LOGGER.debug(vos.toString());
     	
     	/** ID Generation Service */
@@ -66,6 +69,7 @@ public class TMCOCD10DETAILServiceImpl extends TMMPPBaseService implements
     		
     		MultiDSTypeVO mvo = new MultiDSTypeVO();
     		mvo.setSqlId(resolveSqlId(reqVo.getDsType(), "TMCOCD10DETAIL"));
+    		reqVo.setGroupCode(groupCode);
     		mvo.setRowData(reqVo);
     		mDS.add(mvo);
     	}
@@ -125,6 +129,17 @@ public class TMCOCD10DETAILServiceImpl extends TMMPPBaseService implements
     public int selectTMCOCD10DETAILListTotCnt(TMCOCD10DETAILDefaultVO searchVO) {
 		return TMCOCD10DETAILDAO.selectTMCOCD10DETAILListTotCnt(searchVO);
 	}
+    
+    /**
+     * WMS Function 실행한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 
+	 * @exception
+     */
+    public void functionTMCOCD10DETAIL(TMCOCD10DETAILVO vo) throws Exception {
+    	TMCOCD10DETAILDAO.functionTMCOCD10DETAIL(vo);
+    }
+    
     public List<?> selectTMCOCD10DETAILSDDCList_D(TMCOCD10DETAILDefaultVO searchVO) throws Exception {
 		return TMCOCD10DETAILDAO.selectTMCOCD10DETAILSDDCList_D(searchVO);
     }

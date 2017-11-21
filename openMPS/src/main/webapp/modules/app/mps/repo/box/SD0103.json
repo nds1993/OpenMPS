@@ -82,7 +82,7 @@
 						"content": {
 							"module": "manifest!jqGrid4-1.0.0",
 							"options": {
-								"className": "leftGrid_box grid_box",
+								"className": "leftGrid_box grid_box grid_btn_hide",
 								"gridId": "SD0103_grid_1",
 								"gridParams": {
 									"data": [],
@@ -184,7 +184,7 @@
 						"content": {
 							"module": "manifest!jqGrid4-1.0.0",
 							"options": {
-								"className": "centerUpGrid_box grid_box",
+								"className": "centerUpGrid_box grid_box grid_btn_hide",
 								"gridId": "SD0103_grid_2",
 								"gridParams": {
 									"data": [],
@@ -226,7 +226,7 @@
 				"centerDownGrid": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "centerDownGrid_box grid_box",
+						"className": "centerDownGrid_box grid_box grid_btn_hide",
 						"gridId": "SD0103_grid_3",
 						"gridParams": {
 							"data": [],
@@ -332,7 +332,7 @@
 						"content": {
 							"module": "manifest!jqGrid4-1.0.0",
 							"options": {
-								"className": "rightGrid_box grid_box",
+								"className": "rightGrid_box grid_box grid_btn_hide",
 								"gridId": "SD0103_grid_4",
 								"gridParams": {
 									"data": [],

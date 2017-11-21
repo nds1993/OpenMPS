@@ -156,7 +156,7 @@
                             },
                             "module": "manifest!jqGrid4-1.0.0",
                             "options": {
-                                "className": "grid_box",
+                                "className": "result_box grid_box grid_btn_hide",
                                 "gridId": "PP0504_grid_1",
                                 "gridParams": {
                                     "data": [],
@@ -416,7 +416,7 @@
                         "plant_grid": {
                             "module": "manifest!jqGrid4-1.0.0",
                             "options": {
-                                "className": "grid_box",
+                                "className": "result_box grid_box grid_btn_hide",
                                 "gridId": "PP0504_grid_2",
                                 "gridParams": {
                                     "data": [],
@@ -661,7 +661,7 @@
                         "nong_grid": {
                             "module": "manifest!jqGrid4-1.0.0",
                             "options": {
-                                "className": "grid_box",
+                                "className": "result_box grid_box grid_btn_hide",
                                 "gridId": "PP0504_grid_3",
                                 "gridParams": {
                                     "data": [],
@@ -907,7 +907,7 @@
                         "largecode_grid": {
                             "module": "manifest!jqGrid4-1.0.0",
                             "options": {
-                                "className": "grid_box",
+                                "className": "result_box grid_box grid_btn_hide",
                                 "gridId": "PP0504_grid_4",
                                 "gridParams": {
                                     "data": [],
@@ -1216,7 +1216,7 @@
                         "barcode_grid": {
                             "module": "manifest!jqGrid4-1.0.0",
                             "options": {
-                                "className": "grid_box",
+                                "className": "result_box grid_box grid_btn_hide",
                                 "gridId": "PP0504_grid_5",
                                 "gridParams": {
                                     "data": [],

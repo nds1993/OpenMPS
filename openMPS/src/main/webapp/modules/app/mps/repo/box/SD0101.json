@@ -102,7 +102,7 @@
 				"tab_commonview": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "tab_commonview_box grid_box",
+						"className": "tab_commonview_box grid_box grid_btn_hide",
 						"gridId": "SD0101_grid_1",
 						"gridParams": {
 							"data": [],
@@ -593,14 +593,7 @@
 							"title": {
 								"className": "contnet_header_box tab_header_btn",
 								"label": "관할조직"
-							},
-							"feature": [{
-									"copy_fs": "복사"
-								},
-								{
-									"copy_food": "복사"
-								}
-							]
+							}
 						},
 						"content": {
 							"module": "FormBox",
@@ -923,7 +916,7 @@
 												"content": {
 													"module": "manifest!jqGrid4-1.0.0",
 													"options": {
-														"className": "organ_box grid_box mw90p",
+														"className": "organ_box grid_box grid_btn_hide mw90p",
 														"gridId": "SD0101_grid_2",
 														"gridParams": {
 															"data": [],
@@ -1060,7 +1053,7 @@
 												"content": {
 													"module": "manifest!jqGrid4-1.0.0",
 													"options": {
-														"className": "organ_box grid_box",
+														"className": "organ_box grid_box grid_btn_hide",
 														"gridId": "SD0101_grid_3",
 														"gridParams": {
 															"data": [],
@@ -1220,7 +1213,7 @@
 												"content": {
 													"module": "manifest!jqGrid4-1.0.0",
 													"options": {
-														"className": "organ_box grid_box",
+														"className": "organ_box grid_box grid_btn_hide",
 														"gridId": "SD0101_grid_4",
 														"gridParams": {
 															"data": [],
@@ -1442,7 +1435,7 @@
 										"tab_warehouse": {
 											"module": "manifest!jqGrid4-1.0.0",
 											"options": {
-												"className": "grid_box mw50p",
+												"className": "grid_box grid_btn_hide mw50p",
 												"gridId": "SD0101_grid_5",
 												"gridParams": {
 													"data": [],

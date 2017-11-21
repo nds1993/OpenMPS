@@ -188,7 +188,7 @@
 								"content": {
 									"module": "manifest!jqGrid4-1.0.0",
 									"options": {
-										"className": "result_box grid_box multi_group_grid",
+										"className": "result_box grid_box grid_btn_hide multi_group_grid",
 										"gridId": "PP0302_grid_1",
 										"gridParams": {
 											"data": [],
@@ -675,7 +675,7 @@
 								"content": {
 									"module": "manifest!jqGrid4-1.0.0",
 									"options": {
-										"className": "result_box grid_box multi_group_grid",
+										"className": "result_box grid_box grid_btn_hide multi_group_grid",
 										"gridId": "PP0302_grid_2",
 										"gridParams": {
 											"cmTemplate": {
@@ -1137,7 +1137,7 @@
 								"content": {
 									"module": "manifest!jqGrid4-1.0.0",
 									"options": {
-										"className": "result_box grid_box multi_group_grid",
+										"className": "result_box grid_box grid_btn_hide multi_group_grid",
 										"gridId": "PP0302_grid_13",
 										"gridParams": {
 											"cmTemplate": {
@@ -1599,7 +1599,7 @@
 								"content": {
 									"module": "manifest!jqGrid4-1.0.0",
 									"options": {
-										"className": "result_box grid_box multi_group_grid",
+										"className": "result_box grid_box grid_btn_hide multi_group_grid",
 										"gridId": "PP0302_grid_3",
 										"gridParams": {
 											"cmTemplate": {
@@ -2061,7 +2061,7 @@
 								"content": {
 									"module": "manifest!jqGrid4-1.0.0",
 									"options": {
-										"className": "result_box grid_box multi_group_grid",
+										"className": "result_box grid_box grid_btn_hide multi_group_grid",
 										"gridId": "PP0302_grid_4",
 										"gridParams": {
 											"cmTemplate": {
@@ -2523,7 +2523,7 @@
 								"content": {
 									"module": "manifest!jqGrid4-1.0.0",
 									"options": {
-										"className": "result_box grid_box multi_group_grid",
+										"className": "result_box grid_box grid_btn_hide multi_group_grid",
 										"gridId": "PP0302_grid_5",
 										"gridParams": {
 											"cmTemplate": {
@@ -2986,7 +2986,7 @@
 								"content": {
 									"module": "manifest!jqGrid4-1.0.0",
 									"options": {
-										"className": "result_box grid_box multi_group_grid",
+										"className": "result_box grid_box grid_btn_hide multi_group_grid",
 										"gridId": "PP0302_grid_99",
 										"gridParams": {
 											"cmTemplate": {
@@ -3394,7 +3394,7 @@
 						"total_grid": {
 							"module": "manifest!jqGrid4-1.0.0",
 							"options": {
-								"className": "result_box grid_box multi_group_grid",
+								"className": "result_box grid_box grid_btn_hide multi_group_grid",
 								"gridId": "PP0302_grid_6",
 								"gridParams": {
 									"cmTemplate": {

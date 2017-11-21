@@ -76,7 +76,7 @@
 				"content": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "upGrid_box grid_box",
+						"className": "upGrid_box grid_box grid_btn_hide",
 						"gridId": "SD0205_grid_1",
 						"gridParams": {
 							"data": [],
@@ -284,7 +284,7 @@
 		"resultBox_2": {
 			"module": "manifest!jqGrid4-1.0.0",
 			"options": {
-				"className": "downGrid_box grid_box",
+				"className": "downGrid_box grid_box grid_btn_hide",
 				"gridId": "SD0205_grid_2",
 				"gridParams": {
 					"data": [],

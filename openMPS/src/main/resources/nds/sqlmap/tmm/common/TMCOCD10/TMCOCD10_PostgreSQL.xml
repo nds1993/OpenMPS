@@ -69,14 +69,12 @@
 	</update>
 	
 	<delete id="TMCOCD10DAO.deleteTMCOCD10">
-		<![CDATA[
-			UPDATE openmps.tm_codexm SET dele_yn = 'Y' 
-						, md_user=#mdUser#
-						, md_date=now()
+<![CDATA[
+			DELETE FROM openmps.tm_codexm
 						WHERE corp_code=#corpCode#
 								AND group_code=#groupCode#
 				]]>
-	</delete>
+</delete>
 	
 	<select id="TMCOCD10DAO.selectTMCOCD10_S" resultMap="TMCOCD10">
 		<![CDATA[

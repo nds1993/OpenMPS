@@ -64,7 +64,7 @@
 				"setitem": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "setitem_box grid_box mt27",
+						"className": "setitem_box grid_box grid_btn_hide mt27",
 						"gridId": "PP0104_grid_1",
 						"gridParams": {
 							"data": [],
@@ -121,7 +121,7 @@
 
 							"module": "manifest!jqGrid4-1.0.0",
 							"options": {
-								"className": "setdetail_box grid_box",
+								"className": "setdetail_box grid_box grid_btn_hide",
 								"gridId": "PP0104_grid_2",
 								"gridParams": {
 									"data": [],

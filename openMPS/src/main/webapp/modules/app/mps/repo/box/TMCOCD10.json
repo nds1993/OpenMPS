@@ -1,6 +1,6 @@
 {
 	"name": "공통코드관리",
-	"module": "RDNFRenderer",
+	"module": "TMCOCD10Renderer",
 	"options": {
 		"order": [
 			"queryBox",
@@ -104,7 +104,14 @@
 											"editable": true,
 											"classes":"editable",
 											"edittype": "checkbox",
-											"formatter": "checkbox"
+								              "editoptions": {
+								                "value": "Y:N"
+								              },
+								              "formatter": "checkbox",
+								              "formatoptions": {
+								                "disabled": false
+								              },
+								              "sortable": false
 										}
 									],
 									"rowNum":"10000000",
@@ -173,13 +180,19 @@
 										{
 											"name": "dfvYn",
 											"label": "<div class=\"editable_mark\"></div>기본값여부",
-
 											"align": "center",
 											"width": 90,
 											"editable": true,
 											"classes":"editable",
 											"edittype": "checkbox",
-											"formatter": "checkbox"
+								              "editoptions": {
+								                "value": "Y:N"
+								              },
+								              "formatter": "checkbox",
+								              "formatoptions": {
+								                "disabled": false
+								              },
+								              "sortable": false
 										},
 										{
 											"name": "useYn",
@@ -190,7 +203,14 @@
 											"editable": true,
 											"classes":"editable",
 											"edittype": "checkbox",
-											"formatter": "checkbox"
+								              "editoptions": {
+								                "value": "Y:N"
+								              },
+								              "formatter": "checkbox",
+								              "formatoptions": {
+								                "disabled": false
+								              },
+								              "sortable": false
 										},
 										{
 											"name": "etc01",

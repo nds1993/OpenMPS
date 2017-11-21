@@ -756,7 +756,7 @@
 		"resultBox": {
 			"module": "manifest!jqGrid4-1.0.0",
 			"options": {
-				"className": "resultBox_box grid_box",
+				"className": "resultBox_box grid_box grid_btn_hide",
 				"gridId": "PP0103_grid_1",
 				"gridParams": {
 					"data": [],

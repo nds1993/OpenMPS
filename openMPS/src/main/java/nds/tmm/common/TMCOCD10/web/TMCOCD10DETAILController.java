@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nds.core.operation.holiday.service.HolidayVO;
+import nds.frm.util.StringUtil;
 import nds.mpm.common.vo.PageSet;
 import nds.mpm.common.vo.ResultEx;
 import nds.mpm.common.web.Consts;
@@ -79,6 +81,7 @@ public class TMCOCD10DETAILController extends TMMBaseController {
     	ResultEx result = new ResultEx( Consts.ResultCode.RC_OK );
     	
     	String searchKeyword = req.getParameter("searchKeyword");
+    	String useYn = req.getParameter("useYn");
     	String etc02 = req.getParameter("etc02");
 		
     	TMCOCD10DETAILVO searchVO = new TMCOCD10DETAILVO();
@@ -86,6 +89,7 @@ public class TMCOCD10DETAILController extends TMMBaseController {
     	searchVO.setGroupCode(groupCode);
     	searchVO.setSearchKeyword(searchKeyword);
     	searchVO.setEtc02(etc02);
+    	searchVO.setUseYn(useYn);
     	
     	
     	PageSet pageSet = new PageSet();
@@ -144,6 +148,7 @@ public class TMCOCD10DETAILController extends TMMBaseController {
     @RequestMapping(value="/{groupCode}/tmcodexd",method=RequestMethod.POST)
     public ResponseEntity<ResultEx> addTMCOCD10DETAIL(
     		@PathVariable("corpCode") String corpCode,
+    		@PathVariable("groupCode") String groupCode,
     		@RequestBody List<TMCOCD10DETAILVO> tMCOCD10DETAILVOs,
     		HttpServletRequest req)
             throws Exception {
@@ -166,13 +171,31 @@ public class TMCOCD10DETAILController extends TMMBaseController {
         		ilist.add(vo);
         	}
     	}
+    	
         int nRet = 0;
-        if((nRet = TMCOCD10DETAILService.insertTMCOCD10DETAIL(ilist)) < 0)
+        if((nRet = TMCOCD10DETAILService.insertTMCOCD10DETAIL(ilist, groupCode)) < 0)
         {
         	result = new ResultEx( Consts.ResultCode.RC_ERROR );
         	result.setResultCode(nRet);
         }
-        return _filter.makeCORSEntity( result );
+        
+        if("SD025".equals(groupCode)){      	
+        	for(TMCOCD10DETAILVO key : tMCOCD10DETAILVOs)
+        	{
+				String codeId = key.getCodeId();
+				String dsType = key.getDsType();
+				if (key.getDsType().equals("C")) {
+					dsType = "I";
+				}
+				
+				key.setCodeId(codeId);
+				key.setDsType(dsType);
+				
+				TMCOCD10DETAILService.functionTMCOCD10DETAIL(key);
+	        }
+        }
+        
+        return _filter.makeCORSEntity( result );   
     }
     
     @RequestMapping(value="/updateTMCOCD10DETAIL.do",method=RequestMethod.PUT)
@@ -202,9 +225,13 @@ public class TMCOCD10DETAILController extends TMMBaseController {
     	ResponseEntity<ResultEx> resData = null;
     	ResultEx result = new ResultEx( Consts.ResultCode.RC_OK );
     	
-    	
         TMCOCD10DETAILService.deleteTMCOCD10DETAIL(tMCOCD10DETAILVOs);
         status.setComplete();
+    	
+//        if("SD025".equals(groupCode)){         	
+//    		TMCOCD10DETAILService.functionTMCOCD10DETAIL(tMCOCD10DETAILVOs);
+//        }
+        
         return _filter.makeCORSEntity( result );
     }
 

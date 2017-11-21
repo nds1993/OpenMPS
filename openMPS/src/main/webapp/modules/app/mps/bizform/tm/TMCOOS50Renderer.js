@@ -74,6 +74,26 @@ define([
 				});
 			}
 		}
+		,
+		onCreate: function()
+		{
+			var counter = this.getActiveGrid().getTaskCounter();
+			if( counter.create != 0 )
+			{
+				UCMS.alert("신규 항목의 등록을 완료하세요.");
+				return;
+			}
+			this._newRowId = this.getActiveGrid().createRow();
+			if( this.getActiveForm() )
+			{
+				this.getActiveForm().getItem().disabled(false);
+			}
+			this.beginTransaction();
+			
+			this.$el.find("input[name=useYn]").prop("checked",true);
+			
+			return this._newRowId;
+		}
 		/*
 		,
 		onChangeFormData: function(gridItem, formItem)

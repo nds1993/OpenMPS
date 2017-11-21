@@ -364,6 +364,12 @@ function(GlobalRepo)
 			"thumbnail":null,
 			"detail": '/app/mps/repo/box/SD0502.json'
 		},
+		"SD0502_pop" : {
+			"ver":0x01000000,
+			"desc":'SD0502_pop : openMPS /공통/게시판/서비스요청반려',
+			"thumbnail":null,
+			"detail": '/app/mps/repo/box/SD0502_pop.json'
+		},
 		"SD0503" : {
 			"ver":0x01000000,
 			"desc":'SD0503 : openMPS /영업/수금관리/미수현황 영업파트',
@@ -1154,6 +1160,7 @@ function(GlobalRepo)
 
 		"SD0501Renderer" : "/app/mps/bizform/sd/SD0501Renderer",
 		"SD0502Renderer" : "/app/mps/bizform/sd/SD0502Renderer",
+		"SD0502PopupRenderer" : "/app/mps/bizform/sd/SD0502PopupRenderer",
 		"SD0503Renderer" : "/app/mps/bizform/sd/SD0503Renderer",
 		"SD0504Renderer" : "/app/mps/bizform/sd/SD0504Renderer",
 		"SD0505Renderer" : "/app/mps/bizform/sd/SD0505Renderer",

@@ -87,7 +87,7 @@
         "tab_result_1": {
           "module": "manifest!jqGrid4-1.0.0",
           "options": {
-            "className": "tab_result_edit_box grid_box",
+            "className": "tab_result_edit_box grid_box grid_btn_hide",
             "gridId": "PP0402_grid_1",
             "gridParams": {
               "data": [
@@ -169,7 +169,7 @@
         "tab_result_2": {
           "module": "manifest!jqGrid4-1.0.0",
           "options": {
-            "className": "up_grid_box grid_box",
+            "className": "up_grid_box grid_box grid_btn_hide",
             "gridId": "PP0402_grid_2",
             "gridParams": {
               "data": [

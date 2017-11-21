@@ -69,7 +69,7 @@
 				"baseInfo": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "baseInfo_box grid_box",
+						"className": "baseInfo_box grid_box grid_btn_hide",
 						"gridId": "baseInfo",
 						"gridParams": {
 							"data": [{
@@ -132,7 +132,7 @@
 				"baseItem": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "baseItem_box grid_box",
+						"className": "baseItem_box grid_box grid_btn_hide",
 						"gridId": "baseItem",
 						"gridParams": {
 							"data": [],

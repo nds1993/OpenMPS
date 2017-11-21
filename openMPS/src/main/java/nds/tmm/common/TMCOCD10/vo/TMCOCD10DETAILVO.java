@@ -87,6 +87,9 @@ public class TMCOCD10DETAILVO extends TMCOCD10DETAILDefaultVO{
     /** etc10 */
     private java.lang.String etc10;
     
+    /** dsType */
+    private java.lang.String dsType;
+    
     public java.lang.String getCorpCode() {
         return this.corpCode;
     }
@@ -279,4 +282,16 @@ public class TMCOCD10DETAILVO extends TMCOCD10DETAILDefaultVO{
         this.etc10 = etc10;
     }
     
+    public void setRowSeqId(String rowSeqId)
+    {
+    	
+    }
+    
+    public java.lang.String getDsType() {
+        return this.dsType;
+    }
+    
+    public void setDsType(java.lang.String dsType) {
+        this.dsType = dsType;
+    }
 }

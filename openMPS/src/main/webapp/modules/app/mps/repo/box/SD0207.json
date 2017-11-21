@@ -95,7 +95,7 @@
 					},
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "grid_box",
+						"className": "result_box grid_box grid_btn_hide grid_btn_hide",
 						"gridId": "SD0207_grid_1",
 						"gridParams": {
 							"data": [],
@@ -306,7 +306,7 @@
 			},
 			"module": "manifest!jqGrid4-1.0.0",
 			"options": {
-				"className": "grid_box no_jqfoot",
+				"className": "grid_box grid_btn_hide no_jqfoot",
 				"gridId": "SD0207_grid_2",
 				"gridParams": {
 					"data": [],

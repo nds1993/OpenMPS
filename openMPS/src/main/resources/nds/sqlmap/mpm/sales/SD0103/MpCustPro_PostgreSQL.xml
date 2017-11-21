@@ -75,8 +75,6 @@
 				, salesman
 				, salesman_cust
 				, salesman_prod
-				, price_type
-				, price_class
 				, cr_user
 				, cr_date
 			FROM openmps.mp_cust_pro
@@ -103,8 +101,6 @@
 				, salesman
 				, salesman_cust
 				, salesman_prod
-				, price_type
-				, price_class
 				, cr_user
 				, cr_date
 				, openmps."FN_GET_PROCODENM"(a.corp_code, a.salesman_prod) as salesman_prodname

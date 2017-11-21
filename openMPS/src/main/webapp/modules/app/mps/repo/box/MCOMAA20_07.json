@@ -164,7 +164,7 @@
 				"headinfo": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "headinfo grid_box",
+						"className": "headinfo grid_box grid_btn_hide",
 						"gridId": "headinfo",
 						"gridParams": {
 							"data": [{
@@ -225,7 +225,7 @@
 				"teaminfo": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "teaminfo grid_box",
+						"className": "teaminfo grid_box grid_btn_hide",
 						"gridId": "teaminfo",
 						"gridParams": {
 							"data": [{
@@ -287,7 +287,7 @@
 				"deptinfo": {
 					"module": "manifest!jqGrid4-1.0.0",
 					"options": {
-						"className": "deptinfo grid_box",
+						"className": "deptinfo grid_box grid_btn_hide",
 						"gridId": "deptinfo",
 						"gridParams": {
 							"data": [{

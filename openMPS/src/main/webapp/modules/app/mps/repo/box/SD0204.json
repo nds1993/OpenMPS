@@ -52,7 +52,7 @@
     "gridBox1": {
       "module": "manifest!jqGrid4-1.0.0",
       "options": {
-        "className": "grid_box mw70p",
+        "className": "grid_box grid_btn_hide mw70p",
         "gridId": "SD0204_grid_1",
         "gridParams": {
           "data": [],
@@ -142,7 +142,7 @@
         "content": {
           "module": "manifest!jqGrid4-1.0.0",
           "options": {
-            "className": "grid_box mw70p",
+            "className": "grid_box grid_btn_hide mw70p",
             "gridId": "SD0204_grid_2",
             "gridParams": {
               "data": [],

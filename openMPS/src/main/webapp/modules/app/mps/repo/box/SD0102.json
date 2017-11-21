@@ -53,7 +53,7 @@
 		"resultBox": {
 			"module": "manifest!jqGrid4-1.0.0",
 			"options": {
-				"className": "grid_box",
+				"className": "result_box grid_box grid_btn_hide",
 				"gridId": "SD0102_grid_1",
 				"gridParams": {
 					"data": [],

@@ -149,7 +149,7 @@
             "resultBox": {
               "module": "manifest!jqGrid4-1.0.0",
               "options": {
-                "className": "programInfo_box grid_box",
+                "className": "programInfo_box grid_box grid_btn_hide",
                 "gridId": "TMCOUR30_grid_1",
                 "gridParams": {
                   "data": [],

@@ -11,7 +11,7 @@
     "resultBox": {
       "module": "manifest!jqGrid4-1.0.0",
       "options": {
-        "className": "grid_box mw60p",
+        "className": "grid_box grid_btn_hide mw60p",
         "gridId": "SD0201_grid_1",
         "gridParams": {
           "data": [],

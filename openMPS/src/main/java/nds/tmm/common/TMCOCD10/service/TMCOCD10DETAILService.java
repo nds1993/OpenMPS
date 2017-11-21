@@ -2,6 +2,8 @@ package nds.tmm.common.TMCOCD10.service;
 
 import java.util.List;
 
+import nds.core.operation.holiday.service.HolidayVO;
+import nds.core.operation.surveytmpl.service.SurveyTemplateVO;
 import nds.tmm.common.TMCOCD10.vo.TMCOCD10DETAILDefaultVO;
 import nds.tmm.common.TMCOCD10.vo.TMCOCD10DETAILVO;
 
@@ -25,7 +27,7 @@ public interface TMCOCD10DETAILService {
 	 * @return 등록 결과
 	 * @exception Exception
 	 */
-    int insertTMCOCD10DETAIL(List<TMCOCD10DETAILVO> vo) throws Exception;
+    int insertTMCOCD10DETAIL(List<TMCOCD10DETAILVO> vo, String groupCode) throws Exception;
     
     /**
 	 * tm_codexd을 수정한다.
@@ -66,6 +68,15 @@ public interface TMCOCD10DETAILService {
 	 * @exception
 	 */
     int selectTMCOCD10DETAILListTotCnt(TMCOCD10DETAILDefaultVO searchVO);
+    
+    /**
+     * WMS Function 실행한다.
+     * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 
+	 * @exception
+     */
+    void functionTMCOCD10DETAIL(TMCOCD10DETAILVO vo) throws Exception;
+    
     public List<?> selectTMCOCD10DETAILSDDCList_D(TMCOCD10DETAILDefaultVO searchVO) throws Exception ;
     public List<?> selectTMCOCD10DETAILCodeList_D(TMCOCD10DETAILDefaultVO searchVO) throws Exception ;
 
