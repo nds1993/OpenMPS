@@ -24,16 +24,12 @@
 				  , salesman
 				  , salesman_cust
 				  , salesman_prod
-				  , price_type
-				  , price_class
 				  , cr_user
 				  , cr_date )
 			VALUES ( #corpCode#
 				  , #salesman#
 				  , #salesmanCust#
 				  , #salesmanProd#
-				  , (select price_type from openmps.mp_cust_info where corp_code = #corpCode# and cust_code =  #salesmanCust#) 
-				  , #priceClass#
 				  , #crUser#
 				  , now() )
 		]]>

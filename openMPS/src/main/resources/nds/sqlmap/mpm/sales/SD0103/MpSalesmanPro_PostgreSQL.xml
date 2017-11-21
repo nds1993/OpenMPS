@@ -20,13 +20,25 @@
 				( corp_code
 				  , salesman
 				  , salesman_prod
+		]]>
+  		<dynamic > 
+	         <isNotEmpty property="intetestPro">
 				  , interest_pro
+	         </isNotEmpty>
+		</dynamic>
+		<![CDATA[
 				  , cr_user
 				  , cr_date )
 			VALUES ( #corpCode#
 				  , #salesman#
 				  , #salesmanProd#
+		]]>
+  		<dynamic > 
+	         <isNotEmpty prepend="and" property="intetestPro">
 				  , #intetestPro#::numeric(10,0)
+	         </isNotEmpty>
+		</dynamic>
+		<![CDATA[
 				  , #crUser#
 				  , now())
 		]]>
