@@ -33,7 +33,6 @@ define([
 				[
 					{"query":"조회"},
 					{"save":"저장"},
-					{"delete":"삭제"},
 					{"cancel":"취소"},
 					{"manual":"도움말"}
 				];
