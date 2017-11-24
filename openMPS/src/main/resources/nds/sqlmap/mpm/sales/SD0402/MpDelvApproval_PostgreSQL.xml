@@ -133,7 +133,7 @@
 		)
 		WHERE ordrtb.corp_code=#corpCode#
 		and ordrtb.delv_date between #strtDate# and #lastDate#
-		and custlimit.o_remain_amt < 0
+		-- and custlimit.o_remain_amt < 0
 		]]>
 		<dynamic > 
 	         <isNotEmpty prepend="and" property="salesman">
