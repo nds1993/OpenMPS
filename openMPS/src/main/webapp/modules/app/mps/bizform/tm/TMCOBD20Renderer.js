@@ -61,7 +61,6 @@ define([
 			var self = this;
 
 			this.attachFormItem("queryBox");
-			//this.attachFormItem("formBox2");
 			
 			//
 			var gridItem = this.attachGridItem("resultBox");
@@ -80,21 +79,6 @@ define([
 			self.$el.find("button.btn_cancel").click(function()
 			{
 				self.onCancel();
-			});
-			
-			self.$el.find("input[name=periodYn]").click(function()
-			{
-				
-				if(self.$el.find("input[name=periodYn]").is(":checked")) {				
-					self.$el.find("input.beginDate").attr("disabled", false);
-					self.$el.find("input.endDate").attr("disabled", false);
-				} else {
-					self.$el.find("input.beginDate").val("");
-					self.$el.find("input.endDate").val("");
-					self.$el.find("input.beginDate").attr("disabled", true);
-					self.$el.find("input.endDate").attr("disabled", true);
-				}
-				
 			});
 			
 			self.$el.find("button.btn_delete").click(function()
@@ -130,6 +114,21 @@ define([
 				self.$el.find("div.bbsCode select").change();
 			});
 			
+			self.$el.find("input[name=periodYn]").click(function()
+			{
+				
+				if(self.$el.find("input[name=periodYn]").is(":checked")) {				
+					self.$el.find("input.beginDate").attr("disabled", false);
+					self.$el.find("input.endDate").attr("disabled", false);
+				} else {
+					self.$el.find("input.beginDate").val("");
+					self.$el.find("input.endDate").val("");
+					self.$el.find("input.beginDate").attr("disabled", true);
+					self.$el.find("input.endDate").attr("disabled", true);
+				}
+				
+			});
+			
 			self.$el.find("label.label_comt_curr_user").html(NDSProps.get("user").name);
 			
 			self.$el.find("button.btn_comt_save").click(function()
@@ -148,15 +147,6 @@ define([
 		}
 		,onSelectRow: function(selected)
 		{
-			/*
-			var formItem2 = this.getActiveForm("formBox2");
-			
-			if( formItem2 )
-			{
-				formItem2.setData( selected.data, true );
-				formItem2.getItem().disabled(false);
-			}
-			*/
 			var formItem = this.getActiveForm("formBox");
 			
 			if( formItem )
@@ -395,66 +385,6 @@ define([
 			return formData;
 		}
 		,
-		saveComment: function() 
-		{
-			
-			var self = this;
-			
-			if( self.$el.find(".formBox_region input.contId").val() == "" ) {
-				UCMS.alert("게시물을 선택하세요!");
-				return;
-			}
-		
-			if( self.$el.find(".formBox3_region .div_comt_save_area input.comment").val() == "" ) {
-				UCMS.alert("댓글을 입력하세요!");
-				return;
-			}
-			
-			var apiPath = "";
-			var apiMode = "comment";
-			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD40/saveComment";
-			
-			self.submitComment(apiPath, apiMode);
-			
-		}
-		,
-		getParamDataComment: function() {
-			
-			var self = this;
-			var formData = new FormData();
-			
-			formData.append("contId", self.$el.find(".formBox_region input.contId").val());
-			formData.append("bbsCode", self._contentId);
-			formData.append("comment", self.$el.find(".formBox3_region .div_comt_save_area input.comment").val());
-			
-			return formData;
-		}
-		,
-		submitComment: function(apiPath, mode) 
-		{
-			
-			var self = this;
-		
-			$.ajax(
-			{
-				url:  apiPath,
-				data: self.getParamDataComment(), 
-				processData: false,
-				contentType: false, 
-				type: 'POST',
-				success: function (data)
-                {
-					self.setComment();
-                },
-                error: function(XHR, textStatus, errorThrown) 
-                {
-                	UCMS.alert("저장중 오류가 발생하였습니다.");
-                	Logger.error("fetchMyApp() - Error : "+textStatus);
-                	self.hideLoading();
-                }
-            });
-		}
-		,
 		setComment: function() 
 		{
 			
@@ -550,6 +480,66 @@ define([
 			}
 		}
 		,
+		saveComment: function() 
+		{
+			
+			var self = this;
+			
+			if( self.$el.find(".formBox_region input.contId").val() == "" ) {
+				UCMS.alert("게시물을 선택하세요!");
+				return;
+			}
+		
+			if( self.$el.find(".formBox3_region .div_comt_save_area input.comment").val() == "" ) {
+				UCMS.alert("댓글을 입력하세요!");
+				return;
+			}
+			
+			var apiPath = "";
+			var apiMode = "comment";
+			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD40/saveComment";
+			
+			self.submitComment(apiPath, apiMode);
+			
+		}
+		,
+		getParamDataComment: function() {
+			
+			var self = this;
+			var formData = new FormData();
+			
+			formData.append("contId", self.$el.find(".formBox_region input.contId").val());
+			formData.append("bbsCode", self._contentId);
+			formData.append("comment", self.$el.find(".formBox3_region .div_comt_save_area input.comment").val());
+			
+			return formData;
+		}
+		,
+		submitComment: function(apiPath, mode) 
+		{
+			
+			var self = this;
+		
+			$.ajax(
+			{
+				url:  apiPath,
+				data: self.getParamDataComment(), 
+				processData: false,
+				contentType: false, 
+				type: 'POST',
+				success: function (data)
+                {
+					self.setComment();
+                },
+                error: function(XHR, textStatus, errorThrown) 
+                {
+                	UCMS.alert("저장중 오류가 발생하였습니다.");
+                	Logger.error("fetchMyApp() - Error : "+textStatus);
+                	self.hideLoading();
+                }
+            });
+		}
+		,
 		updateComment: function(comtCode, comment, mode) 
 		{
 			var self = this;
@@ -575,6 +565,50 @@ define([
 				success: function (data)
                 {
 					self.setComment();
+                },
+                error: function(XHR, textStatus, errorThrown) 
+                {
+                	UCMS.alert("저장중 오류가 발생하였습니다.");
+                	Logger.error("fetchMyApp() - Error : "+textStatus);
+                	self.hideLoading();
+                }
+            });
+			
+		}
+		,
+		downloadFile: function(fileNo) 
+		{
+			var self = this;
+			var formData = new FormData();
+			var apiPath = "";
+			
+			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/downloadFile";
+			
+			formData.append("fileNo", fileNo);
+			
+			window.open( apiPath + "?fileNo=" + fileNo , "_download_" );
+		}
+		,
+		deleteFile: function(fileNo) 
+		{
+			var self = this;
+			var formData = new FormData();
+			var apiPath = "";
+			
+			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/deleteFile";
+			
+			formData.append("fileNo", fileNo);
+			
+			$.ajax(
+			{
+				url:  apiPath,
+				data: formData, 
+				processData: false,
+				contentType: false, 
+				type: 'POST',
+				success: function (data)
+                {
+					self.setFile();
                 },
                 error: function(XHR, textStatus, errorThrown) 
                 {
@@ -644,50 +678,6 @@ define([
 	            });
 				
 			}
-		}
-		,
-		downloadFile: function(fileNo) 
-		{
-			var self = this;
-			var formData = new FormData();
-			var apiPath = "";
-			
-			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/downloadFile";
-			
-			formData.append("fileNo", fileNo);
-			
-			window.open( apiPath + "?fileNo=" + fileNo , "_download_" );
-		}
-		,
-		deleteFile: function(fileNo) 
-		{
-			var self = this;
-			var formData = new FormData();
-			var apiPath = "";
-			
-			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/deleteFile";
-			
-			formData.append("fileNo", fileNo);
-			
-			$.ajax(
-			{
-				url:  apiPath,
-				data: formData, 
-				processData: false,
-				contentType: false, 
-				type: 'POST',
-				success: function (data)
-                {
-					self.setFile();
-                },
-                error: function(XHR, textStatus, errorThrown) 
-                {
-                	UCMS.alert("저장중 오류가 발생하였습니다.");
-                	Logger.error("fetchMyApp() - Error : "+textStatus);
-                	self.hideLoading();
-                }
-            });
-			
 		}
 	};
 	

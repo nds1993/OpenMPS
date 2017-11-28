@@ -62,7 +62,6 @@ define([
 			var self = this;
 
 			this.attachFormItem("queryBox");
-			//this.attachFormItem("formBox2");
 			
 			//
 			var gridItem = this.attachGridItem("resultBox");
@@ -78,17 +77,6 @@ define([
 				self.saveTMCOSM10();
 			});
 			
-			self.$el.find("button.btn_delete").click(function()
-			{
-				
-				UCMS.confirm("삭제 하시겠습니까?", { confirm: "확인", cancel: "취소" })
-				.done(function()
-				{
-					self.deleteTMCOSM10();
-				});
-				
-			});
-			
 			self.$el.find("button.btn_approval").click(function()
 			{
 		
@@ -98,6 +86,17 @@ define([
 					self.approvalTMCOSM10();
 				});
 		
+			});
+			
+			self.$el.find("button.btn_delete").click(function()
+			{
+				
+				UCMS.confirm("삭제 하시겠습니까?", { confirm: "확인", cancel: "취소" })
+				.done(function()
+				{
+					self.deleteTMCOSM10();
+				});
+				
 			});
 			
 			self.$el.find("button.btn_re_approval").click(function()
@@ -357,6 +356,19 @@ define([
 			return formData;
 		}
 		,
+		downloadFile: function(fileNo) 
+		{
+			var self = this;
+			var formData = new FormData();
+			var apiPath = "";
+			
+			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/downloadFile";
+			
+			formData.append("fileNo", fileNo);
+			
+			window.open( apiPath + "?fileNo=" + fileNo , "_download_" );
+		}
+		,
 		setFile: function() 
 		{
 			
@@ -415,19 +427,6 @@ define([
 	            });
 				
 			}
-		}
-		,
-		downloadFile: function(fileNo) 
-		{
-			var self = this;
-			var formData = new FormData();
-			var apiPath = "";
-			
-			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/downloadFile";
-			
-			formData.append("fileNo", fileNo);
-			
-			window.open( apiPath + "?fileNo=" + fileNo , "_download_" );
 		}
 		,
 		deleteFile: function(fileNo) 

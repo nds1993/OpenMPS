@@ -219,7 +219,6 @@ public class SD0501Controller extends TMMBaseController {
     	
     	//파일 저장
 		String userPath = sess.getUser().getId();
-		String contextroot = jsession.getServletContext().getRealPath("/");
 		CommonFileVO ufile;
 		
 		if (SD0501VO.getFile() != null) {
@@ -337,7 +336,6 @@ public class SD0501Controller extends TMMBaseController {
     	
     	//파일 저장
 		String userPath = sess.getUser().getId();
-		String contextroot = jsession.getServletContext().getRealPath("/");
 		CommonFileVO ufile;
 		
 		if (SD0501VO.getFile() != null) {

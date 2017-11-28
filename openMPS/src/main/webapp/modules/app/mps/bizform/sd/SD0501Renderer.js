@@ -62,7 +62,6 @@ define([
 			var self = this;
 
 			this.attachFormItem("queryBox");
-			//this.attachFormItem("formBox2");
 			
 			//
 			var gridItem = this.attachGridItem("resultBox");
@@ -78,17 +77,6 @@ define([
 				self.saveSD0501();
 			});
 			
-			self.$el.find("button.btn_delete").click(function()
-			{
-				
-				UCMS.confirm("삭제 하시겠습니까?", { confirm: "확인", cancel: "취소" })
-				.done(function()
-				{
-					self.deleteSD0501();
-				});
-				
-			});
-			
 			self.$el.find("button.btn_approval").click(function()
 			{
 		
@@ -99,6 +87,17 @@ define([
 				});
 		
 			});
+			
+			self.$el.find("button.btn_delete").click(function()
+			{
+				
+				UCMS.confirm("삭제 하시겠습니까?", { confirm: "확인", cancel: "취소" })
+				.done(function()
+				{
+					self.deleteSD0501();
+				});
+				
+			});	
 			
 			self.$el.find("button.btn_re_approval").click(function()
 			{
@@ -112,15 +111,7 @@ define([
 			});
 		}
 		,
-		onCreate: function()
-		{
-			if( this.getActiveForm() )
-			{
-				this.getActiveForm().getItem().disabled(false);
-			}
-			this.createShow();
-		}
-		,onSelectRow: function(selected)
+		onSelectRow: function(selected)
 		{
 			var formItem2 = this.getActiveForm("formBox2");
 			
@@ -357,6 +348,50 @@ define([
 			return formData;
 		}
 		,
+		downloadFile: function(fileNo) 
+		{
+			var self = this;
+			var formData = new FormData();
+			var apiPath = "";
+			
+			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/downloadFile";
+			
+			formData.append("fileNo", fileNo);
+			
+			window.open( apiPath + "?fileNo=" + fileNo , "_download_" );
+		}
+		,
+		deleteFile: function(fileNo) 
+		{
+			var self = this;
+			var formData = new FormData();
+			var apiPath = "";
+			
+			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/deleteFile";
+			
+			formData.append("fileNo", fileNo);
+			
+			$.ajax(
+			{
+				url:  apiPath,
+				data: formData, 
+				processData: false,
+				contentType: false, 
+				type: 'POST',
+				success: function (data)
+                {
+					self.setFile();
+                },
+                error: function(XHR, textStatus, errorThrown) 
+                {
+                	UCMS.alert("저장중 오류가 발생하였습니다.");
+                	Logger.error("fetchMyApp() - Error : "+textStatus);
+                	self.hideLoading();
+                }
+            });
+			
+		}
+		,
 		setFile: function() 
 		{
 			
@@ -415,50 +450,6 @@ define([
 	            });
 				
 			}
-		}
-		,
-		downloadFile: function(fileNo) 
-		{
-			var self = this;
-			var formData = new FormData();
-			var apiPath = "";
-			
-			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/downloadFile";
-			
-			formData.append("fileNo", fileNo);
-			
-			window.open( apiPath + "?fileNo=" + fileNo , "_download_" );
-		}
-		,
-		deleteFile: function(fileNo) 
-		{
-			var self = this;
-			var formData = new FormData();
-			var apiPath = "";
-			
-			apiPath = "/rest/tmm/" + NDSProps.get("corpCode") + "/TMCOBD20/deleteFile";
-			
-			formData.append("fileNo", fileNo);
-			
-			$.ajax(
-			{
-				url:  apiPath,
-				data: formData, 
-				processData: false,
-				contentType: false, 
-				type: 'POST',
-				success: function (data)
-                {
-					self.setFile();
-                },
-                error: function(XHR, textStatus, errorThrown) 
-                {
-                	UCMS.alert("저장중 오류가 발생하였습니다.");
-                	Logger.error("fetchMyApp() - Error : "+textStatus);
-                	self.hideLoading();
-                }
-            });
-			
 		}
 	};
 	
